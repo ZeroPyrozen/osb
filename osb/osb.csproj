@@ -19,4 +19,8 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
