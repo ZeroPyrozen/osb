@@ -1,0 +1,102 @@
+﻿@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Roboto+Slab");
+.admonition {
+  padding: 0.25em; }
+  .admonition p {
+    padding: 0.2em; }
+    .admonition p.last {
+      padding: 0.2em 4em; }
+
+.admonition-title {
+  font-family: "Roboto Slab", sans-serif;
+  font-size: 18pt;
+  padding: 0 0.5em;
+  margin-bottom: 0.1em; }
+
+.note {
+  background: #9FA8DA;
+  border-left: solid 15px #5C6BC0;
+  color: #283593; }
+  .note .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .note .admonition-title {
+    color: #E8EAF6; }
+
+.warning {
+  background: #FFCC80;
+  border-left: solid 15px #FFA726;
+  color: #EF6C00; }
+  .warning .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .warning .admonition-title {
+    color: #FFF3E0; }
+
+.tip {
+  background: #A5D6A7;
+  border-left: solid 15px #66BB6A;
+  color: #558B2F; }
+  .tip .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .tip .admonition-title {
+    color: #E8F5E9; }
+
+.attention {
+  background: #ef9a9a;
+  border-left: solid 15px #ef5350;
+  color: #c62828; }
+  .attention .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .attention .admonition-title {
+    color: #ffebee; }
+
+.hint {
+  background: #81D4FA;
+  border-left: solid 15px #29B6F6;
+  color: #0277BD; }
+  .hint .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .hint .admonition-title {
+    color: #E1F5FE; }
+
+.todo .admonition-title::before {
+  content: "";
+  font-family: FontAwesome;
+  margin-right: 10px; }
+
+.todo.low {
+  background: #B0BEC5;
+  border-left: solid 15px #9CCC65;
+  color: #37474F; }
+  .todo.low .admonition-title {
+    color: #ECEFF1; }
+
+.todo.medium {
+  background: #B0BEC5;
+  border-left: solid 15px #FFCA28;
+  color: #37474F; }
+  .todo.medium .admonition-title {
+    color: #ECEFF1; }
+
+.todo.high {
+  background: #B0BEC5;
+  border-left: solid 15px #ef5350;
+  color: #37474F; }
+  .todo.high .admonition-title {
+    color: #ECEFF1; }
+
+.todo-source {
+  font-size: 0.75rem; }
+  .todo-source::before {
+    content: "\f002   ";
+    font-family: FontAwesome;
+    margin-right: 10px; }

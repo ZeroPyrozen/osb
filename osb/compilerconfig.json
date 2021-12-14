@@ -1,0 +1,26 @@
+﻿[
+  {
+    "outputFile": "wwwroot/static/base/sb.css",
+    "inputFile": "wwwroot/static/base/sb.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/_variables.css",
+    "inputFile": "wwwroot/static/base/_variables.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/__mixins.css",
+    "inputFile": "wwwroot/static/base/showcase/__mixins.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/__variables.css",
+    "inputFile": "wwwroot/static/base/learn/__variables.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_admonitions.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_admonitions.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_body.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_body.scss"
+  }
+]

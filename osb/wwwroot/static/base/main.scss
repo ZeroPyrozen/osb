@@ -1,0 +1,113 @@
+@import '_variables.scss';
+
+// Mixins
+@mixin hover-transform($color) {
+    $animation: min-width 600ms cubic-bezier(0.175,0.885,0.32,1.275), background 600ms ease-out;
+	-o-transition: $animation;
+	-webkit-transition: $animation;
+	-moz-transition: $animation;
+	transition: $animation;
+	&:hover {
+		min-width: $navbar-button-width * 1.05;
+		background: darken($color, 10%);
+	}
+}
+
+@mixin generate-navbar-button($color) {
+  background: $color;
+  @include hover-transform($color);
+}
+
+@mixin ellipsis-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Main elements
+
+// Headers
+@for $i from 1 through 4 {
+  .special-banner-#{$i} {
+    background: nth($colors-spot,$i);
+    color: #FFF;
+    padding: 10px;
+    text-shadow: 0 1px 3px rgba(0,0,0,.75);
+  }
+
+  .special-banner-sub-#{$i} {
+    background: darken(nth($colors-spot,$i),10%);
+    color: #EEE;
+    padding: 5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,.75);
+  }
+}
+
+// Specific navbar elements
+// osu-cookie and mascot are currently unused
+.osu-cookie {
+  background: url(/static/base/img/osu-logo.png) no-repeat;
+  background-size: contain;
+  content: ' ';
+  opacity: 0.3;
+  margin: 1%;
+  max-width: 100px;
+  height: 100px;
+}
+
+.mascot {
+  position: absolute;
+  background: url("/static/base/img/hifumi.png") no-repeat;
+  height: $navbar-button-width;
+  background-size: contain;
+}
+
+@for $i from 1 through 4 {
+  #navbar-special-#{$i} {
+    @include generate-navbar-button(nth($colors-spot,$i));
+    margin: 0;
+    min-width: 120px;
+    text-align: center;
+  }
+}
+
+// General Bootstrappy overrides
+.top-header {
+  border-radius: 0 0 .25rem .25rem;
+}
+
+.bottom-header {
+  border-radius: .25rem .25rem 0 0;
+}
+
+.container {
+  @extend .top-header;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 3px rgba(0,0,0,.50);
+}
+
+.navbar-list {
+  float: right;
+}
+.nav-link {
+    color: #FFF !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,.75);
+}
+
+.navbar {
+  font: $main-font;
+  margin: 20px 20px 0px 20px;
+  border-bottom: medium solid lighten(nth($colors-back,1),15%);
+}
+
+body {
+  font-family: $main-font;
+  color: $main-font-color;
+  background: nth($colors-back,1);
+}
+
+// Footer stuff
+.footer {
+  text-align: center;
+  color: $invert-font-color;
+}

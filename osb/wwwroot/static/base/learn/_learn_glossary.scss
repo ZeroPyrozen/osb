@@ -1,0 +1,20 @@
+@import '../_variables';
+@import '__variables.scss';
+
+.glossary {
+
+  // The term
+  dt {
+    border-left: solid 8px nth($colors-back, 1);
+    background: lighten(nth($colors-back,1),80%);
+    border-radius: 0.25em;
+    margin-top: 0.75em;
+    padding: 0.2em 0.5em;
+  }
+
+  // The definition
+  dd {
+    font-family: $font-body;
+    margin-bottom: 2.0em;
+  }
+}

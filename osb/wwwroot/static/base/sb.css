@@ -1,0 +1,59 @@
+.sb-card {
+  padding-left: 0px;
+  padding-right: 0px; }
+
+.sb-card-header {
+  padding: 5px;
+  position: relative;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.sb-card-thumb::before {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+
+.sb-card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+  z-index: 2; }
+
+.sb-card-image {
+  max-height: 120px; }
+
+.sb-card-footer {
+  background-color: #CCC;
+  padding: 5px; }
+
+.sb-card-icons {
+  position: absolute;
+  bottom: 0;
+  right: 10px; }
+
+.sb-card-featured {
+  background-color: #dddd80; }
+
+.sb-card-classic {
+  background-color: #dc7997; }
+
+.screenshot {
+  padding: 1%; }
+
+.icon-osu-cookie {
+  background: url(/static/base/img/osu-logo.png) no-repeat;
+  background-size: contain;
+  content: ' ';
+  min-width: 12px;
+  max-width: 12px;
+  height: 12px; }
+
+/*# sourceMappingURL=sb.css.map */

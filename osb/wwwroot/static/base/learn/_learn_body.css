@@ -1,0 +1,23 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Roboto+Slab");
+.content {
+  padding: 0; }
+
+.sphinx p {
+  font-family: "Open Sans", sans-serif;
+  padding: 0.5em 4em;
+  margin-bottom: 0.5em; }
+
+.sphinx ul {
+  padding: 0 4em; }
+
+.sphinx li {
+  font-family: "Open Sans", sans-serif; }
+
+.sphinx a.headerlink {
+  font-size: 0.8em;
+  padding: 0 4px 0 4px;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 1s; }
+  .sphinx a.headerlink:hover {
+    opacity: 100; }

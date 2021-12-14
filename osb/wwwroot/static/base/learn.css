@@ -1,0 +1,243 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Roboto+Slab");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Roboto+Slab");
+.content {
+  padding: 0; }
+
+.sphinx p {
+  font-family: "Open Sans", sans-serif;
+  padding: 0.5em 4em;
+  margin-bottom: 0.5em; }
+.sphinx ul {
+  padding: 0 4em; }
+.sphinx li {
+  font-family: "Open Sans", sans-serif; }
+.sphinx a.headerlink {
+  font-size: 0.8em;
+  padding: 0 4px 0 4px;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 1s; }
+  .sphinx a.headerlink:hover {
+    opacity: 100; }
+
+.sphinx .section h1, .sphinx .section h2, .sphinx .section h3, .sphinx .section h4, .sphinx .section h5, .sphinx .section h5 {
+  font-family: "Roboto Slab", sans-serif;
+  color: #FFF; }
+.sphinx .section h1 {
+  background-color: #4CAF50;
+  padding: 0.45em 0.2em; }
+.sphinx .section h2 {
+  background-color: #388E3C;
+  padding: 0.4em 0.2em;
+  margin-top: 3%; }
+.sphinx .section h3 {
+  background-color: #81C784;
+  padding: 0.3em 0.2em;
+  margin-top: 2%; }
+.sphinx .section h4, .sphinx .section h5 {
+  background-color: #00695C;
+  padding: 0.2em; }
+
+.sphinx table {
+  margin: 0 auto;
+  width: 90%; }
+  .sphinx table caption {
+    padding-top: 0; }
+.sphinx thead {
+  background-color: #388E3C;
+  border-radius: 0 0 .25rem .25rem;
+  color: white; }
+  .sphinx thead th {
+    text-align: center; }
+.sphinx tbody {
+  font-family: "Open Sans", sans-serif; }
+.sphinx caption {
+  color: #818a91;
+  font-size: 0.75rem;
+  text-align: center; }
+
+.glossary dt {
+  border-left: solid 8px #344146;
+  background: white;
+  border-radius: 0.25em;
+  margin-top: 0.75em;
+  padding: 0.2em 0.5em; }
+.glossary dd {
+  font-family: "Open Sans", sans-serif;
+  margin-bottom: 2.0em; }
+
+.admonition {
+  padding: 0.25em; }
+  .admonition p {
+    padding: 0.2em; }
+    .admonition p.last {
+      padding: 0.2em 4em; }
+
+.admonition-title {
+  font-family: "Roboto Slab", sans-serif;
+  font-size: 18pt;
+  padding: 0 0.5em;
+  margin-bottom: 0.1em; }
+
+.note {
+  background: #9FA8DA;
+  border-left: solid 15px #5C6BC0;
+  color: #283593; }
+  .note .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .note .admonition-title {
+    color: #E8EAF6; }
+
+.warning {
+  background: #FFCC80;
+  border-left: solid 15px #FFA726;
+  color: #EF6C00; }
+  .warning .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .warning .admonition-title {
+    color: #FFF3E0; }
+
+.tip {
+  background: #A5D6A7;
+  border-left: solid 15px #66BB6A;
+  color: #558B2F; }
+  .tip .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .tip .admonition-title {
+    color: #E8F5E9; }
+
+.attention {
+  background: #ef9a9a;
+  border-left: solid 15px #ef5350;
+  color: #c62828; }
+  .attention .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .attention .admonition-title {
+    color: #ffebee; }
+
+.hint {
+  background: #81D4FA;
+  border-left: solid 15px #29B6F6;
+  color: #0277BD; }
+  .hint .admonition-title::before {
+    content: "";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+  .hint .admonition-title {
+    color: #E1F5FE; }
+
+.todo .admonition-title::before {
+  content: "";
+  font-family: FontAwesome;
+  margin-right: 10px; }
+.todo.low {
+  background: #B0BEC5;
+  border-left: solid 15px #9CCC65;
+  color: #37474F; }
+  .todo.low .admonition-title {
+    color: #ECEFF1; }
+.todo.medium {
+  background: #B0BEC5;
+  border-left: solid 15px #FFCA28;
+  color: #37474F; }
+  .todo.medium .admonition-title {
+    color: #ECEFF1; }
+.todo.high {
+  background: #B0BEC5;
+  border-left: solid 15px #ef5350;
+  color: #37474F; }
+  .todo.high .admonition-title {
+    color: #ECEFF1; }
+
+.todo-source {
+  font-size: 0.75rem; }
+  .todo-source::before {
+    content: "\f002   ";
+    font-family: FontAwesome;
+    margin-right: 10px; }
+
+.sphinx .figure {
+  display: block; }
+  .sphinx .figure img {
+    display: block;
+    margin: 0 auto; }
+  .sphinx .figure p.caption {
+    color: #818a91;
+    font-size: 0.75rem;
+    text-align: center; }
+
+.sphinx pre {
+  font-family: "Inconsolata", monospace;
+  line-height: 1.75; }
+.sphinx div[class*="highlight-"] {
+  overflow-x: auto; }
+  .sphinx div[class*="highlight-"]::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #4d4d4d; }
+  .sphinx div[class*="highlight-"]::-webkit-scrollbar-thumb {
+    background-color: #111; }
+  .sphinx div[class*="highlight-"]::-webkit-scrollbar-track {
+    background-color: #4d4d4d; }
+  .sphinx div[class*="highlight-"] table[class="highlighttable"] {
+    width: 100%; }
+  .sphinx div[class*="highlight-"] .linenos {
+    width: 24px;
+    background: #455A64; }
+    .sphinx div[class*="highlight-"] .linenos pre {
+      color: white;
+      text-align: center; }
+  .sphinx div[class*="highlight-"] .code {
+    padding: 0; }
+  .sphinx div[class*="highlight-"] .highlight {
+    padding: 0.75em 0.5em; }
+.sphinx .code-block-caption {
+  background-color: #263238;
+  font-family: "Open Sans", sans-serif;
+  color: white;
+  padding: .25em .25em .25em 1em; }
+.sphinx .container {
+  padding: 0; }
+
+.sphinx .sidebar h1, .sphinx .sidebar h2, .sphinx .sidebar h3 {
+  background: #88b300;
+  padding: 5px;
+  border-radius: .25rem;
+  text-decoration: none;
+  color: #FFF; }
+  .sphinx .sidebar h1 a, .sphinx .sidebar h2 a, .sphinx .sidebar h3 a {
+    color: inherit; }
+    .sphinx .sidebar h1 a:hover, .sphinx .sidebar h2 a:hover, .sphinx .sidebar h3 a:hover {
+      color: #0275d8; }
+
+.pagination-top, .pagination-bottom {
+  background: #88b300 url("img/learn/breadcrumbs.png") no-repeat right center;
+  background-size: cover;
+  border-radius: .25rem;
+  text-align: center;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  color: #FFF;
+  padding: .5em;
+  font-size: 12pt; }
+  .pagination-top a, .pagination-bottom a {
+    color: inherit; }
+    .pagination-top a:hover, .pagination-bottom a:hover {
+      color: #0275d8; }
+
+.prev-item, .next-item {
+  transform: unset;
+  transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .prev-item:hover, .next-item:hover {
+    transform: rotateX(720deg); }
+
+/*# sourceMappingURL=learn.css.map */
