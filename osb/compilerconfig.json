@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/static/base/learn/_learn_body.css",
     "inputFile": "wwwroot/static/base/learn/_learn_body.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/main.css",
+    "inputFile": "wwwroot/static/base/main.scss"
   }
 ]

@@ -103,7 +103,7 @@
 body {
   font-family: $main-font;
   color: $main-font-color;
-  background: nth($colors-back,1);
+  background: nth($colors-back-alt,1);
 }
 
 // Footer stuff

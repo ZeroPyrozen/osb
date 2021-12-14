@@ -1,4 +1,4 @@
-.special-banner-1 {
+﻿.special-banner-1 {
   background: #f6a;
   color: #FFF;
   padding: 10px;
@@ -138,10 +138,8 @@
 body {
   font-family: "Exo 2", sans-serif;
   color: #555;
-  background: #344146; }
+  background: #24222a; }
 
 .footer {
   text-align: center;
   color: #FFF; }
-
-/*# sourceMappingURL=main.css.map */
