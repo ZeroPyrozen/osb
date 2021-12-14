@@ -1,6 +1,6 @@
 using System;
 
-namespace osb.Models
+namespace osb.ViewModels
 {
     public class ErrorViewModel
     {

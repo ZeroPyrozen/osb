@@ -1,4 +1,5 @@
-﻿@{
+﻿@model osb.ViewModels.CommunityViewModel
+@{
     ViewData["Title"] = "Storyboarding Community!";
 }
 <link rel="stylesheet" href="/static/base/sb.css">
@@ -8,7 +9,7 @@
     <div class="bae-community"></div>
 </header>
 
-<h1 class="special-banner-4 top-header">Discord</h1>
+<h1 class="special-banner-community top-header">Discord</h1>
 
 <div class="media">
     <div class="media-left"><img src="/static/base/img/discord.gif" alt="Discord Screenshot" height="400px" /></div>
@@ -18,20 +19,31 @@
         <p class="h3"><a class="btn btn-light btn-block btn-lg" href="https://discord.gg/B8NX7YW" target="_blank">Click here to join our Discord!</a></p>
     </div>
 </div>
-<h1 class="special-banner-4 rounded">Special Credits</h1>
+<h1 class="special-banner-community rounded">Special Credits</h1>
 <p>Our community is brought to you by amazing osu! players, mappers, and, most importantly among our site, storyboarders. Without these guys, we wouldn't have such wondrous visual works on osu!.</p>
-<div class="card-deck mx-auto">
-    @for (int i = 0; i < 5; i++)
+<div class="card-deck mx-auto" style="justify-content:center">
+    @{ 
+        int rowCount = Model.storyboarders.Count / 5;
+        if (Model.storyboarders.Count % 5 != 0)
+            rowCount += 1;
+        int iterator = 0;
+    }  
+    @for (int i = 0; i < rowCount; i++)
     {
         <div class="row">
-            @for (int j = 0; j < 6; j++)
+            @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++)
             {
-                <div class="card" style="width: 10rem;margin: 20px;">
-                    <img class="card-img-top" src="https://a.ppy.sh/3031177?1639104867.png" alt="Mamat's pretty face">
-                    <div class="card-body" style="max-height: 50%;overflow: hidden;padding: 10px;">
-                        <p class="card-text text-dark" style="text-align: center;">Mamat</p>
+                var primaryRole = Model.storyboarders[iterator].Roles.OrderByDescending(x => x.RoleID).First();
+                <a href="@Model.storyboarders[iterator].UserProfileUrl" style="text-decoration:none" target="_blank">
+                    <div class="card" style="width: 10rem;margin: 20px;">
+                        <img class="card-img-top" src="@Model.storyboarders[iterator].UserAvatarUrl" alt="@Model.storyboarders[iterator].Username 's pretty face">
+                        <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f">
+                            <p class="card-text" style="text-align: center;">@Model.storyboarders[iterator].Username</p>
+                            <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p>
+                        </div>
                     </div>
-                </div>
+                </a>
+                iterator++;
             }
         </div>
     }

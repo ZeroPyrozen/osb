@@ -46,6 +46,12 @@
   padding: 5px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75); }
 
+.special-banner-community {
+  background: #fc2;
+  color: #24222a;
+  padding: 10px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75); }
+
 .osu-cookie {
   background: url(/static/base/img/osu-logo.png) no-repeat;
   background-size: contain;
