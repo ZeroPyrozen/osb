@@ -1,4 +1,4 @@
-.opening-banner, .opening-banner-sb, .opening-banner-learn, .opening-banner-community, .opening-banner-user {
+﻿.opening-banner, .opening-banner-sb, .opening-banner-learn, .opening-banner-community, .opening-banner-user {
   background: #000 url(/static/base/img/bg_01.png) 95%/100% no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -8,7 +8,7 @@
   background: url(/static/base/img/bg_02.png); }
 
 .opening-banner-learn {
-  background: url(/static/base/img/bg_03.png); }
+  background: url(/static/base/bg_03.png); }
 
 .opening-banner-community {
   background: url(/static/base/img/bg_04.png); }
@@ -24,35 +24,38 @@
   top: 200px;
   font-size: 3rem;
   z-index: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; }
+  /*@include ellipsis-overflow;*/ }
 
 @keyframes floating-bae-index {
   from {
     background-position-y: -90px; }
   to {
     background-position-y: -115px; } }
+
 @keyframes floating-bae-sb {
   from {
     background-position-y: -90x; }
   to {
     background-position-y: -115px; } }
+
 @keyframes floating-bae-learn {
   from {
     background-position-y: -20x; }
   to {
     background-position-y: -40px; } }
+
 @keyframes floating-bae-community {
   from {
     background-position-y: -100x; }
   to {
     background-position-y: -70px; } }
+
 @keyframes floating-bae-user {
   from {
     background-position-y: -93px; }
   to {
     background-position-y: -50px; } }
+
 .bae-index, .bae-sb, .bae-learn, .bae-community, .bae-user {
   background: url("/static/base/img/hifumi_render.png") 120% -90px/600px no-repeat;
   min-width: 540px;
@@ -75,5 +78,3 @@
 .bae-user {
   background: url("/static/base/img/aoba_swimsuit.png") 100% -93px/420px no-repeat;
   animation: floating-bae-user 3s cubic-bezier(0.445, 0.05, 0.55, 0.95) 500ms infinite alternate; }
-
-/*# sourceMappingURL=banner.css.map */

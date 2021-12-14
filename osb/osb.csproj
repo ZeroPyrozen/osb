@@ -10,7 +10,9 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\static\base\learn\_learn_glossary.css" />
     <_ContentIncludedByDefault Remove="wwwroot\static\base\learn\__variables.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\static\base\showcase\__variables.css" />
   </ItemGroup>
 
   <ItemGroup>

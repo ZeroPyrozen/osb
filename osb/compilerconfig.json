@@ -26,5 +26,53 @@
   {
     "outputFile": "wwwroot/static/base/main.css",
     "inputFile": "wwwroot/static/base/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/banner.css",
+    "inputFile": "wwwroot/static/base/banner.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_code.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_code.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_figure.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_figure.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_glossary.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_glossary.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_table.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_table.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/learn/_learn_headers.css",
+    "inputFile": "wwwroot/static/base/learn/_learn_headers.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/__variables.css",
+    "inputFile": "wwwroot/static/base/showcase/__variables.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/_body.css",
+    "inputFile": "wwwroot/static/base/showcase/_body.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/_buttons.css",
+    "inputFile": "wwwroot/static/base/showcase/_buttons.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/_icons.css",
+    "inputFile": "wwwroot/static/base/showcase/_icons.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/_rating.css",
+    "inputFile": "wwwroot/static/base/showcase/_rating.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/_title.css",
+    "inputFile": "wwwroot/static/base/showcase/_title.scss"
   }
 ]

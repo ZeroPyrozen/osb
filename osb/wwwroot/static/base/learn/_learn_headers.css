@@ -1,0 +1,22 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Roboto+Slab");
+.sphinx .section h1, .sphinx .section h2, .sphinx .section h3, .sphinx .section h4, .sphinx .section h5, .sphinx .section h5 {
+  font-family: "Roboto Slab", sans-serif;
+  color: #FFF; }
+
+.sphinx .section h1 {
+  background-color: #4CAF50;
+  padding: 0.45em 0.2em; }
+
+.sphinx .section h2 {
+  background-color: #388E3C;
+  padding: 0.4em 0.2em;
+  margin-top: 3%; }
+
+.sphinx .section h3 {
+  background-color: #81C784;
+  padding: 0.3em 0.2em;
+  margin-top: 2%; }
+
+.sphinx .section h4, .sphinx .section h5 {
+  background-color: #00695C;
+  padding: 0.2em; }

@@ -1,0 +1,4 @@
+﻿.showcase-tags {
+  display: none; }
+  .showcase-tags:target {
+    display: inline; }

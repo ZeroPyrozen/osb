@@ -1,0 +1,21 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Roboto+Slab");
+.sphinx table {
+  margin: 0 auto;
+  width: 90%; }
+  .sphinx table caption {
+    padding-top: 0; }
+
+.sphinx thead {
+  background-color: #388E3C;
+  border-radius: 0 0 .25rem .25rem;
+  color: white; }
+  .sphinx thead th {
+    text-align: center; }
+
+.sphinx tbody {
+  font-family: "Open Sans", sans-serif; }
+
+.sphinx caption {
+  color: #818a91;
+  font-size: 0.75rem;
+  text-align: center; }

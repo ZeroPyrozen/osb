@@ -1,0 +1,32 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Montserrat:700");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700");
+@keyframes keyframe-pop-in {
+  from {
+    width: 0; }
+  to {
+    width: 50px; } }
+
+@keyframes keyframe-rotation {
+  0%, 100% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(-15deg); }
+  75% {
+    transform: rotate(15deg); } }
+
+.showcase-title {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  color: white;
+  font-size: 24pt;
+  background: #262d35;
+  border-bottom: 8px solid #3ac2ec;
+  padding-left: 0.5em; }
+
+.showcase-subtitle {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  color: white;
+  font-size: 24pt;
+  font-size: 12pt;
+  padding-left: 5px; }

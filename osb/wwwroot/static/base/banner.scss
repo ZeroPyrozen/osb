@@ -1,9 +1,9 @@
 // Variables
-$source-index: "/static/base/hifumi_render.png";
-$source-sb: "/static/base/hifumi_stylish.png";
-$source-learn: "/static/base/aoba_render.png";
-$source-community: "/static/base/hifumi_shy.png";
-$source-user: "/static/base/aoba_swimsuit.png";
+$source-index: "/static/base/img/hifumi_render.png";
+$source-sb: "/static/base/img/hifumi_stylish.png";
+$source-learn: "/static/base/img/aoba_render.png";
+$source-community: "/static/base/img/hifumi_shy.png";
+$source-user: "/static/base/img/aoba_swimsuit.png";
 
 // Mixins
 @mixin ellipsis-overflow {
@@ -14,7 +14,7 @@ $source-user: "/static/base/aoba_swimsuit.png";
 
 // These aren't big deals, they're formatting for all banner divs
 .opening-banner {
-  background: #000 url(/static/base/bg_01.png) 95%/100% no-repeat;
+  background: #000 url(/static/base/img/bg_01.png) 95%/100% no-repeat;
   background-size: cover;
   overflow: hidden;
   height: 200px;
@@ -22,7 +22,7 @@ $source-user: "/static/base/aoba_swimsuit.png";
 
 .opening-banner-sb {
   @extend .opening-banner;
-  background: url(/static/base/bg_02.png)
+  background: url(/static/base/img/bg_02.png)
 }
 
 .opening-banner-learn {
@@ -32,12 +32,12 @@ $source-user: "/static/base/aoba_swimsuit.png";
 
 .opening-banner-community {
   @extend .opening-banner;
-  background: url(/static/base/bg_04.png)
+  background: url(/static/base/img/bg_04.png)
 }
 
 .opening-banner-user {
   @extend .opening-banner;
-  background: url(/static/base/bg_05.png)
+  background: url(/static/base/img/bg_05.png)
 }
 
 .opening-header {
@@ -48,7 +48,7 @@ $source-user: "/static/base/aoba_swimsuit.png";
   top: 200px;
   font-size: 3rem;
   z-index: 1;
-  @include ellipsis-overflow;
+  /*@include ellipsis-overflow;*/
 }
 
 // Mixins

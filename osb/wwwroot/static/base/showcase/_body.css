@@ -1,0 +1,32 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Montserrat:700");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700");
+@keyframes keyframe-pop-in {
+  from {
+    width: 0; }
+  to {
+    width: 50px; } }
+
+@keyframes keyframe-rotation {
+  0%, 100% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(-15deg); }
+  75% {
+    transform: rotate(15deg); } }
+
+.showcase-body-container {
+  background: #465d6f;
+  padding-bottom: 10px; }
+
+.showcase-body-text, .showcase-body-subtitle {
+  font-family: "Exo 2", sans-serif;
+  color: white; }
+  .showcase-body-text a, .showcase-body-subtitle a {
+    color: inherit;
+    /* blue colors for links too */
+    text-decoration: inherit;
+    /* no underline */ }
+
+.showcase-body-subtitle {
+  border-bottom: 2px solid #3ac2ec;
+  font-style: italic; }
