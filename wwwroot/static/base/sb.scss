@@ -1,5 +1,4 @@
 // For storyboard cards
-
 @mixin ellipsis-overflow {
   white-space: nowrap;
   overflow: hidden;
@@ -20,6 +19,11 @@
 }
 
 .sb-card-thumb {
+    text-decoration: none;
+}
+
+.sb-card-thumb:hover {
+    text-decoration: none;
 }
 
 .sb-card-thumb::before {
