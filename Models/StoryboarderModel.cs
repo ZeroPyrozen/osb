@@ -7,18 +7,26 @@ namespace osb.Models
 {
     public class StoryboarderModel
     {
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public string Username { get; set; }
         public string UserProfileUrl { get; set; }
         public string UserAvatarUrl { get; set; }
         public List<DiscordRoleModel> Roles { get; set; }
 
-        public StoryboarderModel(string UserID, string Username, List<DiscordRoleModel> Roles)
+        public StoryboarderModel(int UserID, string Username, List<DiscordRoleModel> Roles)
         {
             this.UserID = UserID;
-            //TODO: I will create get username more dynamic to update with name change
             this.Username = Username;
             this.Roles = Roles;
+            this.UserAvatarUrl = "https://a.ppy.sh/" + UserID;
+            this.UserProfileUrl = "https://osu.ppy.sh/users/" + UserID;
+        }
+
+        public StoryboarderModel(int UserID, string Username)
+        {
+            this.UserID = UserID;
+            this.Username = Username;
+            this.Roles = null;
             this.UserAvatarUrl = "https://a.ppy.sh/" + UserID;
             this.UserProfileUrl = "https://osu.ppy.sh/users/" + UserID;
         }
@@ -31,8 +39,8 @@ namespace osb.Models
         public static readonly DiscordRoleModel Apprentice = new DiscordRoleModel(1, "Apprentice", "#a79240");
         public static readonly DiscordRoleModel Storyboarder = new DiscordRoleModel(2, "Storyboarder", "#f1c40f");
         public static readonly DiscordRoleModel Alumni = new DiscordRoleModel(3, "Alumni", "#9b59b6");
-        public static readonly DiscordRoleModel Moderator = new DiscordRoleModel(3, "Moderator", "#3498db");
-        public static readonly DiscordRoleModel Mentor = new DiscordRoleModel(3, "Mentor", "#2ecc71");
+        public static readonly DiscordRoleModel Moderator = new DiscordRoleModel(4, "Moderator", "#3498db");
+        public static readonly DiscordRoleModel Mentor = new DiscordRoleModel(5, "Mentor", "#2ecc71");
 
         public int RoleID { get; set; }
         public string RoleName { get; set; }

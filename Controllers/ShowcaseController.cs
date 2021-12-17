@@ -13,20 +13,59 @@ namespace osb.Controllers
     {
         public IActionResult Index()
         {
-            CommunityViewModel communityViewModel = new CommunityViewModel();
+            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
             //Populate with dummy data
-            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders();
-
-            return View("Index");
+            showcaseViewModel.searchQuery = "";
+            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps();
+            showcaseViewModel.baseURL = "https://" + this.Request.Host;
+            return View("Index", showcaseViewModel);
         }
 
-        public IActionResult Search(string s, string f, string c)
+        public IActionResult Search(string s, string f, string c, string t)
         {
-            CommunityViewModel communityViewModel = new CommunityViewModel();
-            //Populate with dummy data
-            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders();
+            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+            showcaseViewModel.baseURL = "https://"+ this.Request.Host;
+            showcaseViewModel.searchQuery = (s != null) ? s : "";
+            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps();
+            StringComparison filterRule = StringComparison.OrdinalIgnoreCase;
+            if (s != null)
+            {
+                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
+                (x =>
+                    (
+                        x.BeatmapArtist.Contains(s, filterRule) ||
+                        x.BeatmapTitle.Contains(s, filterRule) ||
+                        x.BeatmapsetHost.Contains(s, filterRule) ||
+                        x.BeatmapsetID == x.GetBeatmapsetIDByStoryboarders(s)
+                    )
+                ).ToList();
+            }
+            if (t != null)
+            {
+                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
+                (x =>
+                    (
+                        x.BeatmapsetID == x.GetBeatmapsetIDByTags(t)
+                    )
+                ).ToList();
+            }
 
-            return View("Index");
+            return View("Index", showcaseViewModel);
+        }
+
+        public IActionResult Detail(int beatmapsetID)
+        {
+            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+            if (beatmapsetID == 0)
+                return NotFound();
+            //Populate with dummy data
+            showcaseViewModel.beatmapDetail = DummyHelper.GenerateBeatmap(beatmapsetID);
+            showcaseViewModel.baseURL = "https://" + this.Request.Host;
+            if (showcaseViewModel.beatmapDetail == null)
+            {
+                return NotFound();
+            }
+            return View("Detail", showcaseViewModel);
         }
     }
 }

@@ -1,0 +1,89 @@
+﻿@model osb.ViewModels.ShowcaseViewModel
+@{
+    ViewData["Title"] = "Storyboards";
+}
+<link rel="stylesheet" href="/static/base/sb.css">
+<link rel="stylesheet" href="/static/base/showcase/showcase.css">
+<header class="opening-banner" style="background-image: url('@Model.beatmapDetail.BeatmapCoverURL');"></header>
+<div class="container">
+    <div class="row">
+        <div class="col" style="padding: 0;">
+            <div class="showcase-title">@Model.beatmapDetail.BeatmapArtist - @Model.beatmapDetail.BeatmapTitle</div>
+            <div class="showcase-body-container">
+                <div class="showcase-subtitle">Info</div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2" style="padding: 0">
+                        @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
+                        {
+                            <img class="img-fluid slides mx-auto" src="https://a.ppy.sh/@Model.beatmapDetail.Storyboarders[i].UserID" style="max-height: 100px; padding-left:20px">
+                        }
+                    </div>
+                    <div class="col-xs-5 col-sm-4">
+                        <div class="showcase-body-subtitle">Storyboarded by</div>
+                        <div class="showcase-body-text">
+                            <ul class="list-unstyled">
+                                @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
+                                {
+                                    <li>
+                                        <!--TODO: Change URL to osb Profile-->
+                                        <a href="@Model.beatmapDetail.Storyboarders[i].UserProfileUrl">@Model.beatmapDetail.Storyboarders[i].Username</a>
+                                    </li>
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-7 col-sm-6">
+                        <div class="showcase-body-subtitle">Metadata</div>
+                        <div class="showcase-body-text">
+                            <ul class="list-unstyled">
+                                <li>
+                                    Mapped by @Model.beatmapDetail.BeatmapsetHost
+                                </li>
+                                <li>
+                                    Developed via @Model.beatmapDetail.Medium
+                                </li>
+                                <li>
+                                    Submitted on @Model.beatmapDetail.SubmitDate.ToString("dd MMMM yyyy")
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-subtitle">Tags</div>
+                @for (int i = 0; i < Model.beatmapDetail.StoryboardTags.Count; i++)
+                {
+                    string searchURL = Model.baseURL + "/showcase/search?t=" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName;
+                    string iconURL = "/static/showcase/showcase-icons-exportable.svg#" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName;
+                    <a href="@searchURL" data-toggle="tooltip" data-placement="top" title="@Model.beatmapDetail.StoryboardTags[i].TagName">
+                        <img src="@iconURL" alt="@Model.beatmapDetail.StoryboardTags[i].TagName" width="48" height="48">
+                    </a>
+                }
+                <a href="https://osu.ppy.sh/beatmapsets/@Model.beatmapDetail.BeatmapsetID/" style="text-decoration: none;"><div class="showcase-button-set">View Beatmap Page</div></a>
+                <a href="https://osu.ppy.sh/beatmapsets/@Model.beatmapDetail.BeatmapsetID/download" style="text-decoration: none;"><div class="showcase-button-download">Download This Beatmap</div></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+    $('div.container.bg-dark').addClass('pb-3');
+    var slideIndex = 0;
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("slides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        slideIndex += 1;
+        if (slideIndex > x.length) { slideIndex = 1; }
+        x[slideIndex - 1].style.display = "block";
+        setTimeout(carousel, 10000);
+    }
+    carousel();
+</script>
+
+
+

@@ -10,10 +10,12 @@
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
+
     #btn-search {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
+
     .media {
         background-color: #22282a;
     }
@@ -27,88 +29,122 @@
 
 <form action="/showcase/search" method="get">
     <div class="form-group" style="margin:2em 0 1em; display: flex;">
-        <input class="form-control form-control-lg" placeholder="type in keywords..." id="text-search" type="text" name="s" value="">
+        <input class="form-control form-control-lg" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
         <input class="btn btn-primary btn-lg" id="btn-search" type="submit" value="Search">
     </div>
-    <div class="form-check form-check-inline">
+    <!--Disable this for now, I will readd this after I finish the tag search-->
+    @*<div class="form-check form-check-inline">
         <input class="form-check-input form-control-lg" type="checkbox" name="f" placeholder="off">
         <label class="form-check-label">Featured Storyboard</label>
     </div>
     <div class="form-check form-check-inline">
         <input class="form-check-input form-control-lg" type="checkbox" name="c" placeholder="off">
         <label class="form-check-label">Classic Storyboard</label>
-    </div>
+    </div>*@
 </form>
-
-@*If Exist Print Row*@
-
-<div class="card-group" style="justify-content:center">
-    <div class="row mb-4">
-        <div class="col-xs-12 col-sm-6 my-2">
-            <div class="sb-card card">
-                <div class="bg-inverse sb-card-header bottom-header" style="background-image: url('https://assets.ppy.sh/beatmaps/1524587/covers/card.jpg?1638959566'); ">
-                    <a class="sb-card-thumb" href="https://osu.ppy.sh/beatmapsets/1524587" style="text-decoration:none">
-                        <h4 class="card-title sb-card-title">American Girls (Sped Up & Cut Ver.)</h4>
-                        <h6 class="card-subtitle sb-card-title">ONE OK ROCK</h6>
-                    </a>
-                </div>
-                <div class="media">
-                    <a class="media-left media-middle" href="https://osu.ppy.sh/beatmapsets/1524587" style="text-decoration:none">
-                        <img class="media-object sb-card-image" src="https://assets.ppy.sh/beatmaps/1524587/covers/list.jpg" alt="American Girls (Sped Up & Cut Ver.)">
-                    </a>
-                    <div class="media-body text-white m-3">
-                        <p class="card-text media-heading">
-                            Storyboarded by
-                            <a href="https://osu.ppy.sh/users/13340203">Paran</a>
-                            <br>Mapped by Paran
-                        </p>
-                        <div class="sb-card-icons">
-                            <span class="tag tag-pill tag-default"><i class="icon-csharp" aria-hidden="true"></i> C#</span>
-
-                            <a href="https://osu.ppy.sh/s/1212965"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true"></i></a>
-                            <a href="https://osu.ppy.sh/d/1212965"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
+@if (Model.beatmaps.Count > 0)
+{
+    <div class="card-group" style="justify-content:center">
+        <div class="row mb-4">
+            @for (int i = 0; i < Model.beatmaps.Count; i++)
+            {
+                var currentBeatmap = Model.beatmaps[i];
+                string toolIcon = "";
+                <div class="col-xs-12 col-sm-6 my-2">
+                    <div class="sb-card card">
+                        <div class="bg-inverse sb-card-header bottom-header" style="background-image: url('@currentBeatmap.BeatmapCardURL');">
+                            <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" target="_blank">
+                                <h4 class="card-title sb-card-title">@currentBeatmap.BeatmapTitle</h4>
+                                <h6 class="card-subtitle sb-card-title">@currentBeatmap.BeatmapArtist</h6>
+                            </a>
+                        </div>
+                        <div class="media">
+                            <a class="media-left media-middle" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" target="_blank">
+                                <img class="media-object sb-card-image" src="@currentBeatmap.BeatmapListURL" alt="@currentBeatmap.BeatmapTitle">
+                            </a>
+                            <div class="media-body text-white m-3">
+                                <p class="card-text media-heading">
+                                    Storyboarded by
+                                    @for (int j = 0; j < currentBeatmap.Storyboarders.Count; j++)
+                                    {
+                                        <!--TODO: Change URL to osb Profile Page-->
+                                        <a href="@currentBeatmap.Storyboarders[j].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[j].Username</a>
+                                    }
+                                    <br>Mapped by @currentBeatmap.BeatmapsetHost
+                                </p>
+                                <div class="sb-card-icons">
+                                    @switch (currentBeatmap.Medium)
+                                    {
+                                        case "Storybrew":
+                                            toolIcon = "fa fa-coffee";
+                                            break;
+                                        case "osu!SGL":
+                                            toolIcon = "fa fa-coffee";
+                                            break;
+                                        case "C":
+                                            toolIcon = "fa fa-coffee";
+                                            break;
+                                        case "C++":
+                                            toolIcon = "fa fa-coffee";
+                                            break;
+                                        case "Java":
+                                            toolIcon = "fa fa-coffee";
+                                            break;
+                                        case "Scripting":
+                                            toolIcon = "fa fa-file-text-o";
+                                            break;
+                                        case "C#":
+                                            toolIcon = "icon-csharp";
+                                            break;
+                                        case "Design Editor":
+                                            toolIcon = "fa icon-osu-cookie";
+                                            break;
+                                        case "Python":
+                                            toolIcon = "icon-python";
+                                            break;
+                                        case "Other":
+                                            toolIcon = "fa fa-question-circle";
+                                            break;
+                                    }
+                                    <span class="tag tag-pill tag-default"><i class="@toolIcon" aria-hidden="true"></i></span>
+                                    @currentBeatmap.Medium
+                                    <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true"></i></a>
+                                    <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/download"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 my-2">
-            <div class="sb-card card">
-                <div class="bg-inverse sb-card-header bottom-header" style="background-image: url('https://assets.ppy.sh/beatmaps/1524587/covers/card.jpg?1638959566'); ">
-                    <a class="sb-card-thumb" href="https://osu.ppy.sh/beatmapsets/1524587" style="text-decoration:none">
-                        <h4 class="card-title sb-card-title">American Girls (Sped Up & Cut Ver.)</h4>
-                        <h6 class="card-subtitle sb-card-title">ONE OK ROCK</h6>
-                    </a>
-                </div>
-                <div class="media">
-                    <a class="media-left media-middle" href="https://osu.ppy.sh/beatmapsets/1524587" style="text-decoration:none">
-                        <img class="media-object sb-card-image" src="https://assets.ppy.sh/beatmaps/1524587/covers/list.jpg" alt="American Girls (Sped Up & Cut Ver.)">
-                    </a>
-                    <div class="media-body text-white m-3">
-                        <p class="card-text media-heading">
-                            Storyboarded by
-                            <a href="https://osu.ppy.sh/users/13340203">Paran</a>
-                            <br>Mapped by Paran
-                        </p>
-                        <div class="sb-card-icons">
-                            <span class="tag tag-pill tag-default"><i class="icon-csharp" aria-hidden="true"></i> C#</span>
-
-                            <a href="https://osu.ppy.sh/s/1212965"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true"></i></a>
-                            <a href="https://osu.ppy.sh/d/1212965"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.js"></script>
-<script src="/static/showcase/add-lightbox.js"></script>
-<script>
-    window.addEventListener('resize', function () {
-        $('.sb-card').css('width', $('.container').css('max-width').replace('px', '') / 2 - 40 + 'px');
-    });
-    window.dispatchEvent(new Event('resize'));
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.js"></script>
+    <script src="/static/showcase/add-lightbox.js"></script>
+    <script>
+        window.addEventListener('resize', function () {
+            var currentContainerWidth = $('.container').css('max-width').replace('px', '');
+            if (currentContainerWidth > 720) {
+                $('.sb-card').css('width', $('.container').css('max-width').replace('px', '') / 2 - 40 + 'px');
+                $('.col-xs-12').addClass('col-sm-6');
+                $('.col-xs-12').removeClass('col-sm-12');
+            }
+            else {
+                $('.sb-card').css('width', '100%');
+                $('.col-xs-12').addClass('col-sm-12');
+                $('.col-xs-12').removeClass('col-sm-6');
+            }
+            
+        });
+        window.dispatchEvent(new Event('resize'));
+    </script>
+}
+else
+{
+    <div class="showcase-empty">
+        <img src="/static/base/img/hifumi_notfound.png" alt="no results" data-orig-title="no results" data-hasqtip="0" aria-describedby="qtip-0" style="transform: scaleX(-1);">
+        I'm sorry, I can't find anything.
+    </div>
+}
+
 
 
