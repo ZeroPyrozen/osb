@@ -42,12 +42,14 @@ namespace osb.Controllers
             }
             if (t != null)
             {
+                t = t.Replace('_', ' ');
                 showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
                 (x =>
                     (
                         x.BeatmapsetID == x.GetBeatmapsetIDByTags(t)
                     )
                 ).ToList();
+                showcaseViewModel.searchQuery = t;
             }
 
             return View("Index", showcaseViewModel);

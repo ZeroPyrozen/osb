@@ -183,6 +183,27 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 943052,
+                    beatmapTitle : "Rise (feat. IZ*ONE)",
+                    beatmapArtist: "Jonas Blue",
+                    beatmapsetHost : "Hokichi",
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2019,03,19),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        new StoryboarderModel(6607303, "Hokichi"),
+                        new StoryboarderModel(7405768, "TheDuckMask"),
+                        new StoryboarderModel(6186628, "Affirmation"),
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
