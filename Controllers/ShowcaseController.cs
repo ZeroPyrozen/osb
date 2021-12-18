@@ -35,7 +35,7 @@ namespace osb.Controllers
                     (
                         x.BeatmapArtist.Contains(s, filterRule) ||
                         x.BeatmapTitle.Contains(s, filterRule) ||
-                        x.BeatmapsetHost.Contains(s, filterRule) ||
+                        x.BeatmapsetID == x.GetBeatmapsetIDByMappers(s) ||
                         x.BeatmapsetID == x.GetBeatmapsetIDByStoryboarders(s)
                     )
                 ).ToList();

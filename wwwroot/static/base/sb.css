@@ -43,7 +43,7 @@
 
 .sb-card-icons {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   right: 10px; }
 
 .sb-card-featured {

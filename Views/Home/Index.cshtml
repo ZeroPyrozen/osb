@@ -3,6 +3,34 @@
 }
 <link rel="stylesheet" href="/static/base/sb.css">
 <link rel="stylesheet" href="static/base/carousel.css">
+<style>
+    .log-section {
+        overflow-y: scroll;
+        height: 12rem;
+        scrollbar-width: thin;
+        scrollbar-color: #ec407a #F5F5F5;
+        margin-bottom: 15px;
+    }
+
+    .log-author {
+        background: #6438e9;
+        padding: 5px;
+    }
+    .log-section::-webkit-scrollbar-corner {
+        background: #F5F5F5;
+    }
+
+    .log-section::-webkit-scrollbar-thumb {
+        background: #ec407a;
+        -webkit-box-shadow: 0px 1px 2px rgb(0 0 0 / 75%);
+    }
+
+    .log-section::-webkit-scrollbar {
+        height: 12px;
+        width: 12px;
+        background: #F5F5F5;
+    }
+</style>
 <header class="opening-banner">
     <h1 class="display opening-header">osu! Storyboarder Banquet</h1>
     <div class="bae-index"></div>
@@ -51,8 +79,15 @@
 
     <div class="col-xs-12 col-sm-6">
         <h3 class="special-banner-sub-1 rounded">Updates</h3>
-        <p>Bam! I think we have a site going now. BetaStar and I have been working pretty tirelessly getting storyboards, screenshots, and contents populated on this website. We definitely did our darnedest to bring you a really cool webfront to not only check out amazing storyboard visual arts in osu!, but also to perhaps learn how to storyboard and get better at programming.</p>
-        <p>You can check specific updates by visiting <a href="https://github.com/osb-group/osb.moe/" target="_blank">the GitHub repo</a>, if you'd like. Otherwise, just make yourself at home and enjoy yourself. Or Hifumi. Or whatever, really.</p>
-        <p>We now have a dedicated roadmap page! <a href="https://osb.moe/roadmap/">Here you go.</a></p>
+        <div class="log-section">
+            <h5 class="log-author">2021/12/18 - Mamat</h5>
+            <p>This is updated website from <a href="https://osb.moe/" target="_blank">osb.moe</a>. I pulled it from the original repo and rewrite it using ASP.NET Core framework. I think I will add more showcase maps and I have been working on paging in showcase list</p>
+            <p>I have added community and showcase page with dummy data. Thanks to Coppertine for the design feedback.</p>
+            <p>You can check specific updates by visiting <a href="https://github.com/ZeroPyrozen/osb" target="_blank">current GitHub repo.</a></p>
+            <h5 class="log-author">2016/12/31 - Starrodkirby86</h5>
+            <p>Bam! I think we have a site going now. BetaStar and I have been working pretty tirelessly getting storyboards, screenshots, and contents populated on this website. We definitely did our darnedest to bring you a really cool webfront to not only check out amazing storyboard visual arts in osu!, but also to perhaps learn how to storyboard and get better at programming.</p>
+            <p>You can check specific updates by visiting <a href="https://github.com/osb-group/osb.moe/" target="_blank">the GitHub repo</a>, if you'd like. Otherwise, just make yourself at home and enjoy yourself. Or Hifumi. Or whatever, really.</p>
+            <p>We now have a dedicated roadmap page! <a href="https://osb.moe/roadmap/">Here you go.</a></p>
+        </div>
     </div>
 </div>

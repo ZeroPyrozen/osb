@@ -107,7 +107,7 @@ namespace osb.Helpers
                     beatmapsetID: 16457,
                     beatmapTitle : "SWITCHED-ON LOTUS",
                     beatmapArtist: "Susumu Hirasawa",
-                    beatmapsetHost : "Starrodkirby86",
+                    beatmapsetHost : new MapperModel(410,"Starrodkirby86"),
                     medium: "Scripting",
                     submitDate: new DateTime(2010,12,05),
                     storyboarders: new List<StoryboarderModel>
@@ -125,7 +125,7 @@ namespace osb.Helpers
                     beatmapsetID: 1054045,
                     beatmapTitle : "Alexithymia | Lupinus | Tokei no Heya to Seishin Sekai",
                     beatmapArtist: "a_hisa",
-                    beatmapsetHost : "ProfessionalBox",
+                    beatmapsetHost : new MapperModel(3250792,"ProfessionalBox"),
                     medium: "Storybrew",
                     submitDate: new DateTime(2019,10,20),
                     storyboarders: new List<StoryboarderModel>
@@ -146,7 +146,7 @@ namespace osb.Helpers
                     beatmapsetID: 470977,
                     beatmapTitle : "world.execute(me);",
                     beatmapArtist: "Mili",
-                    beatmapsetHost : "Exile-",
+                    beatmapsetHost : new MapperModel(2559349,"Exile-"),
                     medium: "Java",
                     submitDate: new DateTime(2017,01,29),
                     storyboarders: new List<StoryboarderModel>
@@ -169,7 +169,7 @@ namespace osb.Helpers
                     beatmapsetID: 173288,
                     beatmapTitle : "Kung-fu Empire",
                     beatmapArtist: "Nekomata Master+",
-                    beatmapsetHost : "Damnae",
+                    beatmapsetHost : new MapperModel(989377,"Damnae"),
                     medium: "C#",
                     submitDate: new DateTime(2015,05,24),
                     storyboarders: new List<StoryboarderModel>
@@ -189,14 +189,37 @@ namespace osb.Helpers
                     beatmapsetID: 943052,
                     beatmapTitle : "Rise (feat. IZ*ONE)",
                     beatmapArtist: "Jonas Blue",
-                    beatmapsetHost : "Hokichi",
+                    beatmapsetHost : new MapperModel(6607303, "Hokichi"),
                     medium: "Storybrew",
                     submitDate: new DateTime(2019,03,19),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(6607303, "Hokichi"),
                         new StoryboarderModel(7405768, "TheDuckMask"),
-                        new StoryboarderModel(6186628, "Affirmation"),
+                        new StoryboarderModel(6186628, "Affirmation")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1060207,
+                    beatmapTitle : "Still Into You (Sped Up & Cut Ver.)",
+                    beatmapArtist: "Paramore",
+                    beatmapsetHost : new MapperModel(4230454, "Froskya"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2019,11,03),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        new StoryboarderModel(7798305, "Slyk"),
+                        new StoryboarderModel(5420543, "PantyDev"),
+                        new StoryboarderModel(5666747, "freihy"),
+                        new StoryboarderModel(10198015, "BowLL"),
+                        new StoryboarderModel(7405768, "TheDuckMask"),
                     },
                     tags: new List<StoryboardTag>
                     {

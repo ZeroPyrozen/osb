@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/static/base/sb.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.3.0/font-mfizz.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <style>
     #text-search {
         border-top-right-radius: 0;
@@ -85,7 +86,7 @@
                                         <span> and </span>
                                         <a href="@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
                                     }
-                                    <br>Mapped by @currentBeatmap.BeatmapsetHost
+                                    <br>Hosted by <a href="@currentBeatmap.BeatmapsetHost.UserProfileUrl" target="_blank">@currentBeatmap.BeatmapsetHost.Username</a>
                                 </p>
                                 <div class="sb-card-icons">
                                     @switch (currentBeatmap.Medium)
@@ -119,10 +120,9 @@
                                             toolIcon = "fa fa-question-circle";
                                             break;
                                     }
-                                    <span class="tag tag-pill tag-default"><i class="@toolIcon" aria-hidden="true"></i></span>
-                                    @currentBeatmap.Medium
-                                    <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true"></i></a>
-                                    <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/download"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
+                                    <span class="tag tag-pill tag-default" data-toggle="tooltip" title="@currentBeatmap.Medium"><i class="@toolIcon" aria-hidden="true"></i></span>
+                                    <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true" data-toggle="tooltip" title="View Beatmap Page"></i></a>
+                                    <a href="osu://s/@currentBeatmap.BeatmapsetID" data-toggle="tooltip" title="Open in osu!direct"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -134,6 +134,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.js"></script>
     <script src="/static/showcase/add-lightbox.js"></script>
     <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
         window.addEventListener('resize', function () {
             var currentContainerWidth = $('.container').css('max-width').replace('px', '');
             if (currentContainerWidth > 720) {

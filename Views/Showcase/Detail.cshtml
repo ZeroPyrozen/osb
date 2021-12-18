@@ -4,6 +4,7 @@
 }
 <link rel="stylesheet" href="/static/base/sb.css">
 <link rel="stylesheet" href="/static/base/showcase/showcase.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <header class="opening-banner" style="background-image: url('@Model.beatmapDetail.BeatmapCoverURL');"></header>
 <div class="container">
     <div class="row">
@@ -38,7 +39,7 @@
                         <div class="showcase-body-text">
                             <ul class="list-unstyled">
                                 <li>
-                                    Mapped by @Model.beatmapDetail.BeatmapsetHost
+                                    Hosted by <a href="@Model.beatmapDetail.BeatmapsetHost.UserProfileUrl">@Model.beatmapDetail.BeatmapsetHost.Username</a>
                                 </li>
                                 <li>
                                     Developed via @Model.beatmapDetail.Medium
@@ -60,7 +61,7 @@
                     </a>
                 }
                 <a href="https://osu.ppy.sh/beatmapsets/@Model.beatmapDetail.BeatmapsetID/" style="text-decoration: none;"><div class="showcase-button-set">View Beatmap Page</div></a>
-                <a href="https://osu.ppy.sh/beatmapsets/@Model.beatmapDetail.BeatmapsetID/download" style="text-decoration: none;"><div class="showcase-button-download">Download This Beatmap</div></a>
+                <a href="osu://s/@Model.beatmapDetail.BeatmapsetID" style="text-decoration: none;"><div class="showcase-button-download">Download This Beatmap</div></a>
             </div>
         </div>
     </div>

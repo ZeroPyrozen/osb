@@ -10,7 +10,7 @@ namespace osb.Models
         public int BeatmapsetID { get; set; }
         public string BeatmapTitle { get; set; }
         public string BeatmapArtist { get; set; }
-        public string BeatmapsetHost { get; set; }
+        public MapperModel BeatmapsetHost { get; set; }
         public string Medium { get; set; }
         public DateTime SubmitDate { get; set; }
         public string BeatmapCardURL { get; set; }
@@ -21,7 +21,7 @@ namespace osb.Models
         public List<StoryboardTag> StoryboardTags { get; set; }
         //TODO: Add Video URL, Screenshots, and Storyboarder Comments in Separate Classes to reduce memory load
 
-        public BeatmapModel(int beatmapsetID, string beatmapTitle, string beatmapArtist, string beatmapsetHost, string medium, DateTime submitDate, List<StoryboarderModel> storyboarders, List<StoryboardTag> tags)
+        public BeatmapModel(int beatmapsetID, string beatmapTitle, string beatmapArtist, MapperModel beatmapsetHost, string medium, DateTime submitDate, List<StoryboarderModel> storyboarders, List<StoryboardTag> tags)
         {
             this.BeatmapsetID = beatmapsetID;
             this.BeatmapTitle = beatmapTitle;
@@ -41,6 +41,14 @@ namespace osb.Models
         public int GetBeatmapsetIDByStoryboarders(string searchQuery)
         {
             if (this.Storyboarders.Any(x => x.Username.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)))
+                return BeatmapsetID;
+            else
+                return -1;
+        }
+
+        public int GetBeatmapsetIDByMappers(string searchQuery)
+        {
+            if (this.BeatmapsetHost.Username.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
                 return BeatmapsetID;
             else
                 return -1;

@@ -24,10 +24,6 @@
     "inputFile": "wwwroot/static/base/learn/_learn_body.scss"
   },
   {
-    "outputFile": "wwwroot/static/base/main.css",
-    "inputFile": "wwwroot/static/base/main.scss"
-  },
-  {
     "outputFile": "wwwroot/static/base/learn/_learn_code.css",
     "inputFile": "wwwroot/static/base/learn/_learn_code.scss"
   },
@@ -74,5 +70,9 @@
   {
     "outputFile": "wwwroot/static/base/banner.css",
     "inputFile": "wwwroot/static/base/banner.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/main.css",
+    "inputFile": "wwwroot/static/base/main.scss"
   }
 ]
