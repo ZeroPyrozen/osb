@@ -1,4 +1,5 @@
-﻿@{
+﻿@model osb.ViewModels.HomeViewModel
+@{
     ViewData["Title"] = "Welcome";
 }
 <link rel="stylesheet" href="/static/base/sb.css">
@@ -6,7 +7,7 @@
 <style>
     .log-section {
         overflow-y: scroll;
-        height: 12rem;
+        height: 22rem;
         scrollbar-width: thin;
         scrollbar-color: #ec407a #F5F5F5;
         margin-bottom: 15px;
@@ -16,6 +17,7 @@
         background: #6438e9;
         padding: 5px;
     }
+
     .log-section::-webkit-scrollbar-corner {
         background: #F5F5F5;
     }
@@ -35,35 +37,132 @@
     <h1 class="display opening-header">osu! Storyboarder Banquet</h1>
     <div class="bae-index"></div>
 </header>
+<!--Placeholder with recent storyboard, or maybe recent storyboard is good enough?-->
+<div id="carousel-storyboard" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
+        {
+            if (i == 0)
+            {
+                <li data-target="#carousel-storyboard" data-slide-to="@i" class="active"></li>
+            }
+            else
+            {
+                <li data-target="#carousel-storyboard" data-slide-to="@i"></li>
+            }
+        }
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
+        {
+            if (i == 0)
+            {
+                <div class="carousel-item active">
+                    <div class="carousel-overlay">
+                        <img class="d-block mx-auto" src="@Model.recentBeatmaps[i].BeatmapCoverURL" alt="@Model.recentBeatmaps[i].BeatmapTitle" style="min-width: 100%;">
+                    </div>
+                    <div class="carousel-caption">
+                        <h3><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" style="color:#fff;text-decoration:none;">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</a></h3>
+                        <p>
+                            Storyboarded by
+                            <!--TODO: Change the link to Storyboarder page-->
+                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
+                            {
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                            }
+                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
+                            {
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                                <span> and </span>
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 1; j++)
+                                {
+                                    <a href="@Model.recentBeatmaps[i].Storyboarders[j].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
+                                }
+                                <span> and </span>
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
+                            }
+                        </p>
+                        <p><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" class="btn btg-lg btn-primary">Go to this map!</a></p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="carousel-item">
+                    <div class="carousel-overlay">
+                        <img class="d-block mx-auto" src="@Model.recentBeatmaps[i].BeatmapCoverURL" alt="@Model.recentBeatmaps[i].BeatmapTitle" style="min-width: 100%;">
+                    </div>
+                    <div class="carousel-caption">
+                        <h3><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" style="color:#fff;text-decoration:none;">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</a></h3>
+                        <p>
+                            Storyboarded by
+                            <!--TODO: Change the link to Storyboarder page-->
+                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
+                            {
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                            }
+                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
+                            {
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                                <span> and </span>
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 1; j++)
+                                {
+                                    <a href="@Model.recentBeatmaps[i].Storyboarders[j].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
+                                }
+                                <span> and </span>
+                                <a href="@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
+                            }
+                        </p>
+                        <p><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" class="btn btg-lg btn-primary">Go to this map!</a></p>
+                    </div>
+                </div>
+            }
 
+        }
+    </div>
+    <a class="left carousel-control" href="#carousel-storyboard" role="button" data-slide="prev">
+        <span class="icon-prev" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-storyboard" role="button" data-slide="next">
+        <span class="icon-next" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
 <h1 class="col-xs-12 special-banner-1 top-header">Overview</h1>
-@*{% show_screenshot_carousel %}*@
 <div class="row">
     <div class="col-xs-12 col-sm-6">
         <p>Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual wizardry on osu!? You can get started by checking out <a href="/showcase">storyboard showcase</a>, or gander at some up on the carousel above or on the YouTube player here. If you're here to learn how to storyboard and program, look no further than our <a href="/learn">learning resources</a>! And if you want to be a part of the storyboarding commmunity, <a href="/community">click here to learn more</a>.</p>
         <p>
-            @*{% get_storyboards as sb_list %}{% get_storyboarders as sbers %}{% get_medium_frequency as mediums %}*@
             <ul>
-                <li>We have a grand total of <strong>2@*{{ sb_list.count }}*@</strong> storyboards in our showcase!</li>
-                <li>We also have <strong>2@*{{ sbers.count }}*@</strong> storyboarders creating these masterpieces.</li>
+                <li>We have a grand total of <strong>@Model.totalStoryboard</strong> storyboards in our showcase!</li>
+                <li>We also have <strong>@Model.totalStoryboarder</strong> storyboarders creating these masterpieces.</li>
                 <li>
-                    The <strong>5</strong> most popular mediums used to create storyboards are:
-                    <ul>
-                        @*{% for m in mediums|slice:":6" %}
-                            {% if m.0 != "Other" %}
-                            <li>{{ m.0 }} - <strong>{{ m.1 }}</strong> Storyboards</li>{% endif %}
-                            {% empty %}
-                            <li>Actually, we're lazy bastards.</li>
-                            {% endfor %}*@
-                    </ul>
+                    The <strong>@Math.Min(5, Model.mediumFrequency.Count)</strong> most popular mediums used to create storyboards are:
+                        <ul>
+                            @for (int i = 0; i < Math.Min(5, Model.mediumFrequency.Count); i++)
+                            {
+                                var item = Model.mediumFrequency[i];
+                                <li>@item.Key - <strong>@item.Value</strong> Storyboards</li>
+                            }
+                        </ul>
                 </li>
             </ul>
         </p>
     </div>
     <div class="col-xs-12 col-sm-6">
         <p>
-            @*{% get_random_storyboard_with_video as sb %}<iframe src="{{ sb.get_embed_video_url }}" style="min-width: 100%; min-height: 400px;"></iframe>
-                <small>Now playing <a href="{{ sb.get_detail_url }}">{{ sb }}</a>.</small>*@
+            <!--This is just placeholder, will add random get storyboard video-->
+            <iframe src="https://www.youtube.com/embed/OnO46zjqvPA" style="min-width: 100%; min-height: 400px; border: 0;"></iframe>
+            <small>Now playing <a href="https://youtu.be/OnO46zjqvPA">Mili - world.execute(me);</a>.</small>
         </p>
     </div>
 </div>
@@ -71,10 +170,36 @@
 <div class="row">
     <div class="col-xs-12 col-sm-6 ">
         <h3 class="special-banner-sub-1 rounded">Most Recently Added Storyboards</h3>
-        @*{% get_most_recent_storyboards as most_recent %}
-            {% for s in most_recent|slice:":4" %}
-            {% show_sb_card_mini s %}
-            {% endfor %}*@
+        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
+        {
+            <div class="sb-card card col-xs-12 my-2">
+                <div class="bg-inverse sb-card-header bottom-header rounded" style="background-image: url('@Model.recentBeatmaps[i].BeatmapCardURL');">
+                    <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID">
+                        <h4 class="card-title sb-card-title">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</h4>
+                        <h6 class="card-subtitle sb-card-title">
+                            Storyboarded by
+                            <!--TODO: Change the link to Storyboarder page-->
+                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
+                            {
+                                <span>@Model.recentBeatmaps[i].Storyboarders[0].Username</span>
+                            }
+                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
+                            {
+                                <span>@Model.recentBeatmaps[i].Storyboarders[0].Username and @Model.recentBeatmaps[i].Storyboarders[1].Username</span>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 1; j++)
+                                {
+                                    <span>@Model.recentBeatmaps[i].Storyboarders[j].Username ,</span>
+                                }
+                                <span> and @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</span>
+                            }
+                        </h6>
+                    </a>
+                </div>
+            </div>
+        }
     </div>
 
     <div class="col-xs-12 col-sm-6">
