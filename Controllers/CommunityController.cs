@@ -20,8 +20,7 @@ namespace osb.Controllers
         public IActionResult Index()
         {
             CommunityViewModel communityViewModel = new CommunityViewModel();
-            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders();
-            //communityViewModel.storyboarders = new osbDatabaseHelper(_configuration).GetCommunityStoryboarder();
+            communityViewModel.storyboarders = new osbDatabaseHelper(_configuration).GetCommunityStoryboarder();
             return View("Index", communityViewModel);
         }
     }
