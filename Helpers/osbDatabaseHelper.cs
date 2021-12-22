@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 
 namespace osb.Helpers
 {
