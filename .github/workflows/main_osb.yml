@@ -31,6 +31,14 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
+        env:
+          ConnectionStrings.osbDB: ${{ secrets.OSBDBCONNECTIONSTRING }}
+          StoredProcedures.GetCommunityStoryboarder: ${{ secrets.GETCOMMUNITYSTORYBOARDER }}
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -49,14 +57,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: .net-app
-
-      - name: App Settings Variable Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
-        env:
-          ConnectionStrings.osbDB: ${{ secrets.OSBDBCONNECTIONSTRING }}
-          StoredProcedures.GetCommunityStoryboarder: ${{ secrets.GETCOMMUNITYSTORYBOARDER }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
