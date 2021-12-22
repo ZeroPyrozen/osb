@@ -29,7 +29,6 @@ namespace osb.Controllers
             homeViewModel.mediumFrequency = GetStoryboardMediumFrequency(homeViewModel.recentBeatmaps);
             homeViewModel.recentBeatmaps = homeViewModel.recentBeatmaps.OrderByDescending(x => x.SubmitDate).Take(5).ToList();
             homeViewModel.baseURL = "https://" + this.Request.Host;
-            //Get Medium Count
             return View("Index", homeViewModel);
         }
 

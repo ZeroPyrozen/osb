@@ -65,22 +65,24 @@ namespace osb.Models
 
     public class StoryboardTag
     {
+        public int TagID { get; set; }
         public string TagName { get; set; }
         public string EscapedTagName { get; set; }
 
-        public static StoryboardTag Wizardry = new StoryboardTag("Wizardry");
-        public static StoryboardTag Pixels = new StoryboardTag("Pixels");
-        public static StoryboardTag Rave = new StoryboardTag("Rave");
-        public static StoryboardTag Lyrics = new StoryboardTag("Lyrics");
-        public static StoryboardTag ThreeD = new StoryboardTag("3d");
-        public static StoryboardTag Narrative = new StoryboardTag("Narrative");
-        public static StoryboardTag AudioVisualization = new StoryboardTag("Audio Visualization");
-        public static StoryboardTag Particles = new StoryboardTag("Particles");
-        public static StoryboardTag FullControl = new StoryboardTag("Full Control");
-        public static StoryboardTag GameplayEnhancement = new StoryboardTag("Gameplay Enhancement");
+        public static StoryboardTag Wizardry = new StoryboardTag(1,"Wizardry");
+        public static StoryboardTag Pixels = new StoryboardTag(2,"Pixels");
+        public static StoryboardTag Rave = new StoryboardTag(3,"Rave");
+        public static StoryboardTag Lyrics = new StoryboardTag(4,"Lyrics");
+        public static StoryboardTag ThreeD = new StoryboardTag(5,"3D");
+        public static StoryboardTag Narrative = new StoryboardTag(6,"Narrative");
+        public static StoryboardTag AudioVisualization = new StoryboardTag(7,"Audio Visualization");
+        public static StoryboardTag Particles = new StoryboardTag(8,"Particles");
+        public static StoryboardTag FullControl = new StoryboardTag(9,"Full Control");
+        public static StoryboardTag GameplayEnhancement = new StoryboardTag(10,"Gameplay Enhancement");
 
-        public StoryboardTag(string tagName)
+        public StoryboardTag(int tagID, string tagName)
         {
+            this.TagID = tagID;
             this.TagName = tagName;
             this.EscapedTagName = tagName.Replace(" ", "_").ToLower();
         }
