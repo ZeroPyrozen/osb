@@ -37,7 +37,6 @@ jobs:
         with:
           name: "appsettings.json"
           json: ${{ secrets.APPSETTINGS }}
-          dir: ${{env.DOTNET_ROOT}}/myapp
           
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
