@@ -11,9 +11,26 @@
         <div class="col" style="padding: 0;">
             <div class="showcase-title">@Model.beatmapDetail.BeatmapArtist - @Model.beatmapDetail.BeatmapTitle</div>
             <div class="showcase-body-container">
-                <div class="showcase-subtitle">Info</div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-2" style="padding: 0">
+                <div class="showcase-subtitle" style="background: #262d35;">Info</div>
+                <div class="row" style="background: #262d35;margin: 0px;">
+                    <div class="col-xs-12 col-sm-2">
+                        <div class="showcase-rating-box" style="background: #262d35;">
+                            <ul class="list-unstyled">
+                                <li style="">
+                                    OSB Level
+                                </li>
+                                <li>
+                                    @Model.beatmapDetail.GetStoryboardRating().ToString()
+                                </li>
+                                <li class="showcase-rating-icon-box mx-auto">
+                                    <div class="showcase-rating-icon-rotate">
+                                        <img class="img-fluid showcase-rating-icon-pop" src="/static/showcase/hifumi.png" width="50">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-2" style="padding: 0;margin: auto;">
                         @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
                         {
                             <img class="img-fluid slides mx-auto" src="https://a.ppy.sh/@Model.beatmapDetail.Storyboarders[i].UserID" style="max-height: 100px; padding-left:20px">
@@ -34,7 +51,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-xs-7 col-sm-6">
+                    <div class="col-xs-7 col-sm-4">
                         <div class="showcase-body-subtitle">Metadata</div>
                         <div class="showcase-body-text">
                             <ul class="list-unstyled">

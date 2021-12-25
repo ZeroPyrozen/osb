@@ -61,6 +61,16 @@ namespace osb.Models
             else
                 return -1;
         }
+
+        public int GetStoryboardRating()
+        {
+            int rating = 0;
+            for(int i=0; i<StoryboardTags.Count; i++)
+            {
+                rating += StoryboardTags[i].Rating;
+            }
+            return rating;
+        }
     }
 
     public class StoryboardTag
@@ -68,22 +78,26 @@ namespace osb.Models
         public int TagID { get; set; }
         public string TagName { get; set; }
         public string EscapedTagName { get; set; }
+        public int Rating { get; set; }
 
-        public static StoryboardTag Wizardry = new StoryboardTag(1,"Wizardry");
-        public static StoryboardTag Pixels = new StoryboardTag(2,"Pixels");
-        public static StoryboardTag Rave = new StoryboardTag(3,"Rave");
-        public static StoryboardTag Lyrics = new StoryboardTag(4,"Lyrics");
-        public static StoryboardTag ThreeD = new StoryboardTag(5,"3D");
-        public static StoryboardTag Narrative = new StoryboardTag(6,"Narrative");
-        public static StoryboardTag AudioVisualization = new StoryboardTag(7,"Audio Visualization");
-        public static StoryboardTag Particles = new StoryboardTag(8,"Particles");
-        public static StoryboardTag FullControl = new StoryboardTag(9,"Full Control");
-        public static StoryboardTag GameplayEnhancement = new StoryboardTag(10,"Gameplay Enhancement");
+        public static StoryboardTag Wizardry = new StoryboardTag(1,"Wizardry",30);
+        public static StoryboardTag Pixels = new StoryboardTag(2,"Pixels",20);
+        public static StoryboardTag Rave = new StoryboardTag(3,"Rave",10);
+        public static StoryboardTag Lyrics = new StoryboardTag(4,"Lyrics",10);
+        public static StoryboardTag ThreeD = new StoryboardTag(5,"3D",30);
+        public static StoryboardTag Narrative = new StoryboardTag(6,"Narrative",30);
+        public static StoryboardTag AudioVisualization = new StoryboardTag(7,"Audio Visualization",15);
+        public static StoryboardTag Particles = new StoryboardTag(8,"Particles",15);
+        public static StoryboardTag FullControl = new StoryboardTag(9,"Full Control",20);
+        public static StoryboardTag GameplayEnhancement = new StoryboardTag(10,"Gameplay Enhancement",15);
+        public static StoryboardTag Featured = new StoryboardTag(11, "Featured", 20);
+        public static StoryboardTag Classic = new StoryboardTag(12, "Classic", 10);
 
-        public StoryboardTag(int tagID, string tagName)
+        public StoryboardTag(int tagID, string tagName, int rating)
         {
             this.TagID = tagID;
             this.TagName = tagName;
+            this.Rating = rating;
             this.EscapedTagName = tagName.Replace(" ", "_").ToLower();
         }
     }

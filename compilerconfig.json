@@ -60,10 +60,6 @@
     "inputFile": "wwwroot/static/base/showcase/_icons.scss"
   },
   {
-    "outputFile": "wwwroot/static/base/showcase/_rating.css",
-    "inputFile": "wwwroot/static/base/showcase/_rating.scss"
-  },
-  {
     "outputFile": "wwwroot/static/base/showcase/_title.css",
     "inputFile": "wwwroot/static/base/showcase/_title.scss"
   },
@@ -74,5 +70,9 @@
   {
     "outputFile": "wwwroot/static/base/main.css",
     "inputFile": "wwwroot/static/base/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/showcase/_rating.css",
+    "inputFile": "wwwroot/static/base/showcase/_rating.scss"
   }
 ]

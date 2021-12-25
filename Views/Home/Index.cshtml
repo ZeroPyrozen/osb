@@ -189,11 +189,11 @@
                             }
                             else
                             {
-                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 1; j++)
+                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
                                 {
-                                    <span>@Model.recentBeatmaps[i].Storyboarders[j].Username ,</span>
+                                    <span>@Model.recentBeatmaps[i].Storyboarders[j].Username, </span>
                                 }
-                                <span> and @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</span>
+                                <span>@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username and @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</span>
                             }
                         </h6>
                     </a>

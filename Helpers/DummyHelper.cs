@@ -117,7 +117,8 @@ namespace osb.Helpers
                     tags: new List<StoryboardTag>
                     {
                         StoryboardTag.FullControl,
-                        StoryboardTag.Lyrics
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Classic
                     }
                 ),
                 new BeatmapModel
@@ -138,7 +139,8 @@ namespace osb.Helpers
                         StoryboardTag.GameplayEnhancement,
                         StoryboardTag.FullControl,
                         StoryboardTag.Particles,
-                        StoryboardTag.Wizardry
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.Featured
                     }
                 ),
                 new BeatmapModel
@@ -161,7 +163,8 @@ namespace osb.Helpers
                         StoryboardTag.ThreeD,
                         StoryboardTag.Lyrics,
                         StoryboardTag.Pixels,
-                        StoryboardTag.Wizardry
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.Featured
                     }
                 ),
                 new BeatmapModel
@@ -181,7 +184,8 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.FullControl,
                         StoryboardTag.Particles,
-                        StoryboardTag.Wizardry
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.Featured
                     }
                 ),
                 new BeatmapModel

@@ -2,15 +2,14 @@
 @import '__mixins.scss';
 
 .showcase-rating-box {
-  @include set-showcase-title-font();
-  font-size: 12pt;
-  text-align: center;
-  background: $showcase-color-sub1;
-  border-top: 5px solid $showcase-color-sub2;
-  border-bottom: 5px solid $showcase-color-sub2;
-  border-radius: 0.25rem;
-  margin-top: 0.25em;
-  margin-bottom: 0.5em;
+    @include set-showcase-title-font();
+    font-size: 12pt;
+    text-align: center;
+    border-top: 5px solid #262d35;
+    border-bottom: 5px solid #262d35;
+    border-radius: 0.25rem;
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
 }
 
 .showcase-rating-icon-box {
