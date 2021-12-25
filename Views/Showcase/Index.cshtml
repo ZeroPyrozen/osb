@@ -79,10 +79,11 @@
                                     }
                                     else
                                     {
-                                        @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 1; j++)
+                                        @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
                                         {
                                             <a href="@currentBeatmap.Storyboarders[j].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
                                         }
+                                        <a href="@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
                                         <span> and </span>
                                         <a href="@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
                                     }
