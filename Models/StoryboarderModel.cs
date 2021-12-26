@@ -30,6 +30,18 @@ namespace osb.Models
             this.UserAvatarUrl = "https://a.ppy.sh/" + UserID;
             this.UserProfileUrl = "https://osu.ppy.sh/users/" + UserID;
         }
+
+        public DiscordRoleModel GetPrimaryRole()
+        {
+            if(Roles != null && Roles.Count > 0)
+            {
+                return Roles.OrderByDescending(x => x.RoleID).First();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
     public class DiscordRoleModel

@@ -1,0 +1,153 @@
+﻿@model osb.ViewModels.CommunityViewModel
+@{
+    ViewData["Title"] = "User Profile";
+    var primaryRole = Model.storyboarder.GetPrimaryRole();
+}
+<link rel="stylesheet" href="/static/base/sb.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.3.0/font-mfizz.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<link rel="stylesheet" href="/static/base/user.css">
+<div class="container" style="background: #262d35;">
+    <div class="profile-header">
+        <div class="profile-info">
+            <div class="profile-avatar">
+                <span class="avatar avatar--full avatar--guest" style="background-image: url('@Model.storyboarder.UserAvatarUrl');"></span>
+            </div>
+            <div class="profile-info-details">
+                <h1 class="profile-info-name">
+                    <span class="u-ellipsis-pre-overflow">@Model.storyboarder.Username</span>
+                </h1>
+                <div class="profile-info-icon-group">
+                    <div class="profile-info-icons profile-info-icons-role">
+                        <div class="profile-info-role">
+                            @if(primaryRole != null)
+                            {
+                                <span class="profile-info-role-text">@primaryRole.RoleName</span>
+                            }
+                            else
+                            {
+                                <span class="profile-info-role-text">Player</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(Model.storyboarderBeatmaps.Count > 0)
+    {
+        <h2 class="special-banner-sub-2 rounded">Storyboard by @Model.storyboarder.Username</h2>
+        <div class="card-group" style="justify-content:center">
+            <div class="row mb-4">
+                @for (int i = 0; i < Model.storyboarderBeatmaps.Count; i++)
+                {
+                    var currentBeatmap = Model.storyboarderBeatmaps[i];
+                    string toolIcon = "";
+                    <div class="col-xs-12 col-sm-6 my-2">
+                        <div class="sb-card card">
+                            <div class="bg-inverse sb-card-header bottom-header" style="background-image: url('@currentBeatmap.BeatmapCardURL');">
+                                <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" >
+                                    <h4 class="card-title sb-card-title">@currentBeatmap.BeatmapTitle</h4>
+                                    <h6 class="card-subtitle sb-card-title">@currentBeatmap.BeatmapArtist</h6>
+                                </a>
+                            </div>
+                            <div class="media">
+                                <a class="media-left media-middle" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" >
+                                    <img class="media-object sb-card-image" src="@currentBeatmap.BeatmapListURL" alt="@currentBeatmap.BeatmapTitle">
+                                </a>
+                                <div class="media-body text-white m-3">
+                                    <p class="card-text media-heading">
+                                        Storyboarded by
+                                        @if (currentBeatmap.Storyboarders.Count == 1)
+                                        {
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" >@currentBeatmap.Storyboarders[0].Username</a>
+                                        }
+                                        else if (currentBeatmap.Storyboarders.Count == 2)
+                                        {
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" >@currentBeatmap.Storyboarders[0].Username</a>
+                                            <span> and </span>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[1].UserID" >@currentBeatmap.Storyboarders[1].Username</a>
+                                        }
+                                        else
+                                        {
+                                            @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
+                                            {
+                                                <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[j].UserID" >@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
+                                            }
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserID" >@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
+                                            <span> and </span>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID" >@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
+                                        }
+                                        <br>Hosted by <a href="@currentBeatmap.BeatmapsetHost.UserProfileUrl" >@currentBeatmap.BeatmapsetHost.Username</a>
+                                    </p>
+                                    <div class="sb-card-icons">
+                                        @switch (currentBeatmap.Medium)
+                                        {
+                                            case "Storybrew":
+                                            case "Java":
+                                            toolIcon = "fa fa-coffee";
+                                            break;
+                                            case "osu!SGL":
+                                            toolIcon = "fa fa-file-code-o";
+                                            break;
+                                            case "C":
+                                            toolIcon = "icon-c";
+                                            break;
+                                            case "C++":
+                                            toolIcon = "icon-cplusplus";
+                                            break;
+                                            case "Scripting":
+                                            toolIcon = "fa fa-file-text-o";
+                                            break;
+                                            case "C#":
+                                            toolIcon = "icon-csharp";
+                                            break;
+                                            case "Design Editor":
+                                            toolIcon = "fa icon-osu-cookie";
+                                            break;
+                                            case "Python":
+                                            toolIcon = "icon-python";
+                                            break;
+                                            case "Other":
+                                            toolIcon = "fa fa-question-circle";
+                                            break;
+                                        }
+                                        <span class="tag tag-pill tag-default" data-toggle="tooltip" title="@currentBeatmap.Medium"><i class="@toolIcon" aria-hidden="true"></i></span>
+                                        <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank" ><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true" data-toggle="tooltip" title="View Beatmap Page"></i></a>
+                                        <a href="osu://s/@currentBeatmap.BeatmapsetID" data-toggle="tooltip" title="Open in osu!direct"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $('div.container.bg-dark').addClass('pb-3');
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.js"></script>
+<script src="/static/showcase/add-lightbox.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+    window.addEventListener('resize', function () {
+        var currentContainerWidth = $('.container').css('max-width').replace('px', '');
+        if (currentContainerWidth > 720) {
+            $('.sb-card').css('width', $('.container').css('max-width').replace('px', '') / 2 - 40 + 'px');
+            $('.col-xs-12').addClass('col-sm-6');
+            $('.col-xs-12').removeClass('col-sm-12');
+        }
+        else {
+            $('.sb-card').css('width', '100%');
+            $('.col-xs-12').addClass('col-sm-12');
+            $('.col-xs-12').removeClass('col-sm-6');
+        }
+
+    });
+    window.dispatchEvent(new Event('resize'));
+</script>

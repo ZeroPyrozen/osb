@@ -66,26 +66,25 @@
                             <div class="media-body text-white m-3">
                                 <p class="card-text media-heading">
                                     Storyboarded by
-                                    <!--TODO: Change the link to Storyboarder page-->
                                     @if (currentBeatmap.Storyboarders.Count == 1)
                                     {
-                                        <a href="@currentBeatmap.Storyboarders[0].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[0].Username</a>
+                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" target="_blank">@currentBeatmap.Storyboarders[0].Username</a>
                                     }
                                     else if (currentBeatmap.Storyboarders.Count == 2)
                                     {
-                                        <a href="@currentBeatmap.Storyboarders[0].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[0].Username</a>
+                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" target="_blank">@currentBeatmap.Storyboarders[0].Username</a>
                                         <span> and </span>
-                                        <a href="@currentBeatmap.Storyboarders[1].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[1].Username</a>
+                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[1].UserID" target="_blank">@currentBeatmap.Storyboarders[1].Username</a>
                                     }
                                     else
                                     {
                                         @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
                                         {
-                                            <a href="@currentBeatmap.Storyboarders[j].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[j].UserID" target="_blank">@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
                                         }
-                                        <a href="@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
+                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserID" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
                                         <span> and </span>
-                                        <a href="@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserProfileUrl" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
+                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
                                     }
                                     <br>Hosted by <a href="@currentBeatmap.BeatmapsetHost.UserProfileUrl" target="_blank">@currentBeatmap.BeatmapsetHost.Username</a>
                                 </p>

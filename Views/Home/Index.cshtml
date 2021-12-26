@@ -68,22 +68,23 @@
                             <!--TODO: Change the link to Storyboarder page-->
                             @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
                             {
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
                             }
                             else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
                             {
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
                                 <span> and </span>
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
                             }
                             else
                             {
-                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 1; j++)
+                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
                                 {
-                                    <a href="@Model.recentBeatmaps[i].Storyboarders[j].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
+                                    <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[j].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
                                 }
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username</a>
                                 <span> and </span>
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
                             }
                         </p>
                         <p><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" class="btn btg-lg btn-primary">Go to this map!</a></p>
@@ -103,22 +104,23 @@
                             <!--TODO: Change the link to Storyboarder page-->
                             @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
                             {
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
                             }
                             else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
                             {
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[0].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
                                 <span> and </span>
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
                             }
                             else
                             {
-                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 1; j++)
+                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
                                 {
-                                    <a href="@Model.recentBeatmaps[i].Storyboarders[j].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
+                                    <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[j].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
                                 }
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username</a>
                                 <span> and </span>
-                                <a href="@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserProfileUrl" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
+                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
                             }
                         </p>
                         <p><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" class="btn btg-lg btn-primary">Go to this map!</a></p>
@@ -178,7 +180,6 @@
                         <h4 class="card-title sb-card-title">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</h4>
                         <h6 class="card-subtitle sb-card-title">
                             Storyboarded by
-                            <!--TODO: Change the link to Storyboarder page-->
                             @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
                             {
                                 <span>@Model.recentBeatmaps[i].Storyboarders[0].Username</span>
@@ -205,6 +206,35 @@
     <div class="col-xs-12 col-sm-6">
         <h3 class="special-banner-sub-1 rounded">Updates</h3>
         <div class="log-section">
+            <h5 class="log-author">2021/12/26 - Mamat</h5>
+            <p>
+                Yes new updates! I've implemented storyboarder page and thanks to Coppertine again for the design suggestion. I also have changed all existing storyboarder URL to the page.
+            </p>
+            <p>
+                But, I underestimated the tedious task of inputting Storyboarder manually with SQL, huft. So I've come up with "solution" to reduce that. First I generate the storyboarder and the map in existing DummyHelper class so the you can see the map instantly with web page updated regularly. Then after I come up with user authentication and CRUD page for adding beatmap and storyboarder, I will create stored procedures to insert the beatmap and storyboarder to database.
+            </p>
+            <h5 class="log-author">2021/12/25 - Mamat</h5>
+            <p>Merry Christmas everyone! On this holiday we get very special present from osu! <a href="https://osu.ppy.sh/beatmaps/artists/727">xi</a> has become Featured Artist and we also come up with list of existing storyboarded xi's map.</p>
+            <p>
+                Check out these maps:
+                <ul>
+                    <li>
+                        <a href="https://osu.ppy.sh/beatmapsets/292301">xi - Blue Zenith by RLC</a>
+                    </li>
+                    <li>
+                        <a href="https://osu.ppy.sh/beatmapsets/324288">xi - ANiMA by Kuo Kyoka</a>
+                    </li>
+                    <li>
+                        <a href="https://osu.ppy.sh/beatmapsets/968656">xi - Ascension to Heaven by -Tynamo</a>
+                    </li>
+                    <li>
+                        <a href="https://osu.ppy.sh/beatmapsets/1301360">xi - Ascension to Heaven by Kryotz and TheDuckMask</a>
+                    </li>
+                    <li>
+                        <a href="https://osu.ppy.sh/beatmapsets/409681">xi - Happy End of The World by Kryotz</a>
+                    </li>
+                </ul>
+            </p>
             <h5 class="log-author">2021/12/23 - Mamat</h5>
             <p>I have implemented database access to get all community member, it was a huge success! It took me several try tho hahaha. I will finish entrying community member from discord at the next update.</p>
             <h5 class="log-author">2021/12/18 - Mamat</h5>

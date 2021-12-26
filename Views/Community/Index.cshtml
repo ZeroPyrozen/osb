@@ -33,13 +33,16 @@
         <div class="row">
             @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++)
             {
-                var primaryRole = Model.storyboarders[iterator].Roles.OrderByDescending(x => x.RoleID).First();
-                <a href="@Model.storyboarders[iterator].UserProfileUrl" style="text-decoration:none" target="_blank">
+                var primaryRole = Model.storyboarders[iterator].GetPrimaryRole();
+                <a href="/community/profile?userID=@Model.storyboarders[iterator].UserID" style="text-decoration:none" target="_blank">
                     <div class="card" style="width: 10rem;margin: 20px;">
                         <img class="card-img-top" src="@Model.storyboarders[iterator].UserAvatarUrl" alt="@Model.storyboarders[iterator].Username 's pretty face">
                         <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f">
                             <p class="card-text" style="text-align: center;">@Model.storyboarders[iterator].Username</p>
-                            <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p>
+                            @if(primaryRole != null)
+                            {
+                                <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p>
+                            }      
                         </div>
                     </div>
                 </a>

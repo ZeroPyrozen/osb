@@ -240,5 +240,37 @@ namespace osb.Helpers
             BeatmapModel beatmap = GenerateBeatmaps().Where(x => x.BeatmapsetID == beatmapsetID).FirstOrDefault();
             return beatmap;
         }
+
+        public static List<BeatmapModel> GenerateBeatmapsByStoryboarder(int userID)
+        {
+            List<BeatmapModel> allBeatmaps = GenerateBeatmaps();
+            List<BeatmapModel> beatmaps = new List<BeatmapModel>();
+            for(int i=0; i<allBeatmaps.Count; i++)
+            {
+                if(allBeatmaps[i].Storyboarders.Any(x=>x.UserID == userID))
+                {
+                    beatmaps.Add(allBeatmaps[i]);
+                }
+            }
+            return beatmaps;
+        }
+
+        public static StoryboarderModel GenerateStoryboarder(int userID)
+        {
+            StoryboarderModel storyboarder = GenerateStoryboarders().Where(x => x.UserID == userID).FirstOrDefault();
+            return storyboarder;
+        }
+        public static StoryboarderModel GetStoryboarderFromBeatmaps(int userID)
+        {
+            List<BeatmapModel> allBeatmaps = GenerateBeatmaps();
+            for(int i=0; i<allBeatmaps.Count; i++)
+            {
+                if (allBeatmaps[i].Storyboarders.Any(x => x.UserID == userID))
+                {
+                    return allBeatmaps[i].Storyboarders.Where(x => x.UserID == userID).First();
+                }
+            }
+            return null;
+        }
     }
 }

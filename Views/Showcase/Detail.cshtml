@@ -42,11 +42,10 @@
                             <ul class="list-unstyled">
                                 @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
                                 {
+                                    string profileURL = Model.baseURL + "/community/profile?userID=" + Model.beatmapDetail.Storyboarders[i].UserID;
                                     <li>
-                                        <!--TODO: Change URL to osb Profile-->
-                                        <a href="@Model.beatmapDetail.Storyboarders[i].UserProfileUrl">@Model.beatmapDetail.Storyboarders[i].Username</a>
+                                        <a href="@profileURL">@Model.beatmapDetail.Storyboarders[i].Username</a>
                                     </li>
-
                                 }
                             </ul>
                         </div>

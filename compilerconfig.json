@@ -74,5 +74,9 @@
   {
     "outputFile": "wwwroot/static/base/showcase/_rating.css",
     "inputFile": "wwwroot/static/base/showcase/_rating.scss"
+  },
+  {
+    "outputFile": "wwwroot/static/base/user.css",
+    "inputFile": "wwwroot/static/base/user.scss"
   }
 ]
