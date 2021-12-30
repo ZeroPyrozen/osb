@@ -27,7 +27,7 @@ namespace osb.Controllers
             homeViewModel.totalStoryboard = homeViewModel.recentBeatmaps.Count;
             homeViewModel.totalStoryboarder = GetStoryboarderCount(homeViewModel.recentBeatmaps);
             homeViewModel.mediumFrequency = GetStoryboardMediumFrequency(homeViewModel.recentBeatmaps);
-            homeViewModel.recentBeatmaps = homeViewModel.recentBeatmaps.OrderByDescending(x => x.SubmitDate).Take(5).ToList();
+            homeViewModel.recentBeatmaps = homeViewModel.recentBeatmaps.OrderByDescending(x => x.ShowcasedDate).Take(5).ToList();
             homeViewModel.baseURL = "https://" + this.Request.Host;
             return View("Index", homeViewModel);
         }

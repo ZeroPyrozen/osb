@@ -1415,6 +1415,113 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1388552,
+                    beatmapTitle : "My Love (DestoppeD Remix)",
+                    beatmapArtist: "Kuba Oms",
+                    beatmapsetHost : new MapperModel(2841009, "Mirash"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,03,01),
+                    showcasedDate: new DateTime(2021,12,30),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Tommy Phelps")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1579180,
+                    beatmapTitle : "DEAR MY WAKER",
+                    beatmapArtist: "Yonekura Chihiro",
+                    beatmapsetHost : new MapperModel(873961, "Skystar"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,09,17),
+                    showcasedDate: new DateTime(2021,12,30),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Kuse")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Lyrics
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1325570,
+                    beatmapTitle : "Contra (feat. Sara Skinner) (Cut Ver.)",
+                    beatmapArtist: "Pixel Terror",
+                    beatmapsetHost : new MapperModel(12243368, "VenerableNyanta"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2020,12,18),
+                    showcasedDate: new DateTime(2021,12,30),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("VenerableNyanta")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 144171,
+                    beatmapTitle : "Far east nightbird (kors k Remix)",
+                    beatmapArtist: "Nekomata Master",
+                    beatmapsetHost : new MapperModel(270377, "jonathanlfj"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2014,01,21),
+                    showcasedDate: new DateTime(2021,12,30),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Damnae")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.ThreeD,
+                        StoryboardTag.Featured,
+                        StoryboardTag.Classic,
+                        StoryboardTag.Wizardry
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 179323,
+                    beatmapTitle : "Okaerinasai (tomatomerde Remix)",
+                    beatmapArtist: "Sakamoto Maaya",
+                    beatmapsetHost : new MapperModel(2155578, "Azer"),
+                    medium: "C#",
+                    submitDate: new DateTime(2014,05,28),
+                    showcasedDate: new DateTime(2021,12,30),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        new StoryboarderModel(2112092,"11t")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Wizardry
+                    }
                 )
             };
             return beatmaps;
