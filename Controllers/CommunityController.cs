@@ -21,7 +21,7 @@ namespace osb.Controllers
         {
             CommunityViewModel communityViewModel = new CommunityViewModel();
             //communityViewModel.storyboarders = new osbDatabaseHelper(_configuration).GetCommunityStoryboarder();
-            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders();
+            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders().OrderByDescending(x => x.GetPrimaryRole().RoleID).ThenBy(y => y.Username).ToList();
             return View("Index", communityViewModel);
         }
 

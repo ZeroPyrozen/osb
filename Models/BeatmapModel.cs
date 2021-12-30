@@ -13,6 +13,7 @@ namespace osb.Models
         public MapperModel BeatmapsetHost { get; set; }
         public string Medium { get; set; }
         public DateTime SubmitDate { get; set; }
+        public DateTime ShowcasedDate { get; set; }
         public string BeatmapCardURL { get; set; }
         public string BeatmapListURL { get; set; }
         public string BeatmapCoverURL { get; set; }
@@ -21,7 +22,7 @@ namespace osb.Models
         public List<StoryboardTag> StoryboardTags { get; set; }
         //TODO: Add Video URL, Screenshots, and Storyboarder Comments in Separate Classes to reduce memory load
 
-        public BeatmapModel(int beatmapsetID, string beatmapTitle, string beatmapArtist, MapperModel beatmapsetHost, string medium, DateTime submitDate, List<StoryboarderModel> storyboarders, List<StoryboardTag> tags)
+        public BeatmapModel(int beatmapsetID, string beatmapTitle, string beatmapArtist, MapperModel beatmapsetHost, string medium, DateTime submitDate, DateTime showcasedDate, List<StoryboarderModel> storyboarders, List<StoryboardTag> tags)
         {
             this.BeatmapsetID = beatmapsetID;
             this.BeatmapTitle = beatmapTitle;
@@ -31,6 +32,7 @@ namespace osb.Models
             this.SubmitDate = submitDate;
             this.Storyboarders = storyboarders;
             this.StoryboardTags = tags;
+            this.ShowcasedDate = showcasedDate;
             //TODO: I will make it more dynamic by moving it to appsettings.json
             this.BeatmapCardURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/card.jpg";
             this.BeatmapCoverURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/cover.jpg";

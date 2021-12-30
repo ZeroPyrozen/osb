@@ -14,6 +14,131 @@ namespace osb.Helpers
             {
                 new StoryboarderModel
                 (
+                    8500334,
+                    "Ningguang",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Mentor,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    8286416,
+                    "Marblelemons",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Mentor,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    10027577,
+                    "- AzRaeL -",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    4414426,
+                    "-Ady",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    3638962,
+                    "-Tynamo",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    997489,
+                    "[ Kuro Usagi ]",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2907231,
+                    "Asonate",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    7393632,
+                    "Bergy",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    10198015,
+                    "BowLL",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    3621552,
+                    "Chaoslitz",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    3700647,
+                    "Cheesecake",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    7279762,
+                    "Coppertine",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Alumni,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
                     989377,
                     "Damnae",
                     new List<DiscordRoleModel>
@@ -110,6 +235,7 @@ namespace osb.Helpers
                     beatmapsetHost : new MapperModel(410,"Starrodkirby86"),
                     medium: "Scripting",
                     submitDate: new DateTime(2010,12,05),
+                    showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(410, "Starrodkirby86")
@@ -129,6 +255,7 @@ namespace osb.Helpers
                     beatmapsetHost : new MapperModel(3250792,"ProfessionalBox"),
                     medium: "Storybrew",
                     submitDate: new DateTime(2019,10,20),
+                    showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(3664366, "-Tochi"),
@@ -151,6 +278,7 @@ namespace osb.Helpers
                     beatmapsetHost : new MapperModel(2559349,"Exile-"),
                     medium: "Java",
                     submitDate: new DateTime(2017,01,29),
+                    showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(2559349, "Exile-")
@@ -175,6 +303,7 @@ namespace osb.Helpers
                     beatmapsetHost : new MapperModel(989377,"Damnae"),
                     medium: "C#",
                     submitDate: new DateTime(2015,05,24),
+                    showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(989377, "Damnae")
@@ -196,6 +325,7 @@ namespace osb.Helpers
                     beatmapsetHost : new MapperModel(6607303, "Hokichi"),
                     medium: "Storybrew",
                     submitDate: new DateTime(2019,03,19),
+                    showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(6607303, "Hokichi"),
@@ -217,6 +347,7 @@ namespace osb.Helpers
                     beatmapsetHost : new MapperModel(4230454, "Froskya"),
                     medium: "Storybrew",
                     submitDate: new DateTime(2019,11,03),
+                    showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
                         new StoryboarderModel(7798305, "Slyk"),
