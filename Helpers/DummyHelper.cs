@@ -1273,6 +1273,7 @@ namespace osb.Helpers
                 )
             };
         }
+
         public static List<BeatmapModel> GenerateBeatmaps()
         {
             List<BeatmapModel> beatmaps = new List<BeatmapModel>
@@ -1288,7 +1289,7 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        new StoryboarderModel(410, "Starrodkirby86")
+                        GetStoryboarderByName("Starrodkirby86")
                     },
                     tags: new List<StoryboardTag>
                     {
@@ -1308,8 +1309,8 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        new StoryboarderModel(3664366, "-Tochi"),
-                        new StoryboarderModel(4610047, "PoNo")
+                        GetStoryboarderByName("-Tochi"),
+                        GetStoryboarderByName("PoNo")
                     },
                     tags: new List<StoryboardTag>
                     {
@@ -1331,7 +1332,7 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        new StoryboarderModel(2559349, "Exile-")
+                        GetStoryboarderByName("Exile-")
                     },
                     tags: new List<StoryboardTag>
                     {
@@ -1356,7 +1357,7 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        new StoryboarderModel(989377, "Damnae")
+                        GetStoryboarderByName("Damnae")
                     },
                     tags: new List<StoryboardTag>
                     {
@@ -1378,9 +1379,9 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        new StoryboarderModel(6607303, "Hokichi"),
-                        new StoryboarderModel(7405768, "TheDuckMask"),
-                        new StoryboarderModel(6186628, "Affirmation")
+                        GetStoryboarderByName("Hokichi"),
+                        GetStoryboarderByName("TheDuckMask"),
+                        GetStoryboarderByName("Affirmation")
                     },
                     tags: new List<StoryboardTag>
                     {
@@ -1400,11 +1401,11 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2021,12,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        new StoryboarderModel(7798305, "Slyk"),
-                        new StoryboarderModel(5420543, "PantyDev"),
-                        new StoryboarderModel(5666747, "freihy"),
-                        new StoryboarderModel(10198015, "BowLL"),
-                        new StoryboarderModel(7405768, "TheDuckMask"),
+                        GetStoryboarderByName("Slyk"),
+                        GetStoryboarderByName("PantyDev"),
+                        GetStoryboarderByName("freihy"),
+                        GetStoryboarderByName("BowLL"),
+                        GetStoryboarderByName("TheDuckMask")
                     },
                     tags: new List<StoryboardTag>
                     {
@@ -1441,6 +1442,13 @@ namespace osb.Helpers
             StoryboarderModel storyboarder = GenerateStoryboarders().Where(x => x.UserID == userID).FirstOrDefault();
             return storyboarder;
         }
+
+        public static StoryboarderModel GetStoryboarderByName(string username)
+        {
+            StoryboarderModel storyboarder = GenerateStoryboarders().Where(x => x.Username == username).FirstOrDefault();
+            return storyboarder;
+        }
+
         public static StoryboarderModel GetStoryboarderFromBeatmaps(int userID)
         {
             List<BeatmapModel> allBeatmaps = GenerateBeatmaps();
