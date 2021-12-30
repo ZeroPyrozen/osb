@@ -978,16 +978,6 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
-                    8976153,
-                    "quangtien2005",
-                    new List<DiscordRoleModel>
-                    {
-                        DiscordRoleModel.Apprentice,
-                        DiscordRoleModel.Verified
-                    }
-                ),
-                new StoryboarderModel
-                (
                     8422432,
                     "Rhonen",
                     new List<DiscordRoleModel>
@@ -1209,6 +1199,30 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
+                    6607303,
+                    "Hokichi",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Moderator,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    6607303,
+                    "Affirmation",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Moderator,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
                     3482692,
                     "WildOne94",
                     new List<DiscordRoleModel>
@@ -1381,7 +1395,7 @@ namespace osb.Helpers
                     {
                         GetStoryboarderByName("Hokichi"),
                         GetStoryboarderByName("TheDuckMask"),
-                        GetStoryboarderByName("Affirmation")
+                        new StoryboarderModel(6186628, "Affirmation")
                     },
                     tags: new List<StoryboardTag>
                     {
