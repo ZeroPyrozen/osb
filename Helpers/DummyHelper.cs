@@ -1068,6 +1068,136 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
+                    1331447,
+                    "XinCrin",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    12243368,
+                    "VenerableNyanta",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    10974581,
+                    "Tommy Phelps",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    14004374,
+                    "TheSword",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    15416043,
+                    "TheDumbHuman",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Apprentice,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    7405768,
+                    "TheDuckMask",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    9404433,
+                    "TaStaR",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Apprentice,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    4098393,
+                    "Tarrasky",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2732340,
+                    "Taeyang",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    12123512,
+                    "Tactix",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Apprentice,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    8847379,
+                    "SneakY NickY",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    10063190,
+                    "Smug Nanachi",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    5084531,
+                    "smau5",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
                     989377,
                     "Damnae",
                     new List<DiscordRoleModel>
