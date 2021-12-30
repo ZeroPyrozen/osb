@@ -1211,18 +1211,6 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
-                    6607303,
-                    "Affirmation",
-                    new List<DiscordRoleModel>
-                    {
-                        DiscordRoleModel.Moderator,
-                        DiscordRoleModel.Storyboarder,
-                        DiscordRoleModel.Verified,
-                        DiscordRoleModel.Sidetail
-                    }
-                ),
-                new StoryboarderModel
-                (
                     3482692,
                     "WildOne94",
                     new List<DiscordRoleModel>
