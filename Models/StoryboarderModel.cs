@@ -51,9 +51,10 @@ namespace osb.Models
         public static readonly DiscordRoleModel Verified = new DiscordRoleModel(0, "Verified", "#90a4b0");
         public static readonly DiscordRoleModel Apprentice = new DiscordRoleModel(1, "Apprentice", "#a79240");
         public static readonly DiscordRoleModel Storyboarder = new DiscordRoleModel(2, "Storyboarder", "#f1c40f");
-        public static readonly DiscordRoleModel Alumni = new DiscordRoleModel(3, "Alumni", "#9b59b6");
-        public static readonly DiscordRoleModel Moderator = new DiscordRoleModel(4, "Moderator", "#3498db");
-        public static readonly DiscordRoleModel Mentor = new DiscordRoleModel(5, "Mentor", "#2ecc71");
+        public static readonly DiscordRoleModel Contributor = new DiscordRoleModel(3, "Contributor", "#44acc0");
+        public static readonly DiscordRoleModel Alumni = new DiscordRoleModel(4, "Alumni", "#9b59b6");
+        public static readonly DiscordRoleModel Moderator = new DiscordRoleModel(5, "Moderator", "#3498db");
+        public static readonly DiscordRoleModel Mentor = new DiscordRoleModel(6, "Mentor", "#2ecc71");
 
         public int RoleID { get; set; }
         public string RoleName { get; set; }
