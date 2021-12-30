@@ -46,6 +46,7 @@ namespace osb.Models
 
     public class DiscordRoleModel
     {
+        public static readonly DiscordRoleModel OSBWinner = new DiscordRoleModel(-2, "OSB Winner", "#ffe421");
         public static readonly DiscordRoleModel Sidetail = new DiscordRoleModel(-1, "Sidetail", "#206694");
         public static readonly DiscordRoleModel Verified = new DiscordRoleModel(0, "Verified", "#90a4b0");
         public static readonly DiscordRoleModel Apprentice = new DiscordRoleModel(1, "Apprentice", "#a79240");

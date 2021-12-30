@@ -139,6 +139,226 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
+                    2172778,
+                    "Cosmolade",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    3372928,
+                    "Darky1",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Alumni,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    4121612,
+                    "Doj",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    5178122,
+                    "Enkrypton",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2683648,
+                    "Gaia",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail,
+                        DiscordRoleModel.OSBWinner
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    7515767,
+                    "Half",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    6203841,
+                    "Kagetsu",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    3193504,
+                    "Kibbleru",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    1863798,
+                    "Lumy",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2330619,
+                    "Mr HeliX",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    4110225,
+                    "Mykaterasu",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    8129817,
+                    "Naxess",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Alumni,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    1557955,
+                    "Nerova Riuz GX",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2747929,
+                    "niseboi",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    1541323,
+                    "Noffy",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    352328,
+                    "rrtyui",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2036217,
+                    "Sidetail",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Alumni,
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.Sidetail
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    2964029,
+                    "Spkz",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    6383137,
+                    "Starset",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    6124671,
+                    "Storyboarder",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    6160235,
+                    "Sytarno",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
                     989377,
                     "Damnae",
                     new List<DiscordRoleModel>
