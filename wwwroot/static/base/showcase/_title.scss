@@ -4,7 +4,7 @@
 // All general titles belong here.
 
 .showcase-title {
-  @include set-showcase-title-font();
+  @include set-showcase-header-font();
   background: $showcase-color-sub2;
   border-bottom: 8px solid $showcase-color-spot1;
   padding-left: 0.5em;

@@ -1,5 +1,11 @@
 @import '__variables.scss';
 
+@mixin set-showcase-header-font() {
+    font-family: $showcase-header-font;
+    color: $showcase-font-color;
+    font-size: 24pt;
+}
+
 @mixin set-showcase-title-font() {
   font-family: $showcase-header-font;
   text-transform: uppercase;
