@@ -1522,6 +1522,32 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 582089,
+                    beatmapTitle : "Reality Distortion",
+                    beatmapArtist: "Camellia vs Akira Complex",
+                    beatmapsetHost : new MapperModel(352328, "rrtyui"),
+                    medium: "C#",
+                    submitDate: new DateTime(2017,03,06),
+                    showcasedDate: new DateTime(2022,01,01),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("rrtyui")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.ThreeD,
+                        StoryboardTag.Rave,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.Wizardry
+                    }
                 )
             };
             return beatmaps;
