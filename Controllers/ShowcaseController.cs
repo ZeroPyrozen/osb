@@ -16,7 +16,7 @@ namespace osb.Controllers
             ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
             //Populate with dummy data
             showcaseViewModel.searchQuery = "";
-            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps();
+            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps().OrderByDescending(x=>x.ShowcasedDate).ToList();
             showcaseViewModel.baseURL = "https://" + this.Request.Host;
             return View("Index", showcaseViewModel);
         }
@@ -51,7 +51,10 @@ namespace osb.Controllers
                 ).ToList();
                 showcaseViewModel.searchQuery = t;
             }
-
+            if(showcaseViewModel.beatmaps.Count > 0)
+            {
+                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.OrderByDescending(x => x.ShowcasedDate).ToList();
+            }
             return View("Index", showcaseViewModel);
         }
 
