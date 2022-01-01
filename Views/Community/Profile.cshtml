@@ -1,6 +1,6 @@
 ﻿@model osb.ViewModels.CommunityViewModel
 @{
-    ViewData["Title"] = "User Profile";
+    ViewData["Title"] = Model.storyboarder.Username + " Profile";
     var primaryRole = Model.storyboarder.GetPrimaryRole();
 }
 <link rel="stylesheet" href="/static/base/sb.css">
