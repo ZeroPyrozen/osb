@@ -22,12 +22,22 @@ jobs:
           dotnet-version: '5.0.x'
           include-prerelease: true
 
+      - name: Restore with dotnet
+        run: dotnet restore --verbosity normal
+
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --source **\*.csproj
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+          
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "appsettings.json"
+          json: ${{ secrets.APPSETTINGS }}
+          
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
