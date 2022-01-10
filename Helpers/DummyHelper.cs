@@ -1548,6 +1548,32 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 602972,
+                    beatmapTitle : "On Purpose",
+                    beatmapArtist: "Sabrina Carpenter",
+                    beatmapsetHost : new MapperModel(2675027, "CSLM"),
+                    medium: "osu!SGL",
+                    submitDate: new DateTime(2017,04,22),
+                    showcasedDate: new DateTime(2022,01,10),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("CSLM")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Featured,
+                        StoryboardTag.Rave,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.Wizardry
+                    }
                 )
             };
             return beatmaps;
