@@ -1574,6 +1574,30 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 432822,
+                    beatmapTitle : "Brain Power Long Version",
+                    beatmapArtist: "NOMA",
+                    beatmapsetHost : new MapperModel(873961, "Skystar"),
+                    medium: "Java",
+                    submitDate: new DateTime(2016,03,22),
+                    showcasedDate: new DateTime(2022,01,10),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Exile-")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.ThreeD,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.Wizardry
+                    }
                 )
             };
             return beatmaps;
