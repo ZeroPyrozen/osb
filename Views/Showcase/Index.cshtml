@@ -1,6 +1,6 @@
 ﻿@model osb.ViewModels.ShowcaseViewModel
 @{
-    ViewData["Title"] = "Storyboards";
+    ViewData["Title"] = "Storyboard Showcase";
 }
 <link rel="stylesheet" href="/static/base/sb.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.3.0/font-mfizz.css">
@@ -33,7 +33,7 @@
         <input class="form-control form-control-lg" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
         <input class="btn btn-primary btn-lg" id="btn-search" type="submit" value="Search">
     </div>
-    <!--Disable this for now, I will readd this after I finish the tag search-->
+    <!--TODO: Disable this for now, I will re-add this after I finish the tag search-->
     @*<div class="form-check form-check-inline">
         <input class="form-check-input form-control-lg" type="checkbox" name="f" placeholder="off">
         <label class="form-check-label">Featured Storyboard</label>

@@ -1607,7 +1607,7 @@ namespace osb.Helpers
                     beatmapTitle : "Dans la mer de son",
                     beatmapArtist: "Camellia",
                     beatmapsetHost : new MapperModel(4610047, "PoNo"),
-                    medium: "C#",
+                    medium: "Storybrew",
                     submitDate: new DateTime(2017,08,15),
                     showcasedDate: new DateTime(2022,01,11),
                     storyboarders: new List<StoryboarderModel>
@@ -1627,7 +1627,7 @@ namespace osb.Helpers
                     beatmapTitle : "Railgun Roulette (VIP)",
                     beatmapArtist: "Camellia vs Akira Complex",
                     beatmapsetHost : new MapperModel(841391, "NeilPerry"),
-                    medium: "C#",
+                    medium: "Storybrew",
                     submitDate: new DateTime(2017,11,15),
                     showcasedDate: new DateTime(2022,01,11),
                     storyboarders: new List<StoryboarderModel>
