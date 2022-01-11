@@ -1598,6 +1598,46 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 654313,
+                    beatmapTitle : "Dans la mer de son",
+                    beatmapArtist: "Camellia",
+                    beatmapsetHost : new MapperModel(4610047, "PoNo"),
+                    medium: "C#",
+                    submitDate: new DateTime(2017,08,15),
+                    showcasedDate: new DateTime(2022,01,11),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("PoNo")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Wizardry
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 694402,
+                    beatmapTitle : "Railgun Roulette (VIP)",
+                    beatmapArtist: "Camellia vs Akira Complex",
+                    beatmapsetHost : new MapperModel(841391, "NeilPerry"),
+                    medium: "C#",
+                    submitDate: new DateTime(2017,11,15),
+                    showcasedDate: new DateTime(2022,01,11),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("PoNo")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization
+                    }
                 )
             };
             return beatmaps;
