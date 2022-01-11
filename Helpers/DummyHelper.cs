@@ -1483,7 +1483,7 @@ namespace osb.Helpers
                     beatmapTitle : "Far east nightbird (kors k Remix)",
                     beatmapArtist: "Nekomata Master",
                     beatmapsetHost : new MapperModel(270377, "jonathanlfj"),
-                    medium: "Storybrew",
+                    medium: "osu!SGL",
                     submitDate: new DateTime(2014,01,21),
                     showcasedDate: new DateTime(2021,12,30),
                     storyboarders: new List<StoryboarderModel>
