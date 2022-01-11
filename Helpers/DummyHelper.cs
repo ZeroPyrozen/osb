@@ -30,7 +30,7 @@ namespace osb.Helpers
                     "Marblelemons",
                     new List<DiscordRoleModel>
                     {
-                        DiscordRoleModel.Mentor,
+                        DiscordRoleModel.Moderator,
                         DiscordRoleModel.Verified,
                         DiscordRoleModel.Sidetail
                     }
