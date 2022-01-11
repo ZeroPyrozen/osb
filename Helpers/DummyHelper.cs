@@ -18,7 +18,7 @@ namespace osb.Helpers
                     "Ningguang",
                     new List<DiscordRoleModel>
                     {
-                        DiscordRoleModel.Mentor,
+                        DiscordRoleModel.Moderator,
                         DiscordRoleModel.Storyboarder,
                         DiscordRoleModel.Verified,
                         DiscordRoleModel.Sidetail
