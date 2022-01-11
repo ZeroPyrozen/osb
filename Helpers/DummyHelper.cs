@@ -1390,7 +1390,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/ERaRZ8sS5UA"
                 ),
                 new BeatmapModel
                 (
@@ -1483,7 +1484,7 @@ namespace osb.Helpers
                     beatmapTitle : "Far east nightbird (kors k Remix)",
                     beatmapArtist: "Nekomata Master",
                     beatmapsetHost : new MapperModel(270377, "jonathanlfj"),
-                    medium: "osu!SGL",
+                    medium: "SGL",
                     submitDate: new DateTime(2014,01,21),
                     showcasedDate: new DateTime(2021,12,30),
                     storyboarders: new List<StoryboarderModel>
@@ -1556,7 +1557,7 @@ namespace osb.Helpers
                     beatmapTitle : "On Purpose",
                     beatmapArtist: "Sabrina Carpenter",
                     beatmapsetHost : new MapperModel(2675027, "CSLM"),
-                    medium: "osu!SGL",
+                    medium: "SGL",
                     submitDate: new DateTime(2017,04,22),
                     showcasedDate: new DateTime(2022,01,10),
                     storyboarders: new List<StoryboarderModel>
