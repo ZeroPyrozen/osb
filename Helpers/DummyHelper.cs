@@ -1414,7 +1414,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/uHFC-IDiSrA"
                 ),
                 new BeatmapModel
                 (

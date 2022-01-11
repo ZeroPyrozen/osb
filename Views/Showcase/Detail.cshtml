@@ -78,6 +78,17 @@
                 }
                 <a href="https://osu.ppy.sh/beatmapsets/@Model.beatmapDetail.BeatmapsetID/" style="text-decoration: none;"><div class="showcase-button-set">View Beatmap Page</div></a>
                 <a href="osu://s/@Model.beatmapDetail.BeatmapsetID" style="text-decoration: none;"><div class="showcase-button-download">Download This Beatmap</div></a>
+                @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
+                {
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col">
+                            <div class="showcase-title">Video</div>
+                            <p>
+                                <iframe src="@Model.beatmapDetail.VideoURL" style="min-width: 100%; min-height: 400px;border: 0;"></iframe>
+                            </p>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

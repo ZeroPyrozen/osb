@@ -27,9 +27,22 @@ namespace osb.Controllers
             homeViewModel.totalStoryboard = homeViewModel.recentBeatmaps.Count;
             homeViewModel.totalStoryboarder = GetStoryboarderCount(homeViewModel.recentBeatmaps);
             homeViewModel.mediumFrequency = GetStoryboardMediumFrequency(homeViewModel.recentBeatmaps);
+            homeViewModel.randomBeatmap = GetRandomBeatmap(homeViewModel.recentBeatmaps);
             homeViewModel.recentBeatmaps = homeViewModel.recentBeatmaps.OrderByDescending(x => x.ShowcasedDate).Take(5).ToList();
             homeViewModel.baseURL = "https://" + this.Request.Host;
             return View("Index", homeViewModel);
+        }
+
+        private BeatmapModel GetRandomBeatmap(List<BeatmapModel> beatmaps)
+        {
+            if(beatmaps != null & beatmaps.Count > 0)
+            {
+                List<BeatmapModel> beatmapHasVideo = beatmaps.Where(x => string.IsNullOrEmpty(x.VideoURL) == false).ToList();
+                var random = new Random();
+                int index = random.Next(beatmapHasVideo.Count);
+                return beatmapHasVideo[index];
+            }
+            return null;
         }
 
         private int GetStoryboarderCount(List<BeatmapModel> beatmaps)

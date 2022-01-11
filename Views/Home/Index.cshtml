@@ -65,7 +65,6 @@
                         <h3><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" style="color:#fff;text-decoration:none;">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</a></h3>
                         <p>
                             Storyboarded by
-                            <!--TODO: Change the link to Storyboarder page-->
                             @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
                             {
                                 <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
@@ -101,7 +100,6 @@
                         <h3><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" style="color:#fff;text-decoration:none;">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</a></h3>
                         <p>
                             Storyboarded by
-                            <!--TODO: Change the link to Storyboarder page-->
                             @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
                             {
                                 <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
@@ -162,9 +160,8 @@
     </div>
     <div class="col-xs-12 col-sm-6">
         <p>
-            <!--This is just placeholder, will add random get storyboard video-->
-            <iframe src="https://www.youtube.com/embed/OnO46zjqvPA" style="min-width: 100%; min-height: 400px; border: 0;"></iframe>
-            <small>Now playing <a href="https://youtu.be/OnO46zjqvPA">Mili - world.execute(me);</a>.</small>
+            <iframe src="@Model.randomBeatmap.VideoURL" style="min-width: 100%; min-height: 400px; border: 0;"></iframe>
+            <small>Now playing <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.randomBeatmap.BeatmapsetID" target="_blank">@Model.randomBeatmap.BeatmapArtist - @Model.randomBeatmap.BeatmapTitle</a></small>
         </p>
     </div>
 </div>
@@ -206,9 +203,13 @@
     <div class="col-xs-12 col-sm-6">
         <h3 class="special-banner-sub-1 rounded">Updates</h3>
         <div class="log-section">
+            <h5 class="log-author">2022/01/11 - Mamat</h5>
+            <p>
+                I've added several new showcased storyboards, check it out from your left side. I also have implemented video preview so you can feel and enjoy how awesome their storyboards are!
+            </p>
             <h5 class="log-author">2021/12/30 - Mamat</h5>
             <p>
-                Woooooooooo!!! We finally finish inputting all community members one by one. You can check it by yourself on <a href="/community">Community Page</a>.
+                WOOOOOOOOOO!!! I finally finish inputting all community members one by one. You can check it by yourself on <a href="/community">Community Page</a>.
             </p>
             <h5 class="log-author">2021/12/26 - Mamat</h5>
             <p>
