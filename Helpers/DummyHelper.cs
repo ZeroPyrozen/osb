@@ -1640,6 +1640,26 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 703957,
+                    beatmapTitle : "Immortal Flame (feat. Anna Yvette)",
+                    beatmapArtist: "Panda Eyes & Teminite",
+                    beatmapsetHost : new MapperModel(4452992, "Sotarks"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2017,12,10),
+                    showcasedDate: new DateTime(2022,01,11),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("PoNo")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization
+                    }
                 )
             };
             return beatmaps;
