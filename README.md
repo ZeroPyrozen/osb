@@ -4,7 +4,7 @@
 
 ## Summary
 
-This is [osu! Storyboarder Banquet](https://osb.azurewebsites.net/) website source code.
+This is [osu! Storyboarder Banquet](https://storyboarder.xyz/) website source code.
 
 ## Installation
 
