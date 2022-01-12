@@ -1661,6 +1661,31 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1329045,
+                    beatmapTitle : "Glacierfall (Park Remix)",
+                    beatmapArtist: "sakuraburst",
+                    beatmapsetHost : new MapperModel(8972308, "ScubDomino"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2020,12,22),
+                    showcasedDate: new DateTime(2022,01,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Hokichi"),
+                        GetStoryboarderByName("Ningguang")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Rave,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Pixels
+                    },
+                    videoURL: "https://www.youtube.com/embed/6c-yIIBaIVo"
                 )
             };
             return beatmaps;
