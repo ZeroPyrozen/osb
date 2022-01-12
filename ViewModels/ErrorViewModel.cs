@@ -1,3 +1,4 @@
+using osb.Models;
 using System;
 
 namespace osb.ViewModels
@@ -7,5 +8,7 @@ namespace osb.ViewModels
         public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public BeatmapModel randomBeatmap { get; set; }
+        public string baseURL { get; set; }
     }
 }

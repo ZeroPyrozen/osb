@@ -1,4 +1,5 @@
-﻿@{
+﻿@model osb.ViewModels.ErrorViewModel
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -48,9 +49,9 @@
         <header class="opening-banner-community"><h1 class="display opening-header">404 Page Not Found Error!</h1><div class="bae-community"></div></header>
         <h1 class="special-banner-1 top-header">Gadzooks!</h1>
         <img class="d-block mx-auto img-fluid" src="/static/base/img/hifumi_uhoh.gif" alt="Hifumi's scared that you're here!">
-        <p>You've reached here because the page at the URL: Test doesn't actually exist! Perhaps you should tread back to safer territories. Here. Have a random Storyboard button on me. But if you're absolutely confident that something <i>should</i> have been here, or you've stumbled upon a dead link, do contact Mamat.</p>
+        <p>You've reached here because the page at the URL: @Model.RequestId doesn't actually exist! Perhaps you should tread back to safer territories. Here. Have a random Storyboard button on me. But if you're absolutely confident that something <i>should</i> have been here, or you've stumbled upon a dead link, do contact Mamat.</p>
         <p>There's also the possibility that something was supposed to be here, but there was an exception that occurred. Why is it going to Error 404 and not Error 500? Beats me. Seems pretty meta though.</p>
-        <p style="padding-bottom:10px"><a class="btn btg-lg btn-primary" href="/">Take Me Away!</a></p>
+        <p style="padding-bottom:10px"><a class="btn btg-lg btn-primary" href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.randomBeatmap.BeatmapsetID">Take Me Away!</a></p>
     </div>
 
     <footer class="footer">

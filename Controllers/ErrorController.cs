@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using osb.Helpers;
 using osb.Models;
+using osb.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,12 +26,20 @@ namespace osb.Controllers
         public IActionResult HttpStatusCodehandler(int statusCode)
         {
             var statusCodeResult = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+            var errorViewModel = new ErrorViewModel();
+            errorViewModel.baseURL = "https://" + this.Request.Host;
+            errorViewModel.randomBeatmap = DummyHelper.GetRandomBeatmap();
+            if (statusCodeResult != null)
+            {
+                errorViewModel.RequestId = statusCodeResult.OriginalPath;
+            }
             switch (statusCode)
             {
                 case 404:
-                    return View("NotFound");
+                    
+                    return View("NotFound", errorViewModel);
             }
-            return View("NotFound");
+            return View("NotFound", errorViewModel);
         }
 
         [Route("Error")]

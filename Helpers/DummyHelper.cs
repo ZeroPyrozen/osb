@@ -1686,10 +1686,45 @@ namespace osb.Helpers
                         StoryboardTag.Pixels
                     },
                     videoURL: "https://www.youtube.com/embed/6c-yIIBaIVo"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 701482,
+                    beatmapTitle : "skyshifter vip",
+                    beatmapArtist: "sakuraburst",
+                    beatmapsetHost : new MapperModel(8972308, "ScubDomino"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2017,12,03),
+                    showcasedDate: new DateTime(2022,01,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Coppertine"),
+                        GetStoryboarderByName("PoNo"),
+                        GetStoryboarderByName("Darky1")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Rave,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Pixels
+                    },
+                    videoURL: "https://www.youtube.com/embed/rmssvCNp9rE"
                 )
             };
             return beatmaps;
         }
+
+        public static BeatmapModel GetRandomBeatmap()
+        {
+
+            List<BeatmapModel> beatmaps = GenerateBeatmaps();
+            var random = new Random();
+            return beatmaps.ElementAt(random.Next(beatmaps.Count));
+        }
+
         public static BeatmapModel GenerateBeatmap(int beatmapsetID)
         {
             BeatmapModel beatmap = GenerateBeatmaps().Where(x => x.BeatmapsetID == beatmapsetID).FirstOrDefault();
