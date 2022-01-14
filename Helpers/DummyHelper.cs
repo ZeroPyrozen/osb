@@ -1736,6 +1736,26 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization
                     },
                     videoURL: "https://www.youtube.com/embed/8xnYI3WdYPg"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 595796,
+                    beatmapTitle : "forest of the spirits",
+                    beatmapArtist: "sakuraburst",
+                    beatmapsetHost : new MapperModel(465126, "Shiirn"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2017,04,06),
+                    showcasedDate: new DateTime(2022,01,14),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Jakomo73")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.FullControl
+                    },
+                    videoURL: "https://www.youtube.com/embed/ezYiUFuZm-A"
                 )
             };
             return beatmaps;
