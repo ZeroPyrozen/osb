@@ -1712,6 +1712,30 @@ namespace osb.Helpers
                         StoryboardTag.Pixels
                     },
                     videoURL: "https://www.youtube.com/embed/rmssvCNp9rE"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 581787,
+                    beatmapTitle : "Der Wald (kors k Remix)",
+                    beatmapArtist: "Eleharmonica remixed by kors k",
+                    beatmapsetHost : new MapperModel(3700647, "Cheesecake"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2017,03,05),
+                    showcasedDate: new DateTime(2022,01,14),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Darky1")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Rave,
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.AudioVisualization
+                    },
+                    videoURL: "https://www.youtube.com/embed/8xnYI3WdYPg"
                 )
             };
             return beatmaps;
