@@ -1756,6 +1756,31 @@ namespace osb.Helpers
                         StoryboardTag.FullControl
                     },
                     videoURL: "https://www.youtube.com/embed/ezYiUFuZm-A"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 460580,
+                    beatmapTitle : "bouquet",
+                    beatmapArtist: "ChouCho",
+                    beatmapsetHost : new MapperModel(3193504, "Kibbleru"),
+                    medium: "SGL",
+                    submitDate: new DateTime(2016,05,26),
+                    showcasedDate: new DateTime(2022,01,17),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Sidetail")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.Pixels
+                    },
+                    videoURL: "https://www.youtube.com/embed/ChmWubfJ0Nw"
                 )
             };
             return beatmaps;
