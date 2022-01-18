@@ -1282,6 +1282,16 @@ namespace osb.Helpers
                         DiscordRoleModel.Storyboarder,
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    2204515,
+                    "Mao",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
