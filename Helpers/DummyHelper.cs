@@ -1272,6 +1272,16 @@ namespace osb.Helpers
                         DiscordRoleModel.Apprentice,
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    1806962,
+                    "Yumeno Himiko",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
@@ -1781,6 +1791,94 @@ namespace osb.Helpers
                         StoryboardTag.Pixels
                     },
                     videoURL: "https://www.youtube.com/embed/ChmWubfJ0Nw"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 747823,
+                    beatmapTitle : "Oriental Blossom",
+                    beatmapArtist: "Eisyo-kobu",
+                    beatmapsetHost : new MapperModel(702598, "Spectator"),
+                    medium: "Python",
+                    submitDate: new DateTime(2018,03,12),
+                    showcasedDate: new DateTime(2022,01,18),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Yumeno Himiko")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.ThreeD
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 778698,
+                    beatmapTitle : "Dahil Sa'Yo",
+                    beatmapArtist: "Inigo Pascual",
+                    beatmapsetHost : new MapperModel(2984583, "Sakary"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,05,10),
+                    showcasedDate: new DateTime(2022,01,18),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("arvhiejay")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 803126,
+                    beatmapTitle : "Come and Get It (Razihel Remix)",
+                    beatmapArtist: "Krewella",
+                    beatmapsetHost : new MapperModel(7149815, "Plaudible"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,06,24),
+                    showcasedDate: new DateTime(2022,01,18),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Hokichi")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.ThreeD,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Rave,
+                        StoryboardTag.Pixels
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 891335,
+                    beatmapTitle : "Fallen Angel",
+                    beatmapArtist: "HyuN feat. JeeE",
+                    beatmapsetHost : new MapperModel(2204515, "Mao"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,12,09),
+                    showcasedDate: new DateTime(2022,01,18),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Noffy"),
+                        GetStoryboarderByName("Mao")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Narrative
+                    }
                 )
             };
             return beatmaps;
