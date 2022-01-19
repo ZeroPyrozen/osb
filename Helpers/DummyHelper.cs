@@ -1292,6 +1292,16 @@ namespace osb.Helpers
                         DiscordRoleModel.Storyboarder,
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    3683084,
+                    "pandorawindy",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
@@ -1888,6 +1898,29 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Particles,
                         StoryboardTag.Narrative
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 298245,
+                    beatmapTitle : "Windy Fairy",
+                    beatmapArtist: "DJ TOTTO",
+                    beatmapsetHost : new MapperModel(3683084, "pandorawindy"),
+                    medium: "Java",
+                    submitDate: new DateTime(2015,03,29),
+                    showcasedDate: new DateTime(2022,01,19),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("pandorawindy")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Featured,
+                        StoryboardTag.Wizardry
                     }
                 )
             };
