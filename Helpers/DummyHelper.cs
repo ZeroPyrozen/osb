@@ -1945,6 +1945,29 @@ namespace osb.Helpers
                         StoryboardTag.Featured,
                         StoryboardTag.Pixels
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1011020,
+                    beatmapTitle : "DYE/Re:flection+",
+                    beatmapArtist: "AVTechNO!xTreow",
+                    beatmapsetHost : new MapperModel(6607303, "Hokichi"),
+                    medium: "Scripting",
+                    submitDate: new DateTime(2019,07,29),
+                    showcasedDate: new DateTime(2022,01,19),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("TheDuckMask")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Rave,
+                        StoryboardTag.ThreeD,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Featured
+                    }
                 )
             };
             return beatmaps;
