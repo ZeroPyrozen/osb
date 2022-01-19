@@ -1968,6 +1968,27 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Featured
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 395642,
+                    beatmapTitle : "Okaerinasai (tomatomerde Remix)",
+                    beatmapArtist: "Sakamoto Maaya",
+                    beatmapsetHost : new MapperModel(3056732, "Rizen"),
+                    medium: "Design Editor",
+                    submitDate: new DateTime(2015,12,23),
+                    showcasedDate: new DateTime(2022,01,19),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Rizen")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
