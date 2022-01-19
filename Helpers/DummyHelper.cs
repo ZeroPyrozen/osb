@@ -1922,6 +1922,29 @@ namespace osb.Helpers
                         StoryboardTag.Featured,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 349062,
+                    beatmapTitle : "Aozora Memories",
+                    beatmapArtist: "yuiko & Meis Clauson",
+                    beatmapsetHost : new MapperModel(3193504, "Kibbleru"),
+                    medium: "Python",
+                    submitDate: new DateTime(2015,08,25),
+                    showcasedDate: new DateTime(2022,01,19),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Gelbana")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Featured,
+                        StoryboardTag.Pixels
+                    }
                 )
             };
             return beatmaps;
