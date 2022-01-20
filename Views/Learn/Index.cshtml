@@ -4,7 +4,12 @@
 }
 <link rel="stylesheet" href="/static/base/learn.css">
 <header class="opening-banner-learn"><h1 class="display opening-header">Learning &amp; Resources</h1><div class="bae-learn"></div></header>
-<h1 class="col-xs-12 special-banner-3 top-header">Page Under Construction!</h1>
-<div style="padding-bottom:5px;">
+<div style="padding-bottom:5px;" class="osb-content">
     @Html.Raw(Model.indexTest)
 </div>
+<!--Testing class assignment on load-->
+<script>
+    $(document).ready(function () {
+        $('.osb-content>h1').addClass('col-xs-12 special-banner-3 top-header');
+    });
+</script>
