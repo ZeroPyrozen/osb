@@ -2009,6 +2009,26 @@ namespace osb.Helpers
                         StoryboardTag.Rave,
                         StoryboardTag.Particles
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 868749,
+                    beatmapTitle : "Fukashigi no Karte",
+                    beatmapArtist: "Seishun Buta Yarou Cast",
+                    beatmapsetHost : new MapperModel(7515767, "Half"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,10,25),
+                    showcasedDate: new DateTime(2022,01,21),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Half")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
