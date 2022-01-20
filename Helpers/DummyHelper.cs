@@ -2029,6 +2029,26 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 844351,
+                    beatmapTitle : "Senpai.",
+                    beatmapArtist: "HoneyWorks meets TrySail",
+                    beatmapsetHost : new MapperModel(2202163, "-Mo-"),
+                    medium: "Python",
+                    submitDate: new DateTime(2018,09,05),
+                    showcasedDate: new DateTime(2022,01,21),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("-Mo-")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
