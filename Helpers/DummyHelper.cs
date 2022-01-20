@@ -1302,6 +1302,26 @@ namespace osb.Helpers
                         DiscordRoleModel.Storyboarder,
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    6886572,
+                    "DaIibor",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Apprentice,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    8543258,
+                    "BramboraSK",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Apprentice,
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
