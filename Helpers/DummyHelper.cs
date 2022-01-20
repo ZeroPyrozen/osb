@@ -2069,6 +2069,27 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1589017,
+                    beatmapTitle : "Rererepeat",
+                    beatmapArtist: "frederic",
+                    beatmapsetHost : new MapperModel(3086393, "n0ah"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,09,29),
+                    showcasedDate: new DateTime(2022,01,21),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("DaIibor"),
+                        GetStoryboarderByName("BramboraSK")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
