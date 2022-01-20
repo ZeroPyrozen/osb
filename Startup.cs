@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Westwind.AspNetCore.Markdown;
 
 namespace osb
 {
@@ -24,6 +25,12 @@ namespace osb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMarkdown();
+
+            // We need to use MVC so we can use a Razor Configuration Template
+            services.AddMvc()
+                // have to let MVC know we have a controller
+                .AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +47,17 @@ namespace osb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseDefaultFiles(new DefaultFilesOptions()
+            {
+                DefaultFileNames = new List<string> { "index.md", "index.html" }
+            });
+
+            app.UseMarkdown();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
 
             app.UseRouting();
 

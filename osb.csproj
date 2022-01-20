@@ -21,7 +21,9 @@
 
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
+    <PackageReference Include="Markdig" Version="0.26.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.7.0" />
   </ItemGroup>
 
 </Project>
