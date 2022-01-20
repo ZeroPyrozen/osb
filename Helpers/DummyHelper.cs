@@ -1989,6 +1989,26 @@ namespace osb.Helpers
                         StoryboardTag.Narrative,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 411435,
+                    beatmapTitle : "Boogie",
+                    beatmapArtist: "Billain",
+                    beatmapsetHost : new MapperModel(4761930, "Spaghetti"),
+                    medium: "Other",
+                    submitDate: new DateTime(2016,01,31),
+                    showcasedDate: new DateTime(2022,01,21),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Storyboarder"),
+                        GetStoryboarderByName("-Tochi")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Rave,
+                        StoryboardTag.Particles
+                    }
                 )
             };
             return beatmaps;
