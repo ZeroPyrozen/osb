@@ -2090,6 +2090,46 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 242484,
+                    beatmapTitle : "werewolf howls.",
+                    beatmapArtist: "Camellia",
+                    beatmapsetHost : new MapperModel(4568037, "Takane6"),
+                    medium: "Other",
+                    submitDate: new DateTime(2014,12,11),
+                    showcasedDate: new DateTime(2022,01,25),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("arviejhay"),
+                        new StoryboarderModel(3027421,"Arzenvald")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Rave
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 245160,
+                    beatmapTitle : "Wings of Courage -Sora o Koete-",
+                    beatmapArtist: "Mami Kawada",
+                    beatmapsetHost : new MapperModel(1806962, "Yumeno Himiko"),
+                    medium: "Other",
+                    submitDate: new DateTime(2014,12,18),
+                    showcasedDate: new DateTime(2022,01,25),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("yf_bmp"),
+                        GetStoryboarderByName("Yumeno Himiko")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Narrative
+                    }
                 )
             };
             return beatmaps;
