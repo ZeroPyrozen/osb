@@ -2130,6 +2130,46 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Narrative
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1400282,
+                    beatmapTitle : "On & On (feat. Daniel Levi) (Cut Ver.)",
+                    beatmapArtist: "Cartoon",
+                    beatmapsetHost : new MapperModel(3906405, "Sylas"),
+                    medium: "Other",
+                    submitDate: new DateTime(2021,03,13),
+                    showcasedDate: new DateTime(2022,02,03),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("-Ady"),
+                        GetStoryboarderByName("Partyu")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1144729,
+                    beatmapTitle : "Pretender (Short Ver.)",
+                    beatmapArtist: "cillia",
+                    beatmapsetHost : new MapperModel(3056732, "Rizen"),
+                    medium: "Scripting",
+                    submitDate: new DateTime(2020,04,10),
+                    showcasedDate: new DateTime(2022,02,03),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Rizen")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles
+                    }
                 )
             };
             return beatmaps;
