@@ -1322,6 +1322,26 @@ namespace osb.Helpers
                         DiscordRoleModel.Apprentice,
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    515967,
+                    "Ulysses",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    1287964,
+                    "Irreversible",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
@@ -2169,6 +2189,33 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
+                    }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 591442,
+                    beatmapTitle : "Nostalgic (Nightcore Mix)",
+                    beatmapArtist: "S3RL feat Harri Rush",
+                    beatmapsetHost : new MapperModel(515967, "nold_1702"),
+                    medium: "Scripting",
+                    submitDate: new DateTime(2017,03,27),
+                    showcasedDate: new DateTime(2022,02,09),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Ulysses"),
+                        GetStoryboarderByName("yf_bmp"),
+                        GetStoryboarderByName("Irreversible")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Rave,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.Wizardry
                     }
                 )
             };
