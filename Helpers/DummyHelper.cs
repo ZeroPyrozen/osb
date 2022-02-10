@@ -2217,6 +2217,29 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 463479,
+                    beatmapTitle : "Bassdrop Freaks (Long Ver.)",
+                    beatmapArtist: "Nanahira",
+                    beatmapsetHost : new MapperModel(1243669, "yf_bmp"),
+                    medium: "C#",
+                    submitDate: new DateTime(2016,06,02),
+                    showcasedDate: new DateTime(2022,02,09),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("yf_bmp")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Featured,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
