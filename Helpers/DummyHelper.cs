@@ -2240,6 +2240,30 @@ namespace osb.Helpers
                         StoryboardTag.Wizardry,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 685539,
+                    beatmapTitle : "Tegami",
+                    beatmapArtist: "Nekomata Master",
+                    beatmapsetHost : new MapperModel(1225459, "Kenny"),
+                    medium: "C++",
+                    submitDate: new DateTime(2017,10,24),
+                    showcasedDate: new DateTime(2022,02,09),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("S2VX"),
+                        GetStoryboarderByName("niseboi")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Narrative,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Featured,
+                        StoryboardTag.Wizardry
+                    }
                 )
             };
             return beatmaps;
