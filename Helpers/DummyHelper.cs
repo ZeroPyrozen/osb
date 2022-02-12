@@ -2320,6 +2320,24 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Particles
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1224414,
+                    beatmapTitle : "Pekorap Tropical House Remix",
+                    beatmapArtist: "REDALiCE",
+                    beatmapsetHost : new MapperModel(6644401, "Yuuma"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2020,07,29),
+                    showcasedDate: new DateTime(2022,02,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Yuuma")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles
+                    }
                 )
             };
             return beatmaps;
