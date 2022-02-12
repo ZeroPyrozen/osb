@@ -2302,6 +2302,24 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Particles
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 399810,
+                    beatmapTitle : "-echo-: NieR Song of the Ancients / Devola ~ Song of the Ancients / Popola",
+                    beatmapArtist: "sasakure.UK",
+                    beatmapsetHost : new MapperModel(4260033, "Zer0-"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,06,16),
+                    showcasedDate: new DateTime(2022,02,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Zer0-")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles
+                    }
                 )
             };
             return beatmaps;
