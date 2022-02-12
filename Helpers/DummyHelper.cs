@@ -2338,6 +2338,28 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Particles
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 842871,
+                    beatmapTitle : "My Dearest",
+                    beatmapArtist: "supercell",
+                    beatmapsetHost : new MapperModel(2931883, "Ascendance"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,07,29),
+                    showcasedDate: new DateTime(2022,02,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Storyboarder"),
+                        GetStoryboarderByName("PoNo")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.GameplayEnhancement
+                    }
                 )
             };
             return beatmaps;
