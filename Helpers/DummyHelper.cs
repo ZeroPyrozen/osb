@@ -2284,6 +2284,24 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.ThreeD
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 399810,
+                    beatmapTitle : "Minazoko Yuuhodou",
+                    beatmapArtist: "Reol",
+                    beatmapsetHost : new MapperModel(1715876, "Zexous"),
+                    medium: "SGL",
+                    submitDate: new DateTime(2016,01,02),
+                    showcasedDate: new DateTime(2022,02,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Zexous")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles
+                    }
                 )
             };
             return beatmaps;
