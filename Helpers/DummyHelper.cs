@@ -2264,6 +2264,26 @@ namespace osb.Helpers
                         StoryboardTag.Featured,
                         StoryboardTag.Wizardry
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 143281,
+                    beatmapTitle : "Stigma",
+                    beatmapArtist: "Noisia",
+                    beatmapsetHost : new MapperModel(157177, "Natteke"),
+                    medium: "SGL",
+                    submitDate: new DateTime(2014,01,17),
+                    showcasedDate: new DateTime(2022,02,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Damnae")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles,
+                        StoryboardTag.ThreeD
+                    }
                 )
             };
             return beatmaps;
