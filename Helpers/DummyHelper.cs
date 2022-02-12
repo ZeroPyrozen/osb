@@ -2305,7 +2305,7 @@ namespace osb.Helpers
                 ),
                 new BeatmapModel
                 (
-                    beatmapsetID: 399810,
+                    beatmapsetID: 1493195,
                     beatmapTitle : "-echo-: NieR Song of the Ancients / Devola ~ Song of the Ancients / Popola",
                     beatmapArtist: "sasakure.UK",
                     beatmapsetHost : new MapperModel(4260033, "Zer0-"),
