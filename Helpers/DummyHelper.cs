@@ -1893,7 +1893,8 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/j9t95U0RcNQ"
                 ),
                 new BeatmapModel
                 (
@@ -2189,8 +2190,7 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
-                    },
-                    videoURL: "https://www.youtube.com/embed/3ji8SvoalC0"
+                    }
                 ),
                 new BeatmapModel
                 (
