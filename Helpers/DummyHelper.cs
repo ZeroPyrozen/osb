@@ -1571,7 +1571,8 @@ namespace osb.Helpers
                         StoryboardTag.Featured,
                         StoryboardTag.Classic,
                         StoryboardTag.Wizardry
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/aDnHXtahyV8"
                 ),
                 new BeatmapModel
                 (
@@ -2361,6 +2362,26 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.GameplayEnhancement
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1526749,
+                    beatmapTitle : "Phai Chang Em Da Yeu? feat. RedT",
+                    beatmapArtist: "Juky San",
+                    beatmapsetHost : new MapperModel(18319978, "Ayate"),
+                    medium: "Other",
+                    submitDate: new DateTime(2021,07,22),
+                    showcasedDate: new DateTime(2022,02,16),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Smug Nanachi")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.Lyrics
+                    },
+                    videoURL: "https://www.youtube.com/embed/0pxx-1dlqUQ"
                 )
             };
             return beatmaps;
