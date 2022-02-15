@@ -2189,7 +2189,8 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/3ji8SvoalC0"
                 ),
                 new BeatmapModel
                 (
