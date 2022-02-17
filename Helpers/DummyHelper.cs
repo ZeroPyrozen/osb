@@ -2191,7 +2191,8 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/U-m3UK2T_Yw"
                 ),
                 new BeatmapModel
                 (
@@ -2312,7 +2313,7 @@ namespace osb.Helpers
                     beatmapArtist: "Rameses B",
                     beatmapsetHost : new MapperModel(4260033, "Zer0-"),
                     medium: "Storybrew",
-                    submitDate: new DateTime(2021,06,16),
+                    submitDate: new DateTime(2020,10,23),
                     showcasedDate: new DateTime(2022,02,12),
                     storyboarders: new List<StoryboarderModel>
                     {
@@ -2322,7 +2323,8 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Particles,
                         StoryboardTag.Lyrics
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/4Qpyp6A-AJc"
                 ),
                 new BeatmapModel
                 (
@@ -2383,6 +2385,26 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics
                     },
                     videoURL: "https://www.youtube.com/embed/0pxx-1dlqUQ"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1083417,
+                    beatmapTitle : "White Winter Hymnal",
+                    beatmapArtist: "Birdy",
+                    beatmapsetHost : new MapperModel(4230454, "Froskya"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2019,12,25),
+                    showcasedDate: new DateTime(2022,02,17),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("freihy")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.Lyrics
+                    },
+                    videoURL: "https://www.youtube.com/embed/8T8qS3LjzEw"
                 )
             };
             return beatmaps;
