@@ -2307,9 +2307,9 @@ namespace osb.Helpers
                 ),
                 new BeatmapModel
                 (
-                    beatmapsetID: 1493195,
-                    beatmapTitle : "-echo-: NieR Song of the Ancients / Devola ~ Song of the Ancients / Popola",
-                    beatmapArtist: "sasakure.UK",
+                    beatmapsetID: 1283879,
+                    beatmapTitle : "Life Adjusts (feat. Miyoki) (Cut Ver.)",
+                    beatmapArtist: "Rameses B",
                     beatmapsetHost : new MapperModel(4260033, "Zer0-"),
                     medium: "Storybrew",
                     submitDate: new DateTime(2021,06,16),
@@ -2320,7 +2320,8 @@ namespace osb.Helpers
                     },
                     tags: new List<StoryboardTag>
                     {
-                        StoryboardTag.Particles
+                        StoryboardTag.Particles,
+                        StoryboardTag.Lyrics
                     }
                 ),
                 new BeatmapModel
