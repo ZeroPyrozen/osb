@@ -2392,7 +2392,7 @@ namespace osb.Helpers
                     beatmapTitle : "White Winter Hymnal",
                     beatmapArtist: "Birdy",
                     beatmapsetHost : new MapperModel(4230454, "Froskya"),
-                    medium: "Storybrew",
+                    medium: "Scripting",
                     submitDate: new DateTime(2019,12,25),
                     showcasedDate: new DateTime(2022,02,17),
                     storyboarders: new List<StoryboarderModel>
