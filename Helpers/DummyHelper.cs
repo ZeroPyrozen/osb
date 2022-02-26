@@ -2467,6 +2467,26 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Lyrics
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1314759,
+                    beatmapTitle : "Cyaegha",
+                    beatmapArtist: "USAO",
+                    beatmapsetHost : new MapperModel(10027577, "- AzRaeL -"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2020,12,03),
+                    showcasedDate: new DateTime(2022,02,27),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("- AzRaeL -")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.GameplayEnhancement
+                    }
                 )
             };
             return beatmaps;
