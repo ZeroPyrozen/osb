@@ -10,5 +10,6 @@ namespace osb.ViewModels
         public StoryboarderModel storyboarder;
         public List<BeatmapModel> storyboarderBeatmaps;
         public string baseURL { get; set; }
+        public string testValue { get; set; }
     }
 }

@@ -26,7 +26,13 @@ namespace osb
         {
             services.AddControllersWithViews();
             services.AddMarkdown();
-
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             // We need to use MVC so we can use a Razor Configuration Template
             services.AddMvc()
                 // have to let MVC know we have a controller
@@ -62,6 +68,8 @@ namespace osb
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
