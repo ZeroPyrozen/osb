@@ -1508,7 +1508,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/e6mic6yX1i8"
                 ),
                 new BeatmapModel
                 (
@@ -1941,7 +1942,8 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Particles,
                         StoryboardTag.Narrative
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/2tu84H9C2IA"
                 ),
                 new BeatmapModel
                 (
