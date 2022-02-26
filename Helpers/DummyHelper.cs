@@ -2445,6 +2445,28 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Particles
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 311393,
+                    beatmapTitle : "echoes vocal. yanaginagi",
+                    beatmapArtist: "project-ALCA-",
+                    beatmapsetHost : new MapperModel(2683648, "Gaia"),
+                    medium: "SGL",
+                    submitDate: new DateTime(2015,03,11),
+                    showcasedDate: new DateTime(2022,02,27),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Kibbleru"),
+                        GetStoryboarderByName("Sidetail")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Pixels,
+                        StoryboardTag.Lyrics
+                    }
                 )
             };
             return beatmaps;
