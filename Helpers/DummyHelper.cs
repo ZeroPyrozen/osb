@@ -2406,6 +2406,27 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics
                     },
                     videoURL: "https://www.youtube.com/embed/8T8qS3LjzEw"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1148442,
+                    beatmapTitle : "Modelista",
+                    beatmapArtist: "HiTECH NINJA",
+                    beatmapsetHost : new MapperModel(7288862, "-jordan-"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2020,04,15),
+                    showcasedDate: new DateTime(2022,02,27),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("VenerableNyanta")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Rave
+                    }
                 )
             };
             return beatmaps;
