@@ -2427,6 +2427,24 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Rave
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 424397,
+                    beatmapTitle : "Give It Up",
+                    beatmapArtist: "Knife Party",
+                    beatmapsetHost : new MapperModel(5318910, "sahuang"),
+                    medium: "Other",
+                    submitDate: new DateTime(2016,03,01),
+                    showcasedDate: new DateTime(2022,02,27),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Naxess")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Particles
+                    }
                 )
             };
             return beatmaps;
