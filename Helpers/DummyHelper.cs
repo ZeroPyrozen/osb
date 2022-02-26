@@ -2487,6 +2487,27 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.GameplayEnhancement
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 842355,
+                    beatmapTitle : "Carol of the Bells (Nightstep Mix)",
+                    beatmapArtist: "BarlowGirl",
+                    beatmapsetHost : new MapperModel(10974170, "Nuvolina"),
+                    medium: "Other",
+                    submitDate: new DateTime(2018,09,01),
+                    showcasedDate: new DateTime(2022,02,27),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("[ Kuro Usagi ]")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.ThreeD
+                    }
                 )
             };
             return beatmaps;
