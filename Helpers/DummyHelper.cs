@@ -2530,6 +2530,26 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Classic
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 729559,
+                    beatmapTitle : "Broken",
+                    beatmapArtist: "Magnitude",
+                    beatmapsetHost : new MapperModel(2907231, "Asonate"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,02,03),
+                    showcasedDate: new DateTime(2022,02,28),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Asonate")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Particles,
+                        StoryboardTag.GameplayEnhancement
+                    }
                 )
             };
             return beatmaps;
