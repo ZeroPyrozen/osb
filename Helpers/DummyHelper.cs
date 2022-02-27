@@ -2570,6 +2570,25 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.GameplayEnhancement
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 800568,
+                    beatmapTitle : "SAD!",
+                    beatmapArtist: "XXXTENTACION",
+                    beatmapsetHost : new MapperModel(3388410, "eiri-"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,06,19),
+                    showcasedDate: new DateTime(2022,02,28),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Bergy")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Pixels
+                    }
                 )
             };
             return beatmaps;
