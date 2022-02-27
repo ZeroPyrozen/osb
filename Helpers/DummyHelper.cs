@@ -2589,6 +2589,26 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Pixels
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 388428,
+                    beatmapTitle : "Midnight Stroller",
+                    beatmapArtist: "Reol",
+                    beatmapsetHost : new MapperModel(3621552, "Chaoslitz"),
+                    medium: "Other",
+                    submitDate: new DateTime(2015,12,09),
+                    showcasedDate: new DateTime(2022,02,28),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Chaoslitz"),
+                        GetStoryboarderByName("Yumeno Himiko")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.AudioVisualization
+                    }
                 )
             };
             return beatmaps;
