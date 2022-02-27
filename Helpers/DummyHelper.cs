@@ -2510,6 +2510,26 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.ThreeD
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 119911,
+                    beatmapTitle : "EdelWeiss",
+                    beatmapArtist: "OkameP",
+                    beatmapsetHost : new MapperModel(568761, "[Mahua]"),
+                    medium: "Design Editor",
+                    submitDate: new DateTime(2013,10,01),
+                    showcasedDate: new DateTime(2022,02,28),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("[Mahua]")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles,
+                        StoryboardTag.Classic
+                    }
                 )
             };
             return beatmaps;
