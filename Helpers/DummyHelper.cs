@@ -2496,7 +2496,7 @@ namespace osb.Helpers
                     beatmapTitle : "Carol of the Bells (Nightstep Mix)",
                     beatmapArtist: "BarlowGirl",
                     beatmapsetHost : new MapperModel(10974170, "Nuvolina"),
-                    medium: "Other",
+                    medium: "SGL",
                     submitDate: new DateTime(2018,09,01),
                     showcasedDate: new DateTime(2022,02,27),
                     storyboarders: new List<StoryboarderModel>
