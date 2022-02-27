@@ -2550,6 +2550,26 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.GameplayEnhancement
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1108256,
+                    beatmapTitle : "Yuune Zekka, Ryouran no Sai",
+                    beatmapArtist: "EastNewSound feat. Chata & nayuta",
+                    beatmapsetHost : new MapperModel(9131844, "AYE1337"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2020,02,12),
+                    showcasedDate: new DateTime(2022,02,28),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("AYE1337")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles,
+                        StoryboardTag.GameplayEnhancement
+                    }
                 )
             };
             return beatmaps;
