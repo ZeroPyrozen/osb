@@ -37,7 +37,11 @@ jobs:
         with:
           name: "appsettings.json"
           json: ${{ secrets.APPSETTINGS }}
-          
+      - name: copy file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "appsettings.json"
+          target: "${{env.DOTNET_ROOT}}/myapp/appsettings.json"        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
