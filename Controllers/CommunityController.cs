@@ -11,7 +11,7 @@ using osb.ViewModels;
 
 namespace osb.Controllers
 {
-    public class CommunityController : Controller
+    public class CommunityController : BaseController
     {
         private IConfiguration _configuration;
         private OsuWebHelper _osuWebHelper;

@@ -28,7 +28,7 @@ namespace osb.Helpers
             string clientID = Configuration.GetSection("API")["ClientID"];
             string redirectURI = Configuration.GetSection("API")["RedirectURL"];
             //Use Public Scope for Now
-            URL = URL.Replace(":clientID", clientID).Replace(":redirect_uri", redirectURI);
+            URL = URL.Replace(":client_id", clientID).Replace(":redirect_uri", redirectURI);
             return URL;
         }
     }

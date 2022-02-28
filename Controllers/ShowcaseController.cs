@@ -9,7 +9,7 @@ using osb.ViewModels;
 
 namespace osb.Controllers
 {
-    public class ShowcaseController : Controller
+    public class ShowcaseController : BaseController
     {
         public IActionResult Index()
         {

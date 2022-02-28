@@ -137,9 +137,7 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75); }
 
 .navbar {
-  font: "Exo 2", sans-serif;
-  margin: 20px 20px 0px 20px;
-  border-bottom: medium solid #556a72; }
+  font: "Exo 2", sans-serif; }
 
 body {
   font-family: "Exo 2", sans-serif;

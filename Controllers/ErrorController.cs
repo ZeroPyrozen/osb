@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace osb.Controllers
 {
-    public class ErrorController : Controller
+    public class ErrorController : BaseController
     {
         private readonly ILogger<ErrorController> _logger;
 

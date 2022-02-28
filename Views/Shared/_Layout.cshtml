@@ -15,31 +15,56 @@
     <script src="https://use.fontawesome.com/f344ebe01e.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-inverse">
-        <a href="/" class="navbar-brand">
-            <img src="/static/base/img/osboutline.png" alt="..." height="56">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#osb-navbar" aria-controls="#osb-navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="osb-navbar">
-            <ul class="nav navbar-nav">
-                <li class="nav-item" id="navbar-special-1">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item" id="navbar-special-2">
-                    <a class="nav-link" href="/showcase">Showcase</a>
-                </li>
-                <li class="nav-item" id="navbar-special-3">
-                    <a class="nav-link" href="/learn">[Under Construction]<br>Learn</a>
-                </li>
-                <li class="nav-item" id="navbar-special-4">
-                    <a class="nav-link" href="/community">Community</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div class="container" style="background:unset;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-inverse">
+            <a class="navbar-brand" href="#"><img src="/static/base/img/osboutline.png" alt="..." height="56"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/showcase">Showcase</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/learn">Learn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/community">Community</a>
+                    </li>
+                </ul>
+                @if (ViewData["Login"] != null)
+                {
+                    <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=3031177"><img src="https://a.ppy.sh/3031177" alt="..." height="56"></a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                UserName
+                            </a>
+                            <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/community/profile?userID=3031177">Profile</a>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="auth/logout">Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a class="btn btn-light d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/auth">Login</a>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </nav>
+    </div>
     <div class="container bg-dark text-white">
         @RenderBody()
     </div>

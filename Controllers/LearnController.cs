@@ -11,7 +11,7 @@ using Westwind.AspNetCore.Markdown;
 
 namespace osb.Controllers
 {
-    public class LearnController : Controller
+    public class LearnController : BaseController
     {
         private IConfiguration _configuration;
         public LearnController(IConfiguration iconfig)
