@@ -30,18 +30,20 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-          
+
+      - uses: azure/appservice-settings@v1
+        with:
+          app-name: 'my-app'
+          app-settings-json: '${{ secrets.APPSETTINGS }}'
+        id: settings
+        
       - name: create-json
         id: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "appsettings.json"
           json: ${{ secrets.APPSETTINGS }}
-      - name: copy file
-        uses: canastro/copy-file-action@master
-        with:
-          source: "appsettings.json"
-          target: "${{env.DOTNET_ROOT}}/myapp/appsettings.json"        
+       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
