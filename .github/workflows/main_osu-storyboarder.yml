@@ -37,7 +37,7 @@ jobs:
           
       - uses: azure/appservice-settings@v1
         with:
-          app-name: 'osb'
+          app-name: 'osu-storyboarder'
           app-settings-json: '${{ secrets.APPSETTINGS }}'
         id: settings
       - run: echo "URL ${{ steps.settings.outputs.webapp-url }}"
