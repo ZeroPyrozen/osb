@@ -30,26 +30,6 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-        
-      - uses: azure/login@v1
-        with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
-          
-      - uses: azure/appservice-settings@v1
-        with:
-          app-name: 'osu-storyboarder'
-          app-settings-json: '${{ secrets.APPSETTINGS }}'
-        id: settings
-      - run: echo "URL ${{ steps.settings.outputs.webapp-url }}"
-      - run: |
-          az logout
-          
-      - name: create-json
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "appsettings.json"
-          json: ${{ secrets.APPSETTINGS }}
        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
