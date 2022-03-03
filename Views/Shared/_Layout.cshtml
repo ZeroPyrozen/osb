@@ -39,15 +39,15 @@
                 </ul>
                 @if (ViewData["Login"] != null)
                 {
-                    <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=3031177"><img src="https://a.ppy.sh/3031177" alt="..." height="56"></a>
+                    string ID = ViewData["UserID"].ToString();
+                    <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=@ID"><img src="https://a.ppy.sh/@ID" alt="..." height="56"></a>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                UserName
+                                @ViewData["Username"].ToString()
                             </a>
                             <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/community/profile?userID=3031177">Profile</a>
-                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="auth/logout">Log Out</a>
                             </div>

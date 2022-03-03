@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using osb.Helpers;
 using osb.Models;
 using osb.ViewModels;
@@ -22,7 +23,14 @@ namespace osb.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if(HttpContext.Session.Get("Login") != null)
+            {
                 ViewData["Login"] = HttpContext.Session.Get("Login");
+                WebUserModel user = JsonConvert.DeserializeObject<WebUserModel>(HttpContext.Session.GetString(SessionEnum.UserData));
+                
+                ViewData["Username"] = user.Username;
+                ViewData["UserID"] = user.ID;
+            }
+                
             base.OnActionExecuting(context);
         }
 

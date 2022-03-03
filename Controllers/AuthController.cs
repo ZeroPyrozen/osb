@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using osb.Helpers;
 using osb.Models;
 using osb.ViewModels;
@@ -26,10 +27,15 @@ namespace osb.Controllers
             return Redirect(redirectURL);
         }
 
-        public IActionResult Authorized(string code)
+        public async Task<IActionResult> Authorized(string code)
         {
             HttpContext.Session.SetString("Login", "Test");
-            
+            TokenModel token = await _osuWebHelper.GenerateAccessTokenAuthCode(code);
+            WebUserModel user = await _osuWebHelper.GetOwnData(token.AccessToken);
+
+            HttpContext.Session.SetString(SessionEnum.LoginToken, JsonConvert.SerializeObject(token));
+            HttpContext.Session.SetString(SessionEnum.UserData, JsonConvert.SerializeObject(user));
+
             return RedirectToAction("Index", "Home");
         }
 
