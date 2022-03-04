@@ -2,13 +2,19 @@
 @{
     ViewData["Title"] = Model.storyboarder.Username + " Profile";
     var primaryRole = Model.storyboarder.GetPrimaryRole();
+    string userBannerURL = "/static/base/img/bg_" + new Random().Next(1,4).ToString("D2") + ".png";
+    if(Model.webUserData != null)
+    {
+        userBannerURL = Model.webUserData.Cover.URL;
+    }
 }
 <link rel="stylesheet" href="/static/base/sb.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.3.0/font-mfizz.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <link rel="stylesheet" href="/static/base/user.css">
-<div class="container" style="background: #262d35;">
+<div class="container" style="background: #262d35;padding:0;">
+    <header class="opening-banner" style="background-image: url('@userBannerURL');"></header>
     <div class="profile-header">
         <div class="profile-info">
             <div class="profile-avatar">
@@ -18,24 +24,31 @@
                 <h1 class="profile-info-name">
                     <span class="u-ellipsis-pre-overflow">@Model.storyboarder.Username</span>
                 </h1>
-                <div class="profile-info-icon-group">
-                    <div class="profile-info-icons profile-info-icons-role">
-                        <div class="profile-info-role">
-                            @if(primaryRole != null)
-                            {
-                                <span class="profile-info-role-text">@primaryRole.RoleName</span>
-                            }
-                            else
-                            {
-                                <span class="profile-info-role-text">Player</span>
-                            }
+                <p class="profile-info-role">
+                    @if (primaryRole != null)
+                    {
+                        <span class="u-ellipsis-pre-overflow">@primaryRole.RoleName</span>
+                    }
+                    else
+                    {
+                        <span class="u-ellipsis-pre-overflow">Player</span>
+                    }
+                </p>
+                @if (Model.webUserData != null)
+                {
+                    var flag = Model.webUserData.GetUserFlag() + " " + Model.webUserData.Country.Name;
+                    <div class="profile-info-icon-group">
+                        <div class="profile-info-icons profile-info-icons-country">
+                            <div class="profile-info-country">
+                                <span class="profile-info-country-text">@flag</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
-    @if(Model.storyboarderBeatmaps.Count > 0)
+    @if (Model.storyboarderBeatmaps.Count > 0)
     {
         <h2 class="special-banner-sub-2 rounded">Storyboard by @Model.storyboarder.Username</h2>
         <div class="card-group" style="justify-content:center">
@@ -47,13 +60,13 @@
                     <div class="col-xs-12 col-sm-6 my-2">
                         <div class="sb-card card">
                             <div class="bg-inverse sb-card-header bottom-header" style="background-image: url('@currentBeatmap.BeatmapCardURL');">
-                                <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" >
+                                <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none">
                                     <h4 class="card-title sb-card-title">@currentBeatmap.BeatmapTitle</h4>
                                     <h6 class="card-subtitle sb-card-title">@currentBeatmap.BeatmapArtist</h6>
                                 </a>
                             </div>
                             <div class="media">
-                                <a class="media-left media-middle" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" >
+                                <a class="media-left media-middle" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none">
                                     <img class="media-object sb-card-image" src="@currentBeatmap.BeatmapListURL" alt="@currentBeatmap.BeatmapTitle">
                                 </a>
                                 <div class="media-body text-white m-3">
@@ -61,60 +74,60 @@
                                         Storyboarded by
                                         @if (currentBeatmap.Storyboarders.Count == 1)
                                         {
-                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" >@currentBeatmap.Storyboarders[0].Username</a>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID">@currentBeatmap.Storyboarders[0].Username</a>
                                         }
                                         else if (currentBeatmap.Storyboarders.Count == 2)
                                         {
-                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" >@currentBeatmap.Storyboarders[0].Username</a>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID">@currentBeatmap.Storyboarders[0].Username</a>
                                             <span> and </span>
-                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[1].UserID" >@currentBeatmap.Storyboarders[1].Username</a>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[1].UserID">@currentBeatmap.Storyboarders[1].Username</a>
                                         }
                                         else
                                         {
                                             @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
                                             {
-                                                <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[j].UserID" >@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
+                                                <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[j].UserID">@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
                                             }
-                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserID" >@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserID">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
                                             <span> and </span>
-                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID" >@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
+                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
                                         }
-                                        <br>Hosted by <a href="@currentBeatmap.BeatmapsetHost.UserProfileUrl" >@currentBeatmap.BeatmapsetHost.Username</a>
+                                        <br>Hosted by <a href="@currentBeatmap.BeatmapsetHost.UserProfileUrl">@currentBeatmap.BeatmapsetHost.Username</a>
                                     </p>
                                     <div class="sb-card-icons">
                                         @switch (currentBeatmap.Medium)
                                         {
                                             case "Storybrew":
                                             case "Java":
-                                            toolIcon = "fa fa-coffee";
-                                            break;
+                                                toolIcon = "fa fa-coffee";
+                                                break;
                                             case "SGL":
-                                            toolIcon = "fa fa-file-code-o";
-                                            break;
+                                                toolIcon = "fa fa-file-code-o";
+                                                break;
                                             case "C":
-                                            toolIcon = "icon-c";
-                                            break;
+                                                toolIcon = "icon-c";
+                                                break;
                                             case "C++":
-                                            toolIcon = "icon-cplusplus";
-                                            break;
+                                                toolIcon = "icon-cplusplus";
+                                                break;
                                             case "Scripting":
-                                            toolIcon = "fa fa-file-text-o";
-                                            break;
+                                                toolIcon = "fa fa-file-text-o";
+                                                break;
                                             case "C#":
-                                            toolIcon = "icon-csharp";
-                                            break;
+                                                toolIcon = "icon-csharp";
+                                                break;
                                             case "Design Editor":
-                                            toolIcon = "fa icon-osu-cookie";
-                                            break;
+                                                toolIcon = "fa icon-osu-cookie";
+                                                break;
                                             case "Python":
-                                            toolIcon = "icon-python";
-                                            break;
+                                                toolIcon = "icon-python";
+                                                break;
                                             case "Other":
-                                            toolIcon = "fa fa-question-circle";
-                                            break;
+                                                toolIcon = "fa fa-question-circle";
+                                                break;
                                         }
                                         <span class="tag tag-pill tag-default" data-toggle="tooltip" title="@currentBeatmap.Medium"><i class="@toolIcon" aria-hidden="true"></i></span>
-                                        <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank" ><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true" data-toggle="tooltip" title="View Beatmap Page"></i></a>
+                                        <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true" data-toggle="tooltip" title="View Beatmap Page"></i></a>
                                         <a href="osu://s/@currentBeatmap.BeatmapsetID" data-toggle="tooltip" title="Open in osu!direct"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
                                     </div>
                                 </div>

@@ -34,16 +34,36 @@ namespace osb.Controllers
             base.OnActionExecuting(context);
         }
 
-        //public IActionResult Login()
-        //{
-        //    string redirectURL = _osuWebHelper.GetAuthorizationCode();
-        //    return Redirect(redirectURL);
-        //}
+        public TokenModel GetClientToken()
+        {
+            TokenModel clientToken = JsonConvert.DeserializeObject<TokenModel>(HttpContext.Session.GetString(SessionEnum.ClientToken));
+            return clientToken;
+        }
 
-        //public IActionResult Authorized(string code)
-        //{
-        //    HttpContext.Session.SetString(SessionEnum.UserData,"Test");
-        //    return RedirectToAction("Index");
-        //}
+        public TokenModel GetAuthCodeToken()
+        {
+            TokenModel authCodeToken = JsonConvert.DeserializeObject<TokenModel>(HttpContext.Session.GetString(SessionEnum.AuthCodeToken));
+            return authCodeToken;
+        }
+
+        public bool IsClientTokenAvailable()
+        {
+            if (HttpContext.Session.GetString(SessionEnum.ClientToken) == null)
+                return false;
+            TokenModel clientToken = GetClientToken();
+            if (clientToken.GeneratedOn.Value.AddSeconds(clientToken.ExpiresIn - 1) < DateTime.Now)
+                return false;
+            return true;
+        }
+
+        public bool IsAuthCodeTokenAvailable()
+        {
+            if (HttpContext.Session.GetString(SessionEnum.AuthCodeToken) == null)
+                return false;
+            TokenModel authCodeToken = GetAuthCodeToken();
+            if (authCodeToken.GeneratedOn.Value.AddSeconds(authCodeToken.ExpiresIn - 1) < DateTime.Now)
+                return false;
+            return true;
+        }
     }
 }

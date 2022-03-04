@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using osb.Helpers;
 using osb.Models;
 using osb.ViewModels;
@@ -32,11 +33,22 @@ namespace osb.Controllers
             return View("Index", communityViewModel);
         }
 
-        public IActionResult Profile(int userID)
+        public async Task<IActionResult> Profile(int userID)
         {
             if (userID == 0)
                 return NotFound();
             CommunityViewModel communityViewModel = new CommunityViewModel();
+            //Verify Session Client Credential Exists
+            bool isTokenAvailable = IsClientTokenAvailable();
+
+            if(!isTokenAvailable)
+            {
+                TokenModel token = await _osuWebHelper.GenerateAccessTokenClient();
+                HttpContext.Session.SetString(SessionEnum.ClientToken, JsonConvert.SerializeObject(token));
+            }
+            communityViewModel.webUserData = await _osuWebHelper.GetUserData(GetClientToken().AccessToken, userID.ToString());
+
+            //TODO: Dummy Way - Replace this with Database Access
             communityViewModel.storyboarder = DummyHelper.GenerateStoryboarder(userID);
             if(communityViewModel.storyboarder == null)
             {
@@ -55,16 +67,5 @@ namespace osb.Controllers
             return View("Profile", communityViewModel);
         }
 
-        //public IActionResult Login()
-        //{
-        //    string redirectURL = _osuWebHelper.GetAuthorizationCode();
-        //    return Redirect(redirectURL);
-        //}
-
-        //public IActionResult Authorized(string code)
-        //{
-        //    HttpContext.Session.SetString(SessionEnum.UserData,"Test");
-        //    return RedirectToAction("Index");
-        //}
     }
 }

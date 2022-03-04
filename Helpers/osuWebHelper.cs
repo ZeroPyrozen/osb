@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -50,6 +51,7 @@ namespace osb.Helpers
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadFromJsonAsync<TokenModel>();
+                    result.GeneratedOn = DateTime.Now;
                 }
             }
             catch
@@ -75,6 +77,7 @@ namespace osb.Helpers
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadFromJsonAsync<TokenModel>();
+                    result.GeneratedOn = DateTime.Now;
                 }
             }
             catch
@@ -89,6 +92,25 @@ namespace osb.Helpers
         {
             WebUserModel user = null;
             string URL = Configuration.GetSection("API")["OwnDataURL"];
+            using (var request = new HttpRequestMessage(HttpMethod.Get, URL))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    user = await response.Content.ReadFromJsonAsync<WebUserModel>();
+                }
+
+                return user;
+            }
+        }
+
+        public async Task<WebUserModel> GetUserData(string token, string userID)
+        {
+            WebUserModel user = null;
+            string URL = Configuration.GetSection("API")["UserDataURL"];
+            URL = URL.Replace(":user", userID);
             using (var request = new HttpRequestMessage(HttpMethod.Get, URL))
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -174,6 +196,17 @@ namespace osb.Helpers
         public WebCover? Cover { get; set; }
         [JsonPropertyName("is_restricted")]
         public bool? IsRestricted { get; set; }
+
+        public string IsoCountryCodeToFlagEmoji(string countryCode) => string.Concat(countryCode.ToUpper().Select(x => char.ConvertFromUtf32(x + 0x1F1A5)));
+        public string GetUserFlag()
+        {
+            string country = Country.Name;
+            var regions = CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(x => new RegionInfo(x.LCID));
+            var englishRegion = regions.FirstOrDefault(region => region.EnglishName.Contains(country));
+            if (englishRegion == null) return "🏳";
+            var countryAbbrev = englishRegion.TwoLetterISORegionName;
+            return IsoCountryCodeToFlagEmoji(countryAbbrev);
+        }
     }
 
     public class WebCover
@@ -237,5 +270,7 @@ namespace osb.Helpers
         public string AccessToken { get; set; }
         [JsonPropertyName("refresh_token")]
         public string RefreshToken { get; set; }
+        [JsonPropertyName("generated_on")]
+        public DateTime? GeneratedOn { get; set; }
     }
 }

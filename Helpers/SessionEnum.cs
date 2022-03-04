@@ -9,6 +9,6 @@ namespace osb.Helpers
     {
         public static string UserData = "UserData";
         public static string ClientToken = "ClientToken";
-        public static string LoginToken = "LoginToken";
+        public static string AuthCodeToken = "AuthCodeToken";
     }
 }

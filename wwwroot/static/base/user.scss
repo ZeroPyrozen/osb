@@ -106,17 +106,17 @@
     align-items: flex-end;
 }
 
-.profile-info-icons-role {
+.profile-info-icons-country {
     margin: 0;
 }
 
-.profile-info-role {
+.profile-info-country {
     height: 30px;
     display: flex;
     align-items: center;
 }
 
-.profile-info-role-text {
+.profile-info-country-text {
     display: block;
 }
 
@@ -135,11 +135,11 @@
         justify-content: flex-start;
     }
 
-    .profile-info-icons-role {
+    .profile-info-icons-country {
         margin-top: 10px;
     }
 
-    .profile-info-role {
+    .profile-info-country {
         border-top: 2px solid;
         padding-top: 5px;
         height: 27px;

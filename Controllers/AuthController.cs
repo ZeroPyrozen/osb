@@ -33,7 +33,7 @@ namespace osb.Controllers
             TokenModel token = await _osuWebHelper.GenerateAccessTokenAuthCode(code);
             WebUserModel user = await _osuWebHelper.GetOwnData(token.AccessToken);
 
-            HttpContext.Session.SetString(SessionEnum.LoginToken, JsonConvert.SerializeObject(token));
+            HttpContext.Session.SetString(SessionEnum.AuthCodeToken, JsonConvert.SerializeObject(token));
             HttpContext.Session.SetString(SessionEnum.UserData, JsonConvert.SerializeObject(user));
 
             return RedirectToAction("Index", "Home");
