@@ -694,8 +694,8 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
-                    17321001,
-                    "Hima",
+                    10959366,
+                    "Himada",
                     new List<DiscordRoleModel>
                     {
                         DiscordRoleModel.Storyboarder,
