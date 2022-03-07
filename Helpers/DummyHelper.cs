@@ -1597,7 +1597,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics,
                         StoryboardTag.Wizardry
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/pWVzrDucBEY"
                 ),
                 new BeatmapModel
                 (
@@ -1921,7 +1922,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Rave,
                         StoryboardTag.Pixels
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/W5VePrILlvg"
                 ),
                 new BeatmapModel
                 (
@@ -2114,7 +2116,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/SbHLMX6T-1o"
                 ),
                 new BeatmapModel
                 (
@@ -2175,7 +2178,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/M0eeJtckkaY"
                 ),
                 new BeatmapModel
                 (
