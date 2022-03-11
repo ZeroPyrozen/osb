@@ -2432,7 +2432,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.FullControl,
                         StoryboardTag.Rave
-                    }
+                    },
+                    videoURL:"https://www.youtube.com/embed/rSXGZjDtiUw"
                 ),
                 new BeatmapModel
                 (
