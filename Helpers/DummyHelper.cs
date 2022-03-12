@@ -2381,7 +2381,7 @@ namespace osb.Helpers
                     beatmapTitle : "Phai Chang Em Da Yeu? feat. RedT",
                     beatmapArtist: "Juky San",
                     beatmapsetHost : new MapperModel(18319978, "Ayate"),
-                    medium: "Other",
+                    medium: "JavaScript",
                     submitDate: new DateTime(2021,07,22),
                     showcasedDate: new DateTime(2022,02,16),
                     storyboarders: new List<StoryboarderModel>
