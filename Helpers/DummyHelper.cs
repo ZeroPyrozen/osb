@@ -1676,7 +1676,8 @@ namespace osb.Helpers
                         StoryboardTag.ThreeD,
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
-                    }
+                    },
+                    videoURL:"https://www.youtube.com/embed/Zcv_nNMotbE"
                 ),
                 new BeatmapModel
                 (
@@ -2617,6 +2618,25 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.AudioVisualization
                     }
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1591460,
+                    beatmapTitle : "Kyu-kurarin",
+                    beatmapArtist: "Iyowa feat. KAFU",
+                    beatmapsetHost : new MapperModel(3812234, "0ugi"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,10,02),
+                    showcasedDate: new DateTime(2022,03,12),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Himada")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics
+                    },
+                    videoURL:"https://www.youtube.com/embed/ItkwooefdY0"
                 )
             };
             return beatmaps;
