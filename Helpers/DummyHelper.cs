@@ -1624,7 +1624,8 @@ namespace osb.Helpers
                         StoryboardTag.Rave,
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/zu_DpOZ3CUQ"
                 ),
                 new BeatmapModel
                 (
