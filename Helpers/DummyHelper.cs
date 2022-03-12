@@ -389,16 +389,6 @@ namespace osb.Helpers
                 ),
                 new StoryboarderModel
                 (
-                    4541873,
-                    "Yukiyo",
-                    new List<DiscordRoleModel>
-                    {
-                        DiscordRoleModel.Storyboarder,
-                        DiscordRoleModel.Verified
-                    }
-                ),
-                new StoryboarderModel
-                (
                     4260033,
                     "Zer0-",
                     new List<DiscordRoleModel>
