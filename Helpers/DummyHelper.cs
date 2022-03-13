@@ -2647,7 +2647,7 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
                     },
-                    videoURL:"https://www.youtube.com/embed/ul5SkrXFoYI"
+                    videoURL:"https://www.youtube.com/embed/wrBp2s013Xo"
                 )
             };
             return beatmaps;
