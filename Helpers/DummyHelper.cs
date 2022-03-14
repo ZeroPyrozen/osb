@@ -2669,7 +2669,7 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.FullControl
                     },
-                    videoURL:"https://www.youtube.com/embed/CXuIRbGEvz8"
+                    videoURL:"https://www.youtube.com/embed/_BEtwuHqWAo"
                 )
             };
             return beatmaps;
