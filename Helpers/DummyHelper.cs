@@ -2648,6 +2648,28 @@ namespace osb.Helpers
                         StoryboardTag.Particles
                     },
                     videoURL:"https://www.youtube.com/embed/wrBp2s013Xo"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 355065,
+                    beatmapTitle : "Beneath The Lights (Darren Styles Remix)",
+                    beatmapArtist: "Molly",
+                    beatmapsetHost : new MapperModel(1331447, "XinCrin"),
+                    medium: "C#",
+                    submitDate: new DateTime(2015,09,12),
+                    showcasedDate: new DateTime(2022,03,14),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("XinCrin")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Rave,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.FullControl
+                    },
+                    videoURL:"https://www.youtube.com/embed/CXuIRbGEvz8"
                 )
             };
             return beatmaps;
