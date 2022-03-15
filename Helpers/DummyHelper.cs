@@ -2670,6 +2670,28 @@ namespace osb.Helpers
                         StoryboardTag.FullControl
                     },
                     videoURL:"https://www.youtube.com/embed/_BEtwuHqWAo"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 692496,
+                    beatmapTitle : "My Non-Existent Friend, Alice",
+                    beatmapArtist: "Boxplot",
+                    beatmapsetHost : new MapperModel(2208964, "Secretpipe"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2017,11,10),
+                    showcasedDate: new DateTime(2022,03,15),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Kawa")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.FullControl
+                    },
+                    videoURL:"https://www.youtube.com/embed/Rcq0qJgCZiY"
                 )
             };
             return beatmaps;
