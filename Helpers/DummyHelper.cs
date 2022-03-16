@@ -2692,6 +2692,30 @@ namespace osb.Helpers
                         StoryboardTag.FullControl
                     },
                     videoURL:"https://www.youtube.com/embed/Rcq0qJgCZiY"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1485845,
+                    beatmapTitle : "MAKE IT FUNKY NOW (BMS EDIT)",
+                    beatmapArtist: "DOT96",
+                    beatmapsetHost : new MapperModel(2330619, "Mr HeliX"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,06,08),
+                    showcasedDate: new DateTime(2022,03,16),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Mr HeliX")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.Particles,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Wizardry,
+                        StoryboardTag.Featured
+                    },
+                    videoURL:"https://www.youtube.com/embed/YEvniuKC6VU"
                 )
             };
             return beatmaps;
