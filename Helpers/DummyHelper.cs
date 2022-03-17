@@ -2716,6 +2716,28 @@ namespace osb.Helpers
                         StoryboardTag.Featured
                     },
                     videoURL:"https://www.youtube.com/embed/YEvniuKC6VU"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1373824,
+                    beatmapTitle : "Distance (KOAN Sound Remix)",
+                    beatmapArtist: "Apashe feat. Geoffroy",
+                    beatmapsetHost : new MapperModel(7919025, "Akeruyri"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2021,02,13),
+                    showcasedDate: new DateTime(2022,03,17),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("TheSword")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.GameplayEnhancement,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.FullControl
+                    },
+                    videoURL:"https://www.youtube.com/embed/f87G2Qz6SBc"
                 )
             };
             return beatmaps;
