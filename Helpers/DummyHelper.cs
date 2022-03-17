@@ -2699,7 +2699,7 @@ namespace osb.Helpers
                     beatmapTitle : "MAKE IT FUNKY NOW (BMS EDIT)",
                     beatmapArtist: "DOT96",
                     beatmapsetHost : new MapperModel(2330619, "Mr HeliX"),
-                    medium: "Storybrew",
+                    medium: "Scripting",
                     submitDate: new DateTime(2021,06,08),
                     showcasedDate: new DateTime(2022,03,16),
                     storyboarders: new List<StoryboarderModel>
