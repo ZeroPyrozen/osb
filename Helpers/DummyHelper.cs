@@ -2735,7 +2735,8 @@ namespace osb.Helpers
                         StoryboardTag.GameplayEnhancement,
                         StoryboardTag.Lyrics,
                         StoryboardTag.AudioVisualization,
-                        StoryboardTag.FullControl
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Particles
                     },
                     videoURL:"https://www.youtube.com/embed/f87G2Qz6SBc"
                 )
