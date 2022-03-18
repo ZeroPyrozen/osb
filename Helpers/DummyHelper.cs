@@ -1332,6 +1332,15 @@ namespace osb.Helpers
                         DiscordRoleModel.Storyboarder,
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    702598,
+                    "Spectator",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
@@ -2739,6 +2748,26 @@ namespace osb.Helpers
                         StoryboardTag.Particles
                     },
                     videoURL:"https://www.youtube.com/embed/f87G2Qz6SBc"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 727329,
+                    beatmapTitle : "AMAZING BREAK",
+                    beatmapArtist: "TERRASPEX",
+                    beatmapsetHost : new MapperModel(702598, "Spectator"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2018,01,29),
+                    showcasedDate: new DateTime(2022,03,18),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Spectator")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles
+                    },
+                    videoURL:"https://www.youtube.com/embed/SttYNzvWIfQ"
                 )
             };
             return beatmaps;
