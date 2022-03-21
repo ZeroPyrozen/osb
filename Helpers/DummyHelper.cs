@@ -1341,6 +1341,15 @@ namespace osb.Helpers
                     {
                         DiscordRoleModel.Verified
                     }
+                ),
+                new StoryboarderModel
+                (
+                    13069714,
+                    "Tachibana_",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Verified
+                    }
                 )
             };
         }
@@ -2768,6 +2777,26 @@ namespace osb.Helpers
                         StoryboardTag.Particles
                     },
                     videoURL:"https://www.youtube.com/embed/SttYNzvWIfQ"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 1685032,
+                    beatmapTitle : "i wanna slam my head against the wall",
+                    beatmapArtist: "glaive",
+                    beatmapsetHost : new MapperModel(702598, "Tachibana_"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2022,01,28),
+                    showcasedDate: new DateTime(2022,03,20),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Tachibana_")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles
+                    },
+                    videoURL:"https://www.youtube.com/embed/PBmWGe2x0X4"
                 )
             };
             return beatmaps;
