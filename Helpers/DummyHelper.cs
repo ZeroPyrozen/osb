@@ -2804,7 +2804,7 @@ namespace osb.Helpers
                     beatmapTitle : "All In All",
                     beatmapArtist: "Kuba Oms",
                     beatmapsetHost : new MapperModel(5999631, "Venix"),
-                    medium: "Other",
+                    medium: "Python",
                     submitDate: new DateTime(2022,01,28),
                     showcasedDate: new DateTime(2022,03,21),
                     storyboarders: new List<StoryboarderModel>
