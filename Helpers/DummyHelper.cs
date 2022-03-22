@@ -2797,6 +2797,26 @@ namespace osb.Helpers
                         StoryboardTag.Particles
                     },
                     videoURL:"https://www.youtube.com/embed/PBmWGe2x0X4"
+                ),
+                new BeatmapModel
+                (
+                    beatmapsetID: 961320,
+                    beatmapTitle : "All In All",
+                    beatmapArtist: "Kuba Oms",
+                    beatmapsetHost : new MapperModel(5999631, "Venix"),
+                    medium: "Other",
+                    submitDate: new DateTime(2022,01,28),
+                    showcasedDate: new DateTime(2022,03,21),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("Venix")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Particles
+                    },
+                    videoURL:"https://www.youtube.com/embed/jLqhUToiEXY"
                 )
             };
             return beatmaps;
