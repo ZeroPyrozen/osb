@@ -2769,7 +2769,7 @@ namespace osb.Helpers
                     showcasedDate: new DateTime(2022,03,18),
                     storyboarders: new List<StoryboarderModel>
                     {
-                        GetStoryboarderByName("Spectator")
+                        GetStoryboarderByName("Darky1")
                     },
                     tags: new List<StoryboardTag>
                     {
