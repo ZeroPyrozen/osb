@@ -21,6 +21,13 @@ namespace osb.Controllers
             return View("Index", showcaseViewModel);
         }
 
+        public IActionResult Submit()
+        {
+            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+            showcaseViewModel.baseURL = "https://" + this.Request.Host;
+            return View("Submit", showcaseViewModel);
+        }
+
         public IActionResult Search(string s, string f, string c, string t)
         {
             ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();

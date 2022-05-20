@@ -27,8 +27,10 @@ namespace osb.Controllers
             return Redirect(redirectURL);
         }
 
-        public async Task<IActionResult> Authorized(string code)
+        public async Task<IActionResult> Authorized(string code, string error)
         {
+            if(!string.IsNullOrEmpty(error))
+                return RedirectToAction("Index", "Home");
             HttpContext.Session.SetString("Login", "Test");
             TokenModel token = await _osuWebHelper.GenerateAccessTokenAuthCode(code);
             WebUserModel user = await _osuWebHelper.GetOwnData(token.AccessToken);
