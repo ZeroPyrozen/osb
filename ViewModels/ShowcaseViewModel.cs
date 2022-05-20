@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace osb.ViewModels
 {
+    //Test
     public class ShowcaseViewModel
     {
         public BeatmapModel beatmapDetail { get; set; }
