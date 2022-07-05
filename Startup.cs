@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using osb.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace osb
             services.AddMvc()
                 // have to let MVC know we have a controller
                 .AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly);
+            services.AddSingleton<IOsuWebHelper, OsuWebHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +65,6 @@ namespace osb
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
 
             app.UseRouting();
 

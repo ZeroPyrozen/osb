@@ -15,11 +15,11 @@ namespace osb.Controllers
     public class CommunityController : BaseController
     {
         private IConfiguration _configuration;
-        private OsuWebHelper _osuWebHelper;
-        public CommunityController(IConfiguration iconfig)
+        private IOsuWebHelper _osuWebHelper;
+        public CommunityController(IConfiguration iconfig, IOsuWebHelper osuWebHelper)
         {
             _configuration = iconfig;
-            _osuWebHelper = new OsuWebHelper(_configuration);
+            _osuWebHelper = osuWebHelper;
         }
         public IActionResult Index()
         {

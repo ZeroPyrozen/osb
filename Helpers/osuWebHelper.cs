@@ -14,7 +14,16 @@ using System.Threading.Tasks;
 
 namespace osb.Helpers
 {
-    public class OsuWebHelper
+    public interface IOsuWebHelper
+    {
+        public string GetAuthorizationCode();
+        public Task<TokenModel> GenerateAccessTokenAuthCode(string code);
+        public Task<TokenModel> GenerateAccessTokenClient();
+        public Task<WebUserModel> GetOwnData(string token);
+        public Task<WebUserModel> GetUserData(string token, string userID);
+    }
+
+    public class OsuWebHelper : IOsuWebHelper
     {
         private string baseURL = "https://osu.ppy.sh/";
         private HttpClient client = new HttpClient();
