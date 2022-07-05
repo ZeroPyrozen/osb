@@ -21,6 +21,7 @@ namespace osb
         }
 
         public IConfiguration Configuration { get; }
+        private string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,6 +34,14 @@ namespace osb
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                policy =>
+                {
+                    policy.WithOrigins("https://osu.ppy.sh/");
+                });
             });
             // We need to use MVC so we can use a Razor Configuration Template
             services.AddMvc()
@@ -67,7 +76,7 @@ namespace osb
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthorization();
 
             app.UseSession();

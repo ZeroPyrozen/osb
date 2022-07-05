@@ -46,7 +46,14 @@ namespace osb.Controllers
                 TokenModel token = await _osuWebHelper.GenerateAccessTokenClient();
                 HttpContext.Session.SetString(SessionEnum.ClientToken, JsonConvert.SerializeObject(token));
             }
-            communityViewModel.webUserData = await _osuWebHelper.GetUserData(GetClientToken().AccessToken, userID.ToString());
+            try
+            {
+                communityViewModel.webUserData = await _osuWebHelper.GetUserData(GetClientToken().AccessToken, userID.ToString());
+            }
+            catch(Exception e)
+            {
+                return NotFound();
+            }
 
             //TODO: Dummy Way - Replace this with Database Access
             communityViewModel.storyboarder = DummyHelper.GenerateStoryboarder(userID);
