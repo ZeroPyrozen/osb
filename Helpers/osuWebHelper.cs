@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ISO3166;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -209,12 +210,11 @@ namespace osb.Helpers
         public string IsoCountryCodeToFlagEmoji(string countryCode) => string.Concat(countryCode.ToUpper().Select(x => char.ConvertFromUtf32(x + 0x1F1A5)));
         public string GetUserFlag()
         {
+            Country[] countries = ISO3166.Country.List;
             string country = Country.Name;
-            var regions = CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(x => new RegionInfo(x.LCID));
-            var englishRegion = regions.FirstOrDefault(region => region.EnglishName.Contains(country));
-            if (englishRegion == null) return "🏳";
-            var countryAbbrev = englishRegion.TwoLetterISORegionName;
-            return IsoCountryCodeToFlagEmoji(countryAbbrev);
+            var countryAbbrev = ISO3166.Country.List.Where(x=>x.Name == country).FirstOrDefault();
+            if(countryAbbrev == null) return "🏳";
+            return IsoCountryCodeToFlagEmoji(countryAbbrev.TwoLetterCode);
         }
     }
 
