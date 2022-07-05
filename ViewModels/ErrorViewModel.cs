@@ -10,5 +10,6 @@ namespace osb.ViewModels
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
         public BeatmapModel randomBeatmap { get; set; }
         public string baseURL { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

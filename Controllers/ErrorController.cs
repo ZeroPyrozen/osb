@@ -46,8 +46,9 @@ namespace osb.Controllers
         [AllowAnonymous]
         public IActionResult Error()
         {
+            var errorViewModel = new ErrorViewModel();
             var exceptionDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            
+            errorViewModel.ErrorMessage = exceptionDetails.Error.Message;
             return View("InternalError");
         }
     }
