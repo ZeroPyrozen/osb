@@ -1,15 +1,48 @@
 ﻿@{
     Layout = null;
 }
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <title>
         Home Page
     </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/cssV2/style.css">
+    <title>Document</title>
 </head>
+
 <body>
-    <h1>osb! Home Page</h1>
+    <div class="body-bg">
+    </div>
+    <div class="mrg-body-cont">
+        <nav class="nav-bar">
+            <div class="nav-start-container">
+                <a class="nav-link" href="/">
+                    <img src="~/staticV2/svg/osb.svg" alt="">
+                </a>
+                <div class="nav-link-container">
+                    <a class="nav-link" href="@Url.ActionLink("Home", "Future", new { code = "WYSI"})">Home</a>
+                    <a class="nav-link" href="@Url.ActionLink("Showcase", "Future", new { code = "WYSI"})">Showcase</a>
+                    <a class="nav-link" href="@Url.ActionLink("Learn", "Future", new { code = "WYSI"})">Learn</a>
+                    <a class="nav-link" href="@Url.ActionLink("Community", "Future", new { code = "WYSI"})">Community</a>
+                    <a class="nav-link" href="@Url.ActionLink("Profile", "Future", new { code = "WYSI"})">Profile</a>
+                    <a class="nav-link" href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not Found</a>
+                </div>
+            </div>
+            <div class="nav-button-container">
+                <a href="https://discord.gg/B8NX7YW"><button class="nav-button"><img src="~/staticV2/svg/discord.svg"
+                            alt=""></button></a>
+                <button class="nav-button"><img src="~/staticV2/svg/language.svg" alt=""></button>
+                <button class="login-button">Login</button>
+            </div>
+        </nav>
+        <h3>Home</h3>
+    </div>
 </body>
+<script src="~/jsV2/site.js"></script>
 </html>
