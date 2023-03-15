@@ -13,25 +13,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/cssV2/style.css">
+    <link rel="stylesheet" href="~/cssV2/media.css">
     <title>Document</title>
 </head>
 
 <body>
     <div class="body-bg">
     </div>
-    <div class="mrg-body-cont">
-        <nav class="nav-bar">
+    <div style="height: 1000px;" id="mrgBody" class="mrg-body-cont">
+        <nav id="header" class="nav-bar">
             <div class="nav-start-container">
-                <a class="nav-link" href="/">
-                    <img src="~/staticV2/svg/osb.svg" alt="">
+                <a class="link" href="/">
+                    <img class="logo" src="~/staticV2/svg/osb.svg" alt="">
                 </a>
-                <div class="nav-link-container">
-                    <a class="nav-link" href="@Url.ActionLink("Home", "Future", new { code = "WYSI"})">Home</a>
-                    <a class="nav-link" href="@Url.ActionLink("Showcase", "Future", new { code = "WYSI"})">Showcase</a>
-                    <a class="nav-link" href="@Url.ActionLink("Learn", "Future", new { code = "WYSI"})">Learn</a>
-                    <a class="nav-link" href="@Url.ActionLink("Community", "Future", new { code = "WYSI"})">Community</a>
-                    <a class="nav-link" href="@Url.ActionLink("Profile", "Future", new { code = "WYSI"})">Profile</a>
-                    <a class="nav-link" href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not Found</a>
+                <div class="link-container">
+                    <a class="link" href="@Url.ActionLink("Home", "Future", new { code = "WYSI"})">Home</a>
+                    <a class="link" href="@Url.ActionLink("Showcase", "Future", new { code = "WYSI"})">Showcase</a>
+                    <a class="link" href="@Url.ActionLink("Learn", "Future", new { code = "WYSI"})">Learn</a>
+                    <a class="link" href="@Url.ActionLink("Community", "Future", new { code = "WYSI"})">Community</a>
+                    <a class="link" href="@Url.ActionLink("Profile", "Future", new { code = "WYSI"})">Profile</a>
+                    <a class="link" href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not Found</a>
                 </div>
             </div>
             <div class="nav-button-container">
@@ -41,7 +42,44 @@
                 <button class="login-button">Login</button>
             </div>
         </nav>
-        <h3>Home</h3>
+        <div class="card slideshow-counteiner">
+            <div class="my-slide fade">
+                <div class="image-slide" style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(.././staticV2/img/test.png);"></div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">Simple Artist Name - Simple Song Name</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">EvT</a>
+                    </div>
+                </div>
+            </div>
+            <div class="my-slide fade">
+                <div class="image-slide" style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/AaAF51Gwbxo/maxresdefault.jpg);"></div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">WYSI</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">Cookiezi</a>
+                    </div>
+                </div>
+            </div>
+            <div class="my-slide fade">
+                <div class="image-slide" style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/yX-ikZ135Xo/maxresdefault.jpg?7857057827);"></div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">Yooooo</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">BTMC</a>
+                    </div>
+                </div>
+            </div>
+            <div class="control-slide-container">
+                <button class="arrow" onclick="posSlide(-1)"><img src="~/staticV2/svg/arrow-left.svg" alt=""></button>
+                <div class="dots-container">
+                    <div class="dot" onclick="currSlide(1)"></div>
+                    <div class="dot" onclick="currSlide(2)"></div>
+                    <div class="dot" onclick="currSlide(3)"></div>
+                </div>
+                <button class="arrow" onclick="posSlide(1)"><img src="~/staticV2/svg/arrow-right.svg" alt=""></button>
+            </div>
+        </div>
     </div>
 </body>
 <script src="~/jsV2/site.js"></script>
