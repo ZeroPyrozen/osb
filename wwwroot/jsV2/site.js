@@ -59,7 +59,6 @@ if (!motionMatchMedia.matches) {
 
 
 const navbar = document.getElementById('header');
-const body = document.getElementById('mrgBody');
 window.onscroll = () => {
     if (window.scrollY > 90) {
         navbar.classList.add('nav-active');

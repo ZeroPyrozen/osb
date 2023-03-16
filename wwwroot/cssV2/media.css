@@ -1,6 +1,14 @@
 /* //////// 480 - 790 (855) ///////// */
 
 @media (max-width: 855px) {
+    .mrg-body-cont {
+        padding: 115px 15px 0px;
+    }
+
+    .slide-song-info {
+        font-size: 16px;
+    }
+
     .nav-bar {
         padding: 0 40px;
     }
@@ -17,17 +25,22 @@
         margin: 0px 0px;
     }
 
-    .nav-bar {
+    .nav-bar, .footer {
         margin: 0;
     }
 
     .nav-active {
         border-radius: 0px;
-        margin: -10px 0 0 0;
+        margin: 0;
     }
 
     .slideshow-counteiner {
         margin: 0;
+    }
+
+    .middle-content {
+        margin: 0;
+        flex-direction: column;
     }
 }
 

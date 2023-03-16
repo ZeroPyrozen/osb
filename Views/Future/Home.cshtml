@@ -20,7 +20,7 @@
 <body>
     <div class="body-bg">
     </div>
-    <div style="height: 1000px;" id="mrgBody" class="mrg-body-cont">
+    <div id="mrgBody" class="mrg-body-cont">
         <nav id="header" class="nav-bar">
             <div class="nav-start-container">
                 <a class="link" href="/">
@@ -32,7 +32,8 @@
                     <a class="link" href="@Url.ActionLink("Learn", "Future", new { code = "WYSI"})">Learn</a>
                     <a class="link" href="@Url.ActionLink("Community", "Future", new { code = "WYSI"})">Community</a>
                     <a class="link" href="@Url.ActionLink("Profile", "Future", new { code = "WYSI"})">Profile</a>
-                    <a class="link" href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not Found</a>
+                    <a class="link" href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not
+                        Found</a>
                 </div>
             </div>
             <div class="nav-button-container">
@@ -42,9 +43,11 @@
                 <button class="login-button">Login</button>
             </div>
         </nav>
-        <div class="card slideshow-counteiner">
+        <div class="card slideshow-counteiner outline fade">
             <div class="my-slide fade">
-                <div class="image-slide" style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(.././staticV2/img/test.png);"></div>
+                <div class="image-slide"
+                    style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(.././staticV2/img/test.png);">
+                </div>
                 <div class="slide-map-info">
                     <a class="link slide-song-info" href="/">Simple Artist Name - Simple Song Name</a>
                     <div class="slide-storyb">
@@ -53,7 +56,9 @@
                 </div>
             </div>
             <div class="my-slide fade">
-                <div class="image-slide" style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/AaAF51Gwbxo/maxresdefault.jpg);"></div>
+                <div class="image-slide"
+                    style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/AaAF51Gwbxo/maxresdefault.jpg);">
+                </div>
                 <div class="slide-map-info">
                     <a class="link slide-song-info" href="/">WYSI</a>
                     <div class="slide-storyb">
@@ -62,7 +67,9 @@
                 </div>
             </div>
             <div class="my-slide fade">
-                <div class="image-slide" style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/yX-ikZ135Xo/maxresdefault.jpg?7857057827);"></div>
+                <div class="image-slide"
+                    style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/yX-ikZ135Xo/maxresdefault.jpg?7857057827);">
+                </div>
                 <div class="slide-map-info">
                     <a class="link slide-song-info" href="/">Yooooo</a>
                     <div class="slide-storyb">
@@ -80,7 +87,184 @@
                 <button class="arrow" onclick="posSlide(1)"><img src="~/staticV2/svg/arrow-right.svg" alt=""></button>
             </div>
         </div>
+        <div class="middle-content fade">
+            <div class="middle-container">
+                <div class="showcase-block outline">
+                    <div class="showcase-container">
+                        <div class="title">Showcase</div>
+                        <div class="now-play-title">
+                            <p>Now playing <a href="/"><strong>Video Name</strong></a>.
+                            </p>
+                        </div>
+                    </div>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/SbHLMX6T-1o?controls=0"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="title-block">
+                    <div class="title">Most Recently Added Storyboards</div>
+                    <div class="list-content">
+                        <div class="storyb-card-small outline"
+                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.9) 0%, rgba(51, 54, 53, 0.6) 50%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                            <div class="head-content">
+                                <p class="card-hosted">Hosted by <a href="/">Venix</a>
+                                </p>
+                                <p class="card-osb-lvl">OSB LVL 95</p>
+                            </div>
+                            <div class="info-content">
+                                <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                                <p class="card-storyb">Storyboarded by <a href="/">Venix</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="storyb-card-small outline"
+                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.9) 0%, rgba(51, 54, 53, 0.6) 50%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                            <div class="head-content">
+                                <p class="card-hosted">Hosted by <a href="/">Venix</a>
+                                </p>
+                                <p class="card-osb-lvl">OSB LVL 95</p>
+                            </div>
+                            <div class="info-content">
+                                <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                                <p class="card-storyb">Storyboarded by <a href="/">Venix</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="storyb-card-small outline"
+                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.9) 0%, rgba(51, 54, 53, 0.6) 50%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                            <div class="head-content">
+                                <p class="card-hosted">Hosted by <a href="/">Venix</a>
+                                </p>
+                                <p class="card-osb-lvl">OSB LVL 95</p>
+                            </div>
+                            <div class="info-content">
+                                <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                                <p class="card-storyb">Storyboarded by <a href="/">Venix</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="storyb-card-small outline"
+                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.9) 0%, rgba(51, 54, 53, 0.6) 50%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                            <div class="head-content">
+                                <p class="card-hosted">Hosted by <a href="/">Venix</a>
+                                </p>
+                                <p class="card-osb-lvl">OSB LVL 95</p>
+                            </div>
+                            <div class="info-content">
+                                <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                                <p class="card-storyb">Storyboarded by <a href="/">Venix</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="storyb-card-small outline"
+                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.9) 0%, rgba(51, 54, 53, 0.6) 50%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                            <div class="head-content">
+                                <p class="card-hosted">Hosted by <a href="/">Venix</a>
+                                </p>
+                                <p class="card-osb-lvl">OSB LVL 95</p>
+                            </div>
+                            <div class="info-content">
+                                <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                                <p class="card-storyb">Storyboarded by <a href="/">Venix</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="storyb-card-small outline"
+                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.9) 0%, rgba(51, 54, 53, 0.6) 50%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                            <div class="head-content">
+                                <p class="card-hosted">Hosted by <a href="/">Venix</a>
+                                </p>
+                                <p class="card-osb-lvl">OSB LVL 95</p>
+                            </div>
+                            <div class="info-content">
+                                <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                                <p class="card-storyb">Storyboarded by <a href="/">Venix</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="middle-container">
+                <div class="overview-container outline">
+                    <div class="title">Overview</div>
+                    <div class="overview-description">
+                        <p>Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual
+                            wizardry on osu!? You can get started by checking out <a href="/">storyboard
+                                showcase</a>, or gander at some up on the carousel above or on the YouTube
+                            player here. If you're here to learn how to storyboard and program, look no further than our
+                            <a href="/">learning resources</a>! And if you want to be a part of the
+                            storyboarding commmunity, <a href="/">click here to learn more</a>.
+                        </p>
+                        <ul>
+                            <li>We have a grand total of 67 storyboards in our showcase!</li>
+                            <li>We also have 63 storyboarders creating these masterpieces.</li>
+                            <li>The 5 most popular mediums used to create storyboards are:
+                                <ul>
+                                    <li>Storybrew - 32 Storyboards</li>
+                                    <li>SGL - 7 Storyboards</li>
+                                    <li>Scripting - 6 Storyboards</li>
+                                    <li>Other - 6 Storyboards</li>
+                                    <li>C# - 5 Storyboards</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="title-block">
+                    <div class="title">Updates</div>
+                    <div class="list-content">
+                        <div class="update-post outline">
+                            <div class="info-post">
+                                <p class="data-post">2022/03/04</p>
+                                <a class="user-post link">Mamat</a>
+                            </div>
+                            <p class="text-post">Yay this web has implemented osu! account as single sign on :D . This
+                                feature will enable you to submit your own storyboard for showcase in the future update!
+                                I also have been working on designing the database so we can move on from dummy data to
+                                actual running database.
+                            </p>
+                        </div>
+                        <div class="update-post outline">
+                            <div class="info-post">
+                                <p class="data-post">2022/01/21</p>
+                                <a class="user-post link">Mamat</a>
+                            </div>
+                            <p class="text-post">I'm back with an update! So I'm currently developing learn page. The
+                                page content itself will be based on markdown files so you can contribute to this
+                                project easier :D . You can check the preview on <a href="/">this link</a>.
+                            </p>
+                        </div>
+                        <div class="update-post outline">
+                            <div class="info-post">
+                                <p class="data-post">2021/12/26</p>
+                                <a class="user-post link">Mamat</a>
+                            </div>
+                            <p class="text-post">Yes new updates! I've implemented storyboarder page and thanks to
+                                Coppertine again for the design suggestion. I also have changed all existing
+                                storyboarder URL to the page.
+                            </p>
+                            <p class="text-post">But, I underestimated the tedious task of inputting Storyboarder
+                                manually with SQL, huft. So I've come up with "solution" to reduce that. First I
+                                generate the storyboarder and the map in existing DummyHelper class so the you can see
+                                the map instantly with web page updated regularly. Then after I come up with user
+                                authentication and CRUD page for adding beatmap and storyboarder, I will create stored
+                                procedures to insert the beatmap and storyboarder to database.
+                            </p>
+                        </div>
+                        <button class="load-button">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer fade">
+            <img class="logo-osu" src="~/staticV2/svg/osu.svg" alt="">
+            <p>Powered with <img src="~/staticV2/svg/heart.svg" alt=""></p>
+        </footer>
     </div>
 </body>
 <script src="~/jsV2/site.js"></script>
+
 </html>
