@@ -24,10 +24,10 @@ function showSlides(n) {
         slides[i].style.display = "none";
     }
     for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace("active","");
+        dots[i].className = dots[i].className.replace("active", "");
     }
-    slides[sliderIndex-1].style.display = "block";
-    dots[sliderIndex-1].className += " active";
+    slides[sliderIndex - 1].style.display = "block";
+    dots[sliderIndex - 1].className += " active";
 }
 
 
@@ -37,24 +37,24 @@ const motionMatchMedia = window.matchMedia("(prefers-reduced-motion)");
 const THRESHOLD = 3;
 
 function handleHover(e) {
-  const { clientX, clientY, currentTarget } = e;
-  const { clientWidth, clientHeight, offsetLeft, offsetTop } = currentTarget;
+    const { clientX, clientY, currentTarget } = e;
+    const { clientWidth, clientHeight, offsetLeft, offsetTop } = currentTarget;
 
-  const horizontal = (clientX - offsetLeft) / clientWidth;
-  const vertical = (clientY - offsetTop) / clientHeight;
-  const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
-  const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
+    const horizontal = (clientX - offsetLeft) / clientWidth;
+    const vertical = (clientY - offsetTop) / clientHeight;
+    const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
+    const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
 
-  card.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
+    card.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
 }
 
 function resetStyles(e) {
-  card.style.transform = `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
+    card.style.transform = `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
 }
 
 if (!motionMatchMedia.matches) {
-  card.addEventListener("mousemove", handleHover);
-  card.addEventListener("mouseleave", resetStyles);
+    card.addEventListener("mousemove", handleHover);
+    card.addEventListener("mouseleave", resetStyles);
 }
 
 
@@ -68,3 +68,53 @@ window.onscroll = () => {
         navbar.classList.remove('nav-active');
     }
 };
+
+
+const userDashboard = document.getElementById('userDashboard');
+const dashboard = document.getElementById('dashboard');
+const changeLangButton = document.getElementById('changeLangButton');
+const dashboardLang = document.getElementById('dashboardLanguage');
+let TF = true;
+let CL = true;
+
+document.body.addEventListener('click', () => {
+    window.onclick = e => {
+        if (e.target.id == 'trigger' || e.target.id == 'changeLangButton') return;
+        if (TF == false) dashboard.style.display = 'none', TF = true
+        if (CL == false) dashboardLang.style.display = 'none', CL = true
+    }
+})
+
+if (userDashboard) {
+    userDashboard.addEventListener('click', () => {
+        if (CL == false) dashboardLang.style.display = 'none', CL = true
+        if (TF == false) dashboard.style.display = 'none', TF = true
+        else dashboard.style.display = 'flex', TF = false
+    })
+}
+
+if (changeLangButton) {
+    changeLangButton.addEventListener('click', () => {
+        if (TF == false) dashboard.style.display = 'none', TF = true
+        if (CL == false) dashboardLang.style.display = 'none', CL = true
+        else dashboardLang.style.display = 'flex', CL = false
+    })
+}
+
+const search = document.getElementById('search');
+let current = search;
+const toSB = document.getElementById('toSB');
+const toOL = document.getElementById('toOL');
+
+search.addEventListener('input', () => {
+    check(current.value)
+})
+
+search.addEventListener('click', () => {
+    check(current.value)
+})
+
+function check(e) {
+    toSB.href = `http://127.0.0.1:5500/showcase/search?s=${e}`;
+    toOL.href = `http://127.0.0.1:5500/learn/docs/search/?q=${e}`;
+}
