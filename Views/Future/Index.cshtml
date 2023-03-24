@@ -1,23 +1,13 @@
 ﻿@{
-    Layout = null;
+    ViewData["Title"] = "osb! Test Page";
+    Layout = "~/Views/Future/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>
-        Test
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <h1>Welcome to osb! Test Page</h1>
-    <ul>
-        <li><a href="@Url.ActionLink("Home", "Future", new { code = "WYSI"})">Home</a></li>
-        <li><a href="@Url.ActionLink("Showcase", "Future", new { code = "WYSI"})">Showcase</a></li>
-        <li><a href="@Url.ActionLink("Learn", "Future", new { code = "WYSI"})">Learn</a></li>
-        <li><a href="@Url.ActionLink("Community", "Future", new { code = "WYSI"})">Community</a></li>
-        <li><a href="@Url.ActionLink("Profile", "Future", new { code = "WYSI"})">Profile</a></li>
-        <li><a href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not Found</a></li>
-    </ul>
-</body>
-</html>
+<h1>Welcome to osb! Test Page</h1>
+<ul>
+    <li><a href="@Url.ActionLink("Home", "Future", new { code = "WYSI"})">Home</a></li>
+    <li><a href="@Url.ActionLink("Showcase", "Future", new { code = "WYSI"})">Showcase</a></li>
+    <li><a href="@Url.ActionLink("Learn", "Future", new { code = "WYSI"})">Learn</a></li>
+    <li><a href="@Url.ActionLink("Community", "Future", new { code = "WYSI"})">Community</a></li>
+    <li><a href="@Url.ActionLink("Profile", "Future", new { code = "WYSI"})">Profile</a></li>
+    <li><a href="@Url.ActionLink("Not Found", "Future", new { code = "WYSI"})">404 Not Found</a></li>
+</ul>

@@ -59,5 +59,12 @@ namespace osb.Controllers
                 return View();
             return Redirect("Home");
         }
+
+        public IActionResult Profile(string code)
+        {
+            if (!string.IsNullOrEmpty(code) && code == "WYSI")
+                return View();
+            return Redirect("Home");
+        }
     }
 }

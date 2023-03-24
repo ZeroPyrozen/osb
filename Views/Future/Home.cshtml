@@ -1,399 +1,348 @@
 ﻿@{
-    Layout = null;
+    ViewData["Title"] = "osb! Home Page";
+    Layout = "~/Views/Future/_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>
-        Home Page
-    </title>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/cssV2/style.css">
-    <link rel="stylesheet" href="~/cssV2/media.css">
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="body-bg">
+<div class="overview-container fade">
+    <div class="title">Osu! Storyboarder Banquet</div>
+    <div class="overview-description">
+        <p>
+            Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual
+            wizardry on osu!? You can get started by checking out <a href="/">
+                storyboard
+                showcase
+            </a>, or gander at some up on the carousel above or on the YouTube
+            player here. If you're here to learn how to storyboard and program, look no further than our
+            <a href="/">learning resources</a>! And if you want to be a part of the
+            storyboarding commmunity, <a href="/">click here to learn more</a>.
+        </p>
     </div>
-    <div id="mrgBody" class="mrg-body-cont">
-        <nav id="header" class="nav-bar">
-            <div class="nav-start-container">
-                <a class="link" href="/">
-                    <img class="logo" src="~/staticV2/svg/osb.svg" alt="">
-                </a>
-                <div class="nav-container">
-                    <div class="search-container">
-                        <input type="search" id="search" placeholder="Search..." />
-                        <span class="icon"><img src="~/staticV2/svg/search.svg" alt=""></span>
-                        <div class="nav-search-container">
-                            <p class="search-text">Search how:</p>
-                            <a id="toSB" class="nav-search-button" href="/">to Storyboard</a>
-                            <a id="toOL" class="nav-search-button" href="/">to osb!learn</a>
-                        </div>
+    <div class="overview-mascot"></div>
+</div>
+<div class="middle-content fade">
+    <div class="middle-left-container">
+        <div class="card slideshow-counteiner fade">
+            <div class="my-slide fade">
+                <div class="image-slide"
+                     style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(.././staticV2/img/test.png);">
+                </div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">Simple Artist Name - Simple Song Name</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">EvT</a>
                     </div>
-                    <button class="menu-links"><img src="~/staticV2/svg/dot-horizontal.svg" alt="">
-                        <div class="link-container">
-                            <a class="link-button" href="/">Home</a>
-                            <a class="link-button" href="/">Showcase</a>
-                            <a class="link-button" href="/">Learn</a>
-                            <a class="link-button" href="/">Community</a>
-                        </div>
-                    </button>
                 </div>
             </div>
-            <div class="nav-button-container">
-                <a href="https://discord.gg/B8NX7YW"><button class="nav-button"><img src="~/staticV2/svg/discord.svg"
-                            alt=""></button></a>
-                <button id="changeLangButton" class="nav-button">
-                    <img src="~/staticV2/svg/language.svg" alt="">
-                    <div id="dashboardLanguage" class="nav-language-container">
-                        <a class="nav-language-button" href="/"><img src="~/staticV2/flags/GB.svg" alt="">
-                            <p class="language-text">English</p>
-                            <p class="percent">100%</p>
-                        </a>
-                        <a class="nav-language-button" href="/"><img src="~/staticV2/flags/IT.svg" alt="">
-                            <p class="language-text">Italiano</p>
-                            <p class="percent">40%</p>
-                        </a>
-                        <a class="nav-language-button" href="/"><img src="~/staticV2/flags/SE.svg" alt="">
-                            <p class="language-text">Svenska</p>
-                            <p class="percent">20%</p>
-                        </a>
-                        <a class="nav-language-button" href="/"><img src="~/staticV2/flags/JP.svg" alt="">
-                            <p class="language-text">日本語</p>
-                            <p class="percent">20%</p>
-                        </a>
-                        <a class="nav-language-button" href="/"><img src="~/staticV2/flags/RU.svg" alt="">
-                            <p class="language-text">Русский</p>
-                            <p class="percent">30%</p>
-                        </a>
+            <div class="my-slide fade">
+                <div class="image-slide"
+                     style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/AaAF51Gwbxo/maxresdefault.jpg);">
+                </div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">WYSI</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">Cookiezi</a>
                     </div>
-                </button>
-                <button class="login-button">Login</button>
-                <button id="userDashboard" class="nav-user-profile">
-                    <img id="trigger" src="~/staticV2/img/avatar.png" alt="">
-                    <div id="dashboard" class="nav-user-container">
-                        <a class="nav-user-button" href="/">
-                            <p>Profile</p><img src="~/staticV2/svg/user-profile.svg" alt="">
-                        </a>
-                        <a class="nav-user-button" href="/">
-                            <p>Admin panel</p><img src="~/staticV2/svg/admin-panel.svg" alt="">
-                        </a>
-                        <a class="nav-user-button" href="/">
-                            <p>Upload storyboard</p><img src="~/staticV2/svg/upload.svg" alt="">
-                        </a>
-                        <a class="nav-user-logout" href="/">
-                            <p>Logout</p><img src="~/staticV2/svg/logout.svg" alt="">
-                        </a>
+                </div>
+            </div>
+            <div class="my-slide fade">
+                <div class="image-slide"
+                     style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/yX-ikZ135Xo/maxresdefault.jpg?7857057827);">
+                </div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">Yooooo</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">BTMC</a>
                     </div>
-                </button>
+                </div>
             </div>
-        </nav>
-        <div class="overview-container fade">
-            <div class="title">Osu! Storyboarder Banquet</div>
-            <div class="overview-description">
-                <p>Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual
-                    wizardry on osu!? You can get started by checking out <a href="/">storyboard
-                        showcase</a>, or gander at some up on the carousel above or on the YouTube
-                    player here. If you're here to learn how to storyboard and program, look no further than our
-                    <a href="/">learning resources</a>! And if you want to be a part of the
-                    storyboarding commmunity, <a href="/">click here to learn more</a>.
-                </p>
+            <div class="my-slide fade">
+                <div class="image-slide"
+                     style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://assets.ppy.sh/beatmaps/1588624/covers/cover@2x.jpg?1644089336);">
+                </div>
+                <div class="slide-map-info">
+                    <a class="link slide-song-info" href="/">Yu-Peng Chen @@HOYO-MiX - The Stellar Moments</a>
+                    <div class="slide-storyb">
+                        <span>Storyboarded by</span><a class="link" href="/">Rizen</a><a class="link" href="/">Nitrous</a><a class="link" href="/">Hokichi</a>and<a class="link" href="/">Mamat</a>
+                    </div>
+                </div>
             </div>
-            <div class="overview-mascot"></div>
+            <div class="control-slide-container">
+                <button class="arrow" onclick="posSlide(-1)"><img src="~/staticV2/svg/arrow-left.svg" alt=""></button>
+                <div class="dots-container">
+                    <div class="dot" onclick="currSlide(1)"></div>
+                    <div class="dot" onclick="currSlide(2)"></div>
+                    <div class="dot" onclick="currSlide(3)"></div>
+                    <div class="dot" onclick="currSlide(4)"></div>
+                </div>
+                <button class="arrow" onclick="posSlide(1)"><img src="~/staticV2/svg/arrow-right.svg" alt=""></button>
+            </div>
         </div>
-        <div class="middle-content fade">
-            <div class="middle-left-container">
-                <div class="card slideshow-counteiner fade">
-                    <div class="my-slide fade">
-                        <div class="image-slide"
-                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(.././staticV2/img/test.png);">
+        <div class="title-block">
+            <div class="title">Most Recently Added Storyboards</div>
+            <div class="list-content">
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/1060207/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/1060207/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Paramore - Still Into You (Sped Up & Cut Ver.)</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Slyk</a>, <a href="/">PantyDev</a>, <a href="/">freihy</a>, <a href="/">BowLL</a>, <a href="/">TheDuckMask</a></p>
                         </div>
-                        <div class="slide-map-info">
-                            <a class="link slide-song-info" href="/">Simple Artist Name - Simple Song Name</a>
-                            <div class="slide-storyb">
-                                <span>Storyboarded by</span><a class="link" href="/">EvT</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="my-slide fade">
-                        <div class="image-slide"
-                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/AaAF51Gwbxo/maxresdefault.jpg);">
-                        </div>
-                        <div class="slide-map-info">
-                            <a class="link slide-song-info" href="/">WYSI</a>
-                            <div class="slide-storyb">
-                                <span>Storyboarded by</span><a class="link" href="/">Cookiezi</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="my-slide fade">
-                        <div class="image-slide"
-                            style="background-image: linear-gradient(180deg, rgba(51, 54, 53, 0.95) 0%, rgba(51, 54, 53, 0.7) 100%), url(https://i.ytimg.com/vi/yX-ikZ135Xo/maxresdefault.jpg?7857057827);">
-                        </div>
-                        <div class="slide-map-info">
-                            <a class="link slide-song-info" href="/">Yooooo</a>
-                            <div class="slide-storyb">
-                                <span>Storyboarded by</span><a class="link" href="/">BTMC</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="control-slide-container">
-                        <button class="arrow" onclick="posSlide(-1)"><img src="~/staticV2/svg/arrow-left.svg" alt=""></button>
-                        <div class="dots-container">
-                            <div class="dot" onclick="currSlide(1)"></div>
-                            <div class="dot" onclick="currSlide(2)"></div>
-                            <div class="dot" onclick="currSlide(3)"></div>
-                        </div>
-                        <button class="arrow" onclick="posSlide(1)"><img src="~/staticV2/svg/arrow-right.svg" alt=""></button>
-                    </div>
-                </div>
-                <div class="title-block">
-                    <div class="title">Most Recently Added Storyboards</div>
-                    <div class="list-content">
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="storyb-card-small"
-                            style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
-                            <a href="/"><img class="card-img"
-                                    src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset=""></a>
-                            <div class="info-content">
-                                <div class="content-container">
-                                    <a class="card-name-song" href="/">Kuba Oms - All In All</a>
-                                    <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
-                                </div>
-                                <div class="content-container">
-                                    <p class="card-osb-lvl">OSB LVL 95</p>
-                                    <p class="card-hosted">Hosted by <a href="/">Venix</a>
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 100</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Froskya</a>
+                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="middle-right-container">
-                <div class="showcase-block">
-                    <div class="showcase-container">
-                        <div class="title">Showcase</div>
-                        <div class="now-play-title">
-                            <p>Now playing <a href="/"><strong>Video Name</strong></a>.
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
                             </p>
                         </div>
                     </div>
-                    <iframe width="560" height="278" src="https://www.youtube.com/embed/SbHLMX6T-1o?controls=0"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                    </iframe>
                 </div>
-                <div class="title-block">
-                    <div class="title">Updates</div>
-                    <div class="list-content">
-                        <div class="update-post">
-                            <div class="info-flex">
-                                <div class="info-post">
-                                    <p class="name-post">Wow new update</p>
-                                    <p class="data-post">2022/03/04</p>
-                                </div>
-                                <p class="by-post">by <a class="user-post link">Mamat</a></p>
-                            </div>
-                            <p class="text-post">Yay this web has implemented osu! account as single sign on :D . This
-                                feature will enable you to submit your own storyboard for showcase in the future update!
-                                I also have been working on designing the database so we can move on from dummy data to
-                                actual running database.
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
                             </p>
                         </div>
-                        <div class="update-post">
-                            <div class="info-flex">
-                                <div class="info-post">
-                                    <p class="name-post">Wow new update</p>
-                                    <p class="data-post">2022/01/21</p>
-                                </div>
-                                <p class="by-post">by <a class="user-post link">Mamat</a></p>
-                            </div>
-                            <p class="text-post">Yay this web has implemented osu! account as single sign on :D. This
-                                feature will enable you to submit your own storyboard for showcase in the future update!
-                                I also have been working on designing the database so we can move on from dummy data to
-                                actual running database.
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
                             </p>
                         </div>
-                        <div class="update-post">
-                            <div class="info-flex">
-                                <div class="info-post">
-                                    <p class="name-post">Wow new update</p>
-                                    <p class="data-post">2021/12/26</p>
-                                </div>
-                                <p class="by-post">by <a class="user-post link">Mamat</a></p>
-                            </div>
-                            <p class="text-post">Yes new updates! I've implemented storyboarder page and thanks to
-                                Coppertine again for the design suggestion. I also have changed all existing
-                                storyboarder URL to the page.
-                            </p>
-                            <p class="text-post">Yay this web has implemented osu! account as single sign on :D . This
-                                feature will enable you to submit your own storyboard for showcase in the future update!
-                                I also have been working on designing the database so we can move on from dummy data to
-                                actual running database.
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
                             </p>
                         </div>
-                        <button class="load-button">Load More</button>
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="storyb-card-small"
+                     style="background: linear-gradient(90deg, rgba(45, 49, 48, 0.95) 0%, #2D3130 100%), url(https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg);">
+                    <a href="/">
+                        <img class="card-img"
+                             src="https://assets.ppy.sh/beatmaps/961320/covers/cover.jpg" alt="" srcset="">
+                    </a>
+                    <div class="info-content">
+                        <div class="content-container">
+                            <a class="card-name-song" href="/">Kuba Oms - All In All</a>
+                            <p class="card-storyb">Storyboarded by <a href="/">Venix</a></p>
+                        </div>
+                        <div class="content-container">
+                            <p class="card-osb-lvl">OSB LVL 95</p>
+                            <p class="card-hosted">
+                                Hosted by <a href="/">Venix</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer class="footer fade">
-            <img class="logo-osu" src="~/staticV2/svg/osu.svg" alt="">
-            <p>Powered with <img src="~/staticV2/svg/heart.svg" alt=""></p>
-        </footer>
     </div>
-</body>
-<script src="~/jsV2/site.js"></script>
-
-</html>
+    <div class="middle-right-container">
+        <div class="showcase-block">
+            <div class="showcase-container">
+                <div class="title">Showcase</div>
+                <div class="now-play-title">
+                    <p>
+                        Now playing <a href="/"><strong>Video Name</strong></a>.
+                    </p>
+                </div>
+            </div>
+            <iframe width="560" height="278" src="https://www.youtube.com/embed/SbHLMX6T-1o?controls=0"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+            </iframe>
+        </div>
+        <div class="title-block">
+            <div class="title">Updates</div>
+            <div class="list-content">
+                <div class="update-post">
+                    <div class="info-flex">
+                        <div class="info-post">
+                            <p class="name-post">Wow new update</p>
+                            <p class="data-post">2022/03/04</p>
+                        </div>
+                        <p class="by-post">by <a class="user-post link">Mamat</a></p>
+                    </div>
+                    <p class="text-post">
+                        Yay this web has implemented osu! account as single sign on :D . This
+                        feature will enable you to submit your own storyboard for showcase in the future update!
+                        I also have been working on designing the database so we can move on from dummy data to
+                        actual running database.
+                    </p>
+                </div>
+                <div class="update-post">
+                    <div class="info-flex">
+                        <div class="info-post">
+                            <p class="name-post">Wow new update</p>
+                            <p class="data-post">2022/01/21</p>
+                        </div>
+                        <p class="by-post">by <a class="user-post link">Mamat</a></p>
+                    </div>
+                    <p class="text-post">
+                        Yay this web has implemented osu! account as single sign on :D. This
+                        feature will enable you to submit your own storyboard for showcase in the future update!
+                        I also have been working on designing the database so we can move on from dummy data to
+                        actual running database.
+                    </p>
+                </div>
+                <div class="update-post">
+                    <div class="info-flex">
+                        <div class="info-post">
+                            <p class="name-post">Wow new update</p>
+                            <p class="data-post">2021/12/26</p>
+                        </div>
+                        <p class="by-post">by <a class="user-post link">Mamat</a></p>
+                    </div>
+                    <p class="text-post">
+                        Yes new updates! I've implemented storyboarder page and thanks to
+                        Coppertine again for the design suggestion. I also have changed all existing
+                        storyboarder URL to the page.
+                    </p>
+                    <p class="text-post">
+                        Yay this web has implemented osu! account as single sign on :D . This
+                        feature will enable you to submit your own storyboard for showcase in the future update!
+                        I also have been working on designing the database so we can move on from dummy data to
+                        actual running database.
+                    </p>
+                </div>
+                <button class="load-button">Load More</button>
+            </div>
+        </div>
+    </div>
+</div>
