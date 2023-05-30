@@ -38,7 +38,7 @@
     color: #64E9BF;
 }
 
-.welcome-discription {
+.welcome-description {
     font-weight: 700;
     font-size: 32px;
     line-height: 44px;
@@ -238,29 +238,6 @@
     min-width: 0;
     padding: 15px 25px 0;
 }
-
-/* .carousel-simple-artist,
-.carousel-storyboard-by {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 27px;
-    color: #FFFFFF;
-    flex: none;
-    order: 0;
-    height: 1.2em;
-    overflow: hidden;
-    flex-grow: 0;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    white-space: nowrap;
-    position: absolute;
-    left: 20px;
-    top: 0;
-    right: 20px;
-    width: auto;
-} */
 
 .carousel-simple-artist,
 .carousel-storyboard-by {

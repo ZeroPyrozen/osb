@@ -165,7 +165,7 @@ footer {
 
     100% {
         bottom: 60px;
-        sclae: 1;
+        scale: 1;
         opacity: 1;
     }
 }
@@ -173,7 +173,7 @@ footer {
 @keyframes example-off {
     0% {
         bottom: 60px;
-        sclae: 1;
+        scale: 1;
         opacity: 1;
     }
 
