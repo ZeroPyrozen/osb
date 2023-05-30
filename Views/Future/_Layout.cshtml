@@ -10,101 +10,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="/static/base/img/favicon.ico">
     <link rel="stylesheet" href="~/cssV2/style.css">
-    <link rel="stylesheet" href="~/cssV2/media.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="~/cssV2/home.css">
+    <link rel="stylesheet" href="~/cssV2/beatmap.css">
 </head>
+
 <body>
-    <div id="mrgBody" class="mrg-body-cont">
-    <nav id="header" class="nav-bar">
-        <div class="nav-start-container">
-            <a class="link" href="/">
-                <img class="logo" src="~/staticV2/svg/osb.svg" alt="">
-            </a>
-            <div class="nav-container">
-                <div class="search-container">
-                    <input type="search" id="search" placeholder="Search..." />
-                    <span class="icon"><img src="~/staticV2/svg/search.svg" alt=""></span>
-                    <div class="nav-search-container">
-                        <p class="search-text">Search how:</p>
-                        <a id="toSB" class="nav-search-button" href="/">to Storyboard</a>
-                        <a id="toOL" class="nav-search-button" href="/">to osb!learn</a>
+    <img class="splash" src="~/staticV2/img/home splash.png" alt="">
+    <nav class="container-bar-style">
+        <a href="/">
+            <img src="~/staticV2/svg/osb.svg" alt="">
+        </a>
+        <div class="container-nav-button">
+            <button onclick="window.location.href = '/showcase';" class="nav-button">Showcase</button>
+            <button onclick="window.location.href = '/laboratory';" class="nav-button">Laboratory</button>
+            <button onclick="window.location.href = '/community';" class="nav-button">Community</button>
+        </div>
+        @if (ViewData["Login"] != null)
+        {
+            string ID = ViewData["UserID"].ToString();
+            <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=@ID"><img src="https://a.ppy.sh/@ID"
+                    alt="..." height="56"></a>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        @ViewData["Username"].ToString()
+                    </a>
+                    <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/auth/logout">Log Out</a>
                     </div>
-                </div>
-                <button class="menu-links">
-                    <img src="~/staticV2/svg/dot-horizontal.svg" alt="">
-                    <div class="link-container">
-                        <a class="link-button" href="/">Home</a>
-                        <a class="link-button" href="/">Showcase</a>
-                        <a class="link-button" href="/">Learn</a>
-                        <a class="link-button" href="/">Community</a>
-                    </div>
-                </button>
+                </li>
+            </ul>
+        }
+        else
+        {
+            <div class="auth-container">
+                <button onclick="window.location.href = '/auth';" class="button-osb">Login</button>
+            </div>
+        }
+    </nav>
+    @RenderBody()
+    <footer class="container-bar-style">
+        <div class="osb-promo-container">
+            <img src="~/staticV2/svg/osb-salad.svg" alt="">
+            <div class="promo">Unleash Your Visual Storytelling Talent.</div>
+        </div>
+        <div class="social-container">
+            <button id="helpTranslate" class="footer-button">
+                <img src="~/staticV2/svg/language.svg" alt="">
+                Help Translate
+            </button>
+            <button id="changeLang" class="footer-button">
+                <img src="~/staticV2/svg/language.svg" alt="">
+                Language
+                <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
+            </button>
+            <button id="discord" class="footer-button">
+                <img src="~/staticV2/svg/discord.svg" alt="">
+                Discord
+            </button>
+            <div id="langShow" class="change-language">
+                <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
+                <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
+                <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
+                <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
             </div>
         </div>
-        <div class="nav-button-container">
-            <a href="https://discord.gg/B8NX7YW">
-                <button class="nav-button">
-                    <img src="~/staticV2/svg/discord.svg"
-                         alt="">
-                </button>
-            </a>
-            <button id="changeLangButton" class="nav-button">
-                <img src="~/staticV2/svg/language.svg" alt="">
-                <div id="dashboardLanguage" class="nav-language-container">
-                    <a class="nav-language-button" href="/">
-                        <img src="~/staticV2/flags/GB.svg" alt="">
-                        <p class="language-text">English</p>
-                        <p class="percent">100%</p>
-                    </a>
-                    <a class="nav-language-button" href="/">
-                        <img src="~/staticV2/flags/IT.svg" alt="">
-                        <p class="language-text">Italiano</p>
-                        <p class="percent">40%</p>
-                    </a>
-                    <a class="nav-language-button" href="/">
-                        <img src="~/staticV2/flags/SE.svg" alt="">
-                        <p class="language-text">Svenska</p>
-                        <p class="percent">20%</p>
-                    </a>
-                    <a class="nav-language-button" href="/">
-                        <img src="~/staticV2/flags/JP.svg" alt="">
-                        <p class="language-text">日本語</p>
-                        <p class="percent">20%</p>
-                    </a>
-                    <a class="nav-language-button" href="/">
-                        <img src="~/staticV2/flags/RU.svg" alt="">
-                        <p class="language-text">Русский</p>
-                        <p class="percent">30%</p>
-                    </a>
-                </div>
-            </button>
-            <button class="login-button">Login</button>
-            <button id="userDashboard" class="nav-user-profile">
-                <img id="trigger" src="~/staticV2/img/avatar.png" alt="">
-                <div id="dashboard" class="nav-user-container">
-                    <a class="nav-user-button" href="/">
-                        <p>Profile</p><img src="~/staticV2/svg/user-profile.svg" alt="">
-                    </a>
-                    <a class="nav-user-button" href="/">
-                        <p>Admin panel</p><img src="~/staticV2/svg/admin-panel.svg" alt="">
-                    </a>
-                    <a class="nav-user-button" href="/">
-                        <p>Upload storyboard</p><img src="~/staticV2/svg/upload.svg" alt="">
-                    </a>
-                    <a class="nav-user-logout" href="/">
-                        <p>Logout</p><img src="~/staticV2/svg/logout.svg" alt="">
-                    </a>
-                </div>
-            </button>
-        </div>
-    </nav>
-        @RenderBody()
-    <footer class="footer fade">
-        <img class="logo-osu" src="~/staticV2/svg/osu.svg" alt="">
-        <p>Powered with <img src="~/staticV2/svg/heart.svg" alt=""></p>
     </footer>
-    </div>
 </body>
-<script src="~/jsV2/site.js"></script>
+<script src="~/jsV2/language.js"></script>
 
 </html>
