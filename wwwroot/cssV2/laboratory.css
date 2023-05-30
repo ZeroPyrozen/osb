@@ -1,0 +1,360 @@
+#loading {
+    position: absolute;
+    display: flex;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: url(../lib/img/noice.png), #1c1c20cc;
+    backdrop-filter: blur(10px);
+    font-weight: 900;
+    font-size: 45px;
+    line-height: 22px;
+    padding: 40px;
+    text-align: left;
+    color: #B4B4D0;
+    z-index: 1001;
+    align-items: flex-end;
+    justify-content: flex-start;
+    animation: loadAnim infinite;
+}
+
+@keyframes loadAnim {
+    0% {
+        background: url(../lib/img/noice.png), #232329cc;
+    }
+
+    50% {
+        background: url(../lib/img/noice.png), #1f1f24cc;
+    }
+
+    100% {
+        background: url(../lib/img/noice.png), #232329cc;
+    }
+}
+
+@keyframes loadAnim-off {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+pre {
+    overflow: auto !important;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 !important;
+}
+
+p {
+    color: #DADAEE;
+    margin: 7px 0;
+}
+
+ul {
+    color: #DADAEE;
+}
+
+code {
+    color: #FF40B3;
+}
+
+a {
+    color: #A68FE4;
+    text-decoration: underline;
+}
+
+h1 {
+    color: #fff;
+    margin: 20px 0 5px 0;
+}
+
+h2 {
+    color: #ececec;
+    margin: 10px 0;
+}
+
+h3 {
+    color: #e0e0e0;
+    margin: 10px 0 2px 0;
+}
+
+span.token.operator {
+    color: #ff6d4c;
+}
+
+blockquote {
+    background: #00000014;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 100px;
+    padding: 0 20px;
+}
+
+.logo-place {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px 0 40px;
+    gap: 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 0;
+    gap: 5px;
+    width: 100%;
+    border: 2px solid #2C2C35;
+    border-right-width: 0;
+    border-left-width: 0;
+}
+
+.osb-laboratory {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 25px;
+}
+
+.subtheme.active {
+    color: #fff;
+    background: url(../lib/img/noice.png), linear-gradient(90deg, #5230AF 0%, #5334AB 100%);
+}
+
+.subtheme.active > img {
+    opacity: 1;
+}
+
+
+.doc-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.theme-path {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 5px;
+}
+
+
+.theme-name {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0 40px;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.theme {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+}
+
+.button-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 10px 40px;
+    gap: 10px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 25px;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    color: #DADAEE;
+}
+
+.button-list:hover {
+    color: #c1c1ec;
+}
+
+.subtheme {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    width: 100%;
+    cursor: pointer;
+
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: left;
+    /* identical to box height */
+
+    border: 0;
+    background: transparent;
+    color: #B4B4D0;
+}
+
+.subtheme > img {
+    opacity: 0;
+}
+
+.subtheme:hover {
+    color: #d2d2dd;
+}
+
+.subtheme-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    border-radius: 10px;
+    width: 100%;
+    background: rgba(94, 87, 115, 0.08);
+    overflow: hidden;
+}
+
+.laboratory-test {
+    display: flex;
+    gap: 0;
+    padding: 60px;
+    flex-direction: column;
+}
+
+.laboratory-test * img {
+    width: 100%;
+}
+
+.code-container, note {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 24px;
+    margin: 7px 0;
+    gap: 15px;
+    background: url(../lib/img/noice.png), #27262D;
+    border: 1px solid #3B344D;
+    color: #f8f8f2;
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    user-select: none;
+    overflow: auto;
+    justify-content: flex-start;
+}
+
+.svg-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 10px;
+
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.svg-icon > img {
+    width: 24px;
+}
+
+.copy-button {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 14px 24px;
+    gap: 10px;
+    background: url(../lib/img/noice.png), #27262D;
+    border: 1px solid #3B344D;
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    transition: all 0.4s;
+}
+
+.edit {
+    position: fixed;
+    right: -30px;
+    width: 60px;
+    top: 65px;
+    padding: 10px;
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-decoration: none;
+
+    background: url(../lib/img/noice.png), #27262D;
+    border: 1px solid #3B344D;
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    transition: all 0.4s;
+}
+
+.copy-button:hover, .edit:hover {
+    background: url(../lib/img/noice.png), #2e2d36;
+}
+
+.copy-button:active, .edit:active {
+    background: url(../lib/img/noice.png), #383555b7;
+    scale: 0.9;
+}
+
+.progress-container {
+    border: 5px solid transparent;
+    margin: -7px;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+}
+
+.progress-bar {
+    height: 3px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #a68fe480 0%, #A68FE4 100%);
+    width: 0;
+    transition: all 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.progress-indicator {
+    pointer-events: none;
+    width: 6px;
+    height: 17px;
+    border-radius: 10px;
+    background: #a68fe4;
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    outline: 1px solid #0006;
+    top: -7px;
+    display: none;
+}

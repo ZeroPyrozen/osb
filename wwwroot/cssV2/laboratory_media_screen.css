@@ -1,0 +1,28 @@
+@media screen and (max-width: 1000px) {
+    .scroll-content {
+        left: -350px;
+    }
+
+    .laboratory-test {
+        padding: 20px;
+    }
+
+    .right-dashboard {
+        margin-left: 0;
+        left: 0;
+    }
+
+    .container-bar-style {
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+
+    #leftMenu {
+        display: flex;
+    }
+
+    #leftMenu > img {
+        rotate: 180deg;
+    }
+
+}

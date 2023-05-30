@@ -1,0 +1,118 @@
+.beatmap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 0 14px;
+    gap: 14px;
+
+    background: url(../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
+    border: 1px solid #354D48;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.beatmap-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: -webkit-fill-available;
+    padding: 0 20px;
+    gap: 10px;
+}
+
+.beatmap-container-left {
+    min-width: 0;
+    width: 100%;
+}
+
+.beatmap-container-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.beatmap-metadata {
+    display: block;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.beatmap-storyboarder {
+    display: block;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #82BCAE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.beatmap-host {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    color: #E2E2E2;
+    width: max-content;
+}
+
+.osb-lvl {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #E2E2E2;
+}
+
+.beatmap-background {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 5px 0px;
+    gap: 10px;
+    width: 100%;
+    height: 106px;
+    background-size: cover !important;
+    background-clip: border-box !important;
+    background-position: 50% 50% !important;
+}
+
+.beatmap-event-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 5px;
+    gap: 5px;
+    height: -webkit-fill-available;
+    background: url(../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
+    border-radius: 10px 0px 0px 10px;
+}
+
+.event-button {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    gap: 10px;
+}
+
+.event-button:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+}
+
+.event-button > img {
+    width: 16px;
+    height: 16px;
+}

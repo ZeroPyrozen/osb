@@ -1,0 +1,335 @@
+/*noinspection CssUnknownTarget*/
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap');
+
+* {
+    font-family: 'Nunito Sans', sans-serif !important;
+}
+
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    flex-direction: column;
+    padding: 0;
+    isolation: isolate;
+    background: url(../staticV2/img/noice.png), #1C1C20;
+    position: fixed;
+}
+
+
+main {
+    z-index: 5;
+    width: 100%;
+    display: flex;
+    flex: 1 0 auto;
+}
+
+footer {
+    height: 50px;
+    z-index: 4;
+    flex-shrink: 0;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #dad6e1;
+    border-radius: 20px;
+    border: 5px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #dad6e1;
+}
+
+.scroll-content {
+    position: absolute;
+    overflow: auto;
+    top: 0;
+    bottom: 50px;
+    width: 350px;
+    background: url(../staticV2/img/noice.png), rgba(35, 35, 41, 0.95);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s;
+}
+
+.scroll-content-main {
+    position: absolute;
+    overflow: auto;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.left-dashboard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+    border-radius: 0;
+}
+
+.right-dashboard {
+    position: relative;
+    margin-left: 350px;
+    width: 100%;
+    transition: all 0.6s;
+}
+
+.container-bar-style {
+    position: relative;
+    z-index: 50;
+    box-sizing: border-box;
+    justify-content: right;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 60px;
+    gap: 15px;
+    width: 100%;
+    outline: 1px solid #3B344D;
+    background: url(../staticV2/img/noice.png), rgba(39, 38, 45, 0.8);
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
+.osb-promo-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+.social-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.social-container > button {
+    cursor: pointer;
+}
+
+.footer-button {
+    display: flex;
+    color: white;
+    gap: 5px;
+    border: 0;
+    cursor: pointer;
+    background: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 5px 10px;
+    transition: all 0.4s;
+}
+
+.footer-button:hover {
+    color: rgb(200, 200, 200);
+}
+
+.change-language {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 14px;
+    position: absolute;
+    overflow-y: scroll;
+    width: 388px;
+    max-height: 270px;
+    right: 30px;
+    bottom: 60px;
+    background: url(../staticV2/img/noice.png), #272531;
+    border: 1px solid #3B344D;
+    box-shadow: 0 0 219px #9e64e929, 0 0 15px #00000040;
+    border-radius: 10px;
+    transition: all 0.4s;
+}
+
+@keyframes example {
+    0% {
+        bottom: 0;
+        scale: 0.7;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 60px;
+        sclae: 1;
+        opacity: 1;
+    }
+}
+
+@keyframes example-off {
+    0% {
+        bottom: 60px;
+        sclae: 1;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 0;
+        scale: 0.7;
+        opacity: 0;
+    }
+}
+
+.change-language::-webkit-scrollbar,
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.change-language > button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 13px 20px;
+    gap: 10px;
+
+    border: 1px solid #00000000;
+    border-radius: 10px;
+
+    background: #00000000;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+
+    cursor: pointer;
+    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+}
+
+.change-language > .select {
+    background: url(../staticV2/img/noice.png), rgb(28 26 32 / 80%);
+    border: 1px solid #39354d;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
+.change-language > .select::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    display: block;
+    height: 27px;
+    width: 5px;
+    border-radius: 15px 0 0 15px;
+    background-color: #7655cf;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
+
+.change-language > button:hover {
+    background: url(../staticV2/img/noice.png), #24232af6;
+    border: 1px solid #39354d;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
+.change-language > button > img {
+    width: 22px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+#leftMenu {
+    display: none;
+}
+
+.arrow-rotated {
+    transform: rotate(180deg);
+}
+
+/* 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    background: url(../staticV2/img/noice.png), #2c2b33f6;
+    border: 1px solid #39354d;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.profile-container-in {
+    display: flex;
+    flex-direction: row;
+    background: url(../staticV2/img/noice.png), #2c2b33f6;
+    border: 1px solid #39354d;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 18px;
+    scale: 1.03;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-img {
+    width: 65px;
+    height: 65px;
+    border-radius: 10px;
+}
+
+.name-element {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: #B4B4D0;
+}
+
+.time-element {
+    font-weight: 600;
+    font-size: 14px;
+    color: #9292a7;
+}
+
+.commit-container {
+    padding: 10px 10px;
+}
+
+.url-element {
+    display: block;
+    text-decoration: auto;
+    padding: 5px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #9c95bd;
+    background: url(../staticV2/img/noice.png), #a68fe424;
+    border: 1px solid #9c95bd;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+}
+
+.files-element {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 10px;
+    user-select: none;
+}
+
+.file-element {
+    padding: 5px 15px;
+    font-size: 12px;
+    color: #DADAEE;
+    border-radius: 6px;
+    display: block;
+    background: url(../staticV2/img/noice.png), #9985d22b;
+    border: 1px solid #544f6e;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s;
+}
+
+.file-element:hover {
+    padding: 5px 15px 5px 20px;
+    background: url(../staticV2/img/noice.png), #9a85d23b;
+}
+ */
