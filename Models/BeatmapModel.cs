@@ -14,6 +14,7 @@ namespace osb.Models
         public string Medium { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime ShowcasedDate { get; set; }
+        public string BeatmapFullsizeURL { get; set; }
         public string BeatmapCardURL { get; set; }
         public string BeatmapListURL { get; set; }
         public string BeatmapCoverURL { get; set; }
@@ -35,6 +36,7 @@ namespace osb.Models
             this.StoryboardTags = tags;
             this.ShowcasedDate = showcasedDate;
             //TODO: I will make it more dynamic by moving it to appsettings.json
+            this.BeatmapFullsizeURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/fullsize.jpg";
             this.BeatmapCardURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/card.jpg";
             this.BeatmapCoverURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/cover.jpg";
             this.BeatmapListURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/list.jpg";
