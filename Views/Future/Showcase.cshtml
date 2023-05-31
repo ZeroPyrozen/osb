@@ -1,5 +1,69 @@
-﻿@{
+﻿@model osb.ViewModels.ShowcaseViewModel
+@{
     ViewData["Title"] = "osb! Showcase Page";
     Layout = "~/Views/Future/_Layout.cshtml";
 }
-<h1>osb! Showcase Page</h1>
+<link rel="stylesheet" href="~/cssV2/showcase.css">
+
+<main>
+    @if (Model.beatmaps.Count > 0)
+    {
+        <div class="showcase-main">
+            @for (int i = 0; i < Model.beatmaps.Count; i++)
+            {
+                var currentBeatmap = Model.beatmaps[i];
+                @* string toolIcon = ""; *@
+                <div class="beatmap">
+                    <div class="beatmap-background"
+                        style="background: linear-gradient(180deg, rgba(35, 41, 39, 0.79) 0%, rgba(35, 41, 39, 0.4) 100%), url('@currentBeatmap.BeatmapFullsizeURL') no-repeat;">
+                        <div class="beatmap-event-container">
+                            <a class="event-button" href="http://">
+                                <img src="~/staticV2/svg/information-square-contained.svg" alt="">
+                            </a>
+                            <a class="event-button" href="http://">
+                                <img src="~/staticV2/svg/download-02.svg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="beatmap-container">
+                        <div class="beatmap-container-left">
+                            <a class="beatmap-metadata"
+                                href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">@currentBeatmap.BeatmapArtist
+                                - @currentBeatmap.BeatmapTitle</a>
+                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID"
+                                class="beatmap-storyboarder" href="/">Storyboarded by
+                                @if (currentBeatmap.Storyboarders.Count == 1)
+                                {
+                                    <span>@currentBeatmap.Storyboarders[0].Username</span>
+                                }
+                                else if (currentBeatmap.Storyboarders.Count == 2)
+                                {
+                                    <span>@currentBeatmap.Storyboarders[0].Username and
+                                        @currentBeatmap.Storyboarders[1].Username</span>
+                                }
+                                else
+                                {
+                                    @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
+                                    {
+                                        <span>@currentBeatmap.Storyboarders[j].Username, </span>
+                                    }
+                                    <span>@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count
+                            - 2].Username and
+                                        @currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count
+                            - 1].Username</span>
+                                }
+                            </a>
+                        </div>
+                        <div class="beatmap-container-right">
+                            <div class="beatmap-host">Hosted by <a
+                                    href="@currentBeatmap.BeatmapsetHost.UserProfileUrl">@currentBeatmap.BeatmapsetHost.Username</a>
+                            </div>
+                            <div class="osb-lvl">Lvl @currentBeatmap.GetStoryboardRating().ToString()</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</main>
