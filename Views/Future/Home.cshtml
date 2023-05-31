@@ -3,6 +3,10 @@
     ViewData["Title"] = "osb! Home Page";
     Layout = "~/Views/Future/_Layout.cshtml";
 }
+
+<link rel="stylesheet" href="~/cssV2/home.css">
+<link rel="stylesheet" href="~/cssV2/home_resize.css">
+
 <main>
     <div class="top-welcome">
         <img class="welcome-logo" src="~/staticV2/svg/osb-salad.svg" alt="">
@@ -168,25 +172,28 @@
                 <div class="dashboard-content-container">
                     @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
                     {
-                    <div class="updates-container">
-                        <div class="update">
-                            <div class="update-title">Wow new update</div>
-                            <div class="update-details">
-                                <a href="@Model.baseURL/community/profile?userID=@Model.randomBeatmap.Storyboarders[0].UserID">
-                                <div class="update-author"><img class="author-image" src="@Model.randomBeatmap.Storyboarders[0].UserAvatarUrl" alt="">@Model.randomBeatmap.Storyboarders[0].Username</div>
-                                </a>
-                                <div class="update-date">04.04.2022</div>
+                        <div class="updates-container">
+                            <div class="update">
+                                <div class="update-title">Wow new update</div>
+                                <div class="update-details">
+                                    <a
+                                        href="@Model.baseURL/community/profile?userID=@Model.randomBeatmap.Storyboarders[0].UserID">
+                                        <div class="update-author"><img class="author-image"
+                                                src="@Model.randomBeatmap.Storyboarders[0].UserAvatarUrl"
+                                                alt="">@Model.randomBeatmap.Storyboarders[0].Username</div>
+                                    </a>
+                                    <div class="update-date">04.04.2022</div>
+                                </div>
+                            </div>
+                            <div class="update-line"></div>
+                            <div class="update-image-container">
+                                <img class="update-image" src="~/staticV2/svg/todo.svg" alt="">
+                                <div class="update-description">Yay this web has implemented osu! account as single sign on
+                                    :D . This feature will enable you to submit your own storyboard for showcase in the
+                                    future update! I also have been working on designing the database so we can move on from
+                                    dummy data to actual running database.</div>
                             </div>
                         </div>
-                        <div class="update-line"></div>
-                        <div class="update-image-container">
-                            <img class="update-image" src="~/staticV2/svg/todo.svg" alt="">
-                            <div class="update-description">Yay this web has implemented osu! account as single sign on
-                                :D . This feature will enable you to submit your own storyboard for showcase in the
-                                future update! I also have been working on designing the database so we can move on from
-                                dummy data to actual running database.</div>
-                        </div>
-                    </div>
                     }
                 </div>
             </div>

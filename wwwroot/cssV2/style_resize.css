@@ -1,0 +1,17 @@
+@media (max-width: 1005px) {
+    .container-footer-bar-style {
+        flex-direction: column;
+        height: fit-content;
+        align-items: center;
+        padding: 20px 60px;
+    }
+
+    .container-bar-style {
+        padding: 0 10px;
+        gap: 8px;
+    }
+
+    .container-nav-button {
+        gap: 5px;
+    }
+}

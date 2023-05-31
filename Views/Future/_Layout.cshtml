@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="/static/base/img/favicon.ico">
     <link rel="stylesheet" href="~/cssV2/style.css">
-    <link rel="stylesheet" href="~/cssV2/home.css">
+    <link rel="stylesheet" href="~/cssV2/style_resize.css">
     <link rel="stylesheet" href="~/cssV2/beatmap.css">
     <link rel="stylesheet" href="~/cssV2/update.css">
 </head>
@@ -18,13 +18,13 @@
 <body>
     <img class="splash" src="~/staticV2/img/home splash.png" alt="">
     <nav class="container-bar-style">
-        <a href="/">
+        <a href="@Url.ActionLink("Home", "Future", new { code = "WYSI"})">
             <img src="~/staticV2/svg/osb.svg" alt="">
         </a>
         <div class="container-nav-button">
-            <button onclick="window.location.href = '/showcase';" class="nav-button">Showcase</button>
-            <button onclick="window.location.href = '/laboratory';" class="nav-button">Laboratory</button>
-            <button onclick="window.location.href = '/community';" class="nav-button">Community</button>
+            <button onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI"})';" class="nav-button">Showcase</button>
+            <button onclick="window.location.href = '@Url.ActionLink("Learn", "Future", new { code = "WYSI"})';" class="nav-button">Laboratory</button>
+            <button onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI"})';" class="nav-button">Community</button>
         </div>
         @if (ViewData["Login"] != null)
         {
@@ -53,7 +53,7 @@
         }
     </nav>
     @RenderBody()
-    <footer class="container-bar-style">
+    <footer class="container-footer-bar-style">
         <div class="osb-promo-container">
             <img src="~/staticV2/svg/osb-salad.svg" alt="">
             <div class="promo">Unleash Your Visual Storytelling Talent.</div>
@@ -84,3 +84,39 @@
 <script src="~/jsV2/language.js"></script>
 
 </html>
+
+<script>
+// Получаем все элементы на странице, имеющие указанный класс
+let elements = document.querySelectorAll('.beatmap');
+
+// Определяем функцию, которая проверяет, находится ли элемент в области видимости
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top >= -200 &&
+    rect.left >= 0 &&
+    rect.bottom <= ((window.innerHeight + 200) || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
+// Определяем функцию, которая будет запускаться при скролле страницы
+function onScroll() {
+  // Проходим циклом по всем элементам на странице
+  elements.forEach(element => {
+    // Если элемент в области видимости, то восстанавливаем его картинку и непрозрачность
+    if (isInViewport(element)) {
+      element.style.opacity = 1;
+      element.style.scale = 1;
+    } else {
+      // Иначе, скрываем картинку и делаем элемент прозрачным
+      element.style.opacity = 0;
+      element.style.scale = 0;
+    }
+  });
+}
+
+// Добавляем обработчик события на скролл страницы
+window.addEventListener('scroll', onScroll);
+
+</script>

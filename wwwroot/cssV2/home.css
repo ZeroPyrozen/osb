@@ -125,6 +125,7 @@
 
 .left-dashboard {
     width: 60%;
+    min-width: 0;
     position: relative;
 }
 
