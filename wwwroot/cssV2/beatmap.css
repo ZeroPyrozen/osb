@@ -104,7 +104,13 @@
     gap: 5px;
     height: -webkit-fill-available;
     background: url(../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px;
+    transform: translateX(40px);
+    transition: all 0.4s;
+}
+
+.beatmap:hover * .beatmap-event-container {
+    transform: translateX(-5px);
 }
 
 .event-button {
