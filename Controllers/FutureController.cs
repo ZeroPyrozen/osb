@@ -109,7 +109,17 @@ namespace osb.Controllers
         public IActionResult Showcase(string code)
         {
             if (!string.IsNullOrEmpty(code) && code == "WYSI")
-                return View();
+            {
+                ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+                //Populate with dummy data
+                showcaseViewModel.searchQuery = "";
+                showcaseViewModel.beatmaps = DummyHelper
+                    .GenerateBeatmaps()
+                    .OrderByDescending(x => x.ShowcasedDate)
+                    .ToList();
+                showcaseViewModel.baseURL = "https://" + this.Request.Host;
+                return View(showcaseViewModel);
+            }
             return Redirect("Home");
         }
 
