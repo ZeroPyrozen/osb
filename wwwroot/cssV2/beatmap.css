@@ -87,7 +87,7 @@
 .beatmap-background {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-start;
     padding: 5px 0;
     gap: 10px;
@@ -98,7 +98,7 @@
     background-position: 50% 50% !important;
 }
 
-.beatmap-event-container {
+.beatmap-event-container, .beatmap-event-player {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -110,6 +110,15 @@
     border-radius: 10px;
     transform: translateX(40px);
     transition: all 0.4s;
+}
+
+.beatmap-event-player {
+    height: fit-content;
+    transform: translateX(-46px);
+}
+
+.beatmap:hover * .beatmap-event-player {
+    transform: translateX(5px);
 }
 
 .beatmap:hover * .beatmap-event-container {
@@ -124,6 +133,9 @@
     align-items: center;
     padding: 5px 10px;
     gap: 10px;
+    background: transparent;
+    border: none;
+    transition: all 0.4s;
 }
 
 .event-button:hover {
@@ -134,4 +146,9 @@
 .event-button > img {
     width: 16px;
     height: 16px;
+}
+
+.player-svg {
+    width: 24px !important;
+    height: 24px !important;;
 }
