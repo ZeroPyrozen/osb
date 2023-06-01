@@ -65,7 +65,7 @@
     padding: 5px 20px;
     gap: 15px;
 
-    background: url(../staticV2/img/noice.png), #272E2B;
+    background: url(../../staticV2/img/noice.png), #272E2B;
     outline: 1px solid #354D48;
     border: none;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
@@ -78,7 +78,7 @@
 }
 
 .exploring-button:hover {
-    background: url(../staticV2/img/noice.png), #2b3330;
+    background: url(../../staticV2/img/noice.png), #2b3330;
 }
 
 .exploring-button > img {
@@ -95,7 +95,7 @@
     padding: 14px 24px;
     gap: 10px;
 
-    background: url(../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
+    background: url(../../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
     outline: 1px solid #354D48;
     box-shadow: 0 0 219px rgba(100, 233, 191, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -206,7 +206,7 @@
     font-size: 20px;
     line-height: 27px;
     color: #FFFFFF;
-    background: url(../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
+    background: url(../../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
     border: 1px solid #354D48;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -336,7 +336,7 @@
     width: 100%;
     position: relative;
     padding: 0;
-    background: url(../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
+    background: url(../../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
     border: 1px solid #354D48;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -377,8 +377,8 @@
 }
 
 .showcase-link-container {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     padding: 0;
     gap: 6px;
