@@ -3,9 +3,27 @@
     ViewData["Title"] = "osb! Showcase Page";
     Layout = "~/Views/Future/_Layout.cshtml";
 }
-<link rel="stylesheet" href="~/cssV2/showcase.css">
+<link rel="stylesheet" href="~/cssV2/showcase/showcase.css">
+
 
 <main>
+    <div class="showcase-search">
+        <div class="search-container">
+            <div class="search-container-flex">
+                <form class="form-search" action="/showcase/search" method="get">
+                    <img src="~/staticV2/svg/search_salad.svg" alt="">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
+                        <div class="form-button">
+                            <button class="button-search">
+                                <img src="~/staticV2/svg/search.svg" alt="" srcset="">
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @if (Model.beatmaps.Count > 0)
     {
         <div class="showcase-main">
@@ -15,7 +33,12 @@
                 @* string toolIcon = ""; *@
                 <div class="beatmap">
                     <div class="beatmap-background"
-                        style="background: linear-gradient(180deg, rgba(35, 41, 39, 0.79) 0%, rgba(35, 41, 39, 0.4) 100%), url('@currentBeatmap.BeatmapFullsizeURL') no-repeat;">
+                         style="background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url('@currentBeatmap.BeatmapFullsizeURL') no-repeat;">
+                        <div class="beatmap-event-player">
+                            <button id="preview" data-preview="@currentBeatmap.BeatmapsetID" class="event-button" href="http://">
+                                <img class="player-svg" src="~/staticV2/svg/play_arrow.svg" alt="">
+                            </button>
+                        </div>
                         <div class="beatmap-event-container">
                             <a class="event-button" href="http://">
                                 <img src="~/staticV2/svg/information-square-contained.svg" alt="">
@@ -28,18 +51,23 @@
                     <div class="beatmap-container">
                         <div class="beatmap-container-left">
                             <a class="beatmap-metadata"
-                                href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">@currentBeatmap.BeatmapArtist
-                                - @currentBeatmap.BeatmapTitle</a>
+                               href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">
+                                @currentBeatmap.BeatmapArtist
+                                - @currentBeatmap.BeatmapTitle
+                            </a>
                             <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID"
-                                class="beatmap-storyboarder" href="/">Storyboarded by
+                               class="beatmap-storyboarder" href="/">
+                                Storyboarded by
                                 @if (currentBeatmap.Storyboarders.Count == 1)
                                 {
                                     <span>@currentBeatmap.Storyboarders[0].Username</span>
                                 }
                                 else if (currentBeatmap.Storyboarders.Count == 2)
                                 {
-                                    <span>@currentBeatmap.Storyboarders[0].Username and
-                                        @currentBeatmap.Storyboarders[1].Username</span>
+                                    <span>
+                                        @currentBeatmap.Storyboarders[0].Username and
+                                        @currentBeatmap.Storyboarders[1].Username
+                                    </span>
                                 }
                                 else
                                 {
@@ -47,16 +75,20 @@
                                     {
                                         <span>@currentBeatmap.Storyboarders[j].Username, </span>
                                     }
-                                    <span>@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count
-                            - 2].Username and
-                                        @currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count
-                            - 1].Username</span>
+                                    <span>
+                                        @currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username and
+                                        @currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username
+                                    </span>
                                 }
                             </a>
                         </div>
                         <div class="beatmap-container-right">
-                            <div class="beatmap-host">Hosted by <a
-                                    href="@currentBeatmap.BeatmapsetHost.UserProfileUrl">@currentBeatmap.BeatmapsetHost.Username</a>
+                            <div class="beatmap-host">
+                                Hosted by
+                                <a
+                                    href="@currentBeatmap.BeatmapsetHost.UserProfileUrl">
+                                    @currentBeatmap.BeatmapsetHost.Username
+                                </a>
                             </div>
                             <div class="osb-lvl">Lvl @currentBeatmap.GetStoryboardRating().ToString()</div>
                         </div>
