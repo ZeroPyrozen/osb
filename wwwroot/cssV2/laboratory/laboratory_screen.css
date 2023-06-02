@@ -13,7 +13,7 @@ body {
     flex-direction: column;
     padding: 0;
     isolation: isolate;
-    background: url(../staticV2/img/noice.png), #1C1C20;
+    background: url(../../staticV2/img/noice.png), #1C1C20;
     position: fixed;
 }
 
@@ -56,7 +56,7 @@ footer {
     top: 0;
     bottom: 50px;
     width: 350px;
-    background: url(../staticV2/img/noice.png), rgba(35, 35, 41, 0.95);
+    background: url(../../staticV2/img/noice.png), rgba(35, 35, 41, 0.95);
     backdrop-filter: blur(10px);
     transition: all 0.4s;
 }
@@ -97,7 +97,7 @@ footer {
     gap: 15px;
     width: 100%;
     outline: 1px solid #3B344D;
-    background: url(../staticV2/img/noice.png), rgba(39, 38, 45, 0.8);
+    background: url(../../staticV2/img/noice.png), rgba(39, 38, 45, 0.8);
     box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
 }
 
@@ -149,7 +149,7 @@ footer {
     max-height: 270px;
     right: 30px;
     bottom: 60px;
-    background: url(../staticV2/img/noice.png), #272531;
+    background: url(../../staticV2/img/noice.png), #272531;
     border: 1px solid #3B344D;
     box-shadow: 0 0 219px #9e64e929, 0 0 15px #00000040;
     border-radius: 10px;
@@ -211,7 +211,7 @@ footer {
 }
 
 .change-language > .select {
-    background: url(../staticV2/img/noice.png), rgb(28 26 32 / 80%);
+    background: url(../../staticV2/img/noice.png), rgb(28 26 32 / 80%);
     border: 1px solid #39354d;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
 }
@@ -230,7 +230,7 @@ footer {
 
 
 .change-language > button:hover {
-    background: url(../staticV2/img/noice.png), #24232af6;
+    background: url(../../staticV2/img/noice.png), #24232af6;
     border: 1px solid #39354d;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
 }
@@ -253,7 +253,7 @@ footer {
 .profile-container {
     display: flex;
     flex-direction: column;
-    background: url(../staticV2/img/noice.png), #2c2b33f6;
+    background: url(../../staticV2/img/noice.png), #2c2b33f6;
     border: 1px solid #39354d;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -262,7 +262,7 @@ footer {
 .profile-container-in {
     display: flex;
     flex-direction: row;
-    background: url(../staticV2/img/noice.png), #2c2b33f6;
+    background: url(../../staticV2/img/noice.png), #2c2b33f6;
     border: 1px solid #39354d;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -303,7 +303,7 @@ footer {
     font-weight: 500;
     font-size: 16px;
     color: #9c95bd;
-    background: url(../staticV2/img/noice.png), #a68fe424;
+    background: url(../../staticV2/img/noice.png), #a68fe424;
     border: 1px solid #9c95bd;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
 }
@@ -322,7 +322,7 @@ footer {
     color: #DADAEE;
     border-radius: 6px;
     display: block;
-    background: url(../staticV2/img/noice.png), #9985d22b;
+    background: url(../../staticV2/img/noice.png), #9985d22b;
     border: 1px solid #544f6e;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
     transition: all 0.2s;
@@ -330,6 +330,6 @@ footer {
 
 .file-element:hover {
     padding: 5px 15px 5px 20px;
-    background: url(../staticV2/img/noice.png), #9a85d23b;
+    background: url(../../staticV2/img/noice.png), #9a85d23b;
 }
  */

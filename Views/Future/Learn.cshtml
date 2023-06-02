@@ -1,5 +1,82 @@
 ﻿@{
     ViewData["Title"] = "osb! Learn Page";
-    Layout = "~/Views/Future/_Layout.cshtml";
+    Layout = null;
 }
-<h1>osb! Learn Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/static/base/img/favicon.ico">
+    <link rel="stylesheet" href="~/cssV2/laboratory/laboratory.css">
+    <link rel="stylesheet" href="~/cssV2/laboratory/laboratory_screen.css">
+    <link rel="stylesheet" href="~/cssV2/laboratory/laboratory_media_screen.css">
+    <link rel="stylesheet" href="~/cssV2/laboratory/prettify.css" />
+    <title>laboratory</title>
+</head>
+
+<body id="some-element">
+    <div id="loading">loading...</div>
+    <main>
+        <div id="LDashboard" class="scroll-content">
+            <div class="left-dashboard">
+                <div class="logo-place">
+                    <img src="~/staticV2/svg/osb.svg" alt="">laboratory
+                </div>
+                <div class="menu-list">
+                    <button onclick="window.location.href = '@Url.ActionLink("Home", "Future", new { code = "WYSI" })';" class="subtheme"><img src="~/staticV2/svg/chevron_right.svg"
+                            alt="">Home</button>
+                    <button onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';" class="subtheme"><img
+                            src="~/staticV2/svg/chevron_right.svg" alt="">Showcase</button>
+                    <button onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';" class="subtheme"><img
+                            src="~/staticV2/svg/chevron_right.svg" alt="">Community</button>
+                </div>
+                <div id="git-path" class="doc-list">
+                </div>
+            </div>
+        </div>
+        <div id="RDashboard" class="right-dashboard">
+            <div class="scroll-content-main" id="scrollCheck">
+                <div class="laboratory-test" id="content">
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="container-bar-style">
+        <div class="progress-container">
+            <div class="progress-bar" id="myBar"></div>
+            <div class="progress-indicator" id="myIndicator"></div>
+        </div>
+        <button id="leftMenu" class="footer-button">
+            <img class="menu-icon" src="~/staticV2/svg/laboratory/menu.svg" alt="">
+            Menu
+        </button>
+        <div class="social-container">
+            <button onclick="window.open(`https://github.com/Maks1mio/osb-laboratory`, '_blank');"
+                class="footer-button">
+                <img src="~/staticV2/svg/history_edu.svg" alt="">
+                GitHub Doc
+            </button>
+            <button id="changeLang" class="footer-button">
+                <img src="~/staticV2/svg/language.svg" alt="">
+                Language
+                <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
+            </button>
+            <div id="langShow" class="change-language">
+                <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
+                <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
+                <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
+                <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
+            </div>
+        </div>
+    </footer>
+</body>
+<!-- Connect Google Code Prettify -->
+<script src="~/jsV2/laboratory/progres_bar.js"></script>
+<script src="~/jsV2/language.js"></script>
+<script src="~/jsV2/laboratory/documentation.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@3/marked.min.js"></script>
+
+</html>

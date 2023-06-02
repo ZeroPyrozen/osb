@@ -5,7 +5,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background: url(../lib/img/noice.png), #1c1c20cc;
+    background: url(../../staticV2/img/noice.png), #1c1c20cc;
     backdrop-filter: blur(10px);
     font-weight: 900;
     font-size: 45px;
@@ -21,15 +21,15 @@
 
 @keyframes loadAnim {
     0% {
-        background: url(../lib/img/noice.png), #232329cc;
+        background: url(../../staticV2/img/noice.png), #232329cc;
     }
 
     50% {
-        background: url(../lib/img/noice.png), #1f1f24cc;
+        background: url(../../staticV2/img/noice.png), #1f1f24cc;
     }
 
     100% {
-        background: url(../lib/img/noice.png), #232329cc;
+        background: url(../../staticV2/img/noice.png), #232329cc;
     }
 }
 
@@ -137,7 +137,7 @@ blockquote {
 
 .subtheme.active {
     color: #fff;
-    background: url(../lib/img/noice.png), linear-gradient(90deg, #5230AF 0%, #5334AB 100%);
+    background: url(../../staticV2/img/noice.png), linear-gradient(90deg, #5230AF 0%, #5334AB 100%);
 }
 
 .subtheme.active > img {
@@ -261,7 +261,7 @@ blockquote {
     padding: 14px 24px;
     margin: 7px 0;
     gap: 15px;
-    background: url(../lib/img/noice.png), #27262D;
+    background: url(../../staticV2/img/noice.png), #27262D;
     border: 1px solid #3B344D;
     color: #f8f8f2;
     box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
@@ -292,7 +292,7 @@ blockquote {
     align-items: flex-start;
     padding: 14px 24px;
     gap: 10px;
-    background: url(../lib/img/noice.png), #27262D;
+    background: url(../../staticV2/img/noice.png), #27262D;
     border: 1px solid #3B344D;
     box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -311,7 +311,7 @@ blockquote {
     line-height: 22px;
     text-decoration: none;
 
-    background: url(../lib/img/noice.png), #27262D;
+    background: url(../../staticV2/img/noice.png), #27262D;
     border: 1px solid #3B344D;
     box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -319,11 +319,11 @@ blockquote {
 }
 
 .copy-button:hover, .edit:hover {
-    background: url(../lib/img/noice.png), #2e2d36;
+    background: url(../../staticV2/img/noice.png), #2e2d36;
 }
 
 .copy-button:active, .edit:active {
-    background: url(../lib/img/noice.png), #383555b7;
+    background: url(../../staticV2/img/noice.png), #383555b7;
     scale: 0.9;
 }
 

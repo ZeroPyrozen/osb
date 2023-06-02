@@ -14,4 +14,10 @@
     .container-nav-button {
         gap: 5px;
     }
+
+    .change-language {
+        left: calc(31vw - 20%);
+        right: calc(31vw - 20%);
+        width: initial;
+    }
 }

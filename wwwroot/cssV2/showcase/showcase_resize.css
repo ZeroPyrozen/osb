@@ -1,0 +1,13 @@
+@media (max-width: 1005px) {
+
+    /* .home {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 40px 5px;
+        gap: 40px;
+    }  */
+    .showcase-main {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
