@@ -1250,7 +1250,8 @@ namespace osb.Helpers
                     new List<DiscordRoleModel>
                     {
                         DiscordRoleModel.Storyboarder,
-                        DiscordRoleModel.Verified
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.OSBWebDeveloper
                     }
                 ),
                 new StoryboarderModel
@@ -1349,6 +1350,16 @@ namespace osb.Helpers
                     new List<DiscordRoleModel>
                     {
                         DiscordRoleModel.Verified
+                    }
+                ),
+                new StoryboarderModel
+                (
+                    12018102,
+                    "EvT",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Verified,
+                        DiscordRoleModel.OSBWebDeveloper
                     }
                 )
             };
