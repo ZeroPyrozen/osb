@@ -55,6 +55,7 @@ namespace osb.Models
         public static readonly DiscordRoleModel Alumni = new DiscordRoleModel(4, "Alumni", "#9b59b6");
         public static readonly DiscordRoleModel Moderator = new DiscordRoleModel(5, "Moderator", "#3498db");
         public static readonly DiscordRoleModel Mentor = new DiscordRoleModel(6, "Mentor", "#2ecc71");
+        public static readonly DiscordRoleModel OSBWebDeveloper = new DiscordRoleModel(int.MaxValue, "OSB WEB", "#44acc0");
 
         public int RoleID { get; set; }
         public string RoleName { get; set; }
