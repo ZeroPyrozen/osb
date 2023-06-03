@@ -34,6 +34,7 @@ namespace osb.Helpers
         public OsuWebHelper(IConfiguration configuration)
         {
             Configuration = configuration;
+            client.DefaultRequestHeaders.ConnectionClose = true;
         }
 
         public string GetAuthorizationCode()
