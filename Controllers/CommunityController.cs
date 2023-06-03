@@ -55,6 +55,11 @@ namespace osb.Controllers
                 return NotFound();
             }
 
+            if(communityViewModel.webUserData == null)
+            {
+                return NotFound();
+            }
+
             //TODO: Dummy Way - Replace this with Database Access
             communityViewModel.storyboarder = DummyHelper.GenerateStoryboarder(userID);
             if(communityViewModel.storyboarder == null)
@@ -62,7 +67,18 @@ namespace osb.Controllers
                 //Storyboarder hasn't joined osb Discord Server
                 communityViewModel.storyboarder = DummyHelper.GetStoryboarderFromBeatmaps(userID);
                 if (communityViewModel.storyboarder == null)
-                    return NotFound();
+                {
+                    //Big brain time
+                    communityViewModel.storyboarder = new StoryboarderModel
+                    (
+                        userID,
+                        communityViewModel.webUserData.Username,
+                        new List<DiscordRoleModel>
+                        {
+                            DiscordRoleModel.Verified
+                        }
+                    );
+                }
                 else
                 {
                     communityViewModel.storyboarder.Roles = new List<DiscordRoleModel>();
