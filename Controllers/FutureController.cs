@@ -117,10 +117,54 @@ namespace osb.Controllers
                     .GenerateBeatmaps()
                     .OrderByDescending(x => x.ShowcasedDate)
                     .ToList();
+                showcaseViewModel.storyboardTags = StoryboardTag.GetAllStoryboardTags();
                 showcaseViewModel.baseURL = "https://" + this.Request.Host;
                 return View(showcaseViewModel);
             }
             return Redirect("Home");
+        }
+
+        public IActionResult Search(string s, string f, string c, string t)
+        {
+            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+            showcaseViewModel.baseURL = "https://" + this.Request.Host;
+            showcaseViewModel.searchQuery = (s != null) ? s : "";
+            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps();
+            showcaseViewModel.storyboardTags = StoryboardTag.GetAllStoryboardTags();
+            StringComparison filterRule = StringComparison.OrdinalIgnoreCase;
+            if (s != null)
+            {
+                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
+                (x =>
+                    (
+                        x.BeatmapArtist.Contains(s, filterRule) ||
+                        x.BeatmapTitle.Contains(s, filterRule) ||
+                        x.BeatmapsetID == x.GetBeatmapsetIDByMappers(s) ||
+                        x.BeatmapsetID == x.GetBeatmapsetIDByStoryboarders(s)
+                    )
+                ).ToList();
+            }
+            if (t != null)
+            {
+                int tagID = -1;
+                
+                if (t != "1" && int.TryParse(t, out tagID))
+                {
+                    t = t.Replace('_', ' ');
+                    showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
+                    (x =>
+                        (
+                            x.BeatmapsetID == x.GetBeatmapsetIDByTags(t)
+                        )
+                    ).ToList();
+                    showcaseViewModel.searchTag = t;
+                }
+            }
+            if (showcaseViewModel.beatmaps.Count > 0)
+            {
+                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.OrderByDescending(x => x.ShowcasedDate).ToList();
+            }
+            return View("Showcase", showcaseViewModel);
         }
 
         public IActionResult NotFound(string code)

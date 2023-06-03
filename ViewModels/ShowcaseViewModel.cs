@@ -11,5 +11,7 @@ namespace osb.ViewModels
         public List<BeatmapModel> beatmaps { get; set; }
         public string baseURL { get; set; }
         public string searchQuery { get; set; }
+        public string searchTag { get; set; }
+        public List<StoryboardTag> storyboardTags { get; set; }
     }
 }

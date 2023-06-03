@@ -11,7 +11,7 @@
     <div class="showcase-search">
         <div class="search-container">
             <div class="search-container-flex">
-                <form class="form-search" action="/showcase/search" method="get">
+                <form class="form-search" action="/future/search" method="get">
                     <img src="~/staticV2/svg/search_salad.svg" alt="">
                     <div class="form-group">
                         <input class="form-control" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
@@ -20,6 +20,22 @@
                                 <img src="~/staticV2/svg/search.svg" alt="" srcset="">
                             </button>
                         </div>
+                        @if (Model.storyboardTags.Count > 0)
+                        {
+                            <select name="t" id="ddl-search">
+                                @for(int i=0; i<Model.storyboardTags.Count; i++)
+                                {
+                                    if(Model.storyboardTags[i].TagID.ToString() == Model.searchTag)
+                                    {
+                                        <option value="@Model.storyboardTags[i].TagID" selected>@Model.storyboardTags[i].TagName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@Model.storyboardTags[i].TagID">@Model.storyboardTags[i].TagName</option>
+                                    }
+                                })
+                            </select>
+                        }
                     </div>
                 </form>
             </div>

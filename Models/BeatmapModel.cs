@@ -62,7 +62,7 @@ namespace osb.Models
 
         public int GetBeatmapsetIDByTags(string searchQuery)
         {
-            if (this.StoryboardTags.Any(x => x.TagName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)))
+            if (this.StoryboardTags.Any(x => x.TagID == int.Parse(searchQuery)))
                 return BeatmapsetID;
             else
                 return -1;
@@ -105,6 +105,25 @@ namespace osb.Models
             this.TagName = tagName;
             this.Rating = rating;
             this.EscapedTagName = tagName.Replace(" ", "_").ToLower();
+        }
+
+        public static List<StoryboardTag> GetAllStoryboardTags()
+        {
+            return new List<StoryboardTag>()
+            {
+                Wizardry,
+                Pixels,
+                Rave,
+                Lyrics,
+                ThreeD,
+                Narrative,
+                AudioVisualization,
+                Particles,
+                FullControl,
+                GameplayEnhancement,
+                Featured,
+                Classic
+            };
         }
     }
 }
