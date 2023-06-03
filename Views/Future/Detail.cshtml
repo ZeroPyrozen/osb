@@ -1,0 +1,55 @@
+﻿@model osb.ViewModels.ShowcaseViewModel
+@{
+    ViewData["Title"] = Model.beatmapDetail.BeatmapArtist + " - " + Model.beatmapDetail.BeatmapTitle;
+}
+<link rel="stylesheet" href="/static/base/sb.css">
+
+<h1>@Model.beatmapDetail.BeatmapArtist - @Model.beatmapDetail.BeatmapTitle</h1>
+
+<h3>
+    Storyboard Level: @Model.beatmapDetail.GetStoryboardRating().ToString()
+</h3>
+
+<ol>
+    @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
+    {
+        string profileURL = Model.baseURL + "/community/profile?userID=" + Model.beatmapDetail.Storyboarders[i].UserID;
+        <li>
+            <a href="@profileURL">@Model.beatmapDetail.Storyboarders[i].Username</a>
+        </li>
+    }
+</ol>
+
+<ul class="list-unstyled">
+    <li>
+        Hosted by <a href="@Model.beatmapDetail.BeatmapsetHost.UserProfileUrl">@Model.beatmapDetail.BeatmapsetHost.Username</a>
+    </li>
+    <li>
+        Developed via @Model.beatmapDetail.Medium
+    </li>
+    <li>
+        Submitted on @Model.beatmapDetail.SubmitDate.ToString("dd MMMM yyyy")
+    </li>
+</ul>
+
+<h3>Tags</h3>
+@for (int i = 0; i < Model.beatmapDetail.StoryboardTags.Count; i++)
+{
+    string searchURL = Model.baseURL + "/future/search?t=" + Model.beatmapDetail.StoryboardTags[i].TagID;
+    string iconURL = "/static/showcase/showcase-icons-exportable.svg#" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName;
+    <a href="@searchURL" data-toggle="tooltip" data-placement="top" title="@Model.beatmapDetail.StoryboardTags[i].TagName">
+        <img src="@iconURL" alt="@Model.beatmapDetail.StoryboardTags[i].TagName" width="48" height="48">
+    </a>
+}
+
+@if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col">
+            <div class="showcase-title">Video</div>
+            <p>
+                <iframe allow="fullscreen;" src="@Model.beatmapDetail.VideoURL" style="min-width: 100%; min-height: 540px;border: 0;"></iframe>
+            </p>
+        </div>
+    </div>
+}

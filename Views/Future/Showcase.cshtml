@@ -23,6 +23,7 @@
                         @if (Model.storyboardTags.Count > 0)
                         {
                             <select name="t" id="ddl-search">
+                                <option value="-1">All</option>
                                 @for(int i=0; i<Model.storyboardTags.Count; i++)
                                 {
                                     if(Model.storyboardTags[i].TagID.ToString() == Model.searchTag)
@@ -68,7 +69,7 @@
                     <div class="beatmap-container">
                         <div class="beatmap-container-left">
                             <a class="beatmap-metadata"
-                               href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">
+                               href="@Model.baseURL/future/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">
                                 @currentBeatmap.BeatmapArtist
                                 - @currentBeatmap.BeatmapTitle
                             </a>

@@ -148,7 +148,7 @@ namespace osb.Controllers
             {
                 int tagID = -1;
                 
-                if (t != "1" && int.TryParse(t, out tagID))
+                if (t != "-1" && int.TryParse(t, out tagID))
                 {
                     t = t.Replace('_', ' ');
                     showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
@@ -165,6 +165,21 @@ namespace osb.Controllers
                 showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.OrderByDescending(x => x.ShowcasedDate).ToList();
             }
             return View("Showcase", showcaseViewModel);
+        }
+
+        public IActionResult Detail(int beatmapsetID)
+        {
+            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+            if (beatmapsetID == 0)
+                return NotFound();
+            //Populate with dummy data
+            showcaseViewModel.beatmapDetail = DummyHelper.GenerateBeatmap(beatmapsetID);
+            showcaseViewModel.baseURL = "https://" + this.Request.Host;
+            if (showcaseViewModel.beatmapDetail == null)
+            {
+                return NotFound();
+            }
+            return View("Detail", showcaseViewModel);
         }
 
         public IActionResult NotFound(string code)
