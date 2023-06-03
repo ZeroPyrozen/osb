@@ -41,13 +41,13 @@ namespace osb.Controllers
             //Verify Session Client Credential Exists
             bool isTokenAvailable = IsClientTokenAvailable();
 
-            if(!isTokenAvailable)
-            {
-                TokenModel token = await _osuWebHelper.GenerateAccessTokenClient();
-                HttpContext.Session.SetString(SessionEnum.ClientToken, JsonConvert.SerializeObject(token));
-            }
             try
             {
+                if (!isTokenAvailable)
+                {
+                    TokenModel token = await _osuWebHelper.GenerateAccessTokenClient();
+                    HttpContext.Session.SetString(SessionEnum.ClientToken, JsonConvert.SerializeObject(token));
+                }
                 communityViewModel.webUserData = await _osuWebHelper.GetUserData(GetClientToken().AccessToken, userID.ToString());
             }
             catch(Exception e)
@@ -68,6 +68,10 @@ namespace osb.Controllers
                 communityViewModel.storyboarder = DummyHelper.GetStoryboarderFromBeatmaps(userID);
                 if (communityViewModel.storyboarder == null)
                 {
+                    if(communityViewModel.webUserData == null)
+                    {
+                        return NotFound();
+                    }
                     //Big brain time
                     communityViewModel.storyboarder = new StoryboarderModel
                     (
