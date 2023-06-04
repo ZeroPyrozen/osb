@@ -31,25 +31,6 @@ footer {
     flex-shrink: 0;
 }
 
-::-webkit-scrollbar {
-    width: 4px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #dad6e1;
-    border-radius: 20px;
-    border: 5px solid transparent;
-    background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: #dad6e1;
-}
-
 .scroll-content {
     position: absolute;
     overflow: auto;

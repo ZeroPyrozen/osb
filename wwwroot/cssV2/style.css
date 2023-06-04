@@ -275,4 +275,21 @@ a:-webkit-any-link {
     transform: rotate(180deg);
 }
 
-/* TODO add scroll*/
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #dad6e1;
+    border-radius: 20px;
+    border: 5px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #dad6e1;
+}

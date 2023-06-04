@@ -1,4 +1,4 @@
-@media (max-width: 1005px) {
+@media screen and (max-width: 1005px) {
 
     /* .home {
         flex-direction: column;
@@ -9,5 +9,24 @@
     .showcase-main {
         display: grid;
         grid-template-columns: 1fr;
+    }
+    
+    .showcase-search, .showcase-main {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .search-container-flex {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .custom-select {
+        position: relative;
+        width: 100%;
+    }
+
+    .teg-select {
+        width: 100%;
     }
 }

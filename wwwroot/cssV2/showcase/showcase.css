@@ -35,13 +35,17 @@
 
 /* form search */
 
-.form-search {
+.form-search, .teg-select {
     display: flex;
     width: 100%;
     flex-direction: row;
     align-items: center;
     padding: 0;
     gap: 15px;
+}
+
+.teg-select {
+    width: fit-content;
 }
 
 .form-group {
@@ -79,7 +83,7 @@
     align-items: center;
     padding: 2px;
     gap: 10px;
-    
+
     background: rgba(0, 0, 0, 0.4);
     border-radius: 0 10px 10px 0;
 }
@@ -102,4 +106,68 @@
     border-radius: 10px 10px 10px 10px;
     background: rgba(181, 240, 221, 0.35);
     padding: 8px 25px;
+}
+
+
+.custom-select {
+    position: relative;
+    width: 200px;
+}
+
+.select-trigger {
+    justify-content: space-between;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #FFFFFF;
+}
+
+.select-trigger:hover {
+    background: url(../../staticV2/img/noice.png), #00000080;
+}
+
+.select-options {
+    position: absolute;
+    top: 100%;
+    height: calc(100% + 25vh);
+    overflow-y: scroll;
+    left: 0;
+    z-index: 999;
+    display: none;
+    width: 100%;
+    margin-top: 8px;
+    border: 0;
+    cursor: pointer;
+    background: url(../../staticV2/img/noice.png), rgb(35 41 39 / 89%);
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+}
+
+.option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: url(../../staticV2/img/noice.png), rgb(57 114 95 / 32%);
+}
+
+.option.active {
+    background: url(../../staticV2/img/noice.png), rgb(57 114 95 / 89%);
+    color: rgb(186 255 232 / 89%);
+}
+
+.show {
+    display: block;
 }

@@ -6,39 +6,47 @@
 <link rel="stylesheet" href="~/cssV2/showcase/showcase.css">
 <link rel="stylesheet" href="~/cssV2/showcase/showcase_resize.css">
 
-
 <main>
     <div class="showcase-search">
         <div class="search-container">
             <div class="search-container-flex">
-                <form class="form-search" action="/future/search" method="get">
+                <div class="form-search">
                     <img src="~/staticV2/svg/search_salad.svg" alt="">
                     <div class="form-group">
                         <input class="form-control" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
                         <div class="form-button">
-                            <button class="button-search">
+                            <button id="search-action" class="button-search">
                                 <img src="~/staticV2/svg/search.svg" alt="" srcset="">
                             </button>
                         </div>
+                    </div>
+                </div>
+                <div class="teg-select">
+                    <img src="~/staticV2/svg/sort.svg" alt="">
+                    <div class="custom-select">
+                        <div class="select-trigger" onclick="toggleDropdown()">
+                            <span id="selected-value">All</span>
+                            <img src="~/staticV2/svg/keyboard_arrow_up.svg" alt="" srcset="">
+                        </div>
                         @if (Model.storyboardTags.Count > 0)
                         {
-                            <select name="t" id="ddl-search">
-                                <option value="-1">All</option>
-                                @for(int i=0; i<Model.storyboardTags.Count; i++)
+                            <div class="select-options" id="select-options">
+                                <div class="option" data-value="-1" onclick="selectOption('-1', 'All')">All</div>
+                                @for (int i = 0; i < Model.storyboardTags.Count; i++)
                                 {
-                                    if(Model.storyboardTags[i].TagID.ToString() == Model.searchTag)
+                                    if (Model.storyboardTags[i].TagID.ToString() == Model.searchTag)
                                     {
-                                        <option value="@Model.storyboardTags[i].TagID" selected>@Model.storyboardTags[i].TagName</option>
+                                        <div class="option" data-value="@Model.storyboardTags[i].TagID" onclick="selectOption('@Model.storyboardTags[i].TagID', '@Model.storyboardTags[i].TagName')" selected>@Model.storyboardTags[i].TagName</div>
                                     }
                                     else
                                     {
-                                        <option value="@Model.storyboardTags[i].TagID">@Model.storyboardTags[i].TagName</option>
+                                        <div class="option" data-value="@Model.storyboardTags[i].TagID" onclick="selectOption('@Model.storyboardTags[i].TagID', '@Model.storyboardTags[i].TagName')">@Model.storyboardTags[i].TagName</div>
                                     }
-                                })
-                            </select>
+                                }
+                            </div>
                         }
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -117,3 +125,5 @@
     }
 
 </main>
+
+<script src="~/jsV2/showcase/dropdown.js" type="text/javascript"></script>
