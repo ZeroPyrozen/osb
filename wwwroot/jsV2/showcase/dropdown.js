@@ -41,7 +41,7 @@ function updateURL() {
         selectedValue = "-1";
     }
 
-    const url = "https://192.168.0.103:5000/future/search?s=" + encodeURIComponent(searchText) + "&t=" + encodeURIComponent(selectedValue);
+    const url = "https://" + window.location.host + "/future/search?s=" + encodeURIComponent(searchText) + "&t=" + encodeURIComponent(selectedValue);
     window.history.replaceState({}, '', url);
 }
 
