@@ -224,18 +224,5 @@ namespace osb.Controllers
                 return View();
             return Redirect("Home");
         }
-
-        private async ValueTask<string> GetAccessToken()
-        {
-            if (IsClientTokenAvailable())
-            {
-                return GetClientToken().AccessToken;
-            }
-
-            var token = await _osuWebHelper.GenerateAccessTokenClient();
-            HttpContext.Session.SetString(SessionEnum.ClientToken, JsonConvert.SerializeObject(token));
-
-            return token.AccessToken;
-        }
     }
 }
