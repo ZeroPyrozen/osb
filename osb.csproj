@@ -28,4 +28,8 @@
     <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\staticV2\showcase\" />
+  </ItemGroup>
+
 </Project>

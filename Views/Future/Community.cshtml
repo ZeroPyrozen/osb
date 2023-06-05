@@ -1,5 +1,40 @@
-﻿@{
+﻿@model osb.ViewModels.CommunityViewModel
+@{
     ViewData["Title"] = "osb! Community Page";
     Layout = "~/Views/Future/_Layout.cshtml";
 }
-<h1>osb! Community Page</h1>
+
+<main>
+    <h1>osb! Community Page</h1>
+    <div class="card-deck mx-auto" style="justify-content:center">
+        @{
+            int rowCount = Model.storyboarders.Count / 5;
+            if (Model.storyboarders.Count % 5 != 0)
+                rowCount += 1;
+            int iterator = 0;
+        }
+        @for (int i = 0; i < rowCount; i++)
+        {
+            <div class="row">
+                @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++)
+                {
+                    var primaryRole = Model.storyboarders[iterator].GetPrimaryRole();
+                    <a href="/community/profile?userID=@Model.storyboarders[iterator].UserID" style="text-decoration:none" target="_blank">
+                        <div class="card" style="width: 10rem;margin: 20px;">
+                            <span class="card-img-top" style="background-size:contain;width: 158px;height: 158px;background-image: url('@Model.storyboarders[iterator].UserAvatarUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;">
+                            </span>
+                            <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f">
+                                <p class="card-text" style="text-align: center;">@Model.storyboarders[iterator].Username</p>
+                                @if (primaryRole != null)
+                                {
+                                    <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p>
+                                }
+                            </div>
+                        </div>
+                    </a>
+                    iterator++;
+                }
+            </div>
+        }
+    </div>
+</main>

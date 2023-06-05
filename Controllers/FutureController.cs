@@ -102,7 +102,16 @@ namespace osb.Controllers
         public IActionResult Community(string code)
         {
             if (!string.IsNullOrEmpty(code) && code == "WYSI")
-                return View();
+            {
+                CommunityViewModel communityViewModel = new CommunityViewModel();
+                //communityViewModel.storyboarders = new osbDatabaseHelper(_configuration).GetCommunityStoryboarder();
+                communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders().OrderByDescending(x => x.GetPrimaryRole().RoleID).ThenBy(y => y.Username).ToList();
+                //if (HttpContext.Session.GetString(SessionEnum.UserData) != null)
+                //{
+                //    communityViewModel.testValue = HttpContext.Session.GetString(SessionEnum.UserData);
+                //}
+                return View(communityViewModel);
+            }
             return Redirect("Home");
         }
 
