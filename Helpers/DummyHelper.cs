@@ -9,7 +9,7 @@ namespace osb.Helpers
     {
         private static List<StoryboarderModel>? _storyboarderModelsCache;
         
-        public static List<StoryboarderModel> GenerateStoryboarders()
+        public static IEnumerable<StoryboarderModel> GenerateStoryboarders()
         {
             return _storyboarderModelsCache ??= new List<StoryboarderModel>
             {
