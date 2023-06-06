@@ -1000,7 +1000,7 @@ namespace osb.Helpers
                         DiscordRoleModel.Storyboarder,
                         DiscordRoleModel.Verified
                     },
-                    new CountryModel()
+                    CountryModel.Unknown
                 ),
                 new(
                     8847379,

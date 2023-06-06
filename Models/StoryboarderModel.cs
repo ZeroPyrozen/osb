@@ -23,7 +23,7 @@ namespace osb.Models
             UserAvatarUrl = "https://a.ppy.sh/" + userId;
             UserCoverUrl = userCoverUrl;
             Roles = roles ?? Enumerable.Empty<DiscordRoleModel>();
-            Country = country;
+            Country = country == default ? CountryModel.Unknown : country;
         }
 
         public DiscordRoleModel? GetPrimaryRole()
