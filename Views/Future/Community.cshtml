@@ -23,7 +23,7 @@
                     <a href="/community/profile?userID=@storyBoarder.UserID" style="text-decoration:none" target="_blank">
                         <div style="height: 600px" class="card" style="width: 10rem;margin: 20px;">
                             <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 158px;background-image: url('@storyBoarder.UserAvatarUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/>
-                            <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 158px;background-image: url('@storyBoarder.UserCoverUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/>
+                            <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 308px;background-image: url('@storyBoarder.UserCoverUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/>
                             <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f">
                                 <p class="card-text" style="text-align: center;">@storyBoarder.Username</p>
                                 @if (primaryRole is not null)
@@ -33,7 +33,7 @@
                                 @{
                                     var country = storyBoarder.Country;
                                     <p class="card-text" style="text-align: center;color: @(@primaryRole?.RoleHexColour ?? "#fff")">@country.Name</p>
-                                    <img src="staticV2/flags/@(country.Code).svg"/>
+                                    <img src="~/staticV2/flags/@(country.Code).svg"/>
                                 }
                             </div>
                         </div>
