@@ -16,16 +16,21 @@ namespace osb.Controllers
     {
         private IConfiguration _configuration;
         private IOsuWebHelper _osuWebHelper;
+
         public CommunityController(IConfiguration iconfig, IOsuWebHelper osuWebHelper)
         {
             _configuration = iconfig;
             _osuWebHelper = osuWebHelper;
         }
+
         public IActionResult Index()
         {
             CommunityViewModel communityViewModel = new CommunityViewModel();
             //communityViewModel.storyboarders = new osbDatabaseHelper(_configuration).GetCommunityStoryboarder();
-            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders().OrderByDescending(x => x.GetPrimaryRole().RoleID).ThenBy(y => y.Username).ToList();
+            communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders()
+                .OrderByDescending(x => x.GetPrimaryRole()?.RoleID)
+                .ThenBy(y => y.Username)
+                .ToList();
             //if (HttpContext.Session.GetString(SessionEnum.UserData) != null)
             //{
             //    communityViewModel.testValue = HttpContext.Session.GetString(SessionEnum.UserData);
@@ -48,51 +53,51 @@ namespace osb.Controllers
                     TokenModel token = await _osuWebHelper.GenerateAccessTokenClient();
                     HttpContext.Session.SetString(SessionEnum.ClientToken, JsonConvert.SerializeObject(token));
                 }
-                communityViewModel.webUserData = await _osuWebHelper.GetUserData(GetClientToken().AccessToken, userID.ToString());
+
+                communityViewModel.webUserData =
+                    await _osuWebHelper.GetUserData(GetClientToken().AccessToken, userID.ToString());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound();
             }
 
-            if(communityViewModel.webUserData == null)
+            if (communityViewModel.webUserData == null)
             {
                 return NotFound();
             }
 
             //TODO: Dummy Way - Replace this with Database Access
             communityViewModel.storyboarder = DummyHelper.GenerateStoryboarder(userID);
-            if(communityViewModel.storyboarder == null)
+            if (communityViewModel.storyboarder == null)
             {
                 //Storyboarder hasn't joined osb Discord Server
                 communityViewModel.storyboarder = DummyHelper.GetStoryboarderFromBeatmaps(userID);
                 if (communityViewModel.storyboarder == null)
                 {
-                    if(communityViewModel.webUserData == null)
+                    if (communityViewModel.webUserData == null)
                     {
                         return NotFound();
                     }
-                    //Big brain time
-                    communityViewModel.storyboarder = new StoryboarderModel
-                    (
-                        userID,
-                        communityViewModel.webUserData.Username,
-                        new List<DiscordRoleModel>
-                        {
-                            DiscordRoleModel.Verified
-                        }
-                    );
+
+                    communityViewModel.storyboarder = new StoryboarderModel(userID,
+                        communityViewModel.webUserData.Username, string.Empty,
+                        new List<DiscordRoleModel> { DiscordRoleModel.Verified });
                 }
                 else
                 {
-                    communityViewModel.storyboarder.Roles = new List<DiscordRoleModel>();
-                    communityViewModel.storyboarder.Roles.Add(DiscordRoleModel.Storyboarder);
-                }    
+                    // communityViewModel.storyboarder.Roles = new List<DiscordRoleModel>
+                    //     { DiscordRoleModel.Storyboarder };
+                    // commented by @mysterymarshak because:
+                    // 1. useless
+                    // 2. overrides roles enumerable
+                }
             }
+
             communityViewModel.storyboarderBeatmaps = DummyHelper.GenerateBeatmapsByStoryboarder(userID);
-            communityViewModel.baseURL = "https://" + this.Request.Host;
+            communityViewModel.baseURL = "https://" + Request.Host;
+
             return View("Profile", communityViewModel);
         }
-
     }
 }
