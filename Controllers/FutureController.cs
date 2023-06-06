@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using osb.Helpers;
 using osb.Models;
 using osb.ViewModels;
-using Westwind.AspNetCore.Markdown;
 
 namespace osb.Controllers
 {
     public class FutureController : BaseController
     {
-        private IConfiguration _configuration;
+        private readonly IOsuWebHelper _osuWebHelper;
 
-        public FutureController(IConfiguration iconfig)
+        public FutureController(IOsuWebHelper osuWebHelper)
         {
-            _configuration = iconfig;
+            _osuWebHelper = osuWebHelper;
         }
 
         public IActionResult Index(string code)
@@ -38,6 +38,7 @@ namespace osb.Controllers
                 int index = random.Next(beatmapHasVideo.Count);
                 return beatmapHasVideo[index];
             }
+
             return null;
         }
 
@@ -58,6 +59,7 @@ namespace osb.Controllers
                     }
                 }
             }
+
             return countedStoryboarder.Count;
         }
 
@@ -72,6 +74,7 @@ namespace osb.Controllers
                 var count = beatmaps.Count(e => e.Medium == distinctValues[i].Medium);
                 mediumFrequency.Add(new KeyValuePair<string, int>(distinctValues[i].Medium, count));
             }
+
             return mediumFrequency.OrderByDescending(x => x.Value).ToList();
         }
 
@@ -96,23 +99,27 @@ namespace osb.Controllers
                 homeViewModel.baseURL = "https://" + this.Request.Host;
                 return View(homeViewModel);
             }
+
             return Redirect("Home");
         }
 
         public IActionResult Community(string code)
         {
-            if (!string.IsNullOrEmpty(code) && code == "WYSI")
+            if (code != "WYSI")
             {
-                CommunityViewModel communityViewModel = new CommunityViewModel();
-                //communityViewModel.storyboarders = new osbDatabaseHelper(_configuration).GetCommunityStoryboarder();
-                communityViewModel.storyboarders = DummyHelper.GenerateStoryboarders().OrderByDescending(x => x.GetPrimaryRole().RoleID).ThenBy(y => y.Username).ToList();
-                //if (HttpContext.Session.GetString(SessionEnum.UserData) != null)
-                //{
-                //    communityViewModel.testValue = HttpContext.Session.GetString(SessionEnum.UserData);
-                //}
-                return View(communityViewModel);
+                return Redirect("Home");
             }
-            return Redirect("Home");
+
+            var communityViewModel = new CommunityViewModel();
+
+            var storyBoarders = DummyHelper.GenerateStoryboarders()
+                .OrderByDescending(x => x.GetPrimaryRole()?.RoleID)
+                .ThenBy(y => y.Username)
+                .ToList();
+
+            communityViewModel.storyboarders = storyBoarders;
+
+            return View(communityViewModel);
         }
 
         public IActionResult Showcase(string code)
@@ -130,6 +137,7 @@ namespace osb.Controllers
                 showcaseViewModel.baseURL = "https://" + this.Request.Host;
                 return View(showcaseViewModel);
             }
+
             return Redirect("Home");
         }
 
@@ -153,10 +161,11 @@ namespace osb.Controllers
                     )
                 ).ToList();
             }
+
             if (t != null)
             {
                 int tagID = -1;
-                
+
                 if (t != "-1" && int.TryParse(t, out tagID))
                 {
                     t = t.Replace('_', ' ');
@@ -169,10 +178,13 @@ namespace osb.Controllers
                     showcaseViewModel.searchTag = t;
                 }
             }
+
             if (showcaseViewModel.beatmaps.Count > 0)
             {
-                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.OrderByDescending(x => x.ShowcasedDate).ToList();
+                showcaseViewModel.beatmaps =
+                    showcaseViewModel.beatmaps.OrderByDescending(x => x.ShowcasedDate).ToList();
             }
+
             return View("Showcase", showcaseViewModel);
         }
 
@@ -188,6 +200,7 @@ namespace osb.Controllers
             {
                 return NotFound();
             }
+
             return View("Detail", showcaseViewModel);
         }
 

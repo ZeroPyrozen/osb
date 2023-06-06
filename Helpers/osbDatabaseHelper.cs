@@ -43,9 +43,10 @@ namespace osb.Helpers
                                         (
                                             new StoryboarderModel
                                             (
-                                                UserID: currentUserID,
-                                                Username: sqlDataReader["UserName"].ToString().Trim(),
-                                                Roles: new List<DiscordRoleModel>()
+                                                currentUserID,
+                                                sqlDataReader["UserName"].ToString().Trim(),
+                                                string.Empty,
+                                                new List<DiscordRoleModel>()
                                             )
                                         );
                                         index = listStoryboarder.FindIndex(x => x.UserID == currentUserID);
@@ -53,7 +54,8 @@ namespace osb.Helpers
                                     int roleID = int.Parse(sqlDataReader["RoleID"].ToString());
                                     string roleName = sqlDataReader["RoleName"].ToString();
                                     string roleHexColour = sqlDataReader["RoleHexColour"].ToString();
-                                    listStoryboarder[index].Roles.Add(new DiscordRoleModel(roleID, roleName, roleHexColour));
+                                    // listStoryboarder[index].Roles.Add(new DiscordRoleModel(roleID, roleName, roleHexColour));
+                                    // todo: remove direct access to private class data
                                 }
                             }
                         }
