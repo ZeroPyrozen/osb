@@ -9,6 +9,7 @@ namespace osb.ViewModels
     {
         public BeatmapModel beatmapDetail { get; set; }
         public List<BeatmapModel> beatmaps { get; set; }
+        public int totalStoryboard { get; set; }
         public string baseURL { get; set; }
         public string searchQuery { get; set; }
         public string searchTag { get; set; }

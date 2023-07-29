@@ -15,7 +15,7 @@ function onScroll() {
             element.style.scale = 1;
         } else {
             element.style.opacity = 0;
-            element.style.scale = 0;
+            element.style.scale = 1.2;
         }
     });
 }

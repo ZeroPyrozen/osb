@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/cssV2/style_resize.css">
     <link rel="stylesheet" href="~/cssV2/beatmap.css">
     <link rel="stylesheet" href="~/cssV2/osb_player.css">
-    <link rel="stylesheet" href="~/cssV2/update.css">
+    @* <link rel="stylesheet" href="~/cssV2/update.css"> *@
 </head>
 
 
@@ -25,7 +25,7 @@
                 <img class="play_arrow_icon" src="/staticV2/svg/play_arrow.svg"/>
             </button>
             <div class="timer">
-                <span id="current_time">0:02</span>
+                <span id="current_time">0:00</span>
                 <span class="separator">/</span>
                 <span class="total_time">0:10</span>
             </div>
@@ -40,69 +40,74 @@
         <input type="range" class="volume_slider" min="0" max="100" value="100"/>
     </div>
 </div>
-<img class="splash" src="~/staticV2/img/home splash.png" alt="">
-<nav class="container-bar-style">
-    <a href="@Url.ActionLink("Home", "Future", new { code = "WYSI" })">
-        <img src="~/staticV2/svg/osb.svg" alt="">
-    </a>
-    <div class="container-nav-button">
-        <button onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';" class="nav-button">Showcase</button>
-        <button onclick="window.location.href = '@Url.ActionLink("Learn", "Future", new { code = "WYSI" })';" class="nav-button">Laboratory</button>
-        <button onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';" class="nav-button">Community</button>
-    </div>
-    @if (ViewData["Login"] != null)
-    {
-        string ID = ViewData["UserID"].ToString();
-        <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=@ID">
-            <img src="https://a.ppy.sh/@ID"
-                 alt="..." height="56">
+<nav class="nav-border">
+    <div class="container-bar-style">
+        <a href="@Url.ActionLink("Home", "Future", new { code = "WYSI" })">
+            <img src="~/staticV2/svg/osb.svg" alt="">
         </a>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    @ViewData["Username"].ToString()
-                </a>
-                <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
+        <div class="container-nav-button">
+            <button onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';" class="nav-button">Showcase</button>
+            <button onclick="window.location.href = '@Url.ActionLink("Learn", "Future", new { code = "WYSI" })';" class="nav-button">Laboratory</button>
+            <button onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';" class="nav-button">Community</button>
+        </div>
+        @if (ViewData["Login"] != null)
+        {
+            string ID = ViewData["UserID"].ToString();
+            <div class="profile-conatiner">
+                <button id="dropdownButton" class="avatar-user-auth" href="/community/profile?userID=@ID">
+                    <img src="~/staticV2/svg/chevron-down.svg" alt="">
+                    <div class="user-name-auth" id="navbarDropdown" role="button">
+                        @ViewData["Username"].ToString()
+                    </div>
+                    <img class="avatar-img" src="https://a.ppy.sh/@ID"
+                         alt="..." height="56">
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/auth/logout">Log Out</a>
                 </div>
-            </li>
-        </ul>
-    }
-    else
-    {
-        <div class="auth-container">
-            <button onclick="window.location.href = '/auth';" class="button-osb">Login</button>
-        </div>
-    }
-</nav>
-@RenderBody()
-<footer class="container-footer-bar-style">
-    <div class="osb-promo-container">
-        <img src="~/staticV2/svg/osb-salad.svg" alt="">
-        <div class="promo">Unleash Your Visual Storytelling Talent.</div>
+            </div>
+            <script src="~/jsV2/userDropdownDashboard.js"></script>
+        }
+        else
+        {
+            <div class="auth-container">
+                <button onclick="window.location.href = '/auth';" class="button-osb">Login</button>
+            </div>
+        }
     </div>
-    <div class="social-container">
-        <button id="helpTranslate" class="footer-button">
-            <img src="~/staticV2/svg/language.svg" alt="">
-            Help Translate
-        </button>
-        <button id="changeLang" class="footer-button">
-            <img src="~/staticV2/svg/language.svg" alt="">
-            Language
-            <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
-        </button>
-        <button id="discord" class="footer-button">
-            <img src="~/staticV2/svg/discord.svg" alt="">
-            Discord
-        </button>
-        <div id="langShow" class="change-language">
-            <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
-            <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
-            <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
-            <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
+</nav>
+<main class="center-body">
+    <div class="body-limit">
+        @RenderBody()
+    </div>
+</main>
+<footer class="footer-border">
+    <div class="container-footer-bar-style">
+        <div class="osb-promo-container">
+            <img src="~/staticV2/svg/osb-salad.svg" alt="">
+            <div class="promo">Unleash Your Visual Storytelling Talent.</div>
+        </div>
+        <div class="social-container">
+            <button id="helpTranslate" class="footer-button">
+                <img src="~/staticV2/svg/language.svg" alt="">
+                Help Translate
+            </button>
+            <button id="changeLang" class="footer-button">
+                <img src="~/staticV2/svg/language.svg" alt="">
+                Language
+                <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
+            </button>
+            <button id="discord" class="footer-button">
+                <img src="~/staticV2/svg/discord.svg" alt="">
+                Discord
+            </button>
+            <div id="langShow" class="change-language">
+                <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
+                <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
+                <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
+                <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
+            </div>
         </div>
     </div>
 </footer>

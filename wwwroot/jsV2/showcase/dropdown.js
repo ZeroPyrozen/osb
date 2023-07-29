@@ -1,3 +1,5 @@
+let searchTimer;
+
 function toggleDropdown() {
     const selectOptions = document.getElementById("select-options");
     if (selectOptions) {
@@ -29,6 +31,9 @@ function selectOption(value, label) {
         if (selectedOption) {
             selectedOption.classList.add('active');
         }
+
+        // Reload the page after selecting an option
+        window.location.reload();
     }
 }
 
@@ -37,7 +42,7 @@ function updateURL() {
     const searchText = searchInput.value;
     let selectedValue = document.getElementById("selected-value").dataset.value;
 
-    if (selectedValue === undefined){
+    if (selectedValue === undefined) {
         selectedValue = "-1";
     }
 
@@ -45,20 +50,15 @@ function updateURL() {
     window.history.replaceState({}, '', url);
 }
 
-function toggleDropdown() {
-    const selectOptions = document.getElementById("select-options");
-    if (selectOptions) {
-        selectOptions.classList.toggle("show");
-    }
+function onSearchInputChange() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+        updateURL();
+        window.location.reload();
+    }, 1000);
 }
 
-document.getElementById("search-action").addEventListener("click", function(event) {
-    event.preventDefault();
-    updateURL();
-    window.location.reload();
-});
-
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
     const params = getURLParams();
     const selectedValue = document.getElementById("selected-value");
     if (selectedValue && params.t) {
@@ -69,4 +69,24 @@ window.addEventListener('DOMContentLoaded', function() {
             option.classList.add("active");
         }
     }
+});
+
+document.getElementById("text-search").addEventListener("input", onSearchInputChange);
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Tab") {
+        event.preventDefault();
+        const inputElement = document.getElementById("text-search");
+        if (inputElement) {
+            inputElement.focus();
+        }
+    }
+});
+
+// Add the change event listener to the select element
+document.getElementById("selected-value").addEventListener("change", function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const value = selectedOption.value;
+    const label = selectedOption.text;
+    selectOption(value, label);
 });

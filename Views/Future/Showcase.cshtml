@@ -1,51 +1,65 @@
 ﻿@model osb.ViewModels.ShowcaseViewModel
+
 @{
     ViewData["Title"] = "osb! Showcase Page";
     Layout = "~/Views/Future/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/cssV2/showcase/showcase.css">
-<link rel="stylesheet" href="~/cssV2/showcase/showcase_resize.css">
+@* <link rel="stylesheet" href="~/cssV2/showcase/showcase_resize.css"> *@
 
-<main>
+<main class="main-page">
     <div class="showcase-search">
-        <div class="search-container">
-            <div class="search-container-flex">
-                <div class="form-search">
-                    <img src="~/staticV2/svg/search_salad.svg" alt="">
-                    <div class="form-group">
-                        <input class="form-control" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
-                        <div class="form-button">
-                            <button id="search-action" class="button-search">
-                                <img src="~/staticV2/svg/search.svg" alt="" srcset="">
-                            </button>
-                        </div>
-                    </div>
+        <div class="showcase-info-block">
+            <text>
+                <div class="D3">Community storyboards</div>
+                <div class="D1">We have a grand total of <strong>@Model.totalStoryboard</strong> storyboards in our showcase!</div>
+            </text>
+            @if (ViewData["Login"] != null)
+            {
+                <button class="publish">Publish</button>
+            }
+            else
+            {
+                <div></div>
+            }
+        </div>
+        <div class="search-container-flex">
+            <div class="form-search">
+                <img src="~/staticV2/svg/search.svg" alt="">
+                <div class="form-group">
+                    <input class="form-control" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
                 </div>
-                <div class="teg-select">
-                    <img src="~/staticV2/svg/sort.svg" alt="">
-                    <div class="custom-select">
-                        <div class="select-trigger" onclick="toggleDropdown()">
-                            <span id="selected-value">All</span>
-                            <img src="~/staticV2/svg/keyboard_arrow_up.svg" alt="" srcset="">
-                        </div>
-                        @if (Model.storyboardTags.Count > 0)
-                        {
-                            <div class="select-options" id="select-options">
-                                <div class="option" data-value="-1" onclick="selectOption('-1', 'All')">All</div>
-                                @for (int i = 0; i < Model.storyboardTags.Count; i++)
-                                {
-                                    if (Model.storyboardTags[i].TagID.ToString() == Model.searchTag)
-                                    {
-                                        <div class="option" data-value="@Model.storyboardTags[i].TagID" onclick="selectOption('@Model.storyboardTags[i].TagID', '@Model.storyboardTags[i].TagName')" selected>@Model.storyboardTags[i].TagName</div>
-                                    }
-                                    else
-                                    {
-                                        <div class="option" data-value="@Model.storyboardTags[i].TagID" onclick="selectOption('@Model.storyboardTags[i].TagID', '@Model.storyboardTags[i].TagName')">@Model.storyboardTags[i].TagName</div>
-                                    }
-                                }
-                            </div>
-                        }
+            </div>
+            <div class="teg-select">
+                <div class="custom-select">
+                    <div class="select-trigger" onclick="toggleDropdown()">
+                        <span id="selected-value">All</span>
+                        <img src="~/staticV2/svg/keyboard_arrow_up.svg" alt="" srcset="">
                     </div>
+                    @if (Model.storyboardTags.Count > 0)
+                    {
+                        <div class="select-options" id="select-options">
+                            <div class="option" data-value="-1" onclick="selectOption('-1', 'All')">All</div>
+                            @for (int i = 0; i < Model.storyboardTags.Count; i++)
+                            {
+                                string iconURL = "/staticV2/showcase/" + Model.storyboardTags[i].EscapedTagName + ".svg";
+                                if (Model.storyboardTags[i].TagID.ToString() == Model.searchTag)
+                                {
+                                    <div class="option-case">
+                                        <img src="@iconURL" alt="@Model.storyboardTags[i].TagName">
+                                        <div class="option" data-value="@Model.storyboardTags[i].TagID" onclick="selectOption('@Model.storyboardTags[i].TagID', '@Model.storyboardTags[i].TagName')" selected>@Model.storyboardTags[i].TagName</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="option-case">
+                                        <img src="@iconURL" alt="@Model.storyboardTags[i].TagName">
+                                        <div class="option" data-value="@Model.storyboardTags[i].TagID" onclick="selectOption('@Model.storyboardTags[i].TagID', '@Model.storyboardTags[i].TagName')">@Model.storyboardTags[i].TagName</div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -56,34 +70,27 @@
             @for (int i = 0; i < Model.beatmaps.Count; i++)
             {
                 var currentBeatmap = Model.beatmaps[i];
-                @* string toolIcon = ""; *@
                 <div class="beatmap">
-                    <div class="beatmap-background"
-                         style="background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url('@currentBeatmap.BeatmapFullsizeURL') no-repeat;">
-                        <div class="beatmap-event-player">
-                            <button id="preview" data-preview="@currentBeatmap.BeatmapsetID" class="event-button" href="http://">
-                                <img class="player-svg" src="~/staticV2/svg/play_arrow.svg" alt="">
-                            </button>
-                        </div>
-                        <div class="beatmap-event-container">
-                            <a class="event-button" href="http://">
-                                <img src="~/staticV2/svg/information-square-contained.svg" alt="">
-                            </a>
-                            <a class="event-button" href="http://">
-                                <img src="~/staticV2/svg/download-02.svg" alt="">
-                            </a>
-                        </div>
+                    <div class="beatmap-event-player">
+                        <button id="preview" data-preview="@currentBeatmap.BeatmapsetID" class="event-button" href="http://">
+                            <img class="player-svg" src="~/staticV2/svg/play_arrow.svg" alt="">
+                        </button>
                     </div>
-                    <div class="beatmap-container">
-                        <div class="beatmap-container-left">
+                    <div class="beatmap-info">
+                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID"
+                           class="beatmap-storyboard-by">
+                            <img class="storyboarder-avatar" src="@currentBeatmap.Storyboarders[0].UserAvatarUrl"
+                                 alt="">
+                        </a>
+                        <div class="container-storyboard-info">
                             <a class="beatmap-metadata"
                                href="@Model.baseURL/future/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">
                                 @currentBeatmap.BeatmapArtist
                                 - @currentBeatmap.BeatmapTitle
                             </a>
-                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID"
-                               class="beatmap-storyboarder" href="/">
-                                Storyboarded by
+                            <a href="@Model.baseURL/future/detail?beatmapsetID=@currentBeatmap.BeatmapsetID"
+                               class="storyboards-storyboard-by">
+                                By
                                 @if (currentBeatmap.Storyboarders.Count == 1)
                                 {
                                     <span>@currentBeatmap.Storyboarders[0].Username</span>
@@ -108,16 +115,9 @@
                                 }
                             </a>
                         </div>
-                        <div class="beatmap-container-right">
-                            <div class="beatmap-host">
-                                Hosted by
-                                <a
-                                    href="@currentBeatmap.BeatmapsetHost.UserProfileUrl">
-                                    @currentBeatmap.BeatmapsetHost.Username
-                                </a>
-                            </div>
-                            <div class="osb-lvl">Lvl @currentBeatmap.GetStoryboardRating().ToString()</div>
-                        </div>
+                    </div>
+                    <div class="beatmap-background"
+                         style="background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url('@currentBeatmap.BeatmapFullsizeURL') no-repeat; background-position: 50% 50%;background-size: cover;overflow: hidden;">
                     </div>
                 </div>
             }

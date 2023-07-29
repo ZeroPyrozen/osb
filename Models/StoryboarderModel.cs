@@ -11,8 +11,7 @@ namespace osb.Models
         public string UserAvatarUrl { get; private init; }
         public string UserCoverUrl { get; private init; }
         public CountryModel Country { get; private init; }
-
-        private IEnumerable<DiscordRoleModel> Roles { get; }
+        public IEnumerable<DiscordRoleModel> Roles { get; }
 
         public StoryboarderModel(int userId, string username, string userCoverUrl,
             IEnumerable<DiscordRoleModel>? roles = default, CountryModel country = default)

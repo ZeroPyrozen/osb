@@ -4,43 +4,126 @@
     Layout = "~/Views/Future/_Layout.cshtml";
 }
 
+<link rel="stylesheet" href="~/cssV2/community/community.css">
+<link rel="stylesheet" href="~/cssV2/community/community_resize.css">
+
 <main>
-    <h1>osb! Community Page</h1>
-    <div class="card-deck mx-auto" style="justify-content:center">
-        @{
-            int rowCount = Model.storyboarders.Count / 5;
-            if (Model.storyboarders.Count % 5 != 0)
-                rowCount += 1;
-            int iterator = 0;
-        }
-        @for (int i = 0; i < rowCount; i++)
-        {
-            <div class="row">
-                @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++)
-                {
-                    var storyBoarder = Model.storyboarders[iterator];
-                    var primaryRole = storyBoarder.GetPrimaryRole();
-                    <a href="/community/profile?userID=@storyBoarder.UserID" style="text-decoration:none" target="_blank">
-                        <div style="height: 600px" class="card" style="width: 10rem;margin: 20px;">
-                            <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 158px;background-image: url('@storyBoarder.UserAvatarUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/>
-                            <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 308px;background-image: url('@storyBoarder.UserCoverUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/>
-                            <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f">
-                                <p class="card-text" style="text-align: center;">@storyBoarder.Username</p>
-                                @if (primaryRole is not null)
-                                {
-                                    <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p>
-                                }
-                                @{
-                                    var country = storyBoarder.Country;
-                                    <p class="card-text" style="text-align: center;color: @(@primaryRole?.RoleHexColour ?? "#fff")">@country.Name</p>
-                                    <img src="~/staticV2/flags/@(country.Code).svg"/>
-                                }
-                            </div>
-                        </div>
-                    </a>
-                    iterator++;
-                }
-            </div>
-        }
+    <div class="detail-block">
+        Soon
     </div>
+
+
+    @*         <div class="discord-banner"> *@
+    @*             <div> *@
+    @*                 <div class="container"> *@
+    @*                     <div class="title">Discord</div> *@
+    @*                     <div class="description"> *@
+    @*                         There’s often a high learning curve for a newbie getting into storyboarding. If you’re stuck with a problem, it can be pretty frustrating when there’s no one to ask for help, or if there isn’t any good documentation online. That’s where OSB comes in. We’re primarily a Discord server whose main goal is to help and collaborate with others to make the best visual animations osu! has ever seen. *@
+    @*                         Do you like storyboards on osu!? Do you want to learn how to make your own? Do you want to improve your storyboarding? Feel free to come by our Discord server. *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*                 <button class="button-server">Click here to join our Discord!</button> *@
+    @*             </div> *@
+    @*             <img src="~/staticV2/img/discord server.png" alt=""> *@
+    @*         </div> *@
+    @*         <div class="community-container"> *@
+    @*             <div class="container"> *@
+    @*                 <div class="title">Special Credits</div> *@
+    @*                 <div class="description"> *@
+    @*                     Our community is brought to you by amazing osu! players, mappers, and, most importantly among our site, storyboarders. Without these guys, we wouldn't have such wondrous visual works on osu!. *@
+    @*                 </div> *@
+    @*                 <div class="grid"> *@
+    @*                     @{ *@
+    @*                         int rowCount = Model.storyboarders.Count / 5; *@
+    @*                         if (Model.storyboarders.Count % 5 != 0) *@
+    @*                             rowCount += 1; *@
+    @*                         int iterator = 0; *@
+    @*                     } *@
+    @*                     @for (int i = 0; i < rowCount; i++) *@
+    @*                     { *@
+    @*                         @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++) *@
+    @*                         { *@
+    @*                             var storyBoarder = Model.storyboarders[iterator]; *@
+    @*                             var roles = storyBoarder.Roles.OrderByDescending(x => x.RoleID).Take(1); *@
+    @*                             <a href="/community/profile?userID=@storyBoarder.UserID" target="_blank"> *@
+    @*                                 <div class="fix-background"> *@
+    @*                                     <div class="user-card"> *@
+    @*                                         <div class="info-card"> *@
+    @*                                             <img class="user-avatar" src="@storyBoarder.UserAvatarUrl" alt=""> *@
+    @*                                             <div class="user-info-conainer"> *@
+    @*                                                 <div class="card-text">@storyBoarder.Username</div> *@
+    @*                                                 <div class="country-container"> *@
+    @*                                                     @{ *@
+    @*                                                         var country = storyBoarder.Country; *@
+    @*                                                         <img src="~/staticV2/flags/@(country.Code).svg"/> *@
+    @*                                                         <p class="country-text">@country.Name</p> *@
+    @*                                                     } *@
+    @*                                                 </div> *@
+    @*                                             </div> *@
+    @*                                         </div> *@
+    @*                                         <div class="sort-roles"> *@
+    @*                                             @foreach (var role in roles) *@
+    @*                                             { *@
+    @*                                                 <div class="card-role" style='color: @role.RoleHexColour;  *@
+    @*                                             background: @($"{role.RoleHexColour}1E"); *@
+    @*                                             border: 1px solid @role.RoleHexColour;'> *@
+    @*                                                     @role.RoleName *@
+    @*                                                 </div> *@
+    @*                                             } *@
+    @*                                         </div> *@
+    @*                                     </div> *@
+    @*                                     <div class="user-background" style="background: url('@storyBoarder.UserCoverUrl');  *@
+    @*                                     background-position: 50%; background-size: cover; vertical-align: middle;"></div> *@
+    @*                                     <div class="background-color"></div> *@
+    @*                                     <div class="background-noice"></div> *@
+    @*                                 </div> *@
+    @*                             </a> *@
+    @*                             iterator++; *@
+    @*                         } *@
+    @*                     } *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*         </div> *@
+
+
+
+
+
+    @* <div class="card-deck mx-auto" style="justify-content:center"> *@
+    @* @{ *@
+    @*     int rowCount = Model.storyboarders.Count / 5; *@
+    @*     if (Model.storyboarders.Count % 5 != 0) *@
+    @*         rowCount += 1; *@
+    @*     int iterator = 0; *@
+    @* } *@
+    @* @for (int i = 0; i < rowCount; i++) *@
+    @* { *@
+    @*         <div class="row"> *@
+    @*             @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++) *@
+    @*             { *@
+    @*                 var storyBoarder = Model.storyboarders[iterator]; *@
+    @*                 var primaryRole = storyBoarder.GetPrimaryRole(); *@
+    @*                 <a href="/community/profile?userID=@storyBoarder.UserID" style="text-decoration:none" target="_blank"> *@
+    @*                     <div style="height: 600px" class="card" style="width: 10rem;margin: 20px;"> *@
+    @*                         <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 158px;background-image: url('@storyBoarder.UserAvatarUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/> *@
+    @*                         <span class="card-img-top" style="display: block; background-size:contain;width: 158px;height: 308px;background-image: url('@storyBoarder.UserCoverUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;"/> *@
+    @*                         <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f"> *@
+    @*                             <p class="card-text" style="text-align: center;">@storyBoarder.Username</p> *@
+    @*                             @if (primaryRole is not null) *@
+    @*                             { *@
+    @*                                 <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p> *@
+    @*                             } *@
+    @*                             @{ *@
+    @*                                 var country = storyBoarder.Country; *@
+    @*                                 <p class="card-text" style="text-align: center;color: @(@primaryRole?.RoleHexColour ?? "#fff")">@country.Name</p> *@
+    @*                                 <img src="~/staticV2/flags/@(country.Code).svg"/> *@
+    @*                             } *@
+    @*                         </div> *@
+    @*                     </div> *@
+    @*                 </a> *@
+    @*                 iterator++; *@
+    @*             } *@
+    @*         </div> *@
+    @*     } *@
+    @* </div> *@
 </main>

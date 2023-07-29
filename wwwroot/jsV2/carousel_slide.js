@@ -1,4 +1,4 @@
-let sliderIndex = 1;
+let sliderIndex = 0; // Start with index 0
 showSlides(sliderIndex);
 
 function posSlide(n) {
@@ -7,7 +7,7 @@ function posSlide(n) {
 }
 
 function currSlide(n) {
-    showSlides(sliderIndex = n);
+    showSlides(sliderIndex = n - 1); // Adjust to 0-based index
     resetTimer();
 }
 
@@ -16,20 +16,20 @@ function showSlides(n) {
     let slides = document.getElementsByClassName("slide-container");
     let dots = document.getElementsByClassName("dot")
 
-    if (n > slides.length) {
-        sliderIndex = 1
+    if (n >= slides.length) {
+        sliderIndex = 0; // Reset index if at the last slide
     }
-    if (n < 1) {
-        sliderIndex = slides.length
+    if (n < 0) {
+        sliderIndex = slides.length - 1; // Go to the last slide if at the first slide
     }
     for (i = 0; i < slides.length; i++) {
         slides[i].classList.remove("active");
     }
     for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace("active-dot", "");
+        dots[i].classList.remove("active-dot");
     }
-    slides[sliderIndex - 1].classList.add("active");
-    dots[sliderIndex - 1].className += " active-dot";
+    slides[sliderIndex].classList.add("active");
+    dots[sliderIndex].classList.add("active-dot");
 }
 
 let slideInterval = setInterval(function() {

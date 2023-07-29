@@ -1,0 +1,232 @@
+﻿.detail-block {
+    display: flex;
+    padding: 30px 60px;
+    flex-direction: column;
+    gap: 30px;
+    position: relative;
+}
+
+.storyboarder-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 45px;
+}
+
+.detail-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail-mini * a {
+    display: contents;
+    color: #7fffd4;
+}
+
+.detail-info {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detail-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.download-button {
+    display: flex;
+    padding: 11px 20px;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 10px;
+    background: url(../../staticV2/img/noice.png), #3e6f57;
+
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.download-button:hover {
+    color: black;
+    background: url(../../staticV2/img/noice.png), white;
+}
+
+#preview {
+    display: flex;
+    padding: 7px !important;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 10px;
+    background: url(../../staticV2/img/noice.png), rgba(54, 54, 54, 0) !important;
+    transition: all 0.4s ease-in-out;
+}
+
+#preview:hover {
+    background: url(../../staticV2/img/noice.png), #3a7891 !important;
+}
+
+.liked-button {
+    display: flex;
+    padding: 7px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    background: url(../../staticV2/img/noice.png), rgba(54, 54, 54, 0);
+    transition: all 0.4s ease-in-out;
+    color: #b5ccd5;
+    font-size: 14px;
+    font-weight: 900;
+    border: 0;
+}
+
+.liked-button * path {
+    fill: #b5ccd5;
+    transition: all 0.4s ease-in-out;
+}
+
+.liked-button:hover {
+    padding: 7px 14px;
+    background: url(../../staticV2/img/noice.png), #3a7891;
+    color: #ffffff;
+}
+
+.liked-button:hover * path {
+    fill: #ffffff;
+}
+
+.detail-more-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+}
+
+.title-description {
+    color: #E2E2E2;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.text-description {
+    color: #E2E2E2;
+    align-self: stretch;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.description-storyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 150%;
+}
+
+.detail-metadata {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    width: 410px;
+}
+
+.metadata-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    align-self: stretch;
+    width: 100%;
+}
+
+.main-title-info {
+    color: #E2E2E2;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.main-title-metadata {
+    color: #E2E2E2;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.metadata-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.metadata-info-container {
+    width: max-content;
+    display: flex;
+    padding: 8px 12px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #686868;
+    color: #E2E2E2;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.tag-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tag-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.button-link {
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #686868;
+}
+
+.button-link {
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #686868;
+    transition: all 0.4s ease-in-out;
+}
+
+.button-link * path {
+    transition: all 0.4s ease-in-out;
+}
+
+.button-link:hover{
+    border: 1px solid #fff;
+}
+
+.button-link:hover * path {
+    fill: #fff;
+}

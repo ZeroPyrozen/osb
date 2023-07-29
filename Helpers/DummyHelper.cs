@@ -20,6 +20,7 @@ namespace osb.Helpers
                     new List<DiscordRoleModel>
                     {
                         DiscordRoleModel.Verified,
+                        DiscordRoleModel.Designer,
                         DiscordRoleModel.OSBWebDeveloper
                     },
                     new CountryModel { Code = "RU", Name = "Russian Federation" }

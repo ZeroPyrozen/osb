@@ -84,6 +84,7 @@ namespace osb.Controllers
             {
                 HomeViewModel homeViewModel = new HomeViewModel();
                 homeViewModel.recentBeatmaps = DummyHelper.GenerateBeatmaps();
+                homeViewModel.popularBeatmaps = DummyHelper.GenerateBeatmaps();
                 homeViewModel.totalStoryboard = homeViewModel.recentBeatmaps.Count;
                 homeViewModel.totalStoryboarder = GetStoryboarderCount(
                     homeViewModel.recentBeatmaps
@@ -94,6 +95,10 @@ namespace osb.Controllers
                 homeViewModel.randomBeatmap = GetRandomBeatmap(homeViewModel.recentBeatmaps);
                 homeViewModel.recentBeatmaps = homeViewModel.recentBeatmaps
                     .OrderByDescending(x => x.ShowcasedDate)
+                    .Take(5)
+                    .ToList();
+                homeViewModel.popularBeatmaps = homeViewModel.popularBeatmaps
+                    .OrderByDescending(x => x.GetStoryboardRating())
                     .Take(5)
                     .ToList();
                 homeViewModel.baseURL = "https://" + this.Request.Host;
@@ -127,6 +132,9 @@ namespace osb.Controllers
             if (!string.IsNullOrEmpty(code) && code == "WYSI")
             {
                 ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
+                HomeViewModel homeViewModel = new HomeViewModel();
+                homeViewModel.recentBeatmaps = DummyHelper.GenerateBeatmaps();
+                showcaseViewModel.totalStoryboard = homeViewModel.recentBeatmaps.Count;
                 //Populate with dummy data
                 showcaseViewModel.searchQuery = "";
                 showcaseViewModel.beatmaps = DummyHelper

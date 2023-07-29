@@ -8,224 +8,168 @@
 <link rel="stylesheet" href="~/cssV2/home/home_resize.css">
 
 <main>
-<div class="top-welcome">
-    <img class="welcome-logo" src="~/staticV2/svg/osb-salad.svg" alt="">
-    <div class="welcome-container">
-        <div class="welcome-promo-container">
-            <div class="welcome-title">Unleash Your Visual Storytelling Talent</div>
-            <div class="welcome-description">Learn gsdgdsgdsg, Create, and Share at our Banquet!</div>
-        </div>
-        <div class="exploring-container">
-            <button class="exploring-button"><img src="~/staticV2/svg/fact_check.svg" alt="">Showcase</button>
-            <button class="exploring-button"><img src="~/staticV2/svg/menu_book.svg" alt="">Laboratory</button>
-            <button class="exploring-button"><img src="~/staticV2/svg/person_search.svg" alt="">Community</button>
-        </div>
-    </div>
-    <div class="todo">
-        <img src="~/staticV2/svg/todo.svg" alt="">
-        Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual wizardry
-        on osu!? You can get started by checking out storyboard showcase, or gander at some up on the
-        carousel above or on the YouTube player here. If you're here to learn how to storyboard and program,
-        look no further than our learning resources! And if you want to be a part of the storyboarding
-        community...
-    </div>
-</div>
-<div class="home">
-    <div class="left-dashboard">
-        <div class="carousel-container">
-            @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
-            {
-                <div class="slide-container">
-                    <div class="carousel-info">
-                        <img class="carousel-avatar" src="@Model.recentBeatmaps[i].Storyboarders[0].UserAvatarUrl"
-                             alt="">
-                        <div class="container-storyboard-info">
-                            <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID"
-                               class="carousel-simple-artist">
-                                @Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle
-                            </a>
-                            <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID"
-                               class="carousel-storyboard-by">
-                                Storyboarded by
-                                @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
-                                {
-                                    <span>@Model.recentBeatmaps[i].Storyboarders[0].Username</span>
-                                }
-                                else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
-                                {
-                                    <span>
-                                        @Model.recentBeatmaps[i].Storyboarders[0].Username and
-                                        @Model.recentBeatmaps[i].Storyboarders[1].Username
-                                    </span>
-                                }
-                                else
-                                {
-                                    @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
-                                    {
-                                        <span>@Model.recentBeatmaps[i].Storyboarders[j].Username, </span>
-                                    }
-                                    <span>
-                                        @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username and
-                                        @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username
-                                    </span>
-                                }
-                            </a>
-                        </div>
+    <div class="home">
+        <div class="left-dashboard">
+            <div class="thumbnails-block">
+                <div class="D3">Dashboard</div>
+                <div class="D2">Most Recently Added Storyboards</div>
+                <div class="thumbnails-container">
+                    <div class="small-thumbnails">
+                        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
+                        {
+                            <div class="dot" onclick="currSlide('@(i + 1)')">
+                                <div class="image-small"
+                                     style="background: url(@Model.recentBeatmaps[i].BeatmapFullsizeURL) no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden;">
+                                </div>
+                            </div>
+                        }
                     </div>
-                    <div class="carousel">
-                        <div class="carousel-slide"
-                             style="background: linear-gradient(180deg, rgba(35, 41, 39, 0.79) 0%, rgba(35, 41, 39, 0.4) 100%), url('@Model.recentBeatmaps[i].BeatmapFullsizeURL') no-repeat;">
-                        </div>
+                    <div class="thumbnails">
+                        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
+                        {
+                            <div class="slide-container">
+                                <div class="thumbnails-info">
+                                    <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID"
+                                       class="thumbnails-storyboard-by">
+                                        <img class="thumbnails-avatar" src="@Model.recentBeatmaps[i].Storyboarders[0].UserAvatarUrl"
+                                             alt="">
+                                    </a>
+                                    <div class="container-storyboard-info">
+                                        <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID"
+                                           class="thumbnails-simple-artist">
+                                            @Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle
+                                        </a>
+                                        <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID"
+                                           class="thumbnails-storyboard-by">
+                                            By
+                                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
+                                            {
+                                                <span>@Model.recentBeatmaps[i].Storyboarders[0].Username</span>
+                                            }
+                                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
+                                            {
+                                                <span>
+                                                    @Model.recentBeatmaps[i].Storyboarders[0].Username and
+                                                    @Model.recentBeatmaps[i].Storyboarders[1].Username
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
+                                                {
+                                                    <span>@Model.recentBeatmaps[i].Storyboarders[j].Username, </span>
+                                                }
+                                                <span>
+                                                    @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username and
+                                                    @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username
+                                                </span>
+                                            }
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="thumbnails">
+                                    <div class="thumbnails-slide"
+                                         style="background: linear-gradient(180deg, rgb(0 0 0 / 69%) 0%, rgb(0 0 0 / 55%) 13.54%, rgb(0 0 0 / 0%) 48.96%), url('@Model.recentBeatmaps[i].BeatmapFullsizeURL') no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden; height: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
-            }
-            <div class="swap-container">
-                <button class="arrow" onclick="posSlide(-1)">
-                    <img src="~/staticV2/svg/arrow-left.svg"
-                         alt="">
-                </button>
-                <div class="dots">
-                    @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
-                    {
-                        <div class="dot" onclick="currSlide('@i')"></div>
-                    }
-                </div>
-                <button class="arrow" onclick="posSlide(1)">
-                    <img src="~/staticV2/svg/arrow-right.svg"
-                         alt="">
-                </button>
             </div>
-        </div>
-        <div class="dashboard-fill-container">
-            <div class="dashboard-name">Most Recently Added Storyboards</div>
-            <div class="dashboard-content-container">
-                @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
-                {
-                    <div class="beatmap">
-                        <div class="beatmap-background"
-                             style="background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url('@Model.recentBeatmaps[i].BeatmapFullsizeURL') no-repeat;">
+            <div class="popular-maps-block">
+                <div class="D2">
+                    Popular storyboards
+                </div>
+                <div class="popular-maps-grid">
+                    @for (int i = 0; i < Model.popularBeatmaps.Count; i++)
+                    {
+                        var currentBeatmap = Model.popularBeatmaps[i];
+                        <div class="beatmap">
                             <div class="beatmap-event-player">
-                                <button id="preview" data-preview="@Model.recentBeatmaps[i].BeatmapsetID" class="event-button" href="http://">
+                                <button id="preview" data-preview="@currentBeatmap.BeatmapsetID" class="event-button" href="http://">
                                     <img class="player-svg" src="~/staticV2/svg/play_arrow.svg" alt="">
                                 </button>
                             </div>
-                            <div class="beatmap-event-container">
-                                <a class="event-button" href="http://">
-                                    <img src="~/staticV2/svg/information-square-contained.svg" alt="">
+                            <div class="beatmap-info">
+                                <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID"
+                                   class="beatmap-storyboard-by">
+                                    <img class="storyboarder-avatar" src="@currentBeatmap.Storyboarders[0].UserAvatarUrl"
+                                         alt="">
                                 </a>
-                                <a class="event-button" href="http://">
-                                    <img src="~/staticV2/svg/download-02.svg" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="beatmap-container">
-                            <div class="beatmap-container-left">
-                                <a class="beatmap-metadata"
-                                   href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID">
-                                    @Model.recentBeatmaps[i].BeatmapArtist
-                                    - @Model.recentBeatmaps[i].BeatmapTitle
-                                </a>
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID"
-                                   class="beatmap-storyboarder" href="/">
-                                    Storyboarded by
-                                    @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
-                                    {
-                                        <span>@Model.recentBeatmaps[i].Storyboarders[0].Username</span>
-                                    }
-                                    else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
-                                    {
-                                        <span>
-                                            @Model.recentBeatmaps[i].Storyboarders[0].Username and
-                                            @Model.recentBeatmaps[i].Storyboarders[1].Username
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
+                                <div class="container-storyboard-info">
+                                    <a class="beatmap-metadata"
+                                       href="@Model.baseURL/future/detail?beatmapsetID=@currentBeatmap.BeatmapsetID">
+                                        @currentBeatmap.BeatmapArtist
+                                        - @currentBeatmap.BeatmapTitle
+                                    </a>
+                                    <a href="@Model.baseURL/future/detail?beatmapsetID=@currentBeatmap.BeatmapsetID"
+                                       class="storyboards-storyboard-by">
+                                        By
+                                        @if (currentBeatmap.Storyboarders.Count == 1)
                                         {
-                                            <span>@Model.recentBeatmaps[i].Storyboarders[j].Username, </span>
+                                            <span>@currentBeatmap.Storyboarders[0].Username</span>
                                         }
-                                        <span>
-                                            @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username and
-                                            @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username
-                                        </span>
-                                    }
-                                </a>
-                            </div>
-                            <div class="beatmap-container-right">
-                                <div class="beatmap-host">
-                                    Hosted by
-                                    <a
-                                        href="@Model.recentBeatmaps[i].BeatmapsetHost.UserProfileUrl">
-                                        @Model.recentBeatmaps[i].BeatmapsetHost.Username
+                                        else if (currentBeatmap.Storyboarders.Count == 2)
+                                        {
+                                            <span>
+                                                @currentBeatmap.Storyboarders[0].Username and
+                                                @currentBeatmap.Storyboarders[1].Username
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
+                                            {
+                                                <span>@currentBeatmap.Storyboarders[j].Username, </span>
+                                            }
+                                            <span>
+                                                @currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username and
+                                                @currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username
+                                            </span>
+                                        }
                                     </a>
                                 </div>
-                                <div class="osb-lvl">Lvl @Model.recentBeatmaps[i].GetStoryboardRating().ToString()</div>
+                            </div>
+                            <div class="beatmap-background"
+                                 style="background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url('@currentBeatmap.BeatmapFullsizeURL') no-repeat; background-position: 50% 50%;background-size: cover;overflow: hidden;">
                             </div>
                         </div>
+                    }
+                    <div class="beatmap">
+                        <div style="position: absolute; background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url(@Model.randomBeatmap.BeatmapCoverURL) no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden; width: 100%; height: 100%;"></div>
+                        <a href="@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })" class="center-button-showcase">
+                            Showcase <img src="~/staticV2/svg/open_in_new.svg" alt="">
+                        </a>
                     </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="right-dashboard">
-        <div class="showcase">
-            <div class="showcase-container-info">
-                <div class="showcase-title">Showcase</div>
-                <div class="showcase-link-container">
-                    <span>Now playing:</span>
-                    <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.randomBeatmap.BeatmapsetID"
-                       class="">
-                        @Model.randomBeatmap.BeatmapArtist - @Model.randomBeatmap.BeatmapTitle
-                    </a>
-                </div>
-            </div>
-            <div class="video-fix-positon">
-                <div class="video-container">
-                    <iframe style="width: 100%;" height="315" src="@Model.randomBeatmap.VideoURL"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen>
-                    </iframe>
                 </div>
             </div>
         </div>
-        <div class="dashboard-fill-container">
-            <div class="dashboard-name">Updates</div>
-            <div class="dashboard-content-container">
-                @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
-                {
-                    <div class="updates-container">
-                        <div class="update">
-                            <div class="update-title">Wow new update</div>
-                            <div class="update-details">
-                                <a
-                                    href="@Model.baseURL/community/profile?userID=@Model.randomBeatmap.Storyboarders[0].UserID">
-                                    <div class="update-author">
-                                        <img class="author-image"
-                                             src="@Model.randomBeatmap.Storyboarders[0].UserAvatarUrl"
-                                             alt="">@Model.randomBeatmap.Storyboarders[0].Username
-                                    </div>
-                                </a>
-                                <div class="update-date">04.04.2022</div>
-                            </div>
-                        </div>
-                        <div class="update-line"></div>
-                        <div class="update-image-container">
-                            <img class="update-image" src="~/staticV2/svg/todo.svg" alt="">
-                            <div class="update-description">
-                                Yay this web has implemented osu! account as single sign on
-                                :D . This feature will enable you to submit your own storyboard for showcase in the
-                                future update! I also have been working on designing the database so we can move on from
-                                dummy data to actual running database.
-                            </div>
-                        </div>
-                    </div>
-                }
+        <div class="right-dashboard">
+            <div class="D3">Overview</div>
+            <div>
+                <iframe src="@Model.randomBeatmap.VideoURL" style="min-width: 430px; min-height: 204px; border: 0; outline: 1px solid #686868; border-radius: 12px;"></iframe>
+                @* <small>Now playing <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.randomBeatmap.BeatmapsetID" target="_blank">@Model.randomBeatmap.BeatmapArtist - @Model.randomBeatmap.BeatmapTitle</a></small> *@
+            </div>
+            <div class="banquet">
+                <p>Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual wizardry on osu!? You can get started by checking out <a href="/showcase">storyboard showcase</a>, or gander at some up on the carousel above or on the YouTube player here. If you're here to learn how to storyboard and program, look no further than our <a href="/learn">learning resources</a>! And if you want to be a part of the storyboarding commmunity, <a href="/community">click here to learn more</a>.</p>
+                <ul>
+                    <li>We have a grand total of <strong>@Model.totalStoryboard</strong> storyboards in our showcase!</li>
+                    <li>We also have <strong>@Model.totalStoryboarder</strong> storyboarders creating these masterpieces.</li>
+                    <li>
+                        The <strong>@Math.Min(5, Model.mediumFrequency.Count)</strong> most popular mediums used to create storyboards are:
+                        <ul>
+                            @for (int i = 0; i < Math.Min(5, Model.mediumFrequency.Count); i++)
+                            {
+                                var item = Model.mediumFrequency[i];
+                                <li>@item.Key - <strong>@item.Value</strong> Storyboards</li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
 </main>
 
 

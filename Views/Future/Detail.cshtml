@@ -1,59 +1,157 @@
 ﻿@model osb.ViewModels.ShowcaseViewModel
 @{
+    var currentBeatmap = @Model.beatmapDetail;
     ViewData["Title"] = Model.beatmapDetail.BeatmapArtist + " - " + Model.beatmapDetail.BeatmapTitle;
 }
-<link rel="stylesheet" href="/static/base/sb.css">
 
-<main>
+<link rel="stylesheet" href="~/cssV2/showcase/detail.css">
 
-    <h1>@Model.beatmapDetail.BeatmapArtist - @Model.beatmapDetail.BeatmapTitle</h1>
-
-    <h3>
-        Storyboard Level: @Model.beatmapDetail.GetStoryboardRating().ToString()
-    </h3>
-
-    <ol>
-        @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
-        {
-            string profileURL = Model.baseURL + "/community/profile?userID=" + Model.beatmapDetail.Storyboarders[i].UserID;
-            <li>
-                <a href="@profileURL">@Model.beatmapDetail.Storyboarders[i].Username</a>
-            </li>
-        }
-    </ol>
-
-    <ul class="list-unstyled">
-        <li>
-            Hosted by <a href="@Model.beatmapDetail.BeatmapsetHost.UserProfileUrl">@Model.beatmapDetail.BeatmapsetHost.Username</a>
-        </li>
-        <li>
-            Developed via @Model.beatmapDetail.Medium
-        </li>
-        <li>
-            Submitted on @Model.beatmapDetail.SubmitDate.ToString("dd MMMM yyyy")
-        </li>
-    </ul>
-
-    <h3>Tags</h3>
-    @for (int i = 0; i < Model.beatmapDetail.StoryboardTags.Count; i++)
-    {
-        string searchURL = Model.baseURL + "/future/search?t=" + Model.beatmapDetail.StoryboardTags[i].TagID;
-        string iconURL = "/staticV2/showcase/" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName + ".svg";
-        <a href="@searchURL" data-toggle="tooltip" data-placement="top" title="@Model.beatmapDetail.StoryboardTags[i].TagName">
-            <img src="@iconURL" alt="@Model.beatmapDetail.StoryboardTags[i].TagName" width="48" height="48">
-        </a>
-    }
-
-    @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
-    {
-        <div class="row" style="margin-top: 10px;">
-            <div class="col">
-                <div class="showcase-title">Video</div>
-                <p>
-                    <iframe allow="fullscreen;" src="@Model.beatmapDetail.VideoURL" style="min-width: 100%; min-height: 540px;border: 0;"></iframe>
-                </p>
+<main class="main-page">
+    <div class="detail-block">
+        <div class="detail-info">
+            <text>
+                <div class="D3">@currentBeatmap.BeatmapArtist - @currentBeatmap.BeatmapTitle</div>
+                <div class="D1 detail-mini">
+                    <img class="storyboarder-avatar" src="@currentBeatmap.Storyboarders[0].UserAvatarUrl" alt="">
+                    <div>
+                        By
+                        @if (currentBeatmap.Storyboarders.Count == 1)
+                        {
+                            <span>
+                                <a href="/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID">@currentBeatmap.Storyboarders[0].Username</a>
+                            </span>
+                        }
+                        else if (currentBeatmap.Storyboarders.Count == 2)
+                        {
+                            <span>
+                                <a href="/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID">@currentBeatmap.Storyboarders[0].Username</a> and
+                                <a href="/community/profile?userID=@currentBeatmap.Storyboarders[1].UserID">@currentBeatmap.Storyboarders[1].Username</a>
+                            </span>
+                        }
+                        else
+                        {
+                            @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
+                            {
+                                <span><a href="/community/profile?userID=@currentBeatmap.Storyboarders[j].UserID">@currentBeatmap.Storyboarders[j].Username</a>,</span>
+                            }
+                            <span>
+                                <a href="/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserID">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a> and
+                                <a href="/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
+                            </span>
+                        }
+                    </div>
+                    |
+                    <div>Hosted by <a href="@Model.beatmapDetail.BeatmapsetHost.UserProfileUrl">@Model.beatmapDetail.BeatmapsetHost.Username</a></div>
+                    |
+                    <div>LVL @Model.beatmapDetail.GetStoryboardRating().ToString()</div>
+                </div>
+            </text>
+            <div class="detail-right">
+                <button class="liked-button">
+                    <span>19</span>
+                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="big_thumb_up" clip-path="url(#clip0_1021_9783)">
+                            <path id="Vector" d="M10.387 2.13085L6.00116 6.51668C5.70824 6.8096 5.54199 7.21335 5.54199 7.63293V15.5417C5.54199 16.4125 6.25449 17.125 7.12533 17.125H14.2503C14.8837 17.125 15.4537 16.745 15.707 16.1671L18.2878 10.1425C18.9528 8.57502 17.8049 6.83335 16.1028 6.83335H11.6299L12.382 3.20752C12.4612 2.81168 12.3424 2.40793 12.0574 2.12293C11.5903 1.66377 10.8462 1.66377 10.387 2.13085ZM2.37533 17.125C3.24616 17.125 3.95866 16.4125 3.95866 15.5417V9.20835C3.95866 8.33752 3.24616 7.62502 2.37533 7.62502C1.50449 7.62502 0.791992 8.33752 0.791992 9.20835V15.5417C0.791992 16.4125 1.50449 17.125 2.37533 17.125Z" fill="white"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1021_9783">
+                                <rect width="19" height="19" fill="white" transform="translate(0 0.5)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+                <button class="event-button preview-button" id="preview" data-preview="@currentBeatmap.BeatmapsetID">
+                    <img class="player-svg" src="~/staticV2/svg/play_arrow.svg" alt="">
+                </button>
+                <a class="download-button" href="https://beatconnect.io/b/@currentBeatmap.BeatmapsetID/" data-turbolinks="false">
+                    Download
+                </a>
             </div>
         </div>
-    }
+        <div class="thumbnails-container">
+            <div class="small-thumbnails">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <div class="dot" onclick="currSlide('@(i + 1)')">
+                        <div class="image-small"
+                             style="background: url(@currentBeatmap.BeatmapFullsizeURL); background-position: 50% 50%; background-size: cover; overflow: hidden;">
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="thumbnails">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <div class="slide-container">
+                        <div class="thumbnails-slide"
+                             style="background: linear-gradient(180deg, rgb(0 0 0 / 69%) 0%, rgb(0 0 0 / 55%) 13.54%, rgb(0 0 0 / 0%) 48.96%), url(@currentBeatmap.BeatmapFullsizeURL) no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden; height: 100%; width: 100%">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="detail-more-info">
+            <div class="description-storyboard">
+                <div class="title-description">Description</div>
+                <div class="text-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ratione voluptate reprehenderit porro cupiditate rem asperiores maiores modi, deleniti fugit eligendi esse dicta ea eos animi aliquam libero error ab. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ratione voluptate reprehenderit porro cupiditate rem asperiores maiores modi, deleniti fugit eligendi esse dicta ea eos animi aliquam libero error ab.</div>
+            </div>
+            <div class="detail-metadata">
+                <div class="metadata-info">
+                    <div class="main-title-info">Metadata</div>
+                    <div class="metadata-container">
+                        <div class="metadata-info-container">@Model.beatmapDetail.Medium</div>
+                        <div class="metadata-info-container">@Model.beatmapDetail.SubmitDate.ToString("dd MMMM yyyy")</div>
+                    </div>
+                </div>
+                <div class="metadata-info">
+                    <div class="main-title-metadata">Tags</div>
+                    <div class="tag-container">
+                        @for (int i = 0; i < Model.beatmapDetail.StoryboardTags.Count; i++)
+                        {
+                            string searchURL = Model.baseURL + "/future/search?t=" + Model.beatmapDetail.StoryboardTags[i].TagID;
+                            string iconURL = "/staticV2/showcase/" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName + ".svg";
+                            <a href="@searchURL" data-toggle="tooltip" data-placement="top" title="@Model.beatmapDetail.StoryboardTags[i].TagName">
+                                <img src="@iconURL" alt="@Model.beatmapDetail.StoryboardTags[i].TagName">
+                            </a>
+                        }
+                    </div>
 
+                </div>
+                <div class="metadata-info">
+                    <div class="main-title-metadata">Links</div>
+                    <div class="metadata-container">
+                        <a class="button-link" target="_blank" href="@Model.beatmapDetail.BeatmapPageURL">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.6282 12.3624C18.8131 12.3614 18.9975 12.3449 19.1796 12.3131L19.2628 8.28963C19.0501 8.25638 18.8351 8.23987 18.6197 8.24027C18.4077 8.24014 18.196 8.25665 17.9865 8.28963L18.0697 12.3131C18.2541 12.3456 18.441 12.3621 18.6282 12.3624Z" fill="#686868"/>
+                                <path d="M19.2304 12.9957C19.0289 12.9635 18.8252 12.947 18.6211 12.9463C18.4204 12.9468 18.2199 12.9633 18.0218 12.9957C17.989 13.1971 17.9725 13.4008 17.9724 13.6049C17.9723 13.8062 17.9888 14.0071 18.0218 14.2057C18.2223 14.2386 18.425 14.2556 18.6282 14.2564C18.8294 14.2554 19.0303 14.2389 19.229 14.2071C19.2622 14.0057 19.2787 13.8019 19.2783 13.5978C19.2786 13.3961 19.2625 13.1948 19.2304 12.9957Z" fill="#686868"/>
+                                <path d="M15.7499 9.95091V13.2833C15.5832 13.3259 15.4114 13.3454 15.2394 13.3412C15.1085 13.3441 14.9781 13.326 14.8529 13.2876C14.7437 13.2554 14.6459 13.1928 14.5709 13.1071C14.4887 13.007 14.4321 12.8884 14.4059 12.7615C14.3666 12.579 14.3486 12.3926 14.3523 12.2059V9.94949C13.9659 9.88368 13.5711 9.88368 13.1846 9.94949V12.2369C13.1702 12.6094 13.2286 12.9812 13.3567 13.3313C13.4515 13.5787 13.6125 13.7953 13.822 13.9574C14.0228 14.1036 14.2552 14.2003 14.5004 14.2395C14.7669 14.2841 15.0368 14.3063 15.3071 14.3058C15.6095 14.3063 15.9113 14.2775 16.2082 14.2198C16.4435 14.1755 16.6758 14.1161 16.9035 14.0421V9.95232C16.7105 9.92002 16.5153 9.90351 16.3196 9.90296C16.1287 9.90361 15.9382 9.91965 15.7499 9.95091Z" fill="#686868"/>
+                                <path d="M12.1213 12.0169C12.0302 11.9207 11.9228 11.8414 11.804 11.7828C11.6715 11.7155 11.5326 11.6617 11.3893 11.6221L10.9197 11.481C10.8087 11.448 10.7025 11.4006 10.6038 11.34C10.5648 11.3107 10.5339 11.2718 10.5144 11.2271C10.4949 11.1824 10.4873 11.1333 10.4924 11.0848C10.4893 11.0287 10.5024 10.973 10.5302 10.9242C10.558 10.8754 10.5992 10.8357 10.649 10.8098C10.7848 10.7453 10.9346 10.7157 11.0847 10.7237C11.254 10.7228 11.4226 10.7432 11.5868 10.7844C11.7351 10.8214 11.8807 10.8685 12.0225 10.9254C12.0884 10.7967 12.1408 10.6615 12.1791 10.5221C12.221 10.3771 12.2484 10.2282 12.2609 10.0778C12.0551 10.0023 11.8433 9.94426 11.6277 9.90437C11.4188 9.86607 11.2068 9.84671 10.9945 9.84655C10.4783 9.84655 10.0708 9.96454 9.77178 10.2005C9.62461 10.3163 9.50715 10.4654 9.42916 10.6356C9.35116 10.8058 9.31488 10.9922 9.32332 11.1792C9.32332 11.5262 9.40934 11.7842 9.5828 11.9577C9.78605 12.1469 10.034 12.2813 10.3034 12.3483L10.8125 12.4964C10.9313 12.5291 11.0442 12.5805 11.1468 12.6487C11.188 12.6825 11.2204 12.7259 11.241 12.7751C11.2616 12.8242 11.27 12.8777 11.2652 12.9308C11.2694 13.0136 11.2416 13.0948 11.1877 13.1578C11.1335 13.2175 11.0678 13.2655 10.9945 13.2989C10.9148 13.3353 10.8302 13.36 10.7434 13.3722C10.6604 13.3857 10.5765 13.3927 10.4924 13.3933C10.3222 13.3937 10.1525 13.3757 9.98614 13.3398C9.81049 13.3002 9.63835 13.2464 9.4714 13.179C9.40702 13.3215 9.35328 13.4686 9.31063 13.619C9.27069 13.7662 9.24472 13.9168 9.23306 14.0689C9.3487 14.1121 9.45588 14.1474 9.5546 14.1746C9.65332 14.2028 9.75345 14.2254 9.85499 14.2451C9.95941 14.2649 10.0649 14.2785 10.1709 14.286C10.2809 14.2945 10.4022 14.2987 10.5333 14.2987C10.798 14.3028 11.0616 14.2652 11.3146 14.1873C11.5279 14.1234 11.7274 14.0201 11.9027 13.8827C12.0592 13.7621 12.1855 13.6069 12.2719 13.4293C12.3583 13.2516 12.4023 13.0564 12.4005 12.8589C12.4049 12.6885 12.3801 12.5187 12.3272 12.3568C12.2823 12.2307 12.2122 12.1151 12.1213 12.0169Z" fill="#686868"/>
+                                <path d="M8.05126 10.4981C7.87579 10.2942 7.65642 10.1326 7.4096 10.0256C7.12346 9.90445 6.81488 9.84532 6.50421 9.85218C6.19489 9.84502 5.88762 9.90417 5.60306 10.0256C5.35831 10.1321 5.14156 10.2938 4.96985 10.4981C4.79786 10.7056 4.6689 10.9453 4.59049 11.2032C4.50437 11.4885 4.46159 11.7852 4.46357 12.0832C4.46106 12.379 4.50387 12.6734 4.59049 12.9562C4.66914 13.2139 4.79807 13.4536 4.96985 13.6613C5.14117 13.865 5.35811 14.0254 5.60306 14.1295C5.88834 14.2482 6.19531 14.3058 6.50421 14.2987C6.81446 14.3055 7.12274 14.2479 7.4096 14.1295C7.65672 14.025 7.87633 13.8647 8.05126 13.6613C8.22404 13.4545 8.35267 13.2145 8.42921 12.9562C8.51351 12.6729 8.55534 12.3787 8.55331 12.0832C8.55482 11.7854 8.51302 11.489 8.42921 11.2032C8.353 10.9447 8.22434 10.7047 8.05126 10.4981ZM7.16562 13.0746C7.09127 13.18 6.9927 13.2659 6.87822 13.3252C6.76373 13.3846 6.63668 13.4155 6.50774 13.4155C6.37879 13.4155 6.25174 13.3846 6.13725 13.3252C6.02277 13.2659 5.92421 13.18 5.84985 13.0746C5.71683 12.7637 5.64824 12.4291 5.64824 12.091C5.64824 11.7528 5.71683 11.4182 5.84985 11.1073C5.92421 11.002 6.02277 10.916 6.13725 10.8567C6.25174 10.7974 6.37879 10.7664 6.50774 10.7664C6.63668 10.7664 6.76373 10.7974 6.87822 10.8567C6.9927 10.916 7.09127 11.002 7.16562 11.1073C7.29865 11.4182 7.36723 11.7528 7.36723 12.091C7.36723 12.4291 7.29865 12.7637 7.16562 13.0746Z" fill="#686868"/>
+                                <path d="M23 12C23 9.82441 22.3549 7.69767 21.1462 5.88873C19.9375 4.07979 18.2195 2.66989 16.2095 1.83733C14.1995 1.00477 11.9878 0.786929 9.85401 1.21137C7.72022 1.6358 5.76021 2.68345 4.22183 4.22183C2.68345 5.76021 1.6358 7.72022 1.21137 9.85401C0.786929 11.9878 1.00477 14.1995 1.83733 16.2095C2.66989 18.2195 4.07979 19.9375 5.88873 21.1462C7.69767 22.3549 9.82441 23 12 23C14.9174 23 17.7153 21.8411 19.7782 19.7782C21.8411 17.7153 23 14.9174 23 12ZM12 21.9C10.042 21.9 8.1279 21.3194 6.49986 20.2316C4.87181 19.1437 3.6029 17.5976 2.8536 15.7886C2.10429 13.9796 1.90824 11.989 2.29023 10.0686C2.67222 8.1482 3.61511 6.38419 4.99965 4.99965C6.38419 3.61511 8.1482 2.67222 10.0686 2.29023C11.989 1.90824 13.9796 2.10429 15.7886 2.8536C17.5976 3.6029 19.1437 4.87181 20.2315 6.49986C21.3194 8.1279 21.9 10.042 21.9 12C21.9 13.3001 21.6439 14.5874 21.1464 15.7886C20.6489 16.9897 19.9197 18.0811 19.0004 19.0004C18.0811 19.9197 16.9897 20.6489 15.7886 21.1464C14.5874 21.6439 13.3001 21.9 12 21.9Z" fill="#686868"/>
+                            </svg>
+                        </a>
+                        @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
+                        {
+                            <a class="button-link" target="_blank" href="@Model.beatmapDetail.VideoURL">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_1016_6314)">
+                                        <path d="M23.5216 6.18541C23.3859 5.67482 23.1185 5.20883 22.7462 4.83407C22.3738 4.4593 21.9095 4.18891 21.3998 4.04996C19.5234 3.54541 12.0234 3.54541 12.0234 3.54541C12.0234 3.54541 4.52344 3.54541 2.64707 4.04996C2.13737 4.18891 1.6731 4.4593 1.30073 4.83407C0.928354 5.20883 0.660943 5.67482 0.525256 6.18541C0.0234376 8.06996 0.0234375 12 0.0234375 12C0.0234375 12 0.0234376 15.93 0.525256 17.8145C0.660943 18.3251 0.928354 18.7911 1.30073 19.1658C1.6731 19.5406 2.13737 19.811 2.64707 19.95C4.52344 20.4545 12.0234 20.4545 12.0234 20.4545C12.0234 20.4545 19.5234 20.4545 21.3998 19.95C21.9095 19.811 22.3738 19.5406 22.7462 19.1658C23.1185 18.7911 23.3859 18.3251 23.5216 17.8145C24.0234 15.93 24.0234 12 24.0234 12C24.0234 12 24.0234 8.06996 23.5216 6.18541Z" fill="#686868"/>
+                                        <path d="M9.56934 15.5687V8.4314L15.8421 12L9.56934 15.5687Z" fill="#1D211F"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_1016_6314">
+                                            <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="pointer-events: none;background: linear-gradient(270deg, #1C201E 0%, rgb(28 32 30 / 0%) 5%), linear-gradient(90deg, #1c201e 0%, rgb(28 32 30 / 0%) 5%), linear-gradient(0deg, #1C201E 0%, rgba(28, 32, 30, 0.81) 5%), url(@currentBeatmap.BeatmapFullsizeURL), no-repeat;height: 100%;background-size: cover;overflow: hidden;position: absolute;left: 0;right: 0;top: 0;bottom: 0;opacity: 0.4; z-index: -1;"></div>
+    </div>
 </main>
+
+<script src="~/jsV2/carousel_slide.js"></script>

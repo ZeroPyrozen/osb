@@ -7,6 +7,7 @@ namespace osb.ViewModels
     public class HomeViewModel
     {
         public List<BeatmapModel> recentBeatmaps { get; set; }
+        public List<BeatmapModel> popularBeatmaps { get; set; }
         public string baseURL { get; set; }
         public int totalStoryboard { get; set; }
         public int totalStoryboarder { get; set; }

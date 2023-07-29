@@ -1,5 +1,9 @@
-﻿@{
-    ViewData["Title"] = "osb! Profile Page";
+﻿@model osb.ViewModels.CommunityViewModel
+
+@{
+    ViewData["Title"] = " Profile";
     Layout = "~/Views/Future/_Layout.cshtml";
 }
 <h1>osb! Profile Page</h1>
+
+<header class="opening-banner" style="background-image: url(@Model.webUserData.Cover.URL);"></header>

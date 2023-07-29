@@ -1,42 +1,38 @@
 .showcase-main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* position: fixed; */
-    bottom: 0;
-    top: 0;
-    height: -webkit-fill-available;
-    gap: 15px 15px;
-    padding: 40px 60px;
-    grid-auto-flow: initial;
-    /* overflow: scroll; */
+    display: inline-grid;
+    padding: 30px 60px;
+    align-items: flex-start;
+    align-content: flex-start;
+    align-self: stretch;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px 16px;
 }
 
 .showcase-search {
-    padding: 40px 50px 0;
-    gap: 10px;
+    display: flex;
+    padding: 30px 60px 0;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.search-container {
-    padding: 14px 0;
-    gap: 10px;
-    background: url(../../staticV2/img/noice.png), rgba(35, 41, 39, 0.8);
-    border: 1px solid #354D48;
-    box-shadow: 0 0 219px rgba(100, 233, 191, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+.showcase-info-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .search-container-flex {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 24px;
-    gap: 15px;
+    justify-content: space-between;
 }
 
-/* form search */
+/*!* form search *!*/
 
 .form-search, .teg-select {
     display: flex;
+    position: relative;
     width: 100%;
     flex-direction: row;
     align-items: center;
@@ -50,7 +46,8 @@
 
 .form-group {
     display: flex;
-    width: 100%;
+    width: 400px;
+    height: 36px;
 }
 
 .form-control {
@@ -58,13 +55,11 @@
     width: 100%;
     flex-direction: row;
     align-items: center;
-    padding: 0 0 0 20px;
-
+    padding: 0 0 0 40px;
     background: rgba(0, 0, 0, 0.4);
-    border-radius: 10px 0 0 10px;
+    border-radius: 8px;
     border: 0;
     transition: all 0.4s;
-
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -72,67 +67,32 @@
 }
 
 .form-control:focus {
-    padding: 0 0 0 30px;
+    padding: 0 0 0 45px;
     outline: none;
     color: #c2d0cc;
 }
 
-.form-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 2px;
-    gap: 10px;
-
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 0 10px 10px 0;
-}
-
-.button-search {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 8px 10px;
-    gap: 10px;
-
-    background: rgba(181, 240, 221, 0.15);
-    border-radius: 4px 8px 8px 4px;
-    border: 0;
-    transition: all 0.4s;
-}
-
-
-.button-search:hover {
-    border-radius: 10px 10px 10px 10px;
-    background: rgba(181, 240, 221, 0.35);
-    padding: 8px 25px;
-}
-
-
 .custom-select {
     position: relative;
-    width: 200px;
+    min-width: max-content;
+    width: 220px;
 }
 
 .select-trigger {
-    justify-content: space-between;
+    justify-content: flex-end;
     border: 0;
     cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 10px 20px;
-    gap: 10px;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
     font-weight: 700;
     font-size: 16px;
-    line-height: 22px;
+    gap: 10px;
     color: #FFFFFF;
 }
 
 .select-trigger:hover {
-    background: url(../../staticV2/img/noice.png), #00000080;
+    color: #dedede;
 }
 
 .select-options {
@@ -141,33 +101,61 @@
     height: calc(100% + 25vh);
     overflow-y: scroll;
     left: 0;
-    z-index: 999;
+    z-index: 1007;
     display: none;
     width: 100%;
     margin-top: 8px;
     border: 0;
     cursor: pointer;
-    background: url(../../staticV2/img/noice.png), rgb(35 41 39 / 89%);
-    border-radius: 10px;
+    background: url(../../staticV2/img/noice.png), #1d2221;
+    border-radius: 2px;
     font-size: 12px;
     line-height: 14px;
     color: #FFFFFF;
+    outline: 1px solid #0f1211;
+}
+
+.form-search > img {
+    position: absolute;
+    left: 10px;
+    pointer-events: none;
+}
+
+.option-case > img {
+    position: absolute;
+    right: 8px;
+    width: 34px;
 }
 
 .option {
     padding: 8px 12px;
     cursor: pointer;
+    font-weight: bold;
+    width: -webkit-fill-available;
+}
+
+.option-case {
+
+    display: flex;
+
+    width: 100%;
+
+    align-items: center;
 }
 
 .option:hover {
-    background: url(../../staticV2/img/noice.png), rgb(57 114 95 / 32%);
+    background: url(../../staticV2/img/noice.png), rgba(129, 255, 197, 0.18);
+    font-weight: 900;
+    color: rgb(129 255 197 / 87%);
 }
 
 .option.active {
-    background: url(../../staticV2/img/noice.png), rgb(57 114 95 / 89%);
-    color: rgb(186 255 232 / 89%);
+    background: url(../../staticV2/img/noice.png), rgb(57 114 95 / 9%);
+    color: rgb(129 255 197 / 87%);
 }
 
 .show {
     display: block;
 }
+
+/**/
