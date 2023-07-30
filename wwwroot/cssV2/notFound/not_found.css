@@ -1,0 +1,33 @@
+﻿.center-404 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.center-body {
+    align-items: center;
+}
+
+.light-error {
+    color: #64E9BF;
+    text-shadow: 0 0 20px rgb(100 233 191 / 40%);
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: -2px;
+}
+
+.description-error {
+    color: #FFF;
+    text-shadow: 0 0 20px rgb(255 255 255 / 20%);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    letter-spacing: -0.88px;
+}

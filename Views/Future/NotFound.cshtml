@@ -1,7 +1,9 @@
 ﻿@{
-    Layout = null;
+    ViewData["Title"] = "404";
+    Layout = "~/Views/Future/_Layout.cshtml";
 }
 <!DOCTYPE html>
+<link rel="stylesheet" href="~/cssV2/notFound/not_found.css">
 <html>
 <head>
     <title>
@@ -9,7 +11,10 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-    <h1>When You See It</h1>
-</body>
+<main class="main-page">
+    <div class="center-404">
+        <div class="light-error">¯\_(404)_/¯</div>
+        <div class="description-error">Oops, you have the wrong page.</div>
+    </div>
+</main>
 </html>

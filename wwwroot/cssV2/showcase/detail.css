@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .detail-mini * a {
@@ -229,4 +230,11 @@
 
 .button-link:hover * path {
     fill: #fff;
+}
+
+.D1.detail-mini > div {
+    display: inherit;
+}
+.D1.detail-mini * span {
+    margin-left: 5px;
 }
