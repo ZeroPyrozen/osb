@@ -7,9 +7,75 @@
 <link rel="stylesheet" href="~/cssV2/community/community.css">
 <link rel="stylesheet" href="~/cssV2/community/community_resize.css">
 
-<main>
-    <div class="detail-block">
-        Soon
+<main class="main-page">
+    <div class="community-block">
+        <div class="discord-join">
+            <div class="left-discord-banquet">
+                <img src="~/staticV2/img/osb discord.png" alt="">
+                <text>
+                    <div class="D3">osu! storyboarder banquet</div>
+                    <div class="D1">Feel free to come by our Discord server.</div>
+                </text>
+            </div>
+            <button class="publish" onclick="window.location.href = 'https://discord.gg/B8NX7YW'">Join our Discord!</button>
+        </div>
+        <div class="description-community">
+            <div class="title-description">Description</div>
+            <div class="text-description">
+                There’s often a high learning curve for a newbie getting into storyboarding. If you’re stuck with a problem, it can be pretty frustrating when there’s no one to ask for help, or if there isn’t any good documentation online. That’s where OSB comes in. We’re primarily a Discord server whose main goal is to help and collaborate with others to make the best visual animations osu! has ever seen. Do you like storyboards on osu!? Do you want to learn how to make your own? Do you want to improve your storyboarding? Feel free to come by our Discord server.
+            </div>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="2" viewBox="0 0 1320 2" fill="none">
+            <path d="M0 1H1320" stroke="#2A302E"/>
+        </svg>
+        <div class="description-community">
+            <div class="title-description">Special Credits</div>
+            <div class="text-description">
+                Our community is brought to you by amazing osu! players, mappers, and, most importantly among our site, storyboarders. Without these guys, we wouldn't have such wondrous visual works on osu!.
+            </div>
+        </div>
+        <div class="community-grid">
+            @{
+                int rowCount = Model.storyboarders.Count / 5;
+                if (Model.storyboarders.Count % 5 != 0)
+                    rowCount += 1;
+                int iterator = 0;
+            }
+            @for (int i = 0; i < rowCount; i++)
+            {
+                @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++)
+                {
+                    var storyBoarder = Model.storyboarders[iterator];
+                    var roles = storyBoarder.Roles.OrderByDescending(x => x.RoleID).Take(1);
+                    <a href="/community/profile?userID=@storyBoarder.UserID" target="_blank">
+                        <div class="user-card">
+                            <div class="user-card-info">
+                                <img src="@storyBoarder.UserAvatarUrl" alt="" class="user-image">
+                                <div class="user-info">
+                                    <div class="user-name">@storyBoarder.Username</div>
+                                    <div class="user-role">
+                                        @foreach (var role in roles)
+                                        {
+                                            <div class="card-role" style='color: @role.RoleHexColour;'>
+                                                @role.RoleName
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                @{
+                                    var country = storyBoarder.Country;
+                                    <img class="country-user" src="~/staticV2/flags/@(country.Code).svg"/>
+                                }
+                            </div>
+                            <div class="user-background"
+                                 style="background: linear-gradient(180deg, rgb(35 41 39 / 5%) 0%, rgb(35 41 39 / 35%) 100%), url('@storyBoarder.UserCoverUrl') no-repeat; background-position: 50% 50%;background-size: cover;overflow: hidden;">
+                            </div>
+                        </div>
+                    </a>
+                    iterator++;
+                }
+            }
+        </div>
     </div>
 
 

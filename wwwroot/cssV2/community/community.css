@@ -1,173 +1,139 @@
-.discord-banner {
+.discord-join {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 30px 60px;
-    gap: 95px;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    background: url(../../staticV2/img/noice.png), rgba(21, 24, 22, 0.8);
+.community-block {
+    display: flex;
+    padding: 30px 60px;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.left-discord-banquet {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.left-discord-banquet > img {
+    width: 50px;
+}
+
+.description-community {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.title-description {
+    color: #E2E2E2;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.text-description {
+    color: #E2E2E2;
+    align-self: stretch;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.community-grid {
+    display: inline-grid;
+    align-items: flex-start;
+    align-content: flex-start;
+    align-self: stretch;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px 16px;
 }
 
 .user-card {
-    z-index: 2434;
     display: flex;
-    flex-direction: row;
+    position: relative;
+    flex-direction: column;
     width: 100%;
-    padding: 15px 25px;
-    border: 1px solid #354D48;
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.25);
-    filter: drop-shadow(0 0 15px #354D48);
-    border-radius: 10px;
-    justify-content: space-between;
-    align-items: flex-end;
+    height: 90px;
+    align-items: flex-start;
+    border-radius: 12px;
+    border: 1px solid #36423C;
+    overflow: hidden;
     transition: all 0.4s;
 }
 
-.user-avatar {
-    width: 82px;
-    height: 82px;
-    border-radius: 20px;
-    outline: 1px solid #354D48;
+.user-card:hover {
+    border: 1px solid #688676;
+}
+
+.user-card:hover > .user-card-info {
+    height: 100%;
+    padding: 0 8px;
+}
+
+.user-card:hover * .user-image {
+    width: 48px;
+    height: 48px;
+}
+
+.user-card-info {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    align-items: center;
+    width: -webkit-fill-available;
+    height: 40%;
+    padding: 8px;
+    gap: 8px;
+    background: rgba(32, 37, 34, 0.90);
     transition: all 0.4s;
 }
 
 .user-background {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 40%;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    transition: all 0.4s;
-    opacity: 1;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    height: -webkit-fill-available;
-    gap: 4px 5px;
-    padding: 40px 60px;
-    grid-auto-flow: initial;
-    transition: all 0.4s;
-}
-
-.grid > a {
-    overflow: hidden;
-    border-radius: 10px;
-    z-index: 1022;
-}
-
-a:hover * .user-background {
-    opacity: 0.7;
-    bottom: 0;
-}
-
-a:hover * .card-role {
-    opacity: 1;
-}
-
-a:hover * .card-text {
-    color: #c3fff2;
-}
-
-a:hover * .country-text {
-    color: #c3fff2;
-}
-
-a:hover * .user-card {
-    border: 1px solid #57a998;
-    filter: drop-shadow(0 0 25px #354D48);
-}
-
-a:hover * .user-avatar {
-    border-radius: 40px;
-}
-
-.fix-background {
-    position: relative;
-    display: flex;
+    height: 100%;
     width: 100%;
 }
 
-.background-noice, .background-color {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-radius: 10px;
-}
+.user-name {
+    height: 16px;
+    align-self: stretch;
 
-.background-noice {
-    background: url(../../staticV2/img/noice.png);
-}
-
-.background-color {
-    background: linear-gradient(0deg, rgb(44 54 51 / 28%), rgb(35 41 39 / 92%));
-}
-
-.country-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0;
-    gap: 10px;
-}
-
-.country-container > img {
-    border-radius: 4px;
     overflow: hidden;
-}
-
-.card-text {
+    color: #FFF;
+    text-overflow: ellipsis;
+    whitespace: nowrap;
+    font-size: 15px;
+    font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
-    color: #FFFFFF;
-    transition: all 0.4s;
-}
-
-.country-text {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-    margin: 0;
-    color: #93B7A5;
-    transition: all 0.4s;
+    line-height: normal;
 }
 
 .card-role {
-    padding: 3px 10px;
-    gap: 10px;
-    border-radius: 23px;
-    opacity: 0.7;
+    color: #64E9BF;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.user-image {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 39px;
     transition: all 0.4s;
 }
 
-.info-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-between;
-    gap: 25px;
-    transition: all 0.4s;
-}
-
-.user-info-conainer {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.sort-roles {
-    display: flex;
-    position: absolute;
-    right: 25px;
-    top: 15px;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 7px;
+.country-user {
+    width: 32px;
+    min-width: 32px;
+    border-radius: 4px;
+    overflow: hidden;
+    outline: 1px solid #1c201e;
+    margin-left: auto;
+    margin-right: 20px;
 }

@@ -54,6 +54,7 @@ body {
     place-content: center;
     align-items: flex-start;
     justify-content: center;
+    overflow: hidden;
 }
 
 .body-limit {
@@ -138,6 +139,7 @@ strong {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: auto;
 }
 
 .splash {
@@ -218,6 +220,7 @@ strong {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    position: relative;
 }
 
 .social-container > button {
@@ -253,7 +256,7 @@ strong {
     width: 388px;
     max-height: 270px;
     right: 30px;
-    bottom: 100px;
+    bottom: 65px;
     background: url(../staticV2/img/noice.png), #232927f7;
     border: 1px solid #354D48;
     box-shadow: 0 0 219px #64e9bf29, 0 0 15px #00000040;
@@ -291,7 +294,7 @@ strong {
     }
 
     100% {
-        bottom: 100px;
+        bottom: 65px;
         scale: 1;
         opacity: 1;
     }
@@ -299,7 +302,7 @@ strong {
 
 @keyframes example-off {
     0% {
-        bottom: 100px;
+        bottom: 65px;
         scale: 1;
         opacity: 1;
     }
@@ -596,13 +599,13 @@ strong {
 
 @keyframes circle-to-square {
     0% {
-        box-shadow: 0 0 0px 0px rgb(255 255 255 / 0%);
+        box-shadow: 0 0 0 0 rgb(255 255 255 / 0%);
     }
     20% {
-        box-shadow: 0 0 0px 0px rgb(255 255 255 / 100%);
+        box-shadow: 0 0 0 0 rgb(255 255 255 / 100%);
     }
     100% {
-        box-shadow: 0 0 0px 8px rgb(255 255 255 / 0%);
+        box-shadow: 0 0 0 8px rgb(255 255 255 / 0%);
     }
 }
 

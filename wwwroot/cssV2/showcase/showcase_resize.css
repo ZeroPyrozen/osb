@@ -1,32 +1,101 @@
-@media screen and (max-width: 1005px) {
+/*@media screen and (max-width: 1005px) {*/
 
-    /* .home {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 40px 5px;
-        gap: 40px;
-    }  */
+/*    !* .home {*/
+/*        flex-direction: column;*/
+/*        align-items: flex-start;*/
+/*        padding: 40px 5px;*/
+/*        gap: 40px;*/
+/*    }  *!*/
+/*    .showcase-main {*/
+/*        display: grid;*/
+/*        grid-template-columns: 1fr;*/
+/*    }*/
+/*    */
+/*    .showcase-search, .showcase-main {*/
+/*        padding-left: 10px;*/
+/*        padding-right: 10px;*/
+/*    }*/
+
+/*    .search-container-flex {*/
+/*        display: flex;*/
+/*        flex-direction: column;*/
+/*    }*/
+/*    */
+/*    .custom-select {*/
+/*        position: relative;*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .teg-select {*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
+
+@media (max-width: 1250px) {
     .showcase-main {
-        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 13px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .showcase-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+    }
+}
+
+@media (max-width: 750px) {
+    .showcase-main {
         grid-template-columns: 1fr;
+        gap: 13px;
     }
     
-    .showcase-search, .showcase-main {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
     .search-container-flex {
         display: flex;
         flex-direction: column;
-    }
-    
-    .custom-select {
-        position: relative;
-        width: 100%;
+        align-items: flex-start;
+        gap: 8px;
     }
 
     .teg-select {
         width: 100%;
+    }
+
+    .custom-select {
+        width: 100%;
+        padding: 5px 5px;
+        border-radius: 8px;;
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .form-group {
+        width: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .showcase-main {
+        grid-template-columns: 1fr;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .showcase-search {
+        display: flex;
+        padding: 30px 20px 0 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .showcase-info-block {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .showcase-main {
+        padding: 20px 20px;
     }
 }

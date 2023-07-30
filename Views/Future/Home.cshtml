@@ -146,9 +146,9 @@
             </div>
         </div>
         <div class="right-dashboard">
-            <div class="D3">Overview</div>
-            <div>
-                <iframe src="@Model.randomBeatmap.VideoURL" style="min-width: 430px; min-height: 204px; border: 0; outline: 1px solid #686868; border-radius: 12px;"></iframe>
+            <div class="overview-container">
+                <div class="D3">Overview</div>
+                <iframe class="video-yt" src="@Model.randomBeatmap.VideoURL" style="border: 0; outline: 1px solid #686868; border-radius: 12px;"></iframe>
                 @* <small>Now playing <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.randomBeatmap.BeatmapsetID" target="_blank">@Model.randomBeatmap.BeatmapArtist - @Model.randomBeatmap.BeatmapTitle</a></small> *@
             </div>
             <div class="banquet">

@@ -1,0 +1,93 @@
+@media (max-width: 1250px) {
+    .video-yt {
+        width: 400px;
+    }
+
+    .home {
+        display: block;
+    }
+
+    .right-dashboard {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        padding: 0 0 30px 0;
+    }
+
+    .banquet {
+        margin-top: 55px;
+    }
+
+    .overview-container {
+        width: 100%;
+    }
+
+    .video-yt {
+        min-height: 350px;
+        height: 350px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .video-yt {
+        width: 100%;
+    }
+
+    .right-dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .banquet {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 800px) {
+    .thumbnails-container {
+        height: 428px;
+        flex-direction: column;
+        order: 1
+    }
+
+    .small-thumbnails {
+        gap: 10px;
+        height: 100%;
+        width: 100%;
+        flex-direction: row;
+        order: 2
+    }
+
+    .dot {
+        width: 100%;
+        height: auto;
+    }
+
+    .popular-maps-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .popular-maps-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .left-dashboard {
+        padding: 0;
+    }
+
+    .home {
+        padding: 30px 20px 20px;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .video-yt {
+        width: 100%;
+    }
+}
