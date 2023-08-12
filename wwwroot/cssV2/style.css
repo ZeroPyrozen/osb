@@ -28,6 +28,10 @@
     line-height: normal;
 }
 
+html, body {
+    scrollbar-gutter: stable;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -154,50 +158,52 @@ strong {
     width: -webkit-fill-available;
 }
 
-.nav-button {
-    color: white;
-    border: 0;
-    cursor: pointer;
-    background: none;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: normal;
-    padding: 5px 10px;
-    transition: all 0.4s;
-}
-
-.nav-button:hover {
-    color: rgb(200, 200, 200);
-}
-
-.container-nav-button {
-    display: flex;
-    flex-direction: row;
-}
-
-.auth-container {
+.right-container-nav {
     display: flex;
     flex-direction: row;
     justify-content: end;
     width: 100%;
 }
 
-.button-osb {
+.modal-user-option {
     cursor: pointer;
-    border: 1px solid #686868;
-    background: none;
-    font-weight: 700;
-    font-size: 13px;
-    color: white;
-    border-radius: 8px;
+    display: flex;
     padding: 10px 14px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #686868;
+    background: transparent;
     transition: all 0.4s;
+    &:hover {
+        border: 1px solid #fff;
+    }
+    &:hover svg {
+        scale: 1.15;
+    }
 }
 
-.button-osb:hover {
-    background: #ffffff;
-    color: #1c201e;
-    border: 1px solid #ffffff;
+.modal-user-option-avatar {
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    align-items: center;
+    border-radius: 1500px;
+    background: transparent;
+    overflow: hidden;
+    border: 0;
+    outline: 1px solid transparent;
+    transition: all 0.2s;
+    & img {
+        width: 38px;
+        height: 38px;
+    }
+    &:hover {
+        outline: 3px solid rgb(140, 170, 159);
+    }
+    &:hover svg {
+        scale: 1.15;
+    }
 }
 
 .osb-promo-container {
@@ -449,12 +455,6 @@ strong {
     display: block;
 }
 
-.avatar-img {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-}
-
 .dropdown-item {
     padding: 8px 12px;
     cursor: pointer;
@@ -484,7 +484,7 @@ strong {
 
 .slide-container {
     display: none;
-    height: 361px;
+    height: inherit;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
@@ -499,6 +499,9 @@ strong {
 }
 
 .image-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     height: 100%;
     border-radius: 12px;
@@ -610,7 +613,21 @@ strong {
 }
 
 .dot {
-    height: -webkit-fill-available;
+    height: 60px;
+}
+
+.tab-video {
+    position: absolute;
+    top: 260px;
+    right: 10px;
+    left: unset;
+    width: 140px;
+    height: 96px;
+    z-index: 13060;
+    display: block;
+    & iframe {
+        pointer-events: none;
+    }
 }
 
 /* end thumbnails */

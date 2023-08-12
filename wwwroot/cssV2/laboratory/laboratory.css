@@ -5,46 +5,47 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background: url(../../staticV2/img/noice.png), #1c1c20cc;
+    background: url(../../staticV2/img/noice.png), #1C201E;
     backdrop-filter: blur(10px);
-    font-weight: 900;
-    font-size: 45px;
-    line-height: 22px;
-    padding: 40px;
-    text-align: left;
-    color: #B4B4D0;
     z-index: 1001;
-    align-items: flex-end;
-    justify-content: flex-start;
-    animation: loadAnim infinite;
+    justify-content: center;
+    align-items: center;
 }
 
-@keyframes loadAnim {
+.square {
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+    background-color: var(--random-color);
+    animation: scaleAnim var(--animation-duration) infinite alternate;
+}
+
+@keyframes scaleAnim {
     0% {
-        background: url(../../staticV2/img/noice.png), #232329cc;
+        background: rgba(255, 255, 255, 0);
+        opacity: 0;
+        transform: scale(0.9);
+        border-radius: 60px;
     }
-
-    50% {
-        background: url(../../staticV2/img/noice.png), #1f1f24cc;
-    }
-
     100% {
-        background: url(../../staticV2/img/noice.png), #232329cc;
-    }
-}
-
-@keyframes loadAnim-off {
-    0% {
         opacity: 1;
+        transform: scale(1.4);
+        rotate: y 180deg;
+        border-radius: 10px;
     }
+}
 
-    50% {
-        opacity: 0;
-    }
+/* Генерация рандомного цвета */
+.square:nth-child(1) {
+    --random-color: #7FFFD4;
+}
 
-    100% {
-        opacity: 0;
-    }
+.square:nth-child(2) {
+    --random-color: #1c9d71;
+}
+
+.square:nth-child(3) {
+    --random-color: #7FFFD4;
 }
 
 pre {
@@ -60,6 +61,10 @@ pre {
 p {
     color: #DADAEE;
     margin: 7px 0;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
 
 ul {
@@ -67,11 +72,15 @@ ul {
 }
 
 code {
-    color: #FF40B3;
+    color: #fc8338;
+}
+
+.token.boolean, .token.number {
+    color: #e6db74 !important;
 }
 
 a {
-    color: #A68FE4;
+    color: #7FFFD4;
     text-decoration: underline;
 }
 
@@ -137,7 +146,24 @@ blockquote {
 
 .subtheme.active {
     color: #fff;
-    background: url(../../staticV2/img/noice.png), linear-gradient(90deg, #5230AF 0%, #5334AB 100%);
+    border-radius: 5px;
+    background: url(../../staticV2/img/noice.png), 0% 0% / 100px 100px repeat, #466057;
+
+    & > svg {
+        position: absolute;
+        right: 2px;
+    }
+
+    & * path {
+        fill: currentColor;
+    }
+
+    &:hover {
+        background: #3f524d;
+        & > svg {
+            rotate: 0deg;
+        }
+    }
 }
 
 .subtheme.active > img {
@@ -156,22 +182,23 @@ blockquote {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0;
-    gap: 5px;
+    gap: 3px;
+    align-self: stretch;
 }
 
 
 .theme-name {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0 40px;
+    padding: 0px 10px;
+    align-items: center;
     gap: 10px;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
+    align-self: stretch;
+    color: #8CAA9F;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
     text-transform: uppercase;
-    color: #fff;
 }
 
 .theme {
@@ -184,52 +211,63 @@ blockquote {
 
 .button-list {
     display: flex;
+    padding-bottom: 0px;
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
-    padding: 10px 40px;
     gap: 10px;
-    width: 100%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    align-self: stretch;
+    color: #BBD8CD;
+    font-size: 14px;
+    font-style: normal;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 25px;
-    cursor: pointer;
-    border: 0;
-    background: transparent;
-    color: #DADAEE;
+    line-height: normal;
+    transition: all 0.2s ease-in-out;
 }
 
 .button-list:hover {
-    color: #c1c1ec;
+    background: rgba(15, 18, 17, 0.5);
+}
+
+svg {
+    transition: all 0.2s ease-in-out;
 }
 
 .subtheme {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px;
-    gap: 10px;
-    width: 100%;
-    cursor: pointer;
-
-
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
-    text-align: left;
     /* identical to box height */
-
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    padding: 5px 10px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    color: white;
+    border-radius: 5px;
     border: 0;
     background: transparent;
-    color: #B4B4D0;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    color: #FFF;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    &:hover {
+        background: rgba(151, 185, 179, 0.08);
+
+        & > svg {
+            rotate: 45deg;
+            padding: 0 4px;
+        }
+    }
 }
 
 .subtheme > img {
     opacity: 0;
-}
-
-.subtheme:hover {
-    color: #d2d2dd;
 }
 
 .subtheme-list {
@@ -237,9 +275,9 @@ blockquote {
     flex-direction: column;
     align-items: flex-start;
     padding: 0;
-    border-radius: 10px;
+    gap: 5px;
+    border-radius: 5px;
     width: 100%;
-    background: rgba(94, 87, 115, 0.08);
     overflow: hidden;
 }
 
@@ -255,16 +293,17 @@ blockquote {
 }
 
 .code-container, note {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 14px 24px;
     margin: 7px 0;
     gap: 15px;
-    background: url(../../staticV2/img/noice.png), #27262D;
-    border: 1px solid #3B344D;
+    background: url(../../staticV2/img/noice.png), #232927;
+    border: 1px solid #354D48;
     color: #f8f8f2;
-    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px #2d51451f;
     border-radius: 10px;
     user-select: none;
     overflow: auto;
@@ -287,14 +326,20 @@ blockquote {
 }
 
 .copy-button {
+    cursor: copy;
+    position: absolute;
+    right: -14px;
+    top: -14px;
+    height: auto;
+    width: 62px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 14px 24px;
+    padding: 24px 24px 12px 12px;
     gap: 10px;
-    background: url(../../staticV2/img/noice.png), #27262D;
-    border: 1px solid #3B344D;
-    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    background: url(../../staticV2/img/noice.png), #232927;
+    border: 1px solid #354D48;
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px #2d51451f;
     border-radius: 10px;
     transition: all 0.4s;
 }
@@ -305,25 +350,24 @@ blockquote {
     width: 60px;
     top: 65px;
     padding: 10px;
-
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
     text-decoration: none;
-
-    background: url(../../staticV2/img/noice.png), #27262D;
-    border: 1px solid #3B344D;
-    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
+    border: 1px solid #354D48;
+    background: url(../../staticV2/img/noice.png), #171b19;
+    color: #f8f8f2;
+    box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px #2d51451f;
     border-radius: 10px;
     transition: all 0.4s;
 }
 
 .copy-button:hover, .edit:hover {
-    background: url(../../staticV2/img/noice.png), #2e2d36;
+    background: url(../../staticV2/img/noice.png), #2a3531;
 }
 
 .copy-button:active, .edit:active {
-    background: url(../../staticV2/img/noice.png), #383555b7;
+    background: url(../../staticV2/img/noice.png), #212824;
     scale: 0.9;
 }
 
@@ -341,7 +385,7 @@ blockquote {
 .progress-bar {
     height: 3px;
     border-radius: 10px;
-    background: linear-gradient(90deg, #a68fe480 0%, #A68FE4 100%);
+    background: linear-gradient(90deg, #72AF9900 0%, #72AF99 100%);
     width: 0;
     transition: all 1s cubic-bezier(0.215, 0.610, 0.355, 1);
 }
@@ -351,10 +395,14 @@ blockquote {
     width: 6px;
     height: 17px;
     border-radius: 10px;
-    background: #a68fe4;
+    background: #87D8BB;
     box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
     position: absolute;
     outline: 1px solid #0006;
     top: -7px;
     display: none;
+}
+
+.code-container {
+    padding-bottom: 0;
 }

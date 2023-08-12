@@ -34,6 +34,12 @@
     }
 }
 
+@media (max-width: 800px) {
+    .small-thumbnails {
+        height: 110px !important;
+    }
+}
+
 @media (max-width: 560px) {
     .social-container {
         display: flex;
@@ -44,29 +50,22 @@
     .container-bar-style {
         padding: 0 20px;
     }
-    
-    .nav-button {
-        font-size: 12px;
-        padding: 5px 5px;
-    }
-    
+
     .button-osb {
         font-size: 12px;
         padding: 8px 10px;
     }
-    
+
     #dropdownButton > img {
         display: none;
-    }
-    
-    .avatar-img {
-        display: block !important;
-        width: 27px;
-        height: 27px;
     }
 
     #navbarDropdown {
         font-size: 12px;
+    }
+
+    .small-thumbnails {
+        height: 50px !important;
     }
 }
 

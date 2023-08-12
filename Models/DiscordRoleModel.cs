@@ -15,7 +15,7 @@ public class DiscordRoleModel
     public static readonly DiscordRoleModel OSBWebDeveloper =
         new DiscordRoleModel(7, "Osb Web", "#64E9BF");
     public static readonly DiscordRoleModel Designer =
-        new DiscordRoleModel(int.MaxValue, "Designer", "#00FF85");
+        new DiscordRoleModel(int.MaxValue, "Web Designer", "#00FF85");
 
     public int RoleID { get; set; }
     public string RoleName { get; set; }

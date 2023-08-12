@@ -2,6 +2,7 @@
 @{
     var currentBeatmap = @Model.beatmapDetail;
     ViewData["Title"] = Model.beatmapDetail.BeatmapArtist + " - " + Model.beatmapDetail.BeatmapTitle;
+    ViewData["PageName"] = "Detail";
 }
 
 <link rel="stylesheet" href="~/cssV2/showcase/detail.css">
@@ -64,33 +65,78 @@
                 <button class="event-button preview-button" id="preview" data-preview="@currentBeatmap.BeatmapsetID">
                     <img class="player-svg" src="~/staticV2/svg/play_arrow.svg" alt="">
                 </button>
-                <a class="download-button" href="https://beatconnect.io/b/@currentBeatmap.BeatmapsetID/" data-turbolinks="false">
-                    Download
+                <a class="download-button" href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID" target="_blank">
+                    Beatmap Page
                 </a>
             </div>
         </div>
-        <div class="thumbnails-container">
-            <div class="small-thumbnails">
-                @for (int i = 0; i < 5; i++)
-                {
-                    <div class="dot" onclick="currSlide('@(i + 1)')">
-                        <div class="image-small"
-                             style="background: url(@currentBeatmap.BeatmapFullsizeURL); background-position: 50% 50%; background-size: cover; overflow: hidden;">
-                        </div>
-                    </div>
-                }
+        @{
+            var slotsCount = 0;
+        }
+        @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
+        {
+            slotsCount = 1 + (@currentBeatmap.Thumbnails?.Count ?? 0);
+        }
+        else
+        {
+            slotsCount = (@currentBeatmap.Thumbnails?.Count ?? 0) + 1;
+        }
+        @if (@currentBeatmap.Thumbnails?.Count != null || !string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
+        {
+            <div class="thumbnails-container">
+                <div class="small-thumbnails">
+                    @for (int i = 0; i < slotsCount; i++)
+                    {
+                        @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL) && i == 0)
+                        {
+                            <div class="dot" onclick="currSlide('@(i + 1)')">
+                                <div class="image-small"
+                                     style="background: url(https://i.ytimg.com/vi/@Model.beatmapDetail.VideoShortURL/sddefault.jpg); background-position: 50% 50%; background-size: cover; overflow: hidden;">
+                                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_1301_1041)">
+                                            <path d="M33.3233 8.7627C33.131 8.03937 32.7522 7.37922 32.2247 6.8483C31.6972 6.31738 31.0394 5.93433 30.3174 5.73748C27.6592 5.02271 17.0342 5.02271 17.0342 5.02271C17.0342 5.02271 6.40918 5.02271 3.751 5.73748C3.02891 5.93433 2.3712 6.31738 1.84367 6.8483C1.31614 7.37922 0.937313 8.03937 0.745089 8.7627C0.0341798 11.4325 0.0341797 17 0.0341797 17C0.0341797 17 0.0341798 22.5675 0.745089 25.2372C0.937313 25.9606 1.31614 26.6207 1.84367 27.1517C2.3712 27.6826 3.02891 28.0656 3.751 28.2625C6.40918 28.9772 17.0342 28.9772 17.0342 28.9772C17.0342 28.9772 27.6592 28.9772 30.3174 28.2625C31.0394 28.0656 31.6972 27.6826 32.2247 27.1517C32.7522 26.6207 33.131 25.9606 33.3233 25.2372C34.0342 22.5675 34.0342 17 34.0342 17C34.0342 17 34.0342 11.4325 33.3233 8.7627Z" fill="#FF0000"/>
+                                            <path d="M13.5566 22.0556V11.9445L22.443 17L13.5566 22.0556Z" fill="white"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1301_1041">
+                                                <rect width="34" height="34" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                        }
+                        else if (@currentBeatmap.Thumbnails?.Count > ((i - 1) - 1) && i > 0)
+                        {
+                            <div class="dot" onclick="currSlide('@(i + (string.IsNullOrEmpty(@Model.beatmapDetail.VideoShortURL) ? 0 : 1))')">
+                                <div class="image-small"
+                                     style="background: url(@currentBeatmap.Thumbnails[i - 1]); background-position: 50% 50%; background-size: cover; overflow: hidden;">
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="thumbnails">
+                    @for (int i = 0; i < slotsCount; i++)
+                    {
+                        @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL) && i == 0)
+                        {
+                            <div class="slide-container">
+                                <iframe id="video-iframe-@(i + 1)" allowfullscreen allow="autoplay; controls=1" src="@Model.beatmapDetail.VideoURL?enablejsapi=1" style="width: 100%; height: 100%; border: 0;"></iframe>
+                            </div>
+                        }
+                        else if (@currentBeatmap.Thumbnails?.Count > ((i - 1) - 1) && i > 0)
+                        {
+                            <div class="slide-container">
+                                <div class="thumbnails-slide"
+                                     style="background: linear-gradient(180deg, rgb(0 0 0 / 69%) 0%, rgb(0 0 0 / 55%) 13.54%, rgb(0 0 0 / 0%) 48.96%), url(@currentBeatmap.Thumbnails[i - 1]) no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden; height: 100%; width: 100%">
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
             </div>
-            <div class="thumbnails">
-                @for (int i = 0; i < 5; i++)
-                {
-                    <div class="slide-container">
-                        <div class="thumbnails-slide"
-                             style="background: linear-gradient(180deg, rgb(0 0 0 / 69%) 0%, rgb(0 0 0 / 55%) 13.54%, rgb(0 0 0 / 0%) 48.96%), url(@currentBeatmap.BeatmapFullsizeURL) no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden; height: 100%; width: 100%">
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
+        }
         <div class="detail-more-info">
             <div class="description-storyboard">
                 <div class="title-description">Description</div>
@@ -131,22 +177,6 @@
                                 <path d="M23 12C23 9.82441 22.3549 7.69767 21.1462 5.88873C19.9375 4.07979 18.2195 2.66989 16.2095 1.83733C14.1995 1.00477 11.9878 0.786929 9.85401 1.21137C7.72022 1.6358 5.76021 2.68345 4.22183 4.22183C2.68345 5.76021 1.6358 7.72022 1.21137 9.85401C0.786929 11.9878 1.00477 14.1995 1.83733 16.2095C2.66989 18.2195 4.07979 19.9375 5.88873 21.1462C7.69767 22.3549 9.82441 23 12 23C14.9174 23 17.7153 21.8411 19.7782 19.7782C21.8411 17.7153 23 14.9174 23 12ZM12 21.9C10.042 21.9 8.1279 21.3194 6.49986 20.2316C4.87181 19.1437 3.6029 17.5976 2.8536 15.7886C2.10429 13.9796 1.90824 11.989 2.29023 10.0686C2.67222 8.1482 3.61511 6.38419 4.99965 4.99965C6.38419 3.61511 8.1482 2.67222 10.0686 2.29023C11.989 1.90824 13.9796 2.10429 15.7886 2.8536C17.5976 3.6029 19.1437 4.87181 20.2315 6.49986C21.3194 8.1279 21.9 10.042 21.9 12C21.9 13.3001 21.6439 14.5874 21.1464 15.7886C20.6489 16.9897 19.9197 18.0811 19.0004 19.0004C18.0811 19.9197 16.9897 20.6489 15.7886 21.1464C14.5874 21.6439 13.3001 21.9 12 21.9Z" fill="#686868"/>
                             </svg>
                         </a>
-                        @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
-                        {
-                            <a class="button-link" target="_blank" href="@Model.beatmapDetail.VideoURL">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_1016_6314)">
-                                        <path d="M23.5216 6.18541C23.3859 5.67482 23.1185 5.20883 22.7462 4.83407C22.3738 4.4593 21.9095 4.18891 21.3998 4.04996C19.5234 3.54541 12.0234 3.54541 12.0234 3.54541C12.0234 3.54541 4.52344 3.54541 2.64707 4.04996C2.13737 4.18891 1.6731 4.4593 1.30073 4.83407C0.928354 5.20883 0.660943 5.67482 0.525256 6.18541C0.0234376 8.06996 0.0234375 12 0.0234375 12C0.0234375 12 0.0234376 15.93 0.525256 17.8145C0.660943 18.3251 0.928354 18.7911 1.30073 19.1658C1.6731 19.5406 2.13737 19.811 2.64707 19.95C4.52344 20.4545 12.0234 20.4545 12.0234 20.4545C12.0234 20.4545 19.5234 20.4545 21.3998 19.95C21.9095 19.811 22.3738 19.5406 22.7462 19.1658C23.1185 18.7911 23.3859 18.3251 23.5216 17.8145C24.0234 15.93 24.0234 12 24.0234 12C24.0234 12 24.0234 8.06996 23.5216 6.18541Z" fill="#686868"/>
-                                        <path d="M9.56934 15.5687V8.4314L15.8421 12L9.56934 15.5687Z" fill="#1D211F"/>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1016_6314">
-                                            <rect width="24" height="24" fill="white"/>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            </a>
-                        }
                     </div>
                 </div>
             </div>
@@ -155,4 +185,4 @@
     </div>
 </main>
 
-<script src="~/jsV2/carousel_slide.js"></script>
+<script src="~/jsV2/showcase/thumbnails.js"></script>

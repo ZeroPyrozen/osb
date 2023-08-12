@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "osb! Learn Page";
+    ViewData["Title"] = "Learning storyboarding";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -13,65 +13,132 @@
     <link rel="stylesheet" href="~/cssV2/laboratory/laboratory.css">
     <link rel="stylesheet" href="~/cssV2/laboratory/laboratory_screen.css">
     <link rel="stylesheet" href="~/cssV2/laboratory/laboratory_media_screen.css">
-    <link rel="stylesheet" href="~/cssV2/laboratory/prettify.css" />
-    <title>laboratory</title>
+    <link rel="stylesheet" href="~/cssV2/laboratory/prettify.css"/>
+    <link rel="stylesheet" href="~/cssV2/modal.css">
+    <title>
+        @ViewData["Title"]
+    </title>
 </head>
 
 <body id="some-element">
-    <div id="loading">loading...</div>
-    <main>
-        <div id="LDashboard" class="scroll-content">
-            <div class="left-dashboard">
-                <div class="logo-place">
-                    <img src="~/staticV2/svg/osb.svg" alt="">laboratory
-                </div>
-                <div class="menu-list">
-                    <button onclick="window.location.href = '@Url.ActionLink("Home", "Future", new { code = "WYSI" })';" class="subtheme"><img src="~/staticV2/svg/chevron_right.svg"
-                            alt="">Home</button>
-                    <button onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';" class="subtheme"><img
-                            src="~/staticV2/svg/chevron_right.svg" alt="">Showcase</button>
-                    <button onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';" class="subtheme"><img
-                            src="~/staticV2/svg/chevron_right.svg" alt="">Community</button>
-                </div>
-                <div id="git-path" class="doc-list">
+<div id="loading">
+  <div class="square" style="--animation-duration: 1s;"></div>
+  <div class="square" style="--animation-duration: 1.3s;"></div>
+  <div class="square" style="--animation-duration: 1.6s;"></div>
+</div>
+
+<main>
+    <div id="LDashboard" class="scroll-content">
+        <div class="navigation-panel left-modal">
+            <div class="modal-top-content">
+                <div class="info-modal">
+                    <img src="~/staticV2/svg/osb.svg" alt="">
+                    @ViewData["Title"]
                 </div>
             </div>
-        </div>
-        <div id="RDashboard" class="right-dashboard">
-            <div class="scroll-content-main" id="scrollCheck">
-                <div class="laboratory-test" id="content">
-                </div>
+            <div class="line-modal"></div>
+            <div class="modal-list">
+                <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Home", "Future", new { code = "WYSI" })';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_7412)">
+                            <path d="M3.66667 11.9167H9.16667C9.67083 11.9167 10.0833 11.5042 10.0833 11V3.66667C10.0833 3.1625 9.67083 2.75 9.16667 2.75H3.66667C3.1625 2.75 2.75 3.1625 2.75 3.66667V11C2.75 11.5042 3.1625 11.9167 3.66667 11.9167ZM3.66667 19.25H9.16667C9.67083 19.25 10.0833 18.8375 10.0833 18.3333V14.6667C10.0833 14.1625 9.67083 13.75 9.16667 13.75H3.66667C3.1625 13.75 2.75 14.1625 2.75 14.6667V18.3333C2.75 18.8375 3.1625 19.25 3.66667 19.25ZM12.8333 19.25H18.3333C18.8375 19.25 19.25 18.8375 19.25 18.3333V11C19.25 10.4958 18.8375 10.0833 18.3333 10.0833H12.8333C12.3292 10.0833 11.9167 10.4958 11.9167 11V18.3333C11.9167 18.8375 12.3292 19.25 12.8333 19.25ZM11.9167 3.66667V7.33333C11.9167 7.8375 12.3292 8.25 12.8333 8.25H18.3333C18.8375 8.25 19.25 7.8375 19.25 7.33333V3.66667C19.25 3.1625 18.8375 2.75 18.3333 2.75H12.8333C12.3292 2.75 11.9167 3.1625 11.9167 3.66667Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_7412">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Dashboard
+                </button>
+                <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_7709)">
+                            <path d="M13.2278 9.16667L11.8803 4.73C11.6145 3.85917 10.3861 3.85917 10.1295 4.73L8.77281 9.16667H4.69364C3.80447 9.16667 3.43781 10.3125 4.16197 10.8258L7.49864 13.2092L6.18781 17.435C5.92197 18.2875 6.91198 18.975 7.61781 18.4342L11.0003 15.8675L14.3828 18.4433C15.0886 18.9842 16.0786 18.2967 15.8128 17.4442L14.502 13.2183L17.8386 10.835C18.5628 10.3125 18.1961 9.17583 17.307 9.17583H13.2278V9.16667Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_7709">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Storyboards
+                </button>
+                <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Learn", "Future", new { code = "WYSI" })';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_7794)">
+                            <path d="M21.0837 5.50001V1.83334C21.0837 1.32917 20.6712 0.916672 20.167 0.916672H16.5003C15.9962 0.916672 15.5837 1.32917 15.5837 1.83334V2.75001H6.41699V1.83334C6.41699 1.32917 6.00449 0.916672 5.50033 0.916672H1.83366C1.32949 0.916672 0.916992 1.32917 0.916992 1.83334V5.50001C0.916992 6.00417 1.32949 6.41667 1.83366 6.41667H2.75033V15.5833H1.83366C1.32949 15.5833 0.916992 15.9958 0.916992 16.5V20.1667C0.916992 20.6708 1.32949 21.0833 1.83366 21.0833H5.50033C6.00449 21.0833 6.41699 20.6708 6.41699 20.1667V19.25H15.5837V20.1667C15.5837 20.6708 15.9962 21.0833 16.5003 21.0833H20.167C20.6712 21.0833 21.0837 20.6708 21.0837 20.1667V16.5C21.0837 15.9958 20.6712 15.5833 20.167 15.5833H19.2503V6.41667H20.167C20.6712 6.41667 21.0837 6.00417 21.0837 5.50001ZM2.75033 2.75001H4.58366V4.58334H2.75033V2.75001ZM4.58366 19.25H2.75033V17.4167H4.58366V19.25ZM15.5837 17.4167H6.41699V16.5C6.41699 15.9958 6.00449 15.5833 5.50033 15.5833H4.58366V6.41667H5.50033C6.00449 6.41667 6.41699 6.00417 6.41699 5.50001V4.58334H15.5837V5.50001C15.5837 6.00417 15.9962 6.41667 16.5003 6.41667H17.417V15.5833H16.5003C15.9962 15.5833 15.5837 15.9958 15.5837 16.5V17.4167ZM19.2503 19.25H17.417V17.4167H19.2503V19.25ZM17.417 4.58334V2.75001H19.2503V4.58334H17.417ZM11.862 7.01251C11.7245 6.65501 11.3762 6.41667 10.9912 6.41667C10.6062 6.41667 10.2578 6.65501 10.1295 7.01251L7.59033 13.7317C7.41616 14.1808 7.74616 14.6667 8.23199 14.6667C8.52533 14.6667 8.78199 14.4833 8.88283 14.2083L9.38699 12.8333H12.5862L13.0995 14.2175C13.2003 14.4833 13.457 14.6667 13.7503 14.6667H13.7595C14.2453 14.6667 14.5753 14.1808 14.4103 13.7317L11.862 7.01251ZM9.79949 11.6783L11.0003 8.16751L12.192 11.6783H9.79949Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_7794">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Learning storyboarding
+                </button>
+                <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_7788)">
+                            <path d="M10.9997 1.83333C5.93967 1.83333 1.83301 5.94 1.83301 11C1.83301 16.06 5.93967 20.1667 10.9997 20.1667C16.0597 20.1667 20.1663 16.06 20.1663 11C20.1663 5.94 16.0597 1.83333 10.9997 1.83333ZM14.3088 7.645C15.2897 7.645 16.078 8.43333 16.078 9.41417C16.078 10.395 15.2897 11.1833 14.3088 11.1833C13.328 11.1833 12.5397 10.395 12.5397 9.41417C12.5305 8.43333 13.328 7.645 14.3088 7.645ZM8.80884 6.19667C10.0005 6.19667 10.9722 7.16833 10.9722 8.36C10.9722 9.55166 10.0005 10.5233 8.80884 10.5233C7.61717 10.5233 6.64551 9.55166 6.64551 8.36C6.64551 7.15916 7.60801 6.19667 8.80884 6.19667ZM8.80884 14.5658V18.0033C6.60884 17.3158 4.86717 15.62 4.09717 13.4567C5.05967 12.43 7.46134 11.9075 8.80884 11.9075C9.29467 11.9075 9.90884 11.9808 10.5505 12.1092C9.04717 12.9067 8.80884 13.9608 8.80884 14.5658ZM10.9997 18.3333C10.7522 18.3333 10.5138 18.3242 10.2755 18.2967V14.5658C10.2755 13.2642 12.9705 12.6133 14.3088 12.6133C15.2897 12.6133 16.9855 12.9708 17.8288 13.6675C16.7563 16.39 14.1072 18.3333 10.9997 18.3333Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_7788">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Сontributors
+                </button>
+            </div>
+            <div class="line-modal"></div>
+            <div class="modal-list">
+                <button class="modal-button" onclick="window.location.href = 'https://discord.gg/B8NX7YW'">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.8654 4.76686C20.0944 8.03576 21.1952 11.723 20.7837 15.9678C20.782 15.9858 20.7726 16.0023 20.7578 16.0131C19.0698 17.2494 17.4344 17.9997 15.8219 18.4973C15.8093 18.5011 15.7959 18.5009 15.7834 18.4967C15.771 18.4925 15.7602 18.4845 15.7525 18.4739C15.38 17.9569 15.0415 17.4118 14.745 16.8394C14.728 16.8057 14.7435 16.7651 14.7785 16.7518C15.3161 16.5498 15.8273 16.3077 16.319 16.021C16.3577 15.9983 16.3602 15.943 16.3244 15.9164C16.2201 15.8391 16.1167 15.7579 16.0178 15.6767C15.9993 15.6617 15.9743 15.6588 15.9534 15.6688C12.7612 17.1392 9.26431 17.1392 6.03438 15.6688C6.01341 15.6595 5.9885 15.6627 5.97049 15.6775C5.8718 15.7587 5.76818 15.8391 5.66481 15.9164C5.62904 15.943 5.632 15.9983 5.67098 16.021C6.16267 16.3022 6.67386 16.5498 7.2107 16.7528C7.24548 16.7661 7.26201 16.8057 7.24474 16.8394C6.95461 17.4126 6.61613 17.9576 6.23669 18.4746C6.22016 18.4955 6.19302 18.5051 6.16736 18.4973C4.56251 17.9997 2.92707 17.2494 1.23908 16.0131C1.22502 16.0023 1.2149 15.9851 1.21342 15.9671C0.86951 12.2954 1.57041 8.57762 4.12904 4.76612C4.13521 4.75603 4.14459 4.74816 4.15544 4.74348C5.4144 4.16717 6.76317 3.74318 8.17287 3.50104C8.19853 3.4971 8.22418 3.50891 8.23751 3.53155C8.41168 3.83915 8.61078 4.23361 8.74548 4.55597C10.2314 4.32958 11.7405 4.32958 13.2576 4.55597C13.3923 4.2405 13.5845 3.83915 13.7579 3.53155C13.7641 3.52032 13.7736 3.51132 13.7852 3.50584C13.7969 3.50036 13.8099 3.49868 13.8225 3.50104C15.233 3.74392 16.5817 4.16791 17.8397 4.74348C17.8508 4.74816 17.8599 4.75603 17.8654 4.76686ZM9.50091 11.7481C9.51645 10.6626 8.72303 9.76445 7.72706 9.76445C6.73924 9.76445 5.95346 10.6548 5.95346 11.7481C5.95346 12.8412 6.75478 13.7315 7.72706 13.7315C8.71514 13.7315 9.50091 12.8412 9.50091 11.7481ZM16.059 11.7481C16.0745 10.6626 15.2811 9.76445 14.2854 9.76445C13.2973 9.76445 12.5115 10.6548 12.5115 11.7481C12.5115 12.8412 13.3128 13.7315 14.2854 13.7315C15.2811 13.7315 16.059 12.8412 16.059 11.7481Z" fill="#8CAA9F"/>
+                    </svg>
+                    Discord
+                </button>
+            </div>
+            <div id="git-path" class="doc-list">
             </div>
         </div>
-    </main>
-    <footer class="container-bar-style">
-        <div class="progress-container">
-            <div class="progress-bar" id="myBar"></div>
-            <div class="progress-indicator" id="myIndicator"></div>
+    </div>
+    <div id="RDashboard" class="right-dashboard">
+        <div class="scroll-content-main" id="scrollCheck">
+            <div class="laboratory-test" id="content">
+            </div>
         </div>
-        <button id="leftMenu" class="footer-button">
-            <img class="menu-icon" src="~/staticV2/svg/laboratory/menu.svg" alt="">
-            Menu
-        </button>
-        <div class="social-container">
-            <button onclick="window.open(`https://github.com/Maks1mio/osb-laboratory`, '_blank');"
+    </div>
+</main>
+<footer class="container-bar-style">
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+        <div class="progress-indicator" id="myIndicator"></div>
+    </div>
+    <button id="leftMenu" class="footer-button">
+        <img class="menu-icon" src="~/staticV2/svg/laboratory/menu.svg" alt="">
+        Menu
+    </button>
+    <div class="social-container">
+        <button onclick="window.open(`https://github.com/Maks1mio/osb-laboratory`, '_blank');"
                 class="footer-button">
-                <img src="~/staticV2/svg/history_edu.svg" alt="">
-                GitHub Doc
-            </button>
-            <button id="changeLang" class="footer-button">
-                <img src="~/staticV2/svg/language.svg" alt="">
-                Language
-                <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
-            </button>
-            <div id="langShow" class="change-language">
-                <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
-                <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
-                <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
-                <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
-            </div>
+            <img src="~/staticV2/svg/history_edu.svg" alt="">
+            GitHub Doc
+        </button>
+        <button id="changeLang" class="footer-button">
+            <img src="~/staticV2/svg/language.svg" alt="">
+            Language
+            <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
+        </button>
+        <div id="langShow" class="change-language">
+            <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
+            <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
+            <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
+            <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
         </div>
-    </footer>
+    </div>
+</footer>
 </body>
 <!-- Connect Google Code Prettify -->
 <script src="~/jsV2/laboratory/progres_bar.js"></script>

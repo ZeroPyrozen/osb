@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>
         @ViewData["Title"]
@@ -13,6 +12,7 @@
     <link rel="stylesheet" href="~/cssV2/style_resize.css">
     <link rel="stylesheet" href="~/cssV2/beatmap.css">
     <link rel="stylesheet" href="~/cssV2/osb_player.css">
+    <link rel="stylesheet" href="~/cssV2/modal.css">
     @* <link rel="stylesheet" href="~/cssV2/update.css"> *@
 </head>
 
@@ -40,39 +40,276 @@
         <input type="range" class="volume_slider" min="0" max="100" value="100"/>
     </div>
 </div>
+<dialog popover id="popover1">
+    <div class="navigation-panel left-modal">
+        <div class="modal-top-content">
+            <div class="info-modal">
+                <img src="~/staticV2/svg/osb.svg" alt="">
+                @ViewData["PageName"]
+            </div>
+            <button onclick="closePopover('popover1')" popovertargetaction="hide" class="close-modal">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1252_6607)">
+                        <path d="M15.2496 4.75834C14.9246 4.43334 14.3996 4.43334 14.0746 4.75834L9.99961 8.82501L5.92461 4.75001C5.59961 4.42501 5.07461 4.42501 4.74961 4.75001C4.42461 5.07501 4.42461 5.60001 4.74961 5.92501L8.82461 10L4.74961 14.075C4.42461 14.4 4.42461 14.925 4.74961 15.25C5.07461 15.575 5.59961 15.575 5.92461 15.25L9.99961 11.175L14.0746 15.25C14.3996 15.575 14.9246 15.575 15.2496 15.25C15.5746 14.925 15.5746 14.4 15.2496 14.075L11.1746 10L15.2496 5.92501C15.5663 5.60834 15.5663 5.07501 15.2496 4.75834Z" fill="#6A7571"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1252_6607">
+                            <rect width="20" height="20" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </button>
+        </div>
+        <div class="line-modal"></div>
+        <div class="modal-list">
+            <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Home", "Future", new { code = "WYSI" })';">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1252_7412)">
+                        <path d="M3.66667 11.9167H9.16667C9.67083 11.9167 10.0833 11.5042 10.0833 11V3.66667C10.0833 3.1625 9.67083 2.75 9.16667 2.75H3.66667C3.1625 2.75 2.75 3.1625 2.75 3.66667V11C2.75 11.5042 3.1625 11.9167 3.66667 11.9167ZM3.66667 19.25H9.16667C9.67083 19.25 10.0833 18.8375 10.0833 18.3333V14.6667C10.0833 14.1625 9.67083 13.75 9.16667 13.75H3.66667C3.1625 13.75 2.75 14.1625 2.75 14.6667V18.3333C2.75 18.8375 3.1625 19.25 3.66667 19.25ZM12.8333 19.25H18.3333C18.8375 19.25 19.25 18.8375 19.25 18.3333V11C19.25 10.4958 18.8375 10.0833 18.3333 10.0833H12.8333C12.3292 10.0833 11.9167 10.4958 11.9167 11V18.3333C11.9167 18.8375 12.3292 19.25 12.8333 19.25ZM11.9167 3.66667V7.33333C11.9167 7.8375 12.3292 8.25 12.8333 8.25H18.3333C18.8375 8.25 19.25 7.8375 19.25 7.33333V3.66667C19.25 3.1625 18.8375 2.75 18.3333 2.75H12.8333C12.3292 2.75 11.9167 3.1625 11.9167 3.66667Z" fill="#8CAA9F"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1252_7412">
+                            <rect width="22" height="22" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                Dashboard
+            </button>
+            <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1252_7709)">
+                        <path d="M13.2278 9.16667L11.8803 4.73C11.6145 3.85917 10.3861 3.85917 10.1295 4.73L8.77281 9.16667H4.69364C3.80447 9.16667 3.43781 10.3125 4.16197 10.8258L7.49864 13.2092L6.18781 17.435C5.92197 18.2875 6.91198 18.975 7.61781 18.4342L11.0003 15.8675L14.3828 18.4433C15.0886 18.9842 16.0786 18.2967 15.8128 17.4442L14.502 13.2183L17.8386 10.835C18.5628 10.3125 18.1961 9.17583 17.307 9.17583H13.2278V9.16667Z" fill="#8CAA9F"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1252_7709">
+                            <rect width="22" height="22" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                Storyboards
+            </button>
+            <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Learn", "Future", new { code = "WYSI" })';">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1252_7794)">
+                        <path d="M21.0837 5.50001V1.83334C21.0837 1.32917 20.6712 0.916672 20.167 0.916672H16.5003C15.9962 0.916672 15.5837 1.32917 15.5837 1.83334V2.75001H6.41699V1.83334C6.41699 1.32917 6.00449 0.916672 5.50033 0.916672H1.83366C1.32949 0.916672 0.916992 1.32917 0.916992 1.83334V5.50001C0.916992 6.00417 1.32949 6.41667 1.83366 6.41667H2.75033V15.5833H1.83366C1.32949 15.5833 0.916992 15.9958 0.916992 16.5V20.1667C0.916992 20.6708 1.32949 21.0833 1.83366 21.0833H5.50033C6.00449 21.0833 6.41699 20.6708 6.41699 20.1667V19.25H15.5837V20.1667C15.5837 20.6708 15.9962 21.0833 16.5003 21.0833H20.167C20.6712 21.0833 21.0837 20.6708 21.0837 20.1667V16.5C21.0837 15.9958 20.6712 15.5833 20.167 15.5833H19.2503V6.41667H20.167C20.6712 6.41667 21.0837 6.00417 21.0837 5.50001ZM2.75033 2.75001H4.58366V4.58334H2.75033V2.75001ZM4.58366 19.25H2.75033V17.4167H4.58366V19.25ZM15.5837 17.4167H6.41699V16.5C6.41699 15.9958 6.00449 15.5833 5.50033 15.5833H4.58366V6.41667H5.50033C6.00449 6.41667 6.41699 6.00417 6.41699 5.50001V4.58334H15.5837V5.50001C15.5837 6.00417 15.9962 6.41667 16.5003 6.41667H17.417V15.5833H16.5003C15.9962 15.5833 15.5837 15.9958 15.5837 16.5V17.4167ZM19.2503 19.25H17.417V17.4167H19.2503V19.25ZM17.417 4.58334V2.75001H19.2503V4.58334H17.417ZM11.862 7.01251C11.7245 6.65501 11.3762 6.41667 10.9912 6.41667C10.6062 6.41667 10.2578 6.65501 10.1295 7.01251L7.59033 13.7317C7.41616 14.1808 7.74616 14.6667 8.23199 14.6667C8.52533 14.6667 8.78199 14.4833 8.88283 14.2083L9.38699 12.8333H12.5862L13.0995 14.2175C13.2003 14.4833 13.457 14.6667 13.7503 14.6667H13.7595C14.2453 14.6667 14.5753 14.1808 14.4103 13.7317L11.862 7.01251ZM9.79949 11.6783L11.0003 8.16751L12.192 11.6783H9.79949Z" fill="#8CAA9F"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1252_7794">
+                            <rect width="22" height="22" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                Learning storyboarding
+            </button>
+            <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1252_7788)">
+                        <path d="M10.9997 1.83333C5.93967 1.83333 1.83301 5.94 1.83301 11C1.83301 16.06 5.93967 20.1667 10.9997 20.1667C16.0597 20.1667 20.1663 16.06 20.1663 11C20.1663 5.94 16.0597 1.83333 10.9997 1.83333ZM14.3088 7.645C15.2897 7.645 16.078 8.43333 16.078 9.41417C16.078 10.395 15.2897 11.1833 14.3088 11.1833C13.328 11.1833 12.5397 10.395 12.5397 9.41417C12.5305 8.43333 13.328 7.645 14.3088 7.645ZM8.80884 6.19667C10.0005 6.19667 10.9722 7.16833 10.9722 8.36C10.9722 9.55166 10.0005 10.5233 8.80884 10.5233C7.61717 10.5233 6.64551 9.55166 6.64551 8.36C6.64551 7.15916 7.60801 6.19667 8.80884 6.19667ZM8.80884 14.5658V18.0033C6.60884 17.3158 4.86717 15.62 4.09717 13.4567C5.05967 12.43 7.46134 11.9075 8.80884 11.9075C9.29467 11.9075 9.90884 11.9808 10.5505 12.1092C9.04717 12.9067 8.80884 13.9608 8.80884 14.5658ZM10.9997 18.3333C10.7522 18.3333 10.5138 18.3242 10.2755 18.2967V14.5658C10.2755 13.2642 12.9705 12.6133 14.3088 12.6133C15.2897 12.6133 16.9855 12.9708 17.8288 13.6675C16.7563 16.39 14.1072 18.3333 10.9997 18.3333Z" fill="#8CAA9F"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1252_7788">
+                            <rect width="22" height="22" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                Сontributors
+            </button>
+        </div>
+        <div class="line-modal"></div>
+        <div class="modal-list">
+            <button class="modal-button" onclick="window.location.href = 'https://discord.gg/B8NX7YW'">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.8654 4.76686C20.0944 8.03576 21.1952 11.723 20.7837 15.9678C20.782 15.9858 20.7726 16.0023 20.7578 16.0131C19.0698 17.2494 17.4344 17.9997 15.8219 18.4973C15.8093 18.5011 15.7959 18.5009 15.7834 18.4967C15.771 18.4925 15.7602 18.4845 15.7525 18.4739C15.38 17.9569 15.0415 17.4118 14.745 16.8394C14.728 16.8057 14.7435 16.7651 14.7785 16.7518C15.3161 16.5498 15.8273 16.3077 16.319 16.021C16.3577 15.9983 16.3602 15.943 16.3244 15.9164C16.2201 15.8391 16.1167 15.7579 16.0178 15.6767C15.9993 15.6617 15.9743 15.6588 15.9534 15.6688C12.7612 17.1392 9.26431 17.1392 6.03438 15.6688C6.01341 15.6595 5.9885 15.6627 5.97049 15.6775C5.8718 15.7587 5.76818 15.8391 5.66481 15.9164C5.62904 15.943 5.632 15.9983 5.67098 16.021C6.16267 16.3022 6.67386 16.5498 7.2107 16.7528C7.24548 16.7661 7.26201 16.8057 7.24474 16.8394C6.95461 17.4126 6.61613 17.9576 6.23669 18.4746C6.22016 18.4955 6.19302 18.5051 6.16736 18.4973C4.56251 17.9997 2.92707 17.2494 1.23908 16.0131C1.22502 16.0023 1.2149 15.9851 1.21342 15.9671C0.86951 12.2954 1.57041 8.57762 4.12904 4.76612C4.13521 4.75603 4.14459 4.74816 4.15544 4.74348C5.4144 4.16717 6.76317 3.74318 8.17287 3.50104C8.19853 3.4971 8.22418 3.50891 8.23751 3.53155C8.41168 3.83915 8.61078 4.23361 8.74548 4.55597C10.2314 4.32958 11.7405 4.32958 13.2576 4.55597C13.3923 4.2405 13.5845 3.83915 13.7579 3.53155C13.7641 3.52032 13.7736 3.51132 13.7852 3.50584C13.7969 3.50036 13.8099 3.49868 13.8225 3.50104C15.233 3.74392 16.5817 4.16791 17.8397 4.74348C17.8508 4.74816 17.8599 4.75603 17.8654 4.76686ZM9.50091 11.7481C9.51645 10.6626 8.72303 9.76445 7.72706 9.76445C6.73924 9.76445 5.95346 10.6548 5.95346 11.7481C5.95346 12.8412 6.75478 13.7315 7.72706 13.7315C8.71514 13.7315 9.50091 12.8412 9.50091 11.7481ZM16.059 11.7481C16.0745 10.6626 15.2811 9.76445 14.2854 9.76445C13.2973 9.76445 12.5115 10.6548 12.5115 11.7481C12.5115 12.8412 13.3128 13.7315 14.2854 13.7315C15.2811 13.7315 16.059 12.8412 16.059 11.7481Z" fill="#8CAA9F"/>
+                </svg>
+                Discord
+            </button>
+        </div>
+    </div>
+    <button onclick="closePopover('popover1')" popovertargetaction="hide" class="modal-fill-background"></button>
+</dialog>
+
+<dialog popover id="popover2">
+    <div class="navigation-panel right-modal">
+        @if (ViewData["Login"] != null)
+        {
+            string ID = ViewData["UserID"].ToString();
+            <div class="modal-top-content">
+                <div class="info-modal">
+                    <img src="https://a.ppy.sh/@ID" alt="">
+                    <div class="user-name-auth" id="navbarDropdown" role="button">
+                        <div class="modal-user-name">@ViewData["Username"].ToString()</div>
+                    </div>
+                </div>
+                <button onclick="closePopover('popover2')" popovertargetaction="hide" class="close-modal">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_6607)">
+                            <path d="M15.2496 4.75834C14.9246 4.43334 14.3996 4.43334 14.0746 4.75834L9.99961 8.82501L5.92461 4.75001C5.59961 4.42501 5.07461 4.42501 4.74961 4.75001C4.42461 5.07501 4.42461 5.60001 4.74961 5.92501L8.82461 10L4.74961 14.075C4.42461 14.4 4.42461 14.925 4.74961 15.25C5.07461 15.575 5.59961 15.575 5.92461 15.25L9.99961 11.175L14.0746 15.25C14.3996 15.575 14.9246 15.575 15.2496 15.25C15.5746 14.925 15.5746 14.4 15.2496 14.075L11.1746 10L15.2496 5.92501C15.5663 5.60834 15.5663 5.07501 15.2496 4.75834Z" fill="#6A7571"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_6607">
+                                <rect width="20" height="20" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+            </div>
+            <div class="line-modal"></div>
+            <div class="modal-list">
+                <button class="modal-button" onclick="window.location.href = '/community/profile?userID=@ID';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_8259)">
+                            <path d="M10.9997 1.83337C5.93967 1.83337 1.83301 5.94004 1.83301 11C1.83301 16.06 5.93967 20.1667 10.9997 20.1667C16.0597 20.1667 20.1663 16.06 20.1663 11C20.1663 5.94004 16.0597 1.83337 10.9997 1.83337ZM10.9997 4.58337C12.5213 4.58337 13.7497 5.81171 13.7497 7.33337C13.7497 8.85504 12.5213 10.0834 10.9997 10.0834C9.47801 10.0834 8.24967 8.85504 8.24967 7.33337C8.24967 5.81171 9.47801 4.58337 10.9997 4.58337ZM10.9997 17.6C8.70801 17.6 6.68217 16.4267 5.49967 14.6484C5.52717 12.8242 9.16634 11.825 10.9997 11.825C12.8238 11.825 16.4722 12.8242 16.4997 14.6484C15.3172 16.4267 13.2913 17.6 10.9997 17.6Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_8259">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Profile
+                </button>
+            </div>
+            <div class="line-modal"></div>
+            <div class="modal-list">
+                <button popovertarget="popover3" class="modal-button">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1275_4187)">
+                            <path d="M10.9905 1.83337C5.93051 1.83337 1.83301 5.94004 1.83301 11C1.83301 16.06 5.93051 20.1667 10.9905 20.1667C16.0597 20.1667 20.1663 16.06 20.1663 11C20.1663 5.94004 16.0597 1.83337 10.9905 1.83337ZM17.343 7.33337H14.6388C14.3455 6.18754 13.9238 5.08754 13.3738 4.07004C15.0605 4.64754 16.463 5.82087 17.343 7.33337ZM10.9997 3.70337C11.7605 4.80337 12.3563 6.02254 12.7505 7.33337H9.24884C9.64301 6.02254 10.2388 4.80337 10.9997 3.70337ZM3.90467 12.8334C3.75801 12.2467 3.66634 11.6325 3.66634 11C3.66634 10.3675 3.75801 9.75337 3.90467 9.16671H7.00301C6.92967 9.77171 6.87467 10.3767 6.87467 11C6.87467 11.6234 6.92967 12.2284 7.00301 12.8334H3.90467ZM4.65634 14.6667H7.36051C7.65384 15.8125 8.07551 16.9125 8.62551 17.93C6.93884 17.3525 5.53634 16.1884 4.65634 14.6667V14.6667ZM7.36051 7.33337H4.65634C5.53634 5.81171 6.93884 4.64754 8.62551 4.07004C8.07551 5.08754 7.65384 6.18754 7.36051 7.33337V7.33337ZM10.9997 18.2967C10.2388 17.1967 9.64301 15.9775 9.24884 14.6667H12.7505C12.3563 15.9775 11.7605 17.1967 10.9997 18.2967ZM13.1447 12.8334H8.85467C8.77217 12.2284 8.70801 11.6234 8.70801 11C8.70801 10.3767 8.77217 9.76254 8.85467 9.16671H13.1447C13.2272 9.76254 13.2913 10.3767 13.2913 11C13.2913 11.6234 13.2272 12.2284 13.1447 12.8334ZM13.3738 17.93C13.9238 16.9125 14.3455 15.8125 14.6388 14.6667H17.343C16.463 16.1792 15.0605 17.3525 13.3738 17.93V17.93ZM14.9963 12.8334C15.0697 12.2284 15.1247 11.6234 15.1247 11C15.1247 10.3767 15.0697 9.77171 14.9963 9.16671H18.0947C18.2413 9.75337 18.333 10.3675 18.333 11C18.333 11.6325 18.2413 12.2467 18.0947 12.8334H14.9963Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1275_4187">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span>Language soon</span>
+                </button>
+                <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Home", "Future", new { code = "WYSI" })';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1275_4190)">
+                            <path d="M11.5962 14.3642C11.7245 14.0342 11.642 13.6584 11.3853 13.4017L9.46949 11.5134L9.49699 11.4859C11.092 9.70754 12.2287 7.66337 12.8978 5.50004H14.6762C15.1712 5.50004 15.5837 5.08754 15.5837 4.59254V4.57421C15.5837 4.07921 15.1712 3.66671 14.6762 3.66671H9.16699V2.75004C9.16699 2.24587 8.75449 1.83337 8.25033 1.83337C7.74616 1.83337 7.33366 2.24587 7.33366 2.75004V3.66671H1.82449C1.32949 3.66671 0.916992 4.07921 0.916992 4.57421C0.916992 5.07837 1.32949 5.48171 1.82449 5.48171H11.1562C10.542 7.26004 9.57033 8.93754 8.25033 10.4042C7.50783 9.58837 6.88449 8.69921 6.36199 7.76421C6.21533 7.49837 5.94949 7.33337 5.64699 7.33337C5.01449 7.33337 4.61116 8.02087 4.92283 8.57087C5.50033 9.60671 6.20616 10.5967 7.03116 11.5134L3.02533 15.4642C2.65866 15.8217 2.65866 16.4084 3.02533 16.7659C3.38283 17.1234 3.96033 17.1234 4.32699 16.7659L8.25033 12.8334L10.102 14.685C10.5695 15.1525 11.367 14.9784 11.5962 14.3642V14.3642ZM16.042 9.16671C15.492 9.16671 14.997 9.50587 14.8045 10.0284L11.4403 19.0117C11.2203 19.5709 11.642 20.1667 12.2378 20.1667C12.5953 20.1667 12.9162 19.9467 13.0445 19.6075L13.8603 17.4167H18.2145L19.0395 19.6075C19.1678 19.9375 19.4887 20.1667 19.8462 20.1667C20.442 20.1667 20.8637 19.5709 20.6528 19.0117L17.2887 10.0284C17.087 9.50587 16.592 9.16671 16.042 9.16671V9.16671ZM14.557 15.5834L16.042 11.6142L17.527 15.5834H14.557V15.5834Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1275_4190">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Help Translate
+                </button>
+            </div>
+            <div class="line-modal"></div>
+            <div class="modal-list">
+                <button class="modal-button" onclick="window.location.href = '/auth/logout'">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_8277)">
+                            <path d="M12.3663 5.02336C13.3747 5.02336 14.1996 4.19836 14.1996 3.19002C14.1996 2.18169 13.3747 1.35669 12.3663 1.35669C11.358 1.35669 10.533 2.18169 10.533 3.19002C10.533 4.19836 11.358 5.02336 12.3663 5.02336ZM9.46048 16.0234L9.98298 13.7317L11.908 15.565V20.1484C11.908 20.6525 12.3205 21.065 12.8247 21.065C13.3288 21.065 13.7413 20.6525 13.7413 20.1484V14.9784C13.7413 14.4742 13.5396 13.9975 13.173 13.6492L11.8163 12.3567L12.3663 9.60669C13.3472 10.7434 14.768 11.5592 16.363 11.8159C16.913 11.8984 17.408 11.4584 17.408 10.8992C17.408 10.45 17.078 10.0742 16.6288 10.0009C15.2355 9.77169 14.0805 8.94669 13.4663 7.86502L12.5497 6.39836C12.183 5.84836 11.633 5.48169 10.9913 5.48169C10.7163 5.48169 10.533 5.57336 10.258 5.57336L6.60965 7.11336C5.93132 7.40669 5.49132 8.06669 5.49132 8.80919V10.9817C5.49132 11.4859 5.90382 11.8984 6.40798 11.8984C6.91215 11.8984 7.32465 11.4859 7.32465 10.9817V8.78169L8.97465 8.14002L7.50798 15.565L3.91465 14.8317C3.41965 14.7309 2.93382 15.0517 2.83298 15.5467V15.5834C2.73215 16.0784 3.05298 16.5642 3.54798 16.665L7.31548 17.4167C8.28715 17.6092 9.24048 16.995 9.46048 16.0234Z" fill="#FF9393"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_8277">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Sign out
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="modal-top-content">
+                <button onclick="window.location.href = '/auth';" class="button-osb">Login</button>
+                <button onclick="closePopover('popover2')" popovertargetaction="hide" class="close-modal">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1252_6607)">
+                            <path d="M15.2496 4.75834C14.9246 4.43334 14.3996 4.43334 14.0746 4.75834L9.99961 8.82501L5.92461 4.75001C5.59961 4.42501 5.07461 4.42501 4.74961 4.75001C4.42461 5.07501 4.42461 5.60001 4.74961 5.92501L8.82461 10L4.74961 14.075C4.42461 14.4 4.42461 14.925 4.74961 15.25C5.07461 15.575 5.59961 15.575 5.92461 15.25L9.99961 11.175L14.0746 15.25C14.3996 15.575 14.9246 15.575 15.2496 15.25C15.5746 14.925 15.5746 14.4 15.2496 14.075L11.1746 10L15.2496 5.92501C15.5663 5.60834 15.5663 5.07501 15.2496 4.75834Z" fill="#6A7571"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1252_6607">
+                                <rect width="20" height="20" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+            </div>
+            <div class="line-modal"></div>
+            <div class="modal-list">
+                <button popovertarget="popover3" class="modal-button">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1275_4187)">
+                            <path d="M10.9905 1.83337C5.93051 1.83337 1.83301 5.94004 1.83301 11C1.83301 16.06 5.93051 20.1667 10.9905 20.1667C16.0597 20.1667 20.1663 16.06 20.1663 11C20.1663 5.94004 16.0597 1.83337 10.9905 1.83337ZM17.343 7.33337H14.6388C14.3455 6.18754 13.9238 5.08754 13.3738 4.07004C15.0605 4.64754 16.463 5.82087 17.343 7.33337ZM10.9997 3.70337C11.7605 4.80337 12.3563 6.02254 12.7505 7.33337H9.24884C9.64301 6.02254 10.2388 4.80337 10.9997 3.70337ZM3.90467 12.8334C3.75801 12.2467 3.66634 11.6325 3.66634 11C3.66634 10.3675 3.75801 9.75337 3.90467 9.16671H7.00301C6.92967 9.77171 6.87467 10.3767 6.87467 11C6.87467 11.6234 6.92967 12.2284 7.00301 12.8334H3.90467ZM4.65634 14.6667H7.36051C7.65384 15.8125 8.07551 16.9125 8.62551 17.93C6.93884 17.3525 5.53634 16.1884 4.65634 14.6667V14.6667ZM7.36051 7.33337H4.65634C5.53634 5.81171 6.93884 4.64754 8.62551 4.07004C8.07551 5.08754 7.65384 6.18754 7.36051 7.33337V7.33337ZM10.9997 18.2967C10.2388 17.1967 9.64301 15.9775 9.24884 14.6667H12.7505C12.3563 15.9775 11.7605 17.1967 10.9997 18.2967ZM13.1447 12.8334H8.85467C8.77217 12.2284 8.70801 11.6234 8.70801 11C8.70801 10.3767 8.77217 9.76254 8.85467 9.16671H13.1447C13.2272 9.76254 13.2913 10.3767 13.2913 11C13.2913 11.6234 13.2272 12.2284 13.1447 12.8334ZM13.3738 17.93C13.9238 16.9125 14.3455 15.8125 14.6388 14.6667H17.343C16.463 16.1792 15.0605 17.3525 13.3738 17.93V17.93ZM14.9963 12.8334C15.0697 12.2284 15.1247 11.6234 15.1247 11C15.1247 10.3767 15.0697 9.77171 14.9963 9.16671H18.0947C18.2413 9.75337 18.333 10.3675 18.333 11C18.333 11.6325 18.2413 12.2467 18.0947 12.8334H14.9963Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1275_4187">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span>Language soon</span>
+                </button>
+                <button class="modal-button" onclick="window.location.href = '@Url.ActionLink("Home", "Future", new { code = "WYSI" })';">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1275_4190)">
+                            <path d="M11.5962 14.3642C11.7245 14.0342 11.642 13.6584 11.3853 13.4017L9.46949 11.5134L9.49699 11.4859C11.092 9.70754 12.2287 7.66337 12.8978 5.50004H14.6762C15.1712 5.50004 15.5837 5.08754 15.5837 4.59254V4.57421C15.5837 4.07921 15.1712 3.66671 14.6762 3.66671H9.16699V2.75004C9.16699 2.24587 8.75449 1.83337 8.25033 1.83337C7.74616 1.83337 7.33366 2.24587 7.33366 2.75004V3.66671H1.82449C1.32949 3.66671 0.916992 4.07921 0.916992 4.57421C0.916992 5.07837 1.32949 5.48171 1.82449 5.48171H11.1562C10.542 7.26004 9.57033 8.93754 8.25033 10.4042C7.50783 9.58837 6.88449 8.69921 6.36199 7.76421C6.21533 7.49837 5.94949 7.33337 5.64699 7.33337C5.01449 7.33337 4.61116 8.02087 4.92283 8.57087C5.50033 9.60671 6.20616 10.5967 7.03116 11.5134L3.02533 15.4642C2.65866 15.8217 2.65866 16.4084 3.02533 16.7659C3.38283 17.1234 3.96033 17.1234 4.32699 16.7659L8.25033 12.8334L10.102 14.685C10.5695 15.1525 11.367 14.9784 11.5962 14.3642V14.3642ZM16.042 9.16671C15.492 9.16671 14.997 9.50587 14.8045 10.0284L11.4403 19.0117C11.2203 19.5709 11.642 20.1667 12.2378 20.1667C12.5953 20.1667 12.9162 19.9467 13.0445 19.6075L13.8603 17.4167H18.2145L19.0395 19.6075C19.1678 19.9375 19.4887 20.1667 19.8462 20.1667C20.442 20.1667 20.8637 19.5709 20.6528 19.0117L17.2887 10.0284C17.087 9.50587 16.592 9.16671 16.042 9.16671V9.16671ZM14.557 15.5834L16.042 11.6142L17.527 15.5834H14.557V15.5834Z" fill="#8CAA9F"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1275_4190">
+                                <rect width="22" height="22" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    Help Translate
+                </button>
+            </div>
+        }
+    </div>
+    <button onclick="closePopover('popover2')" popovertargetaction="hide" class="modal-fill-background"></button>
+</dialog>
+
+
 <nav class="nav-border">
     <div class="container-bar-style">
         <a href="@Url.ActionLink("Home", "Future", new { code = "WYSI" })">
             <img src="~/staticV2/svg/osb.svg" alt="">
         </a>
-        <div class="container-nav-button">
-            <button onclick="window.location.href = '@Url.ActionLink("Showcase", "Future", new { code = "WYSI" })';" class="nav-button">Showcase</button>
-            <button onclick="window.location.href = '@Url.ActionLink("Learn", "Future", new { code = "WYSI" })';" class="nav-button">Laboratory</button>
-            <button onclick="window.location.href = '@Url.ActionLink("Community", "Future", new { code = "WYSI" })';" class="nav-button">Community</button>
-        </div>
+        <button onclick="openPopover('popover1')" class="select-page">
+            @ViewData["PageName"]
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1255_1017)">
+                    <path d="M6.53242 8.7825L8.47492 10.725C8.76742 11.0175 9.23992 11.0175 9.53242 10.725L11.4749 8.7825C11.9474 8.31 11.6099 7.5 10.9424 7.5H7.05742C6.38992 7.5 6.05992 8.31 6.53242 8.7825Z" fill="#DCDCDC"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_1255_1017">
+                        <rect width="18" height="18" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+        </button>
         @if (ViewData["Login"] != null)
         {
             string ID = ViewData["UserID"].ToString();
             <div class="profile-conatiner">
-                <button id="dropdownButton" class="avatar-user-auth" href="/community/profile?userID=@ID">
-                    <img src="~/staticV2/svg/chevron-down.svg" alt="">
-                    <div class="user-name-auth" id="navbarDropdown" role="button">
-                        @ViewData["Username"].ToString()
-                    </div>
-                    <img class="avatar-img" src="https://a.ppy.sh/@ID"
-                         alt="..." height="56">
+                <button onclick="openPopover('popover2')" class="modal-user-option-avatar">
+                    <img src="https://a.ppy.sh/@ID"
+                         alt="...">
                 </button>
-                <div id="dropdownMenu" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
-                    <a class="dropdown-item" href="/auth/logout">Log Out</a>
-                </div>
             </div>
-            <script src="~/jsV2/userDropdownDashboard.js"></script>
         }
         else
         {
-            <div class="auth-container">
-                <button onclick="window.location.href = '/auth';" class="button-osb">Login</button>
+            <div class="right-container-nav">
+                <button onclick="openPopover('popover2')" class="modal-user-option">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1280_4406)">
+                            <path d="M3 13.5H11.25C11.6625 13.5 12 13.1625 12 12.75C12 12.3375 11.6625 12 11.25 12H3C2.5875 12 2.25 12.3375 2.25 12.75C2.25 13.1625 2.5875 13.5 3 13.5ZM3 9.75H9C9.4125 9.75 9.75 9.4125 9.75 9C9.75 8.5875 9.4125 8.25 9 8.25H3C2.5875 8.25 2.25 8.5875 2.25 9C2.25 9.4125 2.5875 9.75 3 9.75ZM2.25 5.25C2.25 5.6625 2.5875 6 3 6H11.25C11.6625 6 12 5.6625 12 5.25C12 4.8375 11.6625 4.5 11.25 4.5H3C2.5875 4.5 2.25 4.8375 2.25 5.25ZM15.225 11.16L13.065 9L15.225 6.84C15.5175 6.5475 15.5175 6.075 15.225 5.7825C14.9325 5.49 14.46 5.49 14.1675 5.7825L11.475 8.475C11.1825 8.7675 11.1825 9.24 11.475 9.5325L14.1675 12.225C14.46 12.5175 14.9325 12.5175 15.225 12.225C15.51 11.9325 15.5175 11.4525 15.225 11.16Z" fill="#E2E2E2"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1280_4406">
+                                <rect width="18" height="18" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
             </div>
         }
     </div>
@@ -82,38 +319,52 @@
         @RenderBody()
     </div>
 </main>
-<footer class="footer-border">
-    <div class="container-footer-bar-style">
-        <div class="osb-promo-container">
-            <img src="~/staticV2/svg/osb-salad.svg" alt="">
-            <div class="promo">Unleash Your Visual Storytelling Talent.</div>
-        </div>
-        <div class="social-container">
-            <button id="helpTranslate" class="footer-button" onclick="window.location.href = ''">
-                <img src="~/staticV2/svg/language.svg" alt="">
-                Help Translate
-            </button>
-            <button id="changeLang" class="footer-button">
-                <img src="~/staticV2/svg/language.svg" alt="">
-                Language
-                <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt="">
-            </button>
-            <button id="discord" class="footer-button" onclick="window.location.href = 'https://discord.gg/B8NX7YW'">
-                <img src="~/staticV2/svg/discord.svg" alt="">
-                Discord
-            </button>
-            <div id="langShow" class="change-language">
-                <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button>
-                <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button>
-                <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button>
-                <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button>
-            </div>
-        </div>
-    </div>
-</footer>
+@* <footer class="footer-border"> *@
+@*     <div class="container-footer-bar-style"> *@
+@*         <div class="osb-promo-container"> *@
+@*             <img src="~/staticV2/svg/osb-salad.svg" alt=""> *@
+@*             <div class="promo">Unleash Your Visual Storytelling Talent.</div> *@
+@*         </div> *@
+@*         <div class="social-container"> *@
+@*             <button id="helpTranslate" class="footer-button" onclick="window.location.href = ''"> *@
+@*                 <img src="~/staticV2/svg/language.svg" alt=""> *@
+@*                 Help Translate *@
+@*             </button> *@
+@*             <button id="changeLang" class="footer-button"> *@
+@*                 <img src="~/staticV2/svg/language.svg" alt=""> *@
+@*                 Language *@
+@*                 <img id="arrowLang" src="~/staticV2/svg/arrow-top.svg" alt=""> *@
+@*             </button> *@
+@*             <div id="langShow" class="change-language"> *@
+@*                 <button><img src="~/staticV2/svg/flags/GB.svg" alt="">English</button> *@
+@*                 <button><img src="~/staticV2/svg/flags/RU.svg" alt="">Русский</button> *@
+@*                 <button><img src="~/staticV2/svg/flags/JP.svg" alt="">日本語</button> *@
+@*                 <button><img src="~/staticV2/svg/flags/ID.svg" alt="">Indonesia</button> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </footer> *@
 </body>
 </html>
 
-<script src="~/jsV2/language.js"></script>
+
 <script src="~/jsV2/beatmap.js"></script>
 <script src="~/jsV2/osb_player.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    function openPopover(popoverId) {
+      const popover = document.getElementById(popoverId);
+      if (popover) {
+        popover.showModal();
+        document.body.classList.add('no-scroll');
+      }
+    }
+
+    function closePopover(popoverId) {
+      const popover = document.getElementById(popoverId);
+      if (popover) {
+        popover.close();
+        document.body.classList.remove('no-scroll');
+      }
+    }
+  </script>

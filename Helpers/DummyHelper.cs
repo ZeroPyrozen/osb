@@ -8,11 +8,22 @@ namespace osb.Helpers
     public class DummyHelper
     {
         private static List<StoryboarderModel>? _storyboarderModelsCache;
-        
+
         public static IEnumerable<StoryboarderModel> GenerateStoryboarders()
         {
             return _storyboarderModelsCache ??= new List<StoryboarderModel>
             {
+                new(
+                    8937198,
+                    "araran",
+                    "https://assets.ppy.sh/user-profile-covers/8937198/1b526ea5ff57de8197731b9cd11f1bb6911efe5bfa9eab05becaa040134f4958.jpeg",
+                    new List<DiscordRoleModel>
+                    {
+                        DiscordRoleModel.Storyboarder,
+                        DiscordRoleModel.Verified
+                    },
+                    new CountryModel { Code = "ID", Name = "Indonesia" }
+                ),
                 new(
                     12018102,
                     "EvT",
@@ -1505,6 +1516,44 @@ namespace osb.Helpers
             {
                 new BeatmapModel
                 (
+                    beatmapsetID: 1999784,
+                    beatmapTitle: "Waifu Jam (osu! edit)",
+                    beatmapArtist: "Ironmouse & Camellia",
+                    beatmapsetHost: new MapperModel(8937198, "araran"),
+                    medium: "Storybrew",
+                    submitDate: new DateTime(2023, 05, 28),
+                    showcasedDate: new DateTime(2023, 08, 11),
+                    storyboarders: new List<StoryboarderModel>
+                    {
+                        GetStoryboarderByName("araran")
+                    },
+                    tags: new List<StoryboardTag>
+                    {
+                        StoryboardTag.FullControl,
+                        StoryboardTag.Lyrics,
+                        StoryboardTag.Classic,
+                        StoryboardTag.Rave,
+                        StoryboardTag.AudioVisualization,
+                        StoryboardTag.Particles
+                    },
+                    thumbnails: new List<string>
+                    {
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897952500977704/osu_2023-08-12_15-27-29.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897520626090015/osu_2023-08-12_15-22-59.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897520932266044/osu_2023-08-12_15-23-09.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897521242640496/osu_2023-08-12_15-23-41.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897521494310952/osu_2023-08-12_15-23-54.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897521762738226/osu_2023-08-12_15-24-11.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897522022781070/osu_2023-08-12_15-24-26.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897522299617320/osu_2023-08-12_15-24-37.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897522618376212/osu_2023-08-12_15-24-59.jpg",
+                        "https://media.discordapp.net/attachments/482180995752394752/1139897522857447424/osu_2023-08-12_15-25-09.jpg"
+                    },
+                    videoURL: "https://www.youtube.com/embed/FWGuKYH1Wtc",
+                    videoShortUrl: "FWGuKYH1Wtc"
+                ),
+                new BeatmapModel
+                (
                     beatmapsetID: 16457,
                     beatmapTitle: "SWITCHED-ON LOTUS",
                     beatmapArtist: "Susumu Hirasawa",
@@ -1521,6 +1570,12 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Lyrics,
                         StoryboardTag.Classic
+                    },
+                    thumbnails: new List<string>
+                    {
+                        "https://assets.ppy.sh/user-profile-covers/8937198/1b526ea5ff57de8197731b9cd11f1bb6911efe5bfa9eab05becaa040134f4958.jpeg",
+                        "https://media.discordapp.net/attachments/566676757886009355/1139857732049055864/image.png",
+                        "https://media.discordapp.net/attachments/566676757886009355/1139863126305669210/image.png"
                     }
                 ),
                 new BeatmapModel
@@ -1545,7 +1600,8 @@ namespace osb.Helpers
                         StoryboardTag.Wizardry,
                         StoryboardTag.Featured
                     },
-                    videoURL: "https://www.youtube.com/embed/Pha-oDmXWm0"
+                    videoURL: "https://www.youtube.com/embed/Pha-oDmXWm0",
+                    videoShortUrl: "Pha-oDmXWm0"
                 ),
                 new BeatmapModel
                 (
@@ -1593,7 +1649,8 @@ namespace osb.Helpers
                         StoryboardTag.Wizardry,
                         StoryboardTag.Featured
                     },
-                    videoURL: "https://www.youtube.com/embed/AJyUXMvn45o"
+                    videoURL: "https://www.youtube.com/embed/AJyUXMvn45o",
+                    videoShortUrl: "AJyUXMvn45o"
                 ),
                 new BeatmapModel
                 (
@@ -1616,7 +1673,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/ERaRZ8sS5UA"
+                    videoURL: "https://www.youtube.com/embed/ERaRZ8sS5UA",
+                    videoShortUrl: "ERaRZ8sS5UA"
                 ),
                 new BeatmapModel
                 (
@@ -1641,7 +1699,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/XnMVs1eJJnQ"
+                    videoURL: "https://www.youtube.com/embed/XnMVs1eJJnQ",
+                    videoShortUrl: "XnMVs1eJJnQ"
                 ),
                 new BeatmapModel
                 (
@@ -1662,7 +1721,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/e6mic6yX1i8"
+                    videoURL: "https://www.youtube.com/embed/e6mic6yX1i8",
+                    videoShortUrl: "e6mic6yX1i8"
                 ),
                 new BeatmapModel
                 (
@@ -1683,7 +1743,8 @@ namespace osb.Helpers
                         StoryboardTag.Narrative,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/ubc_ipmU_1I"
+                    videoURL: "https://www.youtube.com/embed/ubc_ipmU_1I",
+                    videoShortUrl: "ubc_ipmU_1I"
                 ),
                 new BeatmapModel
                 (
@@ -1728,7 +1789,8 @@ namespace osb.Helpers
                         StoryboardTag.Classic,
                         StoryboardTag.Wizardry
                     },
-                    videoURL: "https://www.youtube.com/embed/aDnHXtahyV8"
+                    videoURL: "https://www.youtube.com/embed/aDnHXtahyV8",
+                    videoShortUrl: "aDnHXtahyV8"
                 ),
                 new BeatmapModel
                 (
@@ -1752,7 +1814,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Wizardry
                     },
-                    videoURL: "https://www.youtube.com/embed/pWVzrDucBEY"
+                    videoURL: "https://www.youtube.com/embed/pWVzrDucBEY",
+                    videoShortUrl: "pWVzrDucBEY"
                 ),
                 new BeatmapModel
                 (
@@ -1779,7 +1842,8 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
                     },
-                    videoURL: "https://www.youtube.com/embed/zu_DpOZ3CUQ"
+                    videoURL: "https://www.youtube.com/embed/zu_DpOZ3CUQ",
+                    videoShortUrl: "zu_DpOZ3CUQ"
                 ),
                 new BeatmapModel
                 (
@@ -1830,7 +1894,8 @@ namespace osb.Helpers
                         StoryboardTag.Pixels,
                         StoryboardTag.Wizardry
                     },
-                    videoURL: "https://www.youtube.com/embed/Zcv_nNMotbE"
+                    videoURL: "https://www.youtube.com/embed/Zcv_nNMotbE",
+                    videoShortUrl: "Zcv_nNMotbE"
                 ),
                 new BeatmapModel
                 (
@@ -1915,7 +1980,8 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Pixels
                     },
-                    videoURL: "https://www.youtube.com/embed/6c-yIIBaIVo"
+                    videoURL: "https://www.youtube.com/embed/6c-yIIBaIVo",
+                    videoShortUrl: "6c-yIIBaIVo"
                 ),
                 new BeatmapModel
                 (
@@ -1941,7 +2007,8 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Pixels
                     },
-                    videoURL: "https://www.youtube.com/embed/rmssvCNp9rE"
+                    videoURL: "https://www.youtube.com/embed/rmssvCNp9rE",
+                    videoShortUrl: "rmssvCNp9rE"
                 ),
                 new BeatmapModel
                 (
@@ -1965,7 +2032,8 @@ namespace osb.Helpers
                         StoryboardTag.Wizardry,
                         StoryboardTag.AudioVisualization
                     },
-                    videoURL: "https://www.youtube.com/embed/8xnYI3WdYPg"
+                    videoURL: "https://www.youtube.com/embed/8xnYI3WdYPg",
+                    videoShortUrl: "8xnYI3WdYPg"
                 ),
                 new BeatmapModel
                 (
@@ -1985,7 +2053,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.FullControl
                     },
-                    videoURL: "https://www.youtube.com/embed/ezYiUFuZm-A"
+                    videoURL: "https://www.youtube.com/embed/ezYiUFuZm-A",
+                    videoShortUrl: "ezYiUFuZm-A"
                 ),
                 new BeatmapModel
                 (
@@ -2010,7 +2079,8 @@ namespace osb.Helpers
                         StoryboardTag.GameplayEnhancement,
                         StoryboardTag.Pixels
                     },
-                    videoURL: "https://www.youtube.com/embed/ChmWubfJ0Nw"
+                    videoURL: "https://www.youtube.com/embed/ChmWubfJ0Nw",
+                    videoShortUrl: "ChmWubfJ0Nw"
                 ),
                 new BeatmapModel
                 (
@@ -2054,7 +2124,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/j9t95U0RcNQ"
+                    videoURL: "https://www.youtube.com/embed/j9t95U0RcNQ",
+                    videoShortUrl: "j9t95U0RcNQ"
                 ),
                 new BeatmapModel
                 (
@@ -2079,7 +2150,8 @@ namespace osb.Helpers
                         StoryboardTag.Rave,
                         StoryboardTag.Pixels
                     },
-                    videoURL: "https://www.youtube.com/embed/W5VePrILlvg"
+                    videoURL: "https://www.youtube.com/embed/W5VePrILlvg",
+                    videoShortUrl: "W5VePrILlvg"
                 ),
                 new BeatmapModel
                 (
@@ -2101,7 +2173,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Narrative
                     },
-                    videoURL: "https://www.youtube.com/embed/2tu84H9C2IA"
+                    videoURL: "https://www.youtube.com/embed/2tu84H9C2IA",
+                    videoShortUrl: "2tu84H9C2IA"
                 ),
                 new BeatmapModel
                 (
@@ -2273,7 +2346,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/SbHLMX6T-1o"
+                    videoURL: "https://www.youtube.com/embed/SbHLMX6T-1o",
+                    videoShortUrl: "SbHLMX6T-1o"
                 ),
                 new BeatmapModel
                 (
@@ -2335,7 +2409,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.AudioVisualization
                     },
-                    videoURL: "https://www.youtube.com/embed/M0eeJtckkaY"
+                    videoURL: "https://www.youtube.com/embed/M0eeJtckkaY",
+                    videoShortUrl: "M0eeJtckkaY"
                 ),
                 new BeatmapModel
                 (
@@ -2355,7 +2430,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
                     },
-                    videoURL: "https://www.youtube.com/embed/U-m3UK2T_Yw"
+                    videoURL: "https://www.youtube.com/embed/U-m3UK2T_Yw",
+                    videoShortUrl: "U-m3UK2T_Yw"
                 ),
                 new BeatmapModel
                 (
@@ -2429,7 +2505,9 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Featured,
                         StoryboardTag.Wizardry
-                    }
+                    },
+                    videoURL: "https://www.youtube.com/embed/4JjaWetNblY",
+                    videoShortUrl: "4JjaWetNblY"
                 ),
                 new BeatmapModel
                 (
@@ -2487,7 +2565,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/4Qpyp6A-AJc"
+                    videoURL: "https://www.youtube.com/embed/4Qpyp6A-AJc",
+                    videoShortUrl: "4Qpyp6A-AJc"
                 ),
                 new BeatmapModel
                 (
@@ -2547,7 +2626,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/0pxx-1dlqUQ"
+                    videoURL: "https://www.youtube.com/embed/0pxx-1dlqUQ",
+                    videoShortUrl: "0pxx-1dlqUQ"
                 ),
                 new BeatmapModel
                 (
@@ -2567,7 +2647,8 @@ namespace osb.Helpers
                         StoryboardTag.Particles,
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/8T8qS3LjzEw"
+                    videoURL: "https://www.youtube.com/embed/8T8qS3LjzEw",
+                    videoShortUrl: "8T8qS3LjzEw"
                 ),
                 new BeatmapModel
                 (
@@ -2589,7 +2670,8 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Rave
                     },
-                    videoURL: "https://www.youtube.com/embed/rSXGZjDtiUw"
+                    videoURL: "https://www.youtube.com/embed/rSXGZjDtiUw",
+                    videoShortUrl: "rSXGZjDtiUw"
                 ),
                 new BeatmapModel
                 (
@@ -2750,7 +2832,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Pixels
                     },
-                    videoURL: "https://www.youtube.com/embed/ih0ks6rq6A4"
+                    videoURL: "https://www.youtube.com/embed/ih0ks6rq6A4",
+                    videoShortUrl: "ih0ks6rq6A4"
                 ),
                 new BeatmapModel
                 (
@@ -2789,7 +2872,8 @@ namespace osb.Helpers
                     {
                         StoryboardTag.Lyrics
                     },
-                    videoURL: "https://www.youtube.com/embed/ItkwooefdY0"
+                    videoURL: "https://www.youtube.com/embed/ItkwooefdY0",
+                    videoShortUrl: "ItkwooefdY0"
                 ),
                 new BeatmapModel
                 (
@@ -2810,7 +2894,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
                     },
-                    videoURL: "https://www.youtube.com/embed/wrBp2s013Xo"
+                    videoURL: "https://www.youtube.com/embed/wrBp2s013Xo",
+                    videoShortUrl: "wrBp2s013Xo"
                 ),
                 new BeatmapModel
                 (
@@ -2832,7 +2917,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.FullControl
                     },
-                    videoURL: "https://www.youtube.com/embed/_BEtwuHqWAo"
+                    videoURL: "https://www.youtube.com/embed/_BEtwuHqWAo",
+                    videoShortUrl: "_BEtwuHqWAo"
                 ),
                 new BeatmapModel
                 (
@@ -2854,7 +2940,8 @@ namespace osb.Helpers
                         StoryboardTag.AudioVisualization,
                         StoryboardTag.FullControl
                     },
-                    videoURL: "https://www.youtube.com/embed/Rcq0qJgCZiY"
+                    videoURL: "https://www.youtube.com/embed/Rcq0qJgCZiY",
+                    videoShortUrl: "Rcq0qJgCZiY"
                 ),
                 new BeatmapModel
                 (
@@ -2878,7 +2965,8 @@ namespace osb.Helpers
                         StoryboardTag.Wizardry,
                         StoryboardTag.Featured
                     },
-                    videoURL: "https://www.youtube.com/embed/YEvniuKC6VU"
+                    videoURL: "https://www.youtube.com/embed/YEvniuKC6VU",
+                    videoShortUrl: "YEvniuKC6VU"
                 ),
                 new BeatmapModel
                 (
@@ -2901,7 +2989,8 @@ namespace osb.Helpers
                         StoryboardTag.FullControl,
                         StoryboardTag.Particles
                     },
-                    videoURL: "https://www.youtube.com/embed/f87G2Qz6SBc"
+                    videoURL: "https://www.youtube.com/embed/f87G2Qz6SBc",
+                    videoShortUrl: "f87G2Qz6SBc"
                 ),
                 new BeatmapModel
                 (
@@ -2921,7 +3010,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
                     },
-                    videoURL: "https://www.youtube.com/embed/SttYNzvWIfQ"
+                    videoURL: "https://www.youtube.com/embed/SttYNzvWIfQ",
+                    videoShortUrl: "SttYNzvWIfQ"
                 ),
                 new BeatmapModel
                 (
@@ -2941,7 +3031,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
                     },
-                    videoURL: "https://www.youtube.com/embed/PBmWGe2x0X4"
+                    videoURL: "https://www.youtube.com/embed/PBmWGe2x0X4",
+                    videoShortUrl: "PBmWGe2x0X4"
                 ),
                 new BeatmapModel
                 (
@@ -2961,7 +3052,8 @@ namespace osb.Helpers
                         StoryboardTag.Lyrics,
                         StoryboardTag.Particles
                     },
-                    videoURL: "https://www.youtube.com/embed/jLqhUToiEXY"
+                    videoURL: "https://www.youtube.com/embed/jLqhUToiEXY",
+                    videoShortUrl: "jLqhUToiEXY"
                 )
             };
             return beatmaps;

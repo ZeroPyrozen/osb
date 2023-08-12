@@ -34,6 +34,10 @@ fetch(url)
             themeName.className = "theme-name";
             themeName.textContent = name;
 
+            let themeLine = document.createElement("div")
+            themeLine.className = "line-modal";
+
+            themeLine.appendChild(themeName);
             themePath.appendChild(themeName);
 
             let theme = document.createElement("div");
@@ -59,7 +63,7 @@ fetch(url)
 
                         subId = `${nameId}-sub-list-${subId}`;
 
-                        let buttonList = document.createElement("button");
+                        let buttonList = document.createElement("div");
                         buttonList.className = "button-list";
 
                         buttonList.textContent = subName;
@@ -92,6 +96,21 @@ fetch(url)
 
                                     subTheme.appendChild(img);
 
+                                    subTheme.innerHTML = `
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_1253_12541)">
+                                                <path
+                                                    d="M7.74155 5.59173C7.41655 5.91673 7.41655 6.44173 7.74155 6.76673L10.9749 10.0001L7.74155 13.2334C7.41655 13.5584 7.41655 14.0834 7.74155 14.4084C8.06655 14.7334 8.59155 14.7334 8.91655 14.4084L12.7416 10.5834C13.0666 10.2584 13.0666 9.73339 12.7416 9.40839L8.91655 5.58339C8.59989 5.26673 8.06655 5.26673 7.74155 5.59173Z"
+                                                    fill="#8CAA9F"/>
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_1253_12541">
+                                                    <rect width="20" height="20" fill="white"/>
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    `
                                     subTheme.append(itemName);
 
                                     let match = itemURL.match(/^\d+(\.\d+)?/);
@@ -108,7 +127,11 @@ fetch(url)
                                     subTheme.addEventListener("click", () => {
                                         let activeButtons = document.querySelectorAll(".subtheme.active");
                                         if (itemLink) {
-                                            document.getElementById("content").innerHTML = `<div id="loading">loading...</div>`;
+                                            document.getElementById("content").innerHTML = `<div id="loading">
+                                            <div class="square" style="--animation-duration: 1s;"></div>
+                                            <div class="square" style="--animation-duration: 1.3s;"></div>
+                                            <div class="square" style="--animation-duration: 1.6s;"></div>
+                                            </div>`;
                                             fetch(itemLink)
                                                 .then(response => response.text())
                                                 .then(text => {
@@ -127,7 +150,9 @@ fetch(url)
                             })
                     }
                 })
+            themeLine.appendChild(theme);
             themePath.appendChild(theme);
+            gitPath.appendChild(themeLine);
             gitPath.appendChild(themePath);
         }
         hashFunc();

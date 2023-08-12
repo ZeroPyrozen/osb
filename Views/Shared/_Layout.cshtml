@@ -15,67 +15,78 @@
     <script src="https://use.fontawesome.com/f344ebe01e.js"></script>
 </head>
 <body>
-    <div class="container" style="background:unset;">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-inverse">
-            <a class="navbar-brand" href="#"><img src="/static/base/img/osboutline.png" alt="..." height="56"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<marquee direction="up" style="background: #6FD8AE; width: 100%;">
+    <div style="z-index: 6000;display: flex;width: 100%;height: 64px;justify-content: center;align-items: center;background: #92ffc4;gap: 15px;" href="https://localhost:5001/Future/Home?code=WYSI">
+        <div style="color: #3448FF; font-size: 47px; font-style: normal; font-weight: 800; line-height: normal;">TRY REDESIGN</div>
+        <a style="color: #005438; font-size: 47px; font-style: italic; font-weight: 800; line-height: normal;" href="https://localhost:5001/Future/Home?code=WYSI">>> CLICK HERE <<</a>
+        <img style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px;" src="https://media.discordapp.net/attachments/482180995752394752/1139311091172790383/image.png?width=64&height=64" alt="">
+    </div>
+</marquee>
+<div class="container" style="background:unset;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-inverse">
+        <a class="navbar-brand" href="#">
+            <img src="/static/base/img/osboutline.png" alt="..." height="56">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/showcase">Showcase</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/learn">Learn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/community">Community</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/showcase">Showcase</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/learn">Learn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/community">Community</a>
+                </li>
+            </ul>
+            @if (ViewData["Login"] != null)
+            {
+                string ID = ViewData["UserID"].ToString();
+                <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=@ID">
+                    <img src="https://a.ppy.sh/@ID" alt="..." height="56">
+                </a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @ViewData["Username"].ToString()
+                        </a>
+                        <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/auth/logout">Log Out</a>
+                        </div>
                     </li>
                 </ul>
-                @if (ViewData["Login"] != null)
-                {
-                    string ID = ViewData["UserID"].ToString();
-                    <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=@ID"><img src="https://a.ppy.sh/@ID" alt="..." height="56"></a>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @ViewData["Username"].ToString()
-                            </a>
-                            <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/auth/logout">Log Out</a>
-                            </div>
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <a class="nav-link d-lg-none d-md-inline-block" href="/auth">Login</a>
-                            <a class="btn btn-light d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/auth">Login</a>
-                        </li>
-                    </ul>
-                }
-            </div>
-        </nav>
-    </div>
-    <div class="container bg-dark text-white">
-        @RenderBody()
-    </div>
+            }
+            else
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link d-lg-none d-md-inline-block" href="/auth">Login</a>
+                        <a class="btn btn-light d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/auth">Login</a>
+                    </li>
+                </ul>
+            }
+        </div>
+    </nav>
+</div>
+<div class="container bg-dark text-white">
+    @RenderBody()
+</div>
 
-    <footer class="footer">
-        <div class="osu-cookie d-block mx-auto"></div>
-        <p class="small">Powered with <span title="Hifumi's Love!">❤</span></p>
-    </footer>
+<footer class="footer">
+    <div class="osu-cookie d-block mx-auto"></div>
+    <p class="small">Powered with <span title="Hifumi's Love!">❤</span></p>
+</footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-    <script src="/static/bootstrap/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+<script src="/static/bootstrap/bootstrap.min.js"></script>
 </body>
 </html>

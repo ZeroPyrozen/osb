@@ -31,13 +31,17 @@ footer {
     flex-shrink: 0;
 }
 
+.left-modal {
+    border-radius: 0 15px 0 0 !important;
+}
+
 .scroll-content {
     position: absolute;
     overflow: auto;
     top: 0;
     bottom: 50px;
-    width: 350px;
-    background: url(../../staticV2/img/noice.png), rgba(35, 35, 41, 0.95);
+    width: -webkit-fill-available;
+    background: url(../../staticV2/img/noice.png), #1C201E;
     backdrop-filter: blur(10px);
     transition: all 0.4s;
 }
@@ -77,8 +81,8 @@ footer {
     padding: 0 60px;
     gap: 15px;
     width: 100%;
-    outline: 1px solid #3B344D;
-    background: url(../../staticV2/img/noice.png), rgba(39, 38, 45, 0.8);
+    outline: 1px solid #354D48;
+    background: url(../../staticV2/img/noice.png), #232927;
     box-shadow: 0 0 219px rgba(59, 52, 77, 0.16), 0 0 15px rgba(0, 0, 0, 0.25);
 }
 

@@ -20,11 +20,16 @@ namespace osb.Models
         public string BeatmapCoverURL { get; set; }
         public string BeatmapPageURL { get; set; }
         public string VideoURL { get; set; }
+        public string VideoShortURL { get; set; }
         public List<StoryboarderModel> Storyboarders { get; set; }
         public List<StoryboardTag> StoryboardTags { get; set; }
+        public List<string> Thumbnails { get; set; }
         //TODO: Add Video URL, Screenshots, and Storyboarder Comments in Separate Classes to reduce memory load
 
-        public BeatmapModel(int beatmapsetID, string beatmapTitle, string beatmapArtist, MapperModel beatmapsetHost, string medium, DateTime submitDate, DateTime showcasedDate, List<StoryboarderModel> storyboarders, List<StoryboardTag> tags, string videoURL = "")
+        public BeatmapModel(int beatmapsetID, string beatmapTitle, string beatmapArtist, MapperModel beatmapsetHost,
+            string medium, DateTime submitDate, DateTime showcasedDate, List<StoryboarderModel> storyboarders,
+            List<StoryboardTag> tags, List<string> thumbnails = null, string videoURL = "",
+            string videoShortUrl = "")
         {
             this.BeatmapsetID = beatmapsetID;
             this.BeatmapTitle = beatmapTitle;
@@ -42,6 +47,8 @@ namespace osb.Models
             this.BeatmapListURL = "https://assets.ppy.sh/beatmaps/" + beatmapsetID.ToString() + "/covers/list.jpg";
             this.BeatmapPageURL = "https://osu.ppy.sh/beatmapsets/" + beatmapsetID.ToString();
             this.VideoURL = videoURL;
+            this.VideoShortURL = videoShortUrl;
+            this.Thumbnails = thumbnails;
         }
 
         public int GetBeatmapsetIDByStoryboarders(string searchQuery)

@@ -1,0 +1,234 @@
+﻿.select-page {
+    display: flex;
+    max-width: fit-content;
+    width: inherit;
+    padding: 6px 5px 6px 9px;
+    align-items: center;
+    border-radius: 5px;
+    border: 0;
+    background: transparent;
+    color: #DCDCDC;
+    cursor: pointer;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    transition: all 0.2s ease-in-out;
+
+    & path {
+        fill: currentColor;
+    }
+
+    &:hover {
+        color: #FFFFFF;
+        background: rgba(0, 0, 0, 0.20);
+    }
+}
+
+.navigation-panel {
+    width: 300px;
+    height: -webkit-fill-available;
+    padding: 14px;
+    top: 0;
+    z-index: 5000;
+    position: fixed;
+    outline: 1px solid #354D48;
+    background: url(../../staticV2/img/noice.png), 0 0 / 100px 100px repeat, #232927;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 1 0 0;
+    align-self: stretch;
+    overscroll-behavior-y: contain;
+    overflow: scroll;
+}
+
+.left-modal {
+    user-select: none;
+    left: 0;
+    border-radius: 0 15px 15px 0;
+}
+
+.right-modal {
+    user-select: none;
+    right: 0;
+    border-radius: 15px 0 0 15px;
+}
+
+.modal-top-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.modal-fill-background {
+    position: fixed;
+    border: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4990;
+    background: rgba(22, 26, 24, 0.70);
+}
+
+
+.close-modal {
+    display: flex;
+    padding: 6px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+    & path {
+        transition: all 0.2s;
+    }
+    &:hover, &:hover path {
+        background: url(../../staticV2/img/noice.png), 0 0 / 100px 100px repeat, #313735;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
+        fill: white;
+    }
+}
+
+.info-modal {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #DCDCDC;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    
+    & img {
+        width: 38px;
+        height: 38px;
+        border-radius: 136px;
+    }
+}
+
+.modal-user-name {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.line-modal {
+    background: #343F3D;
+    width: inherit;
+    padding: 0.5px 0;
+}
+
+.modal-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    align-self: stretch;
+}
+
+.modal-button {
+    cursor: pointer;
+    display: flex;
+    padding: 5px 10px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    color: white;
+    border-radius: 5px;
+    border: 0;
+    background: transparent;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background: rgba(151, 185, 179, 0.08);
+    }
+}
+
+.button-osb {
+    display: flex;
+    cursor: pointer;
+    padding: 5px 10px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 5px;
+    border: 1px solid #8CAA9F;
+    background: rgba(140, 170, 159, 0.20);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.11);
+
+    color: white;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    transition: all 0.4s;
+}
+
+.button-osb:hover {
+    color: #bdfdde;
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid #fff;
+}
+
+.no-scroll {
+    overflow: hidden;
+    overscroll-behavior: contain;
+}
+
+dialog {
+    transition: all 0.2s ease-in-out;
+    background: none;
+    border: 0;
+}
+
+dialog, ::backdrop {
+    overscroll-behavior: contain;
+}
+
+dialog {
+    & .right-modal {
+        -webkit-animation: showRight 0.5s ease normal;
+    }
+    & .left-modal {
+        -webkit-animation: showLeft 0.5s ease normal;
+    }
+    & .modal-fill-background {
+        -webkit-animation: fadeIn 0.5s ease normal;
+    }
+}
+@-webkit-keyframes showRight{
+    from {
+        translate: 500px;
+    }
+    to {
+        translate: 0;
+    }
+}
+
+@-webkit-keyframes showLeft{
+    from {
+        translate: -500px;
+    }
+    to {
+        translate: 0;
+    }
+}
+
+@-webkit-keyframes fadeIn{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
