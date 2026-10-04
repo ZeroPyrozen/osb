@@ -71,6 +71,13 @@ Use `__` where `appsettings.json` has nesting: `API:ClientSecret` becomes `API__
 Deploys never overwrite this file. [`osb.env.example`](osb.env.example) lists the useful
 settings.
 
+osu! login sends players back to `API__RedirectURL`, which must match one of the
+"Application Callback URLs" of your osu! OAuth application exactly. That field takes several
+URLs separated by commas, so one application can serve production and testing. To test login on
+your network, add `http://raspberrypi.local:5000/auth/authorized` there, set the same value as
+`API__RedirectURL`, and always open the site at that address: the login cookies only work on
+the host name that the callback uses.
+
 For local development, use [user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets)
 instead:
 
@@ -157,6 +164,9 @@ address.
   interactive), or allow passwordless sudo for your user.
 - **The service won't start**: `journalctl -u osb -n 100` shows why. Settings problems are
   usually in `/etc/osb/osb.env`.
+- **The site works on the Pi but other devices time out**: a firewall on the Pi is blocking the
+  port. With `ufw`, allow your local network, for example
+  `sudo ufw allow from 192.168.1.0/24 to any port 5000 proto tcp`.
 - **Low on memory** (a 512 MB Zero 2 W, or 1 GB boards): uncomment `DOTNET_gcServer=0` in
   `/etc/osb/osb.env`.
 - **Port 80 without a proxy**: run `sudo systemctl edit osb` and add `AmbientCapabilities=CAP_NET_BIND_SERVICE`
