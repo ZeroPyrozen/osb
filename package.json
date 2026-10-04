@@ -1,0 +1,32 @@
+{
+  "name": "osb-frontend",
+  "private": true,
+  "description": "Builds the site's CSS (Tailwind) and JavaScript (esbuild) into wwwroot. dotnet build runs this automatically.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node Scripts/build.mjs && tailwindcss -i Styles/app.css -o wwwroot/css/app.css --minify",
+    "watch": "node Scripts/build.mjs --watch",
+    "watch:css": "tailwindcss -i Styles/app.css -o wwwroot/css/app.css --watch",
+    "test": "node --test \"Scripts/tests/*.test.js\"",
+    "verify:content": "node Scripts/verify-content.mjs"
+  },
+  "devDependencies": {
+    "@codemirror/commands": "6.11.1",
+    "@codemirror/lang-javascript": "6.2.5",
+    "@codemirror/language": "6.12.4",
+    "@codemirror/lint": "6.9.7",
+    "@codemirror/state": "6.7.6",
+    "@codemirror/view": "6.43.13",
+    "@fontsource-variable/exo-2": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@fontsource-variable/open-sans": "5.3.0",
+    "@lezer/highlight": "1.2.5",
+    "@tailwindcss/cli": "4.3.3",
+    "@tailwindcss/typography": "0.5.20",
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3"
+  }
+}
