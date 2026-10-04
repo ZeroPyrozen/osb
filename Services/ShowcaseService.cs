@@ -110,11 +110,20 @@ public class ShowcaseService(OsbDbContext db)
     public Task<List<string>> GetMediumsAsync(CancellationToken ct = default) =>
         db.Beatmapsets.Select(s => s.Medium).Distinct().OrderBy(m => m).ToListAsync(ct);
 
-    public Task<Beatmapset?> GetRandomAsync(bool withVideo, CancellationToken ct = default) =>
-        WithDetails
+    /// <summary>
+    /// A random storyboard, optionally one with a video. The ID is picked first and the storyboard loaded
+    /// by it, because <see cref="WithDetails"/> uses split queries: each of them would run the random
+    /// ordering again and fetch tags and credits of a different storyboard.
+    /// </summary>
+    public async Task<Beatmapset?> GetRandomAsync(bool withVideo, CancellationToken ct = default)
+    {
+        int? id = await db.Beatmapsets
             .Where(s => !withVideo || s.VideoUrl != null)
             .OrderBy(_ => EF.Functions.Random())
+            .Select(s => (int?)s.Id)
             .FirstOrDefaultAsync(ct);
+        return id == null ? null : await WithDetails.FirstOrDefaultAsync(s => s.Id == id, ct);
+    }
 
     /// <summary>Community members, highest role first, then by name.</summary>
     public async Task<IReadOnlyList<OsuUser>> GetCommunityAsync(CancellationToken ct = default)
