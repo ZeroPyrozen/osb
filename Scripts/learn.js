@@ -11,6 +11,8 @@ import { nextUnit } from './learn/gamification.js';
 import { highlight } from './storyboard/highlight.js';
 
 const escape = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+// Declared before the start-up code below runs render(), which uses it through badgeHtml().
+const BADGE_COLOURS = { beginner: 'text-mint-300', intermediate: 'text-gold-300', advanced: 'text-[#c5a3ff]' };
 const catalogElement = document.getElementById('learn-catalog');
 const catalog = catalogElement ? JSON.parse(catalogElement.textContent) : null;
 
@@ -147,8 +149,6 @@ function render(progress) {
             : '<li class="py-2 text-sage">Nothing yet. Your completed units will show up here.</li>';
     }
 }
-
-const BADGE_COLOURS = { beginner: 'text-mint-300', intermediate: 'text-gold-300', advanced: 'text-[#c5a3ff]' };
 
 function badgeHtml(badge) {
     const colour = badge.kind === 'achievement' ? 'text-gold-300' : BADGE_COLOURS[badge.path] ?? 'text-mint-300';
