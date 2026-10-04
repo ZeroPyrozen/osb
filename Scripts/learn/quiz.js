@@ -17,6 +17,8 @@ export function mountQuiz(form, progress) {
             for (const input of q.querySelectorAll('input')) {
                 input.checked = false;
                 input.disabled = false;
+                // Hide the correct answer again, so the retry doesn't give it away.
+                input.closest('label').removeAttribute('data-answer');
             }
         }
         result.innerHTML = '';
