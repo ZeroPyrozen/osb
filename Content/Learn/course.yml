@@ -1,0 +1,71 @@
+# osb! learn: the course outline.
+#
+# Each path lists its modules in order; each module is a folder next to this file with a module.yml
+# and its units as NN-name.md files (Markdown with YAML front matter). See Content/Learn/README.md.
+
+xp:
+  lesson: 10
+  quiz: 20
+  exercise: 30
+  perfectQuiz: 5   # extra for getting every answer in a knowledge check right
+  module: 50       # bonus for finishing every unit in a module
+  path: 150        # bonus for finishing a whole path
+
+# XP needed for each level. Keep these fixed so nobody loses a level when content is added.
+levels:
+  - { level: 1, title: Spectator, xp: 0 }
+  - { level: 2, title: Sprite Wrangler, xp: 60 }
+  - { level: 3, title: Fade Apprentice, xp: 160 }
+  - { level: 4, title: Timeline Tinkerer, xp: 320 }
+  - { level: 5, title: Easing Enthusiast, xp: 520 }
+  - { level: 6, title: Loop Tamer, xp: 780 }
+  - { level: 7, title: Beat Syncer, xp: 1080 }
+  - { level: 8, title: Particle Mage, xp: 1420 }
+  - { level: 9, title: Storyboard Artisan, xp: 1800 }
+  - { level: 10, title: Banquet Wizard, xp: 2200 }
+
+# Rules for these ids live in Scripts/learn/gamification.js.
+achievements:
+  - { id: first-steps, name: First steps, description: Complete your first unit. }
+  - { id: hands-on, name: Hands on, description: Pass your first exercise. }
+  - { id: sharp-mind, name: Sharp mind, description: Get every answer right in a knowledge check. }
+  - { id: quiz-master, name: Quiz master, description: Get a perfect score in five knowledge checks. }
+  - { id: on-a-roll, name: On a roll, description: Learn on three days in a row. }
+  - { id: dedicated, name: Dedicated, description: Learn on seven days in a row. }
+  - { id: wizardry, name: Wizardry, description: Complete every unit in osb! learn. }
+
+paths:
+  - slug: beginner
+    title: Your first storyboard
+    level: Beginner
+    summary: What storyboards are, how osu! reads them, and the commands that make sprites appear, move, spin and change colour. No experience needed.
+    trophy: { name: First Light, description: Finish the Beginner path. }
+    modules:
+      - what-is-a-storyboard
+      - sprites-and-layers
+      - first-commands
+      - scale-rotate-colour
+      - easing
+
+  - slug: intermediate
+    title: Motion and music
+    level: Intermediate
+    summary: Write compact scripts with shorthand and loops, animate frame by frame, time everything to the beat, and react to how the player is doing.
+    trophy: { name: In Sync, description: Finish the Intermediate path. }
+    modules:
+      - shorthand
+      - loops
+      - animations
+      - timing-to-music
+      - gameplay-and-layers
+
+  - slug: advanced
+    title: Scripting and wizardry
+    level: Advanced
+    summary: Variables and triggers, generating storyboards with code, particles and procedural effects, and getting a storyboard ready for ranking.
+    trophy: { name: Grand Feast, description: Finish the Advanced path. }
+    modules:
+      - variables-and-triggers
+      - storyboarding-with-code
+      - particles-and-procedural
+      - optimization-and-ranking

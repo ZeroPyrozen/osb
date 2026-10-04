@@ -1,0 +1,6 @@
+title: Storyboards and gameplay
+summary: React to how the player is doing with the Pass and Fail layers, work with the beatmap's background, and add storyboard sounds.
+icon: gamepad
+badge:
+  name: Stage Manager
+  description: Finished "Storyboards and gameplay".
