@@ -1,160 +1,95 @@
-﻿@model osb.ViewModels.ShowcaseViewModel
+@model ShowcaseIndexViewModel
 @{
     ViewData["Title"] = "Storyboard Showcase";
+    ViewData["Description"] = "Storyboards handpicked by the osb community. Search by song, artist, mapper or storyboarder, or filter by tag and tool.";
+    ViewData["Backdrop"] = Model.Results.Items.FirstOrDefault()?.CoverUrl;
+    var results = Model.Results;
 }
-<link rel="stylesheet" href="/static/base/sb.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.3.0/font-mfizz.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<style>
-    #text-search {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
 
-    #btn-search {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .media {
-        background-color: #22282a;
-    }
-</style>
-<header class="opening-banner-sb">
-    <h1 class="display opening-header">Storyboard Showcase</h1>
-    <div class="bae-sb"></div>
+<header class="flex animate-fade-in flex-col gap-2">
+    <p class="eyebrow">Showcase</p>
+    <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Storyboard Showcase</h1>
+    <p class="max-w-[65ch] text-mint-200">
+        Storyboards handpicked by the community. Search by song, artist, mapper or storyboarder,
+        or filter by what makes them special.
+    </p>
 </header>
 
-<h1 class="special-banner-sub-2 top-header">Search</h1>
-
-<form action="/showcase/search" method="get">
-    <div class="form-group" style="margin:2em 0 1em; display: flex;">
-        <input class="form-control form-control-lg" placeholder="type in keywords..." id="text-search" type="text" name="s" value="@Model.searchQuery">
-        <input class="btn btn-primary btn-lg" id="btn-search" type="submit" value="Search">
+<form action="/showcase" method="get" role="search" class="mt-6 flex gap-2">
+    @if (!string.IsNullOrEmpty(Model.Tag)) { <input type="hidden" name="t" value="@Model.Tag"> }
+    @if (!string.IsNullOrEmpty(Model.Medium)) { <input type="hidden" name="m" value="@Model.Medium"> }
+    <label for="showcase-search" class="sr-only">Search storyboards</label>
+    <div class="relative flex-1">
+        <input id="showcase-search" name="s" value="@Model.Query" type="search" placeholder="Song, artist, mapper or storyboarder" class="input h-11 pl-10">
+        <span class="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-sage">@Icons.Get("search", "size-4")</span>
     </div>
+    <button type="submit" class="btn btn-primary h-11">Search</button>
 </form>
-@if (Model.beatmaps.Count > 0)
-{
-    <div class="card-group" style="justify-content:center">
-        <div class="row mb-4">
-            @for (int i = 0; i < Model.beatmaps.Count; i++)
-            {
-                var currentBeatmap = Model.beatmaps[i];
-                string toolIcon = "";
-                <div class="col-xs-12 col-sm-6 my-2">
-                    <div class="sb-card card">
-                        <div class="bg-inverse sb-card-header bottom-header" style="background-image: url('@currentBeatmap.BeatmapCardURL');">
-                            <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" target="_blank">
-                                <h4 class="card-title sb-card-title">@currentBeatmap.BeatmapTitle</h4>
-                                <h6 class="card-subtitle sb-card-title">@currentBeatmap.BeatmapArtist</h6>
-                            </a>
-                        </div>
-                        <div class="media">
-                            <a class="media-left media-middle" href="@Model.baseURL/showcase/detail?beatmapsetID=@currentBeatmap.BeatmapsetID" style="text-decoration:none" target="_blank">
-                                <img class="media-object sb-card-image" src="@currentBeatmap.BeatmapListURL" alt="@currentBeatmap.BeatmapTitle">
-                            </a>
-                            <div class="media-body text-white m-3">
-                                <p class="card-text media-heading">
-                                    Storyboarded by
-                                    @if (currentBeatmap.Storyboarders.Count == 1)
-                                    {
-                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" target="_blank">@currentBeatmap.Storyboarders[0].Username</a>
-                                    }
-                                    else if (currentBeatmap.Storyboarders.Count == 2)
-                                    {
-                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[0].UserID" target="_blank">@currentBeatmap.Storyboarders[0].Username</a>
-                                        <span> and </span>
-                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[1].UserID" target="_blank">@currentBeatmap.Storyboarders[1].Username</a>
-                                    }
-                                    else
-                                    {
-                                        @for (int j = 0; j < currentBeatmap.Storyboarders.Count - 2; j++)
-                                        {
-                                            <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[j].UserID" target="_blank">@currentBeatmap.Storyboarders[j].Username</a><span>, </span>
-                                        }
-                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].UserID" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 2].Username</a>
-                                        <span> and </span>
-                                        <a href="@Model.baseURL/community/profile?userID=@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].UserID" target="_blank">@currentBeatmap.Storyboarders[currentBeatmap.Storyboarders.Count - 1].Username</a>
-                                    }
-                                    <br>Hosted by <a href="@currentBeatmap.BeatmapsetHost.UserProfileUrl" target="_blank">@currentBeatmap.BeatmapsetHost.Username</a>
-                                </p>
-                                <div class="sb-card-icons">
-                                    @switch (currentBeatmap.Medium)
-                                    {
-                                        case "Storybrew":
-                                        case "Java":
-                                            toolIcon = "fa fa-coffee";
-                                            break;
-                                        case "SGL":
-                                            toolIcon = "fa fa-file-code-o";
-                                            break;
-                                        case "C":
-                                            toolIcon = "icon-c";
-                                            break;
-                                        case "C++":
-                                            toolIcon = "icon-cplusplus";
-                                            break;
-                                        case "Scripting":
-                                            toolIcon = "fa fa-file-text-o";
-                                            break;
-                                        case "C#":
-                                            toolIcon = "icon-csharp";
-                                            break;
-                                        case "Design Editor":
-                                            toolIcon = "fa icon-osu-cookie";
-                                            break;
-                                        case "Python":
-                                            toolIcon = "icon-python";
-                                            break;
-                                        case "JavaScript":
-                                            toolIcon = "icon-javascript";
-                                            break;
-                                        case "Other":
-                                            toolIcon = "fa fa-question-circle";
-                                            break;
-                                    }
-                                    <span class="tag tag-pill tag-default" data-toggle="tooltip" title="@currentBeatmap.Medium"><i class="@toolIcon" aria-hidden="true"></i></span>
-                                    <a href="https://osu.ppy.sh/beatmapsets/@currentBeatmap.BeatmapsetID/" target="_blank"><i class="fa fa-info-circle fa-fw fa-lg" aria-hidden="true" data-toggle="tooltip" title="View Beatmap Page"></i></a>
-                                    <a href="osu://s/@currentBeatmap.BeatmapsetID" data-toggle="tooltip" title="Open in osu!direct"><i class="fa fa-download fa-fw fa-lg" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+
+<div class="mt-5 flex flex-col gap-3">
+    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by tag">
+        <a href="@Model.Url(tag: null)" class="chip" aria-current="@(string.IsNullOrEmpty(Model.Tag) ? "true" : null)">All tags</a>
+        @foreach (var tag in Model.Tags)
+        {
+            <a href="@Model.Url(tag: tag.Slug)" class="chip" aria-current="@(tag.Slug == Model.Tag ? "true" : null)">
+                <img src="/images/showcase/tags.svg#@tag.Slug" alt="" width="20" height="20" class="size-5">@tag.Name
+            </a>
+        }
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.0.0/ekko-lightbox.js"></script>
-    <script src="/static/showcase/add-lightbox.js"></script>
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        })
-        window.addEventListener('resize', function () {
-            var currentContainerWidth = $('.container').css('max-width').replace('px', '');
-            if (currentContainerWidth > 720) {
-                $('.sb-card').css('width', $('.container').css('max-width').replace('px', '') / 2 - 40 + 'px');
-                $('.col-xs-12').addClass('col-sm-6');
-                $('.col-xs-12').removeClass('col-sm-12');
-            }
-            else {
-                $('.sb-card').css('width', '100%');
-                $('.col-xs-12').addClass('col-sm-12');
-                $('.col-xs-12').removeClass('col-sm-6');
-            }
-            
-        });
-        window.dispatchEvent(new Event('resize'));
-    </script>
+    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by tool">
+        <span class="mr-1 text-xs font-semibold text-sage">Made with</span>
+        <a href="@Model.Url(medium: null)" class="chip text-xs" aria-current="@(string.IsNullOrEmpty(Model.Medium) ? "true" : null)">Any tool</a>
+        @foreach (var medium in Model.Mediums)
+        {
+            <a href="@Model.Url(medium: medium)" class="chip text-xs" aria-current="@(medium == Model.Medium ? "true" : null)">@medium</a>
+        }
+    </div>
+</div>
+
+<div class="mt-6 flex items-center justify-between gap-4 text-sm text-sage">
+    <p>
+        <span class="font-semibold text-mint-200">@results.Total</span> @(results.Total == 1 ? "storyboard" : "storyboards")
+        @if (!string.IsNullOrWhiteSpace(Model.Query)) { <text>matching "<span class="font-semibold text-mint-200">@Model.Query</span>"</text> }
+    </p>
+    @if (Model.IsFiltered)
+    {
+        <a href="/showcase" class="font-semibold">Clear filters</a>
+    }
+</div>
+
+@if (results.Items.Count == 0)
+{
+    <div class="mt-8 flex flex-col items-center gap-4 card px-6 py-12 text-center">
+        <img src="~/images/mascot/hifumi-notfound.webp" alt="" width="257" height="317" class="w-40 -scale-x-100">
+        <p class="text-lg font-bold text-mint-50">I'm sorry, I can't find anything.</p>
+        <p class="text-sm text-sage">Try another search, or <a href="/showcase">browse every storyboard</a>.</p>
+    </div>
 }
 else
 {
-    <div class="showcase-empty">
-        <img src="/static/base/img/hifumi_notfound.png" alt="no results" data-orig-title="no results" data-hasqtip="0" aria-describedby="qtip-0" style="transform: scaleX(-1);">
-        I'm sorry, I can't find anything.
+    <div class="mt-4 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        @foreach (var set in results.Items)
+        {
+            <partial name="_BeatmapCard" model="set" />
+        }
     </div>
+
+    @if (results.PageCount > 1)
+    {
+        <nav aria-label="Pages" class="mt-10 flex flex-wrap items-center justify-center gap-1.5">
+            @if (results.Page > 1)
+            {
+                <a href="@Model.Url(page: results.Page - 1)" class="btn btn-ghost" rel="prev">@Icons.Get("arrow-left", "size-5") Previous</a>
+            }
+            @for (int p = 1; p <= results.PageCount; p++)
+            {
+                <a href="@Model.Url(page: p)" aria-current="@(p == results.Page ? "page" : null)"
+                   class="flex size-10 items-center justify-center rounded-md font-semibold text-mint-200 transition hover:bg-charcoal-700 hover:no-underline aria-[current=page]:bg-mint-400 aria-[current=page]:text-charcoal-950">@p</a>
+            }
+            @if (results.Page < results.PageCount)
+            {
+                <a href="@Model.Url(page: results.Page + 1)" class="btn btn-ghost" rel="next">Next @Icons.Get("arrow-right", "size-5")</a>
+            }
+        </nav>
+    }
 }
-
-
-

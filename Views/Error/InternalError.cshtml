@@ -1,66 +1,22 @@
-﻿@{
-    Layout = null;
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Something broke";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="A delightful feast of visual arts made by passionate osu! players! Learn programming through making storyboards!">
-    <meta name="keywords" content="osb, osu, storyboard, programming, art, hifumi">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error 500 | osu! Storyboarder Banquet</title>
-    <link rel="icon" type="image/x-icon" href="/static/base/img/favicon.ico">
-    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/base/main.css">
-    <link rel="stylesheet" href="/static/base/banner.css">
-    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
-    <script src="https://use.fontawesome.com/f344ebe01e.js"></script>
-</head>
-<body>
-    <div class="container" style="background:unset;">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-inverse">
-            <a class="navbar-brand" href="#"><img src="/static/base/img/osboutline.png" alt="..." height="56"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/showcase">Showcase</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/learn">Learn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/community">Community</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<section class="mx-auto flex max-w-3xl animate-fade-in flex-col items-center gap-5 card px-6 py-10 text-center sm:px-12">
+    <p class="eyebrow">Error @(Model?.StatusCode ?? 500)</p>
+    <h1 class="font-display text-4xl font-bold text-mint-50">Bollocks!</h1>
+    <img src="~/images/mascot/hifumi-scramble.webp" alt="A flustered Hifumi" width="306" height="306" class="w-56 rounded-card">
+    <p class="max-w-[60ch] leading-relaxed text-mint-200">
+        Oh dear. Something broke, and you've reached this page as you've hit some internal error or bug that just frolicked itself upon here.
+        A bit awkward either way. Tell us on Discord what you were doing to get here so we can get that fixed up and doodly.
+        But have a random storyboard button. The girls LOVE random storyboard buttons.
+    </p>
+    <div class="flex flex-wrap justify-center gap-3">
+        @if (Model?.RandomStoryboard != null)
+        {
+            <a href="/showcase/detail?beatmapsetID=@Model.RandomStoryboard.Id" class="btn btn-primary">@Icons.Get("sparkles", "size-4") Take me away!</a>
+        }
+        <a href="/" class="btn btn-outline">Back to the banquet</a>
     </div>
-
-    <div class="container">
-        <header class="opening-banner-community"><h1 class="display opening-header">500 Internal Server Error!</h1><div class="bae-showcase"></div></header>
-
-        <h1 class="special-banner-1 top-header">Bollocks!</h1>
-        <img class="d-block mx-auto" src="/static/base/img/hifumi_scramble.gif" alt="A flustered Hifumi!">
-        <p>Oh dear. Something broke, and you've reached this page as you've hit some internal error or bug that just frolicked itself upon here. A bit awkward either way. You should contact Mamat with what you were doing to get here so we could get that fixed up and doodly. But have a random storyboard button. The girls LOVE random storyboard buttons.</p>
-        <p style="padding-bottom:10px"><a class="btn btg-lg btn-primary" href="/">Take Me Away!</a></p>
-    </div>
-
-    <footer class="footer">
-        <div class="osu-cookie d-block mx-auto"></div>
-        <p class="small">Powered with <span title="Hifumi's Love!">❤</span></p>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-    <script src="/static/bootstrap/bootstrap.min.js"></script>
-</body>
-</html>
-
-
+</section>

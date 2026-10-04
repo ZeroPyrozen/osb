@@ -1,0 +1,77 @@
+@model osb.Learn.Course
+@{
+    ViewData["Title"] = "My learning";
+    bool loggedIn = User.Identity?.IsAuthenticated == true;
+}
+@section Head { <partial name="_LearnHead" /> }
+
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
+    <a href="/learn" class="font-semibold">Learn</a>
+    @Icons.Get("chevron-right", "size-4")
+    <span aria-current="page">My learning</span>
+</nav>
+
+<div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <div class="flex min-w-0 flex-col gap-6">
+        <section aria-label="Level" class="relative animate-fade-in overflow-hidden card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center gap-6">
+                <span class="flex size-24 shrink-0 items-center justify-center rounded-full border-4 border-gold-400 bg-charcoal-950 font-display text-4xl font-bold text-gold-300 shadow-card" data-stat="level">1</span>
+                <div class="min-w-0 flex-1">
+                    <p class="eyebrow">@(loggedIn ? User.Identity.Name : "Your level")</p>
+                    <h1 class="mt-1 font-display text-3xl font-bold text-mint-50" data-stat="level-title">Spectator</h1>
+                    <span class="mt-3 block h-2.5 overflow-hidden rounded-full bg-charcoal-950"><span class="block h-full rounded-full bg-gold-400 transition-all duration-700" data-stat-bar="level" style="width: 0%"></span></span>
+                    <p class="mt-1.5 text-sm text-sage"><span class="font-semibold text-gold-300" data-stat="xp">0</span> XP · <span data-stat="next-level">Earn XP by finishing units</span></p>
+                </div>
+            </div>
+            <dl class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div class="rounded-card bg-charcoal-700 p-4"><dt class="text-xs text-sage">Units done</dt><dd class="font-display text-2xl font-bold text-mint-50 tabular-nums"><span data-stat="units-done">0</span><span class="text-base text-sage"> / @Model.Units.Count</span></dd></div>
+                <div class="rounded-card bg-charcoal-700 p-4"><dt class="text-xs text-sage">Badges</dt><dd class="font-display text-2xl font-bold text-mint-50 tabular-nums"><span data-stat="badges-earned">0</span><span class="text-base text-sage"> / <span data-stat="badges-total">0</span></span></dd></div>
+                <div class="rounded-card bg-charcoal-700 p-4"><dt class="text-xs text-sage">Day streak</dt><dd class="font-display text-2xl font-bold text-mint-50 tabular-nums" data-stat="streak">0</dd></div>
+                <div class="rounded-card bg-charcoal-700 p-4"><dt class="text-xs text-sage">Paths</dt><dd class="font-display text-2xl font-bold text-mint-50 tabular-nums">@Model.Paths.Count</dd></div>
+            </dl>
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+                <a href="@Model.Units[0].Url" data-continue="" class="btn btn-primary">@Icons.Get("play", "size-4") <span data-continue-label>Start with the first lesson</span></a>
+                <a href="/learn" class="btn btn-outline">Course overview</a>
+            </div>
+        </section>
+
+        <section aria-labelledby="badges-title" class="card p-6">
+            <h2 id="badges-title" class="section-title">Badges and trophies</h2>
+            <p class="mt-1 text-sm text-sage">Module badges for finishing a module, trophies for finishing a path, and achievements along the way.</p>
+            <ul class="mt-4 grid gap-2 sm:grid-cols-2" data-badges>
+                <li class="text-sm text-sage">Loading your badges…</li>
+            </ul>
+        </section>
+    </div>
+
+    <aside class="flex flex-col gap-6">
+        <section aria-labelledby="sync-title" class="card p-6">
+            <h2 id="sync-title" class="section-title">Where it's saved</h2>
+            <p class="mt-2 text-sm leading-relaxed text-mint-200" data-sync-status>Saved in this browser.</p>
+            @if (!loggedIn)
+            {
+                <a href="/auth?returnUrl=%2Flearn%2Fprogress" class="btn btn-primary mt-4">Log in with osu!</a>
+                <p class="mt-2 text-xs text-sage">Logging in only reads your osu! username and avatar. Progress you made before logging in is added to your account.</p>
+            }
+        </section>
+        <section aria-labelledby="history-title" class="card p-6">
+            <h2 id="history-title" class="section-title">Recent activity</h2>
+            <ul class="mt-3 text-sm" data-history>
+                <li class="py-2 text-sage">Loading…</li>
+            </ul>
+        </section>
+        <section class="card p-6 text-sm leading-relaxed text-mint-200">
+            <h2 class="section-title">How XP works</h2>
+            <ul class="mt-2 flex flex-col gap-1.5">
+                <li>Lesson: <strong class="text-gold-300">@Model.Xp.Lesson XP</strong></li>
+                <li>Exercise: <strong class="text-gold-300">@Model.Xp.Exercise XP</strong></li>
+                <li>Knowledge check: <strong class="text-gold-300">@Model.Xp.Quiz XP</strong>, +@Model.Xp.PerfectQuiz for a perfect score</li>
+                <li>Finishing a module: <strong class="text-gold-300">+@Model.Xp.Module XP</strong></li>
+                <li>Finishing a path: <strong class="text-gold-300">+@Model.Xp.Path XP</strong></li>
+            </ul>
+            <p class="mt-3 text-xs text-sage">Your streak counts the days in a row you finished at least one unit.</p>
+        </section>
+    </aside>
+</div>
+
+@section Scripts { <partial name="_LearnScripts" /> }

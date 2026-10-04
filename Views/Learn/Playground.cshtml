@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Storyboard playground";
+    ViewData["Description"] = "Write an osu! storyboard and watch it play as you type. Add your own images, generate effects with code, share a link or download the .osb.";
+}
+
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
+    <a href="/learn" class="font-semibold">Learn</a>
+    @Icons.Get("chevron-right", "size-4")
+    <span aria-current="page">Playground</span>
+</nav>
+
+<header class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+        <h1 class="font-display text-3xl font-bold text-mint-50">Storyboard playground</h1>
+        <p class="mt-1 max-w-[65ch] text-sm text-mint-200">Write a storyboard and it plays as you type. Paste the [Events] of a real .osb, or switch to script mode to generate one with JavaScript.</p>
+    </div>
+</header>
+
+<div data-playground class="mt-6 flex flex-col gap-4">
+    <div class="flex flex-wrap items-center gap-2">
+        <div class="flex rounded-md border border-charcoal-500 p-0.5" role="group" aria-label="Editor mode">
+            <button type="button" data-mode="osb" aria-pressed="true" class="rounded px-3 py-1 text-sm font-semibold text-mint-200 aria-pressed:bg-mint-400 aria-pressed:text-charcoal-950">.osb</button>
+            <button type="button" data-mode="script" aria-pressed="false" class="rounded px-3 py-1 text-sm font-semibold text-mint-200 aria-pressed:bg-mint-400 aria-pressed:text-charcoal-950">Script</button>
+        </div>
+        <label class="sr-only" for="playground-examples">Examples</label>
+        <select id="playground-examples" data-examples class="input w-auto py-1.5 text-sm"></select>
+        <label class="btn btn-ghost cursor-pointer">@Icons.Get("image", "size-4") Add images<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple data-upload class="sr-only"></label>
+        <button type="button" data-share class="btn btn-ghost">@Icons.Get("external", "size-4") Copy share link</button>
+        <button type="button" data-download class="btn btn-ghost">@Icons.Get("download", "size-4") Download .osb</button>
+    </div>
+
+    <div class="grid gap-4 xl:grid-cols-2">
+        <div class="flex min-w-0 flex-col gap-2">
+            <div data-editor class="h-[26rem] overflow-hidden rounded-card border border-charcoal-600"></div>
+            <p data-status class="min-h-5 text-xs text-sage" aria-live="polite"></p>
+            <details data-generated-wrap hidden class="text-xs text-sage">
+                <summary class="cursor-pointer font-semibold text-mint-200">Generated .osb</summary>
+                <pre data-generated class="mt-2 max-h-64 overflow-auto rounded-card bg-charcoal-950 p-3 font-mono text-mint-100"></pre>
+            </details>
+        </div>
+        <div class="min-w-0" data-player></div>
+    </div>
+
+    <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <section aria-labelledby="library-title" class="card p-5">
+            <h2 id="library-title" class="section-title">Sprite library</h2>
+            <p class="mt-1 text-sm text-sage">Images the playground knows about. Click one to add a sprite that uses it. Your own images work too: use their file name as the path.</p>
+            <ul data-library class="mt-3 grid max-h-80 gap-0.5 overflow-y-auto pr-1"></ul>
+        </section>
+        <section class="card p-5 text-sm leading-relaxed text-mint-200">
+            <h2 class="section-title">Tips</h2>
+            <ul class="mt-2 flex list-disc flex-col gap-1.5 pl-5">
+                <li>Hover the preview to read storyboard coordinates; turn on Guides to see the play area and the 4:3 frame.</li>
+                <li>Space plays and pauses the preview; the arrow keys step 100 ms (1 s with Shift).</li>
+                <li>Untick "Pass state" to see what players in the fail state would see.</li>
+                <li>Script mode has <code class="rounded bg-charcoal-950 px-1 text-gold-200">sb.layer()</code>, <code class="rounded bg-charcoal-950 px-1 text-gold-200">random()</code>, <code class="rounded bg-charcoal-950 px-1 text-gold-200">randomInt()</code>, <code class="rounded bg-charcoal-950 px-1 text-gold-200">beatLength(bpm)</code> and <code class="rounded bg-charcoal-950 px-1 text-gold-200">log()</code>. The <a href="/learn/storyboarding-with-code">Storyboarding with code</a> module explains them.</li>
+                <li>The preview is close to osu! but not identical. Always test in the game before you submit.</li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+@section Scripts { <partial name="_LearnScripts" /> }

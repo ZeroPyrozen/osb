@@ -1,51 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+#nullable enable
+
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using osb.Helpers;
-using osb.Models;
-using osb.ViewModels;
 
-namespace osb.Controllers
+namespace osb.Controllers;
+
+/// <summary>
+/// Logs people in with their osu! account (OAuth authorization code flow) and keeps them signed in
+/// with a 30-day cookie. Only the "identify" scope is requested and no osu! token is stored.
+/// </summary>
+public class AuthController(IOsuWebHelper osu, ILogger<AuthController> logger) : Controller
 {
-    public class AuthController : BaseController
+    /// <summary>Holds the OAuth state and the page to return to while the user is on osu!.</summary>
+    private const string StateCookie = "osb.oauth";
+
+    public const string AvatarClaim = "osb:avatar";
+
+    [HttpGet("/auth")]
+    public IActionResult Index(string? returnUrl)
     {
-        private IConfiguration _configuration;
-        private OsuWebHelper _osuWebHelper;
-        public AuthController(IConfiguration iconfig)
+        string state = Convert.ToHexString(RandomNumberGenerator.GetBytes(16));
+        string target = Url.IsLocalUrl(returnUrl) ? returnUrl! : "/";
+
+        Response.Cookies.Append(StateCookie, state + "|" + target, new CookieOptions
         {
-            _configuration = iconfig;
-            _osuWebHelper = new OsuWebHelper(_configuration);
-        }
-        public IActionResult Index()
-        {
-            string redirectURL = _osuWebHelper.GetAuthorizationCode();
-            return Redirect(redirectURL);
-        }
+            HttpOnly = true,
+            Secure = Request.IsHttps,
+            SameSite = SameSiteMode.Lax, // sent on the top-level redirect back from osu!
+            MaxAge = TimeSpan.FromMinutes(10),
+            IsEssential = true,
+        });
 
-        public async Task<IActionResult> Authorized(string code, string error)
-        {
-            if(!string.IsNullOrEmpty(error))
-                return RedirectToAction("Index", "Home");
-            HttpContext.Session.SetString("Login", "Test");
-            TokenModel token = await _osuWebHelper.GenerateAccessTokenAuthCode(code);
-            WebUserModel user = await _osuWebHelper.GetOwnData(token.AccessToken);
-
-            HttpContext.Session.SetString(SessionEnum.AuthCodeToken, JsonConvert.SerializeObject(token));
-            HttpContext.Session.SetString(SessionEnum.UserData, JsonConvert.SerializeObject(user));
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Remove("Login");
-
-            return RedirectToAction("Index", "Home");
-        }
+        return Redirect(osu.GetAuthorizationUrl(state));
     }
+
+    [HttpGet("/auth/authorized")]
+    public async Task<IActionResult> Authorized(string? code, string? state, string? error)
+    {
+        string? saved = Request.Cookies[StateCookie];
+        Response.Cookies.Delete(StateCookie);
+
+        string[]? parts = saved?.Split('|', 2);
+        if (!string.IsNullOrEmpty(error) || string.IsNullOrEmpty(code) || parts is not { Length: 2 } || !SameState(parts[0], state))
+        {
+            logger.LogInformation("osu! login was cancelled or its state didn't match.");
+            return Redirect("/");
+        }
+
+        var token = await osu.GenerateAccessTokenAuthCode(code);
+        var user = token?.AccessToken != null ? await osu.GetOwnData(token.AccessToken) : null;
+        if (user == null)
+        {
+            logger.LogWarning("osu! login failed: couldn't exchange the code or load the user.");
+            return Redirect("/");
+        }
+
+        var identity = new ClaimsIdentity(
+        [
+            new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+            new Claim(ClaimTypes.Name, user.Username ?? $"User {user.ID}"),
+            new Claim(AvatarClaim, user.AvatarURL ?? $"https://a.ppy.sh/{user.ID}"),
+        ], CookieAuthenticationDefaults.AuthenticationScheme);
+
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(identity),
+            new AuthenticationProperties { IsPersistent = true });
+
+        return LocalRedirect(Url.IsLocalUrl(parts[1]) ? parts[1] : "/");
+    }
+
+    [HttpPost("/auth/logout")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return Redirect("/");
+    }
+
+    private static bool SameState(string expected, string? actual) =>
+        actual != null && CryptographicOperations.FixedTimeEquals(Encoding.ASCII.GetBytes(expected), Encoding.ASCII.GetBytes(actual));
 }

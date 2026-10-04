@@ -1,0 +1,13 @@
+@model IEnumerable<OsuUser>
+@* "A", "A and B" or "A, B and C", each linking to the storyboarder's profile. *@
+@{
+    var people = Model.ToList();
+}
+@for (int i = 0; i < people.Count; i++)
+{
+    if (i > 0)
+    {
+        <text>@(i == people.Count - 1 ? " and " : ", ")</text>
+    }
+    <a href="/community/profile?userID=@people[i].Id" class="relative z-10 font-semibold">@people[i].Username</a>
+}

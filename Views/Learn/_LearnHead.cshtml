@@ -1,0 +1,6 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@* Logged-in learners' progress is saved through /api/learn/progress, which checks this token. *@
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken">
+}

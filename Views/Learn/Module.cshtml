@@ -1,0 +1,82 @@
+@model osb.Learn.LearnModule
+@using osb.Learn
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Summary;
+    string accent = LearnStyles.Accent(Model.Path.Slug);
+}
+@section Head { <partial name="_LearnHead" /> }
+
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
+    <a href="/learn" class="font-semibold">Learn</a>
+    @Icons.Get("chevron-right", "size-4")
+    <a href="/learn#@Model.Path.Slug" class="font-semibold">@Model.Path.Title</a>
+    @Icons.Get("chevron-right", "size-4")
+    <span aria-current="page">Module @Model.Number</span>
+</nav>
+
+<div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+    <section class="animate-fade-in card p-6 sm:p-8" data-module="@Model.Slug">
+        <div class="flex items-start gap-4">
+            <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-charcoal-950 @accent">@Icons.Get(Model.Icon, "size-7")</span>
+            <div class="min-w-0">
+                <p class="eyebrow"><span class="@accent">@Model.Path.Level</span> · Module @Model.Number</p>
+                <h1 class="mt-1 font-display text-3xl font-bold text-mint-50">@Model.Title</h1>
+            </div>
+        </div>
+        <p class="mt-4 max-w-[62ch] leading-relaxed text-mint-200">@Model.Summary</p>
+        <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a href="@Model.Units[0].Url" data-continue="@Model.Slug" class="btn btn-primary">@Icons.Get("play", "size-4") <span data-continue-label>Start the module</span></a>
+            <span class="text-sm text-sage">@Model.Units.Count units · @Model.Minutes min · <span class="tabular-nums" data-count>0 / @Model.Units.Count</span> done</span>
+        </div>
+        <span class="mt-4 block h-2 overflow-hidden rounded-full bg-charcoal-950"><span class="block h-full rounded-full @LearnStyles.Bar(Model.Path.Slug) transition-all duration-700" data-bar style="width: 0%"></span></span>
+
+        <ol class="mt-8 flex flex-col gap-2">
+            @foreach (var unit in Model.Units)
+            {
+                <li data-unit="@unit.Id" class="group">
+                    <a href="@unit.Url" class="flex items-center gap-4 rounded-card bg-charcoal-700 p-4 transition hover:bg-charcoal-600 hover:no-underline">
+                        <span class="flex size-9 shrink-0 items-center justify-center rounded-full border border-charcoal-500 text-sm font-bold text-sage group-data-done:border-mint-400 group-data-done:bg-mint-400 group-data-done:text-charcoal-950">
+                            <span class="group-data-done:hidden">@unit.Number</span>
+                            <span class="hidden group-data-done:block">@Icons.Get("check", "size-4")</span>
+                        </span>
+                        <span class="min-w-0 flex-1">
+                            <span class="block font-bold text-mint-50">@unit.Title</span>
+                            @if (!string.IsNullOrEmpty(unit.Summary))
+                            {
+                                <span class="block truncate text-sm text-mint-200/80">@unit.Summary</span>
+                            }
+                        </span>
+                        <span class="hidden shrink-0 items-center gap-1.5 text-xs text-sage sm:flex">@Icons.Get(unit.TypeIcon, "size-4") @unit.TypeLabel</span>
+                        <span class="shrink-0 text-right text-xs text-sage">
+                            <span class="block">@unit.Minutes min</span>
+                            <span class="block font-semibold text-gold-300">+@unit.Xp XP</span>
+                        </span>
+                    </a>
+                </li>
+            }
+        </ol>
+    </section>
+
+    <aside class="flex flex-col gap-6">
+        <section aria-labelledby="badge-title" class="card p-6 text-center" data-module="@Model.Slug">
+            <span class="mx-auto flex size-20 items-center justify-center rounded-full border-2 border-charcoal-500 bg-charcoal-950 text-charcoal-500 transition @LearnStyles.EarnedBadge(Model.Path.Slug)">
+                @Icons.Get("star", "size-10")
+            </span>
+            <p class="eyebrow mt-4">Module badge</p>
+            <h2 id="badge-title" class="mt-1 text-lg font-bold text-mint-50">@Model.Badge.Name</h2>
+            <p class="mt-1 text-sm text-mint-200">@Model.Badge.Description</p>
+            <p class="mt-3 text-xs text-sage">Finish every unit to earn it, plus a 50 XP bonus.</p>
+        </section>
+        <section class="card p-6 text-sm leading-relaxed text-mint-200">
+            <p class="font-bold text-mint-50">How units work</p>
+            <ul class="mt-2 flex flex-col gap-2">
+                <li class="flex gap-2">@Icons.Get("book", "mt-0.5 size-4 shrink-0 text-sage") Lessons explain an idea with examples you can preview.</li>
+                <li class="flex gap-2">@Icons.Get("code", "mt-0.5 size-4 shrink-0 text-sage") Exercises check your storyboard in the browser.</li>
+                <li class="flex gap-2">@Icons.Get("quiz", "mt-0.5 size-4 shrink-0 text-sage") Knowledge checks wrap up the module; a perfect score earns bonus XP.</li>
+            </ul>
+        </section>
+    </aside>
+</div>
+
+@section Scripts { <partial name="_LearnScripts" /> }

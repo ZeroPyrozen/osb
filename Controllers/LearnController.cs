@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+#nullable enable
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using osb.Helpers;
-using osb.Models;
-using osb.ViewModels;
-using Westwind.AspNetCore.Markdown;
+using osb.Learn;
 
-namespace osb.Controllers
+namespace osb.Controllers;
+
+/// <summary>osb! learn: the course catalog, modules, units, the playground and the progress page.</summary>
+public class LearnController(CourseProvider courses) : Controller
 {
-    public class LearnController : BaseController
-    {
-        private IConfiguration _configuration;
-        public LearnController(IConfiguration iconfig)
-        {
-            _configuration = iconfig;
-        }
-        public IActionResult Index()
-        {
-            LearnViewModel learnViewModel = new LearnViewModel();
-            //TODO: Implement template page so it won't require actionresult for new page
-            //TODO: Implement breadcrumb for easy access
-            var parsedHtml = Markdown.ParseFromUrl("https://gist.github.com/ZeroPyrozen/96ac0da10c741f4679fc0cb51c12a439");
-            learnViewModel.indexTest = parsedHtml;
-            return View("Index", learnViewModel);
-        }
+    [HttpGet("/learn")]
+    public IActionResult Index() => View(courses.Current);
 
-    }
+    [HttpGet("/learn/playground")]
+    public IActionResult Playground() => View();
+
+    [HttpGet("/learn/progress")]
+    public IActionResult Progress() => View(courses.Current);
+
+    [HttpGet("/learn/{module}")]
+    public IActionResult Module(string module) =>
+        courses.Current.FindModule(module) is { } found ? View(found) : NotFound();
+
+    [HttpGet("/learn/{module}/{unit}")]
+    public IActionResult Unit(string module, string unit) =>
+        courses.Current.FindUnit($"{module}/{unit}") is { } found ? View(found) : NotFound();
 }

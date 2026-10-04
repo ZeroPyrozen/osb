@@ -1,0 +1,91 @@
+@using System.Security.Claims
+@{
+    string controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var links = new[]
+    {
+        (Label: "Home", Href: "/", Controller: "Home"),
+        (Label: "Showcase", Href: "/showcase", Controller: "Showcase"),
+        (Label: "Learn", Href: "/learn", Controller: "Learn"),
+        (Label: "Community", Href: "/community", Controller: "Community"),
+    };
+    bool loggedIn = User.Identity?.IsAuthenticated == true;
+    string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    string avatar = User.FindFirst(osb.Controllers.AuthController.AvatarClaim)?.Value;
+    string returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+<header data-nav class="group fixed inset-x-0 top-0 z-40">
+    <div class="mx-auto max-w-7xl px-4 transition-[padding,max-width] duration-300 sm:px-8 lg:px-12 group-data-scrolled:max-w-full group-data-scrolled:px-0">
+        <nav aria-label="Main" class="flex h-14 items-center justify-between gap-3 rounded-b-card bg-charcoal-800/95 px-3 shadow-card backdrop-blur transition-[border-radius] duration-300 sm:px-6 group-data-scrolled:rounded-none">
+            <div class="flex items-center gap-4 lg:gap-8">
+                <a href="/" class="flex shrink-0 items-center rounded-md" aria-label="osb! home">
+                    <img src="~/images/osb.svg" alt="" width="40" height="40" class="size-10">
+                </a>
+                <ul class="hidden items-center gap-1 md:flex">
+                    @foreach (var link in links)
+                    {
+                        bool current = string.Equals(controller, link.Controller, StringComparison.OrdinalIgnoreCase);
+                        <li>
+                            <a href="@link.Href" aria-current="@(current ? "page" : null)"
+                               class="rounded-md px-3 py-1.5 text-sm font-bold text-mint-200 transition-colors hover:bg-charcoal-700 hover:no-underline aria-[current=page]:text-mint-400">@link.Label</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                <form action="/showcase" method="get" role="search" class="relative hidden lg:block">
+                    <label for="nav-search" class="sr-only">Search storyboards</label>
+                    <input id="nav-search" name="s" type="search" placeholder="Search storyboards" class="input h-9 w-56 py-1 pr-3 pl-9 text-sm">
+                    <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-sage">@Icons.Get("search", "size-4")</span>
+                </form>
+                <a href="https://discord.gg/B8NX7YW" class="icon-btn" title="Join the osb Discord" aria-label="Join the osb Discord">@Icons.Get("discord", "size-[18px]")</a>
+
+                @if (loggedIn)
+                {
+                    <button type="button" popovertarget="user-menu" class="flex items-center gap-2 rounded-md p-1 text-sm font-semibold text-mint-200 transition-colors hover:bg-charcoal-700" aria-label="Account menu for @User.Identity.Name">
+                        <img src="@avatar" alt="" width="32" height="32" class="size-8 rounded-full bg-charcoal-700 object-cover">
+                        <span class="hidden max-w-32 truncate sm:inline">@User.Identity.Name</span>
+                        @Icons.Get("chevron-down", "hidden size-4 text-sage sm:block")
+                    </button>
+                }
+                else
+                {
+                    <a href="/auth?returnUrl=@Uri.EscapeDataString(returnUrl)" class="btn btn-outline">Login</a>
+                }
+
+                <button type="button" popovertarget="nav-menu" class="icon-btn md:hidden" aria-label="Open menu">@Icons.Get("menu", "size-5")</button>
+            </div>
+        </nav>
+    </div>
+
+    @if (loggedIn)
+    {
+        <div id="user-menu" popover class="menu">
+            <div class="flex items-center gap-3 border-b border-charcoal-600 px-3 pt-2 pb-3">
+                <img src="@avatar" alt="" width="40" height="40" class="size-10 rounded-full object-cover">
+                <div class="min-w-0">
+                    <p class="truncate font-bold text-mint-50">@User.Identity.Name</p>
+                    <p class="text-xs text-sage">Logged in with osu!</p>
+                </div>
+            </div>
+            <a href="/learn/progress">@Icons.Get("trophy", "size-4 text-gold-400") My learning</a>
+            <a href="https://osu.ppy.sh/users/@userId">@Icons.Get("user", "size-4 text-sage") osu! profile @Icons.Get("external", "ml-auto size-3.5 text-sage")</a>
+            <form method="post" action="/auth/logout" class="mt-1 border-t border-charcoal-600 pt-1">
+                @Html.AntiForgeryToken()
+                <button type="submit">@Icons.Get("logout", "size-4 text-[#e1b8b8]") Log out</button>
+            </form>
+        </div>
+    }
+
+    <div id="nav-menu" popover class="menu w-[min(20rem,calc(100vw-2rem))]">
+        <form action="/showcase" method="get" role="search" class="relative p-1">
+            <label for="nav-menu-search" class="sr-only">Search storyboards</label>
+            <input id="nav-menu-search" name="s" type="search" placeholder="Search storyboards" class="input py-2 pr-3 pl-9 text-sm">
+            <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sage">@Icons.Get("search", "size-4")</span>
+        </form>
+        @foreach (var link in links)
+        {
+            <a href="@link.Href" aria-current="@(string.Equals(controller, link.Controller, StringComparison.OrdinalIgnoreCase) ? "page" : null)">@link.Label</a>
+        }
+    </div>
+</header>

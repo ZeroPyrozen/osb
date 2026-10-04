@@ -1,141 +1,153 @@
-﻿using ISO3166;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+#nullable enable
+
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace osb.Helpers
 {
     public interface IOsuWebHelper
     {
-        public string GetAuthorizationCode();
-        public Task<TokenModel> GenerateAccessTokenAuthCode(string code);
-        public Task<TokenModel> GenerateAccessTokenClient();
-        public Task<WebUserModel> GetOwnData(string token);
-        public Task<WebUserModel> GetUserData(string token, string userID);
+        /// <summary>The osu! authorization page URL that starts a login. <paramref name="state"/> is echoed back to the callback.</summary>
+        string GetAuthorizationUrl(string state);
+
+        /// <summary>Exchanges an authorization code from the login callback for the user's token.</summary>
+        Task<TokenModel?> GenerateAccessTokenAuthCode(string code);
+
+        /// <summary>The logged-in user's own profile, using their token.</summary>
+        Task<WebUserModel?> GetOwnData(string token);
+
+        /// <summary>Any user's public profile, using the site's cached client token. Cached for 10 minutes.</summary>
+        Task<WebUserModel?> GetUserData(int userId);
     }
 
+    /// <summary>Calls the osu! API v2 (see https://osu.ppy.sh/docs).</summary>
     public class OsuWebHelper : IOsuWebHelper
     {
-        private string baseURL = "https://osu.ppy.sh/";
-        private HttpClient client = new HttpClient();
+        private static readonly TimeSpan ProfileCacheTime = TimeSpan.FromMinutes(10);
 
+        private readonly HttpClient client;
         private readonly IConfiguration Configuration;
+        private readonly IMemoryCache cache;
+        private readonly ILogger<OsuWebHelper> logger;
 
-        public OsuWebHelper(IConfiguration configuration)
+        // The HttpClient comes from IHttpClientFactory (see Program.cs), which pools and
+        // recycles connections instead of leaking a socket or caching DNS forever.
+        public OsuWebHelper(HttpClient client, IConfiguration configuration, IMemoryCache cache, ILogger<OsuWebHelper> logger)
         {
+            this.client = client;
             Configuration = configuration;
+            this.cache = cache;
+            this.logger = logger;
         }
 
-        public string GetAuthorizationCode()
+        private IConfigurationSection Api => Configuration.GetSection("API");
+
+        public string GetAuthorizationUrl(string state)
         {
-            string URL = Configuration.GetSection("API")["AuthURL"];
-            string clientID = Configuration.GetSection("API")["ClientID"];
-            string redirectURI = Configuration.GetSection("API")["RedirectURL"];
-            URL = URL.Replace(":client_id", clientID).Replace(":redirect_uri", redirectURI).Replace(":scope", "identify");
-            return URL;
+            string url = Api["AuthURL"]!
+                .Replace(":client_id", Uri.EscapeDataString(Api["ClientID"] ?? ""))
+                .Replace(":redirect_uri", Uri.EscapeDataString(Api["RedirectURL"] ?? ""))
+                .Replace(":scope", "identify");
+            return url + "&state=" + Uri.EscapeDataString(state);
         }
 
-        public async Task<TokenModel> GenerateAccessTokenAuthCode(string code)
+        public async Task<TokenModel?> GenerateAccessTokenAuthCode(string code)
         {
-            AuthCodeGrantModel authData = new AuthCodeGrantModel();
-            authData.ClientID = int.Parse(Configuration.GetSection("API")["ClientID"]);
-            authData.ClientSecret = Configuration.GetSection("API")["ClientSecret"];
-            authData.GrantType = "authorization_code";
-            authData.Code = code;
-            authData.RedirectURI = Configuration.GetSection("API")["RedirectURL"];
-            string URL = Configuration.GetSection("API")["TokenURL"];
-            HttpResponseMessage response = await client.PostAsJsonAsync(URL, authData);
-            TokenModel result = new TokenModel();
-            try
+            var grant = new AuthCodeGrantModel
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadFromJsonAsync<TokenModel>();
-                    result.GeneratedOn = DateTime.Now;
-                }
-            }
-            catch
+                ClientID = int.Parse(Api["ClientID"]!),
+                ClientSecret = Api["ClientSecret"],
+                GrantType = "authorization_code",
+                Code = code,
+                RedirectURI = Api["RedirectURL"],
+            };
+            return await RequestTokenAsync(grant);
+        }
+
+        public Task<WebUserModel?> GetOwnData(string token) => GetUserAsync(Api["OwnDataURL"]!, token);
+
+        public async Task<WebUserModel?> GetUserData(int userId)
+        {
+            string cacheKey = $"osu:user:{userId}";
+            if (cache.TryGetValue(cacheKey, out WebUserModel? cached))
+                return cached;
+
+            string? token = await GetClientTokenAsync();
+            if (token == null)
+                return null;
+
+            var user = await GetUserAsync(Api["UserDataURL"]!.Replace(":user", userId.ToString()), token);
+            if (user != null)
+                cache.Set(cacheKey, user, ProfileCacheTime);
+            return user;
+        }
+
+        /// <summary>
+        /// The site's own client-credentials token, shared by every request until shortly before it expires.
+        /// Failures are remembered for a minute so a missing or wrong secret doesn't hammer the osu! API.
+        /// </summary>
+        private async Task<string?> GetClientTokenAsync()
+        {
+            const string cacheKey = "osu:client-token";
+            if (cache.TryGetValue(cacheKey, out CachedToken? cached))
+                return cached!.AccessToken;
+
+            var grant = new ClientGrantModel
             {
+                ClientID = int.Parse(Api["ClientID"]!),
+                ClientSecret = Api["ClientSecret"],
+                GrantType = "client_credentials",
+                Scope = "public",
+            };
+            var token = await RequestTokenAsync(grant);
+
+            if (token?.AccessToken == null)
+            {
+                logger.LogWarning("Couldn't get an osu! API client token. Check API__ClientID and API__ClientSecret.");
+                cache.Set(cacheKey, new CachedToken(null), TimeSpan.FromMinutes(1));
                 return null;
             }
 
-            return result;
+            cache.Set(cacheKey, new CachedToken(token.AccessToken), TimeSpan.FromSeconds(Math.Max(60, token.ExpiresIn - 300)));
+            return token.AccessToken;
         }
 
-        public async Task<TokenModel> GenerateAccessTokenClient()
+        private async Task<TokenModel?> RequestTokenAsync(object grant)
         {
-            ClientGrantModel clientData = new ClientGrantModel();
-            clientData.ClientID = int.Parse(Configuration.GetSection("API")["ClientID"]);
-            clientData.ClientSecret = Configuration.GetSection("API")["ClientSecret"];
-            clientData.GrantType = "client_credentials";
-            clientData.Scope = "public";
-            string URL = Configuration.GetSection("API")["TokenURL"];
-            HttpResponseMessage response = await client.PostAsJsonAsync(URL, clientData);
-            TokenModel result = new TokenModel();
             try
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadFromJsonAsync<TokenModel>();
-                    result.GeneratedOn = DateTime.Now;
-                }
+                var response = await client.PostAsJsonAsync(Api["TokenURL"], grant);
+                return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<TokenModel>() : null;
             }
-            catch
+            catch (Exception e) when (e is HttpRequestException or TaskCanceledException or System.Text.Json.JsonException)
             {
+                logger.LogWarning(e, "osu! token request failed.");
                 return null;
             }
-
-            return result;
         }
 
-        public async Task<WebUserModel> GetOwnData(string token)
+        private async Task<WebUserModel?> GetUserAsync(string url, string token)
         {
-            WebUserModel user = null;
-            string URL = Configuration.GetSection("API")["OwnDataURL"];
-            using (var request = new HttpRequestMessage(HttpMethod.Get, URL))
+            try
             {
+                using var request = new HttpRequestMessage(HttpMethod.Get, url);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                var response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    user = await response.Content.ReadFromJsonAsync<WebUserModel>();
-                }
-
-                return user;
+                using var response = await client.SendAsync(request);
+                return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<WebUserModel>() : null;
+            }
+            catch (Exception e) when (e is HttpRequestException or TaskCanceledException or System.Text.Json.JsonException)
+            {
+                logger.LogWarning(e, "osu! user request failed for {Url}.", url);
+                return null;
             }
         }
 
-        public async Task<WebUserModel> GetUserData(string token, string userID)
-        {
-            WebUserModel user = null;
-            string URL = Configuration.GetSection("API")["UserDataURL"];
-            URL = URL.Replace(":user", userID);
-            using (var request = new HttpRequestMessage(HttpMethod.Get, URL))
-            {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                var response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    user = await response.Content.ReadFromJsonAsync<WebUserModel>();
-                }
-
-                return user;
-            }
-        }
+        private sealed record CachedToken(string? AccessToken);
     }
 
+    // JSON shapes of the osu! API responses used by the site.
+#nullable disable
     public class WebUserModel
     {
         [JsonPropertyName("avatar_url")]
@@ -201,21 +213,11 @@ namespace osb.Helpers
         [JsonPropertyName("website")]
         public string Website { get; set; }
         [JsonPropertyName("country")]
-        public WebCountry? Country { get; set; }
+        public WebCountry Country { get; set; }
         [JsonPropertyName("cover")]
-        public WebCover? Cover { get; set; }
+        public WebCover Cover { get; set; }
         [JsonPropertyName("is_restricted")]
         public bool? IsRestricted { get; set; }
-
-        public string IsoCountryCodeToFlagEmoji(string countryCode) => string.Concat(countryCode.ToUpper().Select(x => char.ConvertFromUtf32(x + 0x1F1A5)));
-        public string GetUserFlag()
-        {
-            Country[] countries = ISO3166.Country.List;
-            string country = Country.Name;
-            var countryAbbrev = ISO3166.Country.List.Where(x=>x.Name == country).FirstOrDefault();
-            if(countryAbbrev == null) return "🏳";
-            return IsoCountryCodeToFlagEmoji(countryAbbrev.TwoLetterCode);
-        }
     }
 
     public class WebCover

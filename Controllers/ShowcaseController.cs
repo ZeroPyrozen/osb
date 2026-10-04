@@ -1,83 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+#nullable enable
+
 using Microsoft.AspNetCore.Mvc;
-using osb.Helpers;
-using osb.Models;
+using osb.Services;
 using osb.ViewModels;
 
-namespace osb.Controllers
+namespace osb.Controllers;
+
+public class ShowcaseController(ShowcaseService showcase) : Controller
 {
-    public class ShowcaseController : BaseController
+    private const int PageSize = 12;
+
+    /// <summary>
+    /// The showcase list. <c>s</c> searches titles, artists, hosts and storyboarders; <c>t</c> is a tag slug,
+    /// <c>m</c> a tool. <c>/showcase/search</c> is kept as an alias because old tag links point there.
+    /// </summary>
+    [HttpGet("/showcase")]
+    [HttpGet("/showcase/search")]
+    public async Task<IActionResult> Index(string? s, string? t, string? m, int page = 1, CancellationToken ct = default)
     {
-        public IActionResult Index()
-        {
-            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
-            //Populate with dummy data
-            showcaseViewModel.searchQuery = "";
-            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps().OrderByDescending(x=>x.ShowcasedDate).ToList();
-            showcaseViewModel.baseURL = "https://" + this.Request.Host;
-            return View("Index", showcaseViewModel);
-        }
-
-        public IActionResult Submit()
-        {
-            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
-            showcaseViewModel.baseURL = "https://" + this.Request.Host;
-            return View("Submit", showcaseViewModel);
-        }
-
-        public IActionResult Search(string s, string f, string c, string t)
-        {
-            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
-            showcaseViewModel.baseURL = "https://"+ this.Request.Host;
-            showcaseViewModel.searchQuery = (s != null) ? s : "";
-            showcaseViewModel.beatmaps = DummyHelper.GenerateBeatmaps();
-            StringComparison filterRule = StringComparison.OrdinalIgnoreCase;
-            if (s != null)
-            {
-                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
-                (x =>
-                    (
-                        x.BeatmapArtist.Contains(s, filterRule) ||
-                        x.BeatmapTitle.Contains(s, filterRule) ||
-                        x.BeatmapsetID == x.GetBeatmapsetIDByMappers(s) ||
-                        x.BeatmapsetID == x.GetBeatmapsetIDByStoryboarders(s)
-                    )
-                ).ToList();
-            }
-            if (t != null)
-            {
-                t = t.Replace('_', ' ');
-                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.Where
-                (x =>
-                    (
-                        x.BeatmapsetID == x.GetBeatmapsetIDByTags(t)
-                    )
-                ).ToList();
-                showcaseViewModel.searchQuery = t;
-            }
-            if(showcaseViewModel.beatmaps.Count > 0)
-            {
-                showcaseViewModel.beatmaps = showcaseViewModel.beatmaps.OrderByDescending(x => x.ShowcasedDate).ToList();
-            }
-            return View("Index", showcaseViewModel);
-        }
-
-        public IActionResult Detail(int beatmapsetID)
-        {
-            ShowcaseViewModel showcaseViewModel = new ShowcaseViewModel();
-            if (beatmapsetID == 0)
-                return NotFound();
-            //Populate with dummy data
-            showcaseViewModel.beatmapDetail = DummyHelper.GenerateBeatmap(beatmapsetID);
-            showcaseViewModel.baseURL = "https://" + this.Request.Host;
-            if (showcaseViewModel.beatmapDetail == null)
-            {
-                return NotFound();
-            }
-            return View("Detail", showcaseViewModel);
-        }
+        var results = await showcase.SearchAsync(s, t, m, page, PageSize, ct);
+        var tags = await showcase.GetTagsAsync(ct);
+        var mediums = await showcase.GetMediumsAsync(ct);
+        return View(new ShowcaseIndexViewModel(results, s, t, m, tags, mediums));
     }
+
+    [HttpGet("/showcase/detail")]
+    public async Task<IActionResult> Detail(int beatmapsetID, CancellationToken ct)
+    {
+        var set = await showcase.GetAsync(beatmapsetID, ct);
+        if (set == null)
+            return NotFound();
+
+        var related = await showcase.GetRelatedAsync(set, 4, ct);
+        return View(new ShowcaseDetailViewModel(set, related));
+    }
+
+    [HttpGet("/showcase/submit")]
+    public IActionResult Submit() => View();
 }
