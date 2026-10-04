@@ -1,0 +1,4 @@
+# Files that run on the Raspberry Pi must keep LF line endings, even in a Windows checkout
+# with core.autocrlf=true: bash and systemd both choke on CRLF.
+*.sh      text eol=lf
+deploy/** text eol=lf
