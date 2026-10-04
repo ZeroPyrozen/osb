@@ -1,0 +1,56 @@
+# Builds the site on every push to main and every pull request, and keeps a ready-to-run
+# Raspberry Pi (linux-arm64) build as a downloadable artifact. Deploying to the Pi is done
+# from your own machine with deploy/deploy.ps1 or deploy/deploy.sh.
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    # Linux, like the Pi: catches file-name casing mistakes that Windows hides.
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      # The build compiles the CSS and JavaScript with npm (see osb.csproj).
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install frontend packages
+        run: npm ci --no-audit --no-fund
+
+      - name: Test the storyboard engine
+        run: npm test
+
+      - name: Build
+        run: dotnet build osb.csproj --configuration Release
+
+      # Starts the site and checks every lesson example and exercise (starter fails, solution passes).
+      - name: Check the learn content
+        run: |
+          dotnet run --project osb.csproj --configuration Release --no-build --no-launch-profile --urls http://localhost:5000 > "$RUNNER_TEMP/site.log" 2>&1 &
+          for i in $(seq 1 60); do curl -fs -o /dev/null http://localhost:5000/healthz && break; sleep 1; done
+          npm run verify:content || { cat "$RUNNER_TEMP/site.log"; exit 1; }
+
+      - name: Publish for Raspberry Pi (linux-arm64)
+        run: dotnet publish osb.csproj --configuration Release --runtime linux-arm64 --self-contained --output ${{ runner.temp }}/osb-linux-arm64
+
+      - name: Upload Raspberry Pi build
+        uses: actions/upload-artifact@v7
+        with:
+          name: osb-linux-arm64
+          path: ${{ runner.temp }}/osb-linux-arm64
