@@ -1,263 +1,129 @@
-﻿@model osb.ViewModels.HomeViewModel
+@model HomeViewModel
 @{
-    ViewData["Title"] = "Welcome to osu! Storyboarder Banquet";
+    var summary = Model.Summary;
+    var slides = summary.Recent.Take(5).ToList();
+    ViewData["Title"] = "";
+    ViewData["Backdrop"] = slides.FirstOrDefault()?.CoverUrl;
+    int maxMedium = summary.TopMediums.Count > 0 ? summary.TopMediums.Max(m => m.Count) : 1;
 }
-<link rel="stylesheet" href="/static/base/sb.css">
-<link rel="stylesheet" href="static/base/carousel.css">
-<style>
-    .log-section {
-        overflow-y: scroll;
-        height: 22rem;
-        scrollbar-width: thin;
-        scrollbar-color: #ec407a #F5F5F5;
-        margin-bottom: 15px;
-    }
 
-    .log-author {
-        background: #6438e9;
-        padding: 5px;
-    }
+<section class="relative animate-fade-in overflow-hidden card px-6 py-7 sm:px-10 lg:pr-[25rem]">
+    <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">osu! Storyboarder Banquet</h1>
+    <p class="mt-4 max-w-[62ch] leading-relaxed font-semibold text-mint-200">
+        Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual wizardry on osu!?
+        You can get started by checking out the <a href="/showcase">storyboard showcase</a>, or gander at some on the slideshow below or on the video player here.
+        If you're here to learn how to storyboard and program, look no further than our <a href="/learn">learning resources</a>!
+        And if you want to be a part of the storyboarding community, <a href="/community">click here to learn more</a>.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/learn" class="btn btn-primary">@Icons.Get("sparkles", "size-4") Start learning</a>
+        <a href="/showcase" class="btn btn-outline">Browse the showcase</a>
+    </div>
+    <img src="~/images/mascot/hifumi.webp" alt="" width="640" height="696" class="pointer-events-none absolute -right-8 -bottom-36 hidden w-[23rem] rotate-[7deg] select-none lg:block">
+</section>
 
-    .log-section::-webkit-scrollbar-corner {
-        background: #F5F5F5;
-    }
-
-    .log-section::-webkit-scrollbar-thumb {
-        background: #ec407a;
-        -webkit-box-shadow: 0px 1px 2px rgb(0 0 0 / 75%);
-    }
-
-    .log-section::-webkit-scrollbar {
-        height: 12px;
-        width: 12px;
-        background: #F5F5F5;
-    }
-</style>
-<header class="opening-banner">
-    <h1 class="display opening-header">osu! Storyboarder Banquet</h1>
-    <div class="bae-index"></div>
-</header>
-<!--Placeholder with recent storyboard, or maybe recent storyboard is good enough?-->
-<div id="carousel-storyboard" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
+<div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem]">
+    <div class="flex min-w-0 flex-col gap-8">
+        @if (slides.Count > 0)
         {
-            if (i == 0)
-            {
-                <li data-target="#carousel-storyboard" data-slide-to="@i" class="active"></li>
-            }
-            else
-            {
-                <li data-target="#carousel-storyboard" data-slide-to="@i"></li>
-            }
+            <section data-carousel aria-roledescription="carousel" aria-label="Recently showcased storyboards" class="group relative h-72 overflow-hidden rounded-card bg-charcoal-800 shadow-card sm:h-80">
+                <div data-carousel-track class="flex h-full snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    @for (int i = 0; i < slides.Count; i++)
+                    {
+                        var set = slides[i];
+                        <article data-carousel-slide aria-roledescription="slide" aria-label="@(i + 1) of @slides.Count" class="relative h-full w-full shrink-0 snap-start">
+                            <img src="@set.CoverUrl" alt="" loading="@(i == 0 ? "eager" : "lazy")" class="absolute inset-0 size-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-800 via-charcoal-800/70 to-charcoal-800/10"></div>
+                            <div class="relative flex h-full flex-col justify-end gap-1.5 px-6 pb-16 sm:px-8">
+                                <p class="eyebrow">Showcased @set.ShowcasedOn.ToString("d MMMM yyyy")</p>
+                                <h2 class="text-xl font-bold text-mint-50 sm:text-2xl">
+                                    <a href="/showcase/detail?beatmapsetID=@set.Id" class="text-mint-50">@set.Artist - @set.Title</a>
+                                </h2>
+                                <p class="text-sm font-semibold text-mint-200">Storyboarded by <partial name="_Credits" model="set.Credits" /></p>
+                            </div>
+                        </article>
+                    }
+                </div>
+                <div class="absolute inset-x-0 bottom-3 flex items-center justify-center gap-2">
+                    <button type="button" data-carousel-prev class="rounded-md p-1 text-mint-200 opacity-70 transition hover:bg-black/20 hover:opacity-100" aria-label="Previous storyboard">@Icons.Get("arrow-left", "size-7")</button>
+                    <div class="flex items-center gap-1.5">
+                        @for (int i = 0; i < slides.Count; i++)
+                        {
+                            <button type="button" data-carousel-dot="@i" aria-label="Show storyboard @(i + 1)" class="h-1.5 w-4 rounded-full bg-mint-200/70 transition-all hover:bg-mint-400 aria-[current=true]:w-8 aria-[current=true]:bg-mint-400"></button>
+                        }
+                    </div>
+                    <button type="button" data-carousel-next class="rounded-md p-1 text-mint-200 opacity-70 transition hover:bg-black/20 hover:opacity-100" aria-label="Next storyboard">@Icons.Get("arrow-right", "size-7")</button>
+                </div>
+            </section>
         }
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
-        {
-            if (i == 0)
-            {
-                <div class="carousel-item active">
-                    <div class="carousel-overlay">
-                        <img class="d-block mx-auto" src="@Model.recentBeatmaps[i].BeatmapCoverURL" alt="@Model.recentBeatmaps[i].BeatmapTitle" style="min-width: 100%;">
-                    </div>
-                    <div class="carousel-caption">
-                        <h3><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" style="color:#fff;text-decoration:none;">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</a></h3>
-                        <p>
-                            Storyboarded by
-                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
-                            {
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
-                            }
-                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
-                            {
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
-                                <span> and </span>
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
-                            }
-                            else
-                            {
-                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
-                                {
-                                    <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[j].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
-                                }
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username</a>
-                                <span> and </span>
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
-                            }
-                        </p>
-                        <p><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" class="btn btg-lg btn-primary">Go to this map!</a></p>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="carousel-item">
-                    <div class="carousel-overlay">
-                        <img class="d-block mx-auto" src="@Model.recentBeatmaps[i].BeatmapCoverURL" alt="@Model.recentBeatmaps[i].BeatmapTitle" style="min-width: 100%;">
-                    </div>
-                    <div class="carousel-caption">
-                        <h3><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" style="color:#fff;text-decoration:none;">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</a></h3>
-                        <p>
-                            Storyboarded by
-                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
-                            {
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
-                            }
-                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
-                            {
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[0].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[0].Username</a>
-                                <span> and </span>
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[1].Username</a>
-                            }
-                            else
-                            {
-                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
-                                {
-                                    <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[j].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[j].Username</a><span>, </span>
-                                }
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username</a>
-                                <span> and </span>
-                                <a href="@Model.baseURL/community/profile?userID=@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].UserID" target="_blank" style="color:white">@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</a>
-                            }
-                        </p>
-                        <p><a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID" class="btn btg-lg btn-primary">Go to this map!</a></p>
-                    </div>
-                </div>
-            }
 
-        }
-    </div>
-    <a class="left carousel-control" href="#carousel-storyboard" role="button" data-slide="prev">
-        <span class="icon-prev" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#carousel-storyboard" role="button" data-slide="next">
-        <span class="icon-next" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-<h1 class="col-xs-12 special-banner-1 top-header">Overview</h1>
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
-        <p>Welcome to our lovely banquet! Care to dine in and whet your insatiable appetite for visual wizardry on osu!? You can get started by checking out <a href="/showcase">storyboard showcase</a>, or gander at some up on the carousel above or on the YouTube player here. If you're here to learn how to storyboard and program, look no further than our <a href="/learn">learning resources</a>! And if you want to be a part of the storyboarding commmunity, <a href="/community">click here to learn more</a>.</p>
-        <p>
-            <ul>
-                <li>We have a grand total of <strong>@Model.totalStoryboard</strong> storyboards in our showcase!</li>
-                <li>We also have <strong>@Model.totalStoryboarder</strong> storyboarders creating these masterpieces.</li>
-                <li>
-                    The <strong>@Math.Min(5, Model.mediumFrequency.Count)</strong> most popular mediums used to create storyboards are:
-                        <ul>
-                            @for (int i = 0; i < Math.Min(5, Model.mediumFrequency.Count); i++)
-                            {
-                                var item = Model.mediumFrequency[i];
-                                <li>@item.Key - <strong>@item.Value</strong> Storyboards</li>
-                            }
-                        </ul>
-                </li>
-            </ul>
-        </p>
-    </div>
-    <div class="col-xs-12 col-sm-6">
-        <p>
-            <iframe src="@Model.randomBeatmap.VideoURL" style="min-width: 100%; min-height: 400px; border: 0;"></iframe>
-            <small>Now playing <a href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.randomBeatmap.BeatmapsetID" target="_blank">@Model.randomBeatmap.BeatmapArtist - @Model.randomBeatmap.BeatmapTitle</a></small>
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6 ">
-        <h3 class="special-banner-sub-1 rounded">Most Recently Added Storyboards</h3>
-        @for (int i = 0; i < Model.recentBeatmaps.Count; i++)
-        {
-            <div class="sb-card card col-xs-12 my-2">
-                <div class="bg-inverse sb-card-header bottom-header rounded" style="background-image: url('@Model.recentBeatmaps[i].BeatmapCardURL');">
-                    <a class="sb-card-thumb" href="@Model.baseURL/showcase/detail?beatmapsetID=@Model.recentBeatmaps[i].BeatmapsetID">
-                        <h4 class="card-title sb-card-title">@Model.recentBeatmaps[i].BeatmapArtist - @Model.recentBeatmaps[i].BeatmapTitle</h4>
-                        <h6 class="card-subtitle sb-card-title">
-                            Storyboarded by
-                            @if (Model.recentBeatmaps[i].Storyboarders.Count == 1)
-                            {
-                                <span>@Model.recentBeatmaps[i].Storyboarders[0].Username</span>
-                            }
-                            else if (Model.recentBeatmaps[i].Storyboarders.Count == 2)
-                            {
-                                <span>@Model.recentBeatmaps[i].Storyboarders[0].Username and @Model.recentBeatmaps[i].Storyboarders[1].Username</span>
-                            }
-                            else
-                            {
-                                @for (int j = 0; j < Model.recentBeatmaps[i].Storyboarders.Count - 2; j++)
-                                {
-                                    <span>@Model.recentBeatmaps[i].Storyboarders[j].Username, </span>
-                                }
-                                <span>@Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 2].Username and @Model.recentBeatmaps[i].Storyboarders[Model.recentBeatmaps[i].Storyboarders.Count - 1].Username</span>
-                            }
-                        </h6>
-                    </a>
-                </div>
+        <section aria-labelledby="recent-title" class="flex flex-col gap-4">
+            <div class="flex items-baseline justify-between gap-4">
+                <h2 id="recent-title" class="section-title">Most recently added storyboards</h2>
+                <a href="/showcase" class="text-sm font-semibold">See all @summary.StoryboardCount</a>
             </div>
-        }
+            <div class="flex flex-col gap-3">
+                @foreach (var set in summary.Recent)
+                {
+                    <partial name="_BeatmapListItem" model="set" />
+                }
+            </div>
+        </section>
     </div>
 
-    <div class="col-xs-12 col-sm-6">
-        <h3 class="special-banner-sub-1 rounded">Updates</h3>
-        <div class="log-section">
-            <h5 class="log-author">2022/03/04 - Mamat</h5>
-            <p>
-                Yay this web has implemented osu! account as single sign on :D . This feature will enable you to submit your own storyboard for showcase in the future update! I also have been working on designing the database so we can move on from dummy data to actual running database.
+    <aside class="flex min-w-0 flex-col gap-8">
+        <section aria-labelledby="learn-title" class="relative overflow-hidden card p-6">
+            <p class="eyebrow">osb! learn</p>
+            <h2 id="learn-title" class="mt-1 text-xl font-bold text-mint-50">Learn to storyboard</h2>
+            <p class="mt-2 text-sm leading-relaxed text-mint-200">
+                Go from your first sprite to scripted particle effects. Short lessons, quizzes and hands-on exercises
+                you solve right in the browser, with XP, levels and badges along the way.
             </p>
-            <h5 class="log-author">2022/01/21 - Mamat</h5>
-            <p>
-                I'm back with an update! So I'm currently developing learn page. The page content itself will be based on markdown files so you can contribute to this project easier :D . You can check the preview on <a href="/learn">this link</a>.
-            </p>
-            <h5 class="log-author">2022/01/11 - Mamat</h5>
-            <p>
-                Now we have custom domain, storyboarder.xyz :D. I also have added several new showcased storyboards, go on check it out! it's on your left side and I've implemented video preview so you can feel and enjoy how awesome their storyboards are!
-            </p>
-            <h5 class="log-author">2021/12/30 - Mamat</h5>
-            <p>
-                WOOOOOOOOOO!!! I finally finish inputting all community members one by one. You can check it by yourself on <a href="/community">Community Page</a>.
-            </p>
-            <h5 class="log-author">2021/12/26 - Mamat</h5>
-            <p>
-                Yes new updates! I've implemented storyboarder page and thanks to Coppertine again for the design suggestion. I also have changed all existing storyboarder URL to the page.
-            </p>
-            <p>
-                But, I underestimated the tedious task of inputting Storyboarder manually with SQL, huft. So I've come up with "solution" to reduce that. First I generate the storyboarder and the map in existing DummyHelper class so the you can see the map instantly with web page updated regularly. Then after I come up with user authentication and CRUD page for adding beatmap and storyboarder, I will create stored procedures to insert the beatmap and storyboarder to database.
-            </p>
-            <h5 class="log-author">2021/12/25 - Mamat</h5>
-            <p>Merry Christmas everyone! On this holiday we get very special present from osu! <a href="https://osu.ppy.sh/beatmaps/artists/727">xi</a> has become Featured Artist and we also come up with list of existing storyboarded xi's map.</p>
-            <p>
-                Check out these maps:
-                <ul>
+            <a href="/learn" class="btn btn-primary mt-5">Open the course</a>
+            <img src="~/images/mascot/hifumi-shy.webp" alt="" width="400" height="711" class="pointer-events-none absolute -right-6 -bottom-28 w-28 opacity-90 select-none">
+        </section>
+
+        <section aria-labelledby="stats-title" class="card p-6">
+            <h2 id="stats-title" class="section-title">The banquet so far</h2>
+            <dl class="mt-4 grid grid-cols-2 gap-4">
+                <div class="rounded-card bg-charcoal-700 p-4">
+                    <dt class="text-xs font-semibold text-sage">Storyboards</dt>
+                    <dd class="font-display text-3xl font-bold text-mint-50 tabular-nums">@summary.StoryboardCount</dd>
+                </div>
+                <div class="rounded-card bg-charcoal-700 p-4">
+                    <dt class="text-xs font-semibold text-sage">Storyboarders</dt>
+                    <dd class="font-display text-3xl font-bold text-mint-50 tabular-nums">@summary.StoryboarderCount</dd>
+                </div>
+            </dl>
+            <h3 class="mt-5 text-sm font-bold text-mint-200">Most popular tools</h3>
+            <ul class="mt-3 flex flex-col gap-2.5">
+                @foreach (var medium in summary.TopMediums)
+                {
                     <li>
-                        <a href="https://osu.ppy.sh/beatmapsets/292301">xi - Blue Zenith by RLC</a>
+                        <a href="/showcase?m=@Uri.EscapeDataString(medium.Medium)" class="flex items-center justify-between text-sm font-semibold text-mint-200">
+                            <span>@medium.Medium</span><span class="text-sage tabular-nums">@medium.Count</span>
+                        </a>
+                        <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-charcoal-700">
+                            <div class="h-full rounded-full bg-mint-400" style="width: @(100.0 * medium.Count / maxMedium)%"></div>
+                        </div>
                     </li>
-                    <li>
-                        <a href="https://osu.ppy.sh/beatmapsets/324288">xi - ANiMA by Kuo Kyoka</a>
-                    </li>
-                    <li>
-                        <a href="https://osu.ppy.sh/beatmapsets/968656">xi - Ascension to Heaven by -Tynamo</a>
-                    </li>
-                    <li>
-                        <a href="https://osu.ppy.sh/beatmapsets/1301360">xi - Ascension to Heaven by Kryotz and TheDuckMask</a>
-                    </li>
-                    <li>
-                        <a href="https://osu.ppy.sh/beatmapsets/409681">xi - Happy End of The World by Kryotz</a>
-                    </li>
-                </ul>
-            </p>
-            <h5 class="log-author">2021/12/23 - Mamat</h5>
-            <p>I have implemented database access to get all community member, it was a huge success! It took me several try tho hahaha. I will finish entrying community member from discord at the next update.</p>
-            <h5 class="log-author">2021/12/18 - Mamat</h5>
-            <p>This is updated website from <a href="https://osb.moe/" target="_blank">osb.moe</a>. I pulled it from the original repo and rewrite it using ASP.NET Core framework. I think I will add more showcase maps and I have been working on paging in showcase list</p>
-            <p>I have added community and showcase page with dummy data. Thanks to Coppertine for the design feedback.</p>
-            <p>You can check specific updates by visiting <a href="https://github.com/ZeroPyrozen/osb" target="_blank">current GitHub repo.</a></p>
-            <h5 class="log-author">2016/12/31 - Starrodkirby86</h5>
-            <p>Bam! I think we have a site going now. BetaStar and I have been working pretty tirelessly getting storyboards, screenshots, and contents populated on this website. We definitely did our darnedest to bring you a really cool webfront to not only check out amazing storyboard visual arts in osu!, but also to perhaps learn how to storyboard and get better at programming.</p>
-            <p>You can check specific updates by visiting <a href="https://github.com/osb-group/osb.moe/" target="_blank">the GitHub repo</a>, if you'd like. Otherwise, just make yourself at home and enjoy yourself. Or Hifumi. Or whatever, really.</p>
-            <p>We now have a dedicated roadmap page! <a href="https://osb.moe/roadmap/">Here you go.</a></p>
-        </div>
-    </div>
+                }
+            </ul>
+        </section>
+
+        @if (summary.FeaturedVideo is { } featured)
+        {
+            string featuredTitle = featured.Artist + " - " + featured.Title;
+            <section aria-labelledby="playing-title" class="flex flex-col gap-3">
+                <h2 id="playing-title" class="section-title">Now playing</h2>
+                <partial name="_VideoFacade" model="(featured.VideoUrl, featuredTitle)" />
+                <p class="text-sm text-sage">
+                    <a href="/showcase/detail?beatmapsetID=@featured.Id" class="font-semibold">@featuredTitle</a>,
+                    storyboarded by <partial name="_Credits" model="featured.Credits" />
+                </p>
+            </section>
+        }
+
+        <partial name="_Updates" />
+    </aside>
 </div>

@@ -1,53 +1,44 @@
-﻿using Microsoft.AspNetCore.Authorization;
+#nullable enable
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using osb.Helpers;
-using osb.Models;
+using osb.Data;
+using osb.Services;
 using osb.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace osb.Controllers
+namespace osb.Controllers;
+
+[AllowAnonymous]
+public class ErrorController(ShowcaseService showcase, ILogger<ErrorController> logger) : Controller
 {
-    public class ErrorController : BaseController
+    [Route("Error/{statusCode:int}")]
+    public async Task<IActionResult> HttpStatusCodeHandler(int statusCode, CancellationToken ct)
     {
-        private readonly ILogger<ErrorController> _logger;
+        var reExecute = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+        Response.StatusCode = statusCode;
+        return View(statusCode == 404 ? "NotFound" : "InternalError",
+            new ErrorViewModel(reExecute?.OriginalPath, await TryGetRandomAsync(ct), statusCode));
+    }
 
-        public ErrorController(ILogger<ErrorController> logger)
+    [Route("Error")]
+    public async Task<IActionResult> Error(CancellationToken ct)
+    {
+        var failure = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+        return View("InternalError", new ErrorViewModel(failure?.Path, await TryGetRandomAsync(ct)));
+    }
+
+    /// <summary>The "take me away" storyboard. Never lets a broken database break the error page too.</summary>
+    private async Task<Beatmapset?> TryGetRandomAsync(CancellationToken ct)
+    {
+        try
         {
-            _logger = logger;
+            return await showcase.GetRandomAsync(withVideo: false, ct);
         }
-
-        [Route("Error/{statusCode}")]
-        public IActionResult HttpStatusCodehandler(int statusCode)
+        catch (Exception e)
         {
-            var statusCodeResult = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
-            var errorViewModel = new ErrorViewModel();
-            errorViewModel.baseURL = "https://" + this.Request.Host;
-            errorViewModel.randomBeatmap = DummyHelper.GetRandomBeatmap();
-            if (statusCodeResult != null)
-            {
-                errorViewModel.RequestId = statusCodeResult.OriginalPath;
-            }
-            switch (statusCode)
-            {
-                case 404:
-                    
-                    return View("NotFound", errorViewModel);
-            }
-            return View("NotFound", errorViewModel);
-        }
-
-        [Route("Error")]
-        [AllowAnonymous]
-        public IActionResult Error()
-        {
-            var exceptionDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            return View("InternalError");
+            logger.LogWarning(e, "Couldn't pick a random storyboard for the error page.");
+            return null;
         }
     }
 }

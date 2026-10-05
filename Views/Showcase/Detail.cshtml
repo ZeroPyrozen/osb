@@ -1,117 +1,112 @@
-﻿@model osb.ViewModels.ShowcaseViewModel
+@model ShowcaseDetailViewModel
 @{
-    ViewData["Title"] = Model.beatmapDetail.BeatmapArtist + " - " + Model.beatmapDetail.BeatmapTitle;
+    var set = Model.Set;
+    var credits = set.Credits.ToList();
+    ViewData["Title"] = $"{set.Artist} - {set.Title}";
+    ViewData["Description"] = $"{set.Artist} - {set.Title}, storyboarded by {string.Join(", ", credits.Select(c => c.Username))}. OSB level {set.OsbLevel}, made with {set.Medium}.";
+    ViewData["Backdrop"] = set.CoverUrl;
+    var tags = set.Tags.OrderByDescending(t => t.Rating).ThenBy(t => t.Name).ToList();
+    string videoTitle = $"{set.Artist} - {set.Title}";
 }
-<link rel="stylesheet" href="/static/base/sb.css">
-<link rel="stylesheet" href="/static/base/showcase/showcase.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<header class="opening-banner" style="background-image: url('@Model.beatmapDetail.BeatmapCoverURL');"></header>
-<div class="container">
-    <div class="row">
-        <div class="col" style="padding: 0;">
-            <div class="showcase-title" style="text-transform:none">@Model.beatmapDetail.BeatmapArtist - @Model.beatmapDetail.BeatmapTitle</div>
-            <div class="showcase-body-container">
-                <div class="showcase-subtitle" style="background: #262d35;">Info</div>
-                <div class="row" style="background: #262d35;margin: 0px;">
-                    <div class="col-xs-12 col-sm-2">
-                        <div class="showcase-rating-box" style="background: #262d35;">
-                            <ul class="list-unstyled">
-                                <li style="">
-                                    OSB Level
-                                </li>
-                                <li>
-                                    @Model.beatmapDetail.GetStoryboardRating().ToString()
-                                </li>
-                                <li class="showcase-rating-icon-box mx-auto">
-                                    <div class="showcase-rating-icon-rotate">
-                                        <img class="img-fluid showcase-rating-icon-pop" src="/static/showcase/hifumi.png" width="50">
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-2" style="padding: 0;margin: auto;">
-                        @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
-                        {
-                            <img class="img-fluid slides mx-auto" src="https://a.ppy.sh/@Model.beatmapDetail.Storyboarders[i].UserID" style="max-height: 100px; padding-left:20px">
-                        }
-                    </div>
-                    <div class="col-xs-5 col-sm-4">
-                        <div class="showcase-body-subtitle">Storyboarded by</div>
-                        <div class="showcase-body-text">
-                            <ul class="list-unstyled">
-                                @for (int i = 0; i < Model.beatmapDetail.Storyboarders.Count; i++)
-                                {
-                                    string profileURL = Model.baseURL + "/community/profile?userID=" + Model.beatmapDetail.Storyboarders[i].UserID;
-                                    <li>
-                                        <a href="@profileURL">@Model.beatmapDetail.Storyboarders[i].Username</a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xs-7 col-sm-4">
-                        <div class="showcase-body-subtitle">Metadata</div>
-                        <div class="showcase-body-text">
-                            <ul class="list-unstyled">
-                                <li>
-                                    Hosted by <a href="@Model.beatmapDetail.BeatmapsetHost.UserProfileUrl">@Model.beatmapDetail.BeatmapsetHost.Username</a>
-                                </li>
-                                <li>
-                                    Developed via @Model.beatmapDetail.Medium
-                                </li>
-                                <li>
-                                    Submitted on @Model.beatmapDetail.SubmitDate.ToString("dd MMMM yyyy")
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
+    <a href="/showcase" class="font-semibold">Showcase</a>
+    @Icons.Get("chevron-right", "size-4")
+    <span class="truncate" aria-current="page">@set.Title</span>
+</nav>
+
+<article class="animate-fade-in">
+    <header class="relative overflow-hidden rounded-card bg-charcoal-800 shadow-card">
+        <img src="@set.CoverUrl" alt="" width="900" height="250" class="h-56 w-full object-cover sm:h-72">
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal-800 via-charcoal-800/50 to-transparent"></div>
+        <div class="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-6 sm:p-8">
+            <p class="eyebrow">Showcased @set.ShowcasedOn.ToString("d MMMM yyyy")</p>
+            <h1 class="font-display text-2xl font-bold text-mint-50 sm:text-4xl">@set.Title</h1>
+            <p class="text-lg font-semibold text-mint-200">@set.Artist</p>
+        </div>
+    </header>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem]">
+        <div class="flex min-w-0 flex-col gap-6">
+            @if (!string.IsNullOrEmpty(set.VideoUrl))
+            {
+                <section aria-label="Video" class="flex flex-col gap-3">
+                    <partial name="_VideoFacade" model="(set.VideoUrl, videoTitle)" />
+                </section>
+            }
+
+            <section aria-labelledby="tags-title" class="card p-6">
+                <h2 id="tags-title" class="section-title">Tags</h2>
+                <p class="mt-1 text-sm text-sage">Each tag adds to the OSB level. Pick one to see similar storyboards.</p>
+                <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+                    @foreach (var tag in tags)
+                    {
+                        <li>
+                            <a href="/showcase?t=@tag.Slug" class="flex items-center gap-3 rounded-card bg-charcoal-700 px-3 py-2 font-semibold text-mint-200 transition hover:bg-charcoal-600 hover:no-underline">
+                                <img src="/images/showcase/tags.svg#@tag.Slug" alt="" width="36" height="36" class="size-9">
+                                <span class="flex-1">@tag.Name</span>
+                                <span class="text-sm text-gold-300 tabular-nums">+@tag.Rating</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </section>
+        </div>
+
+        <aside class="flex flex-col gap-6">
+            <section aria-label="OSB level" class="flex items-center gap-4 card p-6">
+                <div class="size-16 shrink-0 motion-safe:animate-[spin_14s_linear_infinite]">
+                    <img src="~/images/showcase/osb-level.png" alt="" class="size-16">
                 </div>
-                <div class="showcase-subtitle">Tags</div>
-                @for (int i = 0; i < Model.beatmapDetail.StoryboardTags.Count; i++)
+                <div>
+                    <p class="eyebrow">OSB level</p>
+                    <p class="font-display text-4xl font-bold text-gold-300 tabular-nums">@set.OsbLevel</p>
+                </div>
+            </section>
+
+            <section aria-labelledby="credits-title" class="card p-6">
+                <h2 id="credits-title" class="section-title">Storyboarded by</h2>
+                <ul class="mt-4 flex flex-col gap-3">
+                    @foreach (var person in credits)
+                    {
+                        <li>
+                            <a href="/community/profile?userID=@person.Id" class="flex items-center gap-3 font-semibold text-mint-200">
+                                <img src="@person.AvatarUrl" alt="" width="40" height="40" loading="lazy" class="size-10 rounded-full bg-charcoal-700 object-cover">
+                                @person.Username
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+                <dl class="mt-6 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-t border-charcoal-600 pt-5 text-sm">
+                    <dt class="text-sage">Hosted by</dt>
+                    <dd><a href="@set.Host.OsuProfileUrl" class="font-semibold">@set.Host.Username</a></dd>
+                    <dt class="text-sage">Made with</dt>
+                    <dd><a href="/showcase?m=@Uri.EscapeDataString(set.Medium)" class="font-semibold">@set.Medium</a></dd>
+                    <dt class="text-sage">Submitted</dt>
+                    <dd class="text-mint-200">@set.SubmittedOn.ToString("d MMMM yyyy")</dd>
+                    <dt class="text-sage">Showcased</dt>
+                    <dd class="text-mint-200">@set.ShowcasedOn.ToString("d MMMM yyyy")</dd>
+                </dl>
+
+                <div class="mt-6 flex flex-col gap-2">
+                    <a href="@set.OsuPageUrl" class="btn btn-primary">View on osu! @Icons.Get("external", "size-4")</a>
+                    <a href="osu://s/@set.Id" class="btn btn-outline" title="Opens the beatmap in osu! (osu!direct needs osu!supporter)">@Icons.Get("download", "size-4") Open in osu!direct</a>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    @if (Model.Related.Count > 0)
+    {
+        <section aria-labelledby="related-title" class="mt-10 flex flex-col gap-4">
+            <h2 id="related-title" class="section-title">More by @(credits.Count == 1 ? credits[0].Username : "these storyboarders")</h2>
+            <div class="grid gap-3 lg:grid-cols-2">
+                @foreach (var related in Model.Related)
                 {
-                    string searchURL = Model.baseURL + "/showcase/search?t=" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName;
-                    string iconURL = "/static/showcase/showcase-icons-exportable.svg#" + Model.beatmapDetail.StoryboardTags[i].EscapedTagName;
-                    <a href="@searchURL" data-toggle="tooltip" data-placement="top" title="@Model.beatmapDetail.StoryboardTags[i].TagName">
-                        <img src="@iconURL" alt="@Model.beatmapDetail.StoryboardTags[i].TagName" width="48" height="48">
-                    </a>
-                }
-                <a href="https://osu.ppy.sh/beatmapsets/@Model.beatmapDetail.BeatmapsetID/" style="text-decoration: none;"><div class="showcase-button-set">View Beatmap Page</div></a>
-                <a href="osu://s/@Model.beatmapDetail.BeatmapsetID" style="text-decoration: none;"><div class="showcase-button-download">Download This Beatmap</div></a>
-                @if (!string.IsNullOrEmpty(Model.beatmapDetail.VideoURL))
-                {
-                    <div class="row" style="margin-top: 10px;">
-                        <div class="col">
-                            <div class="showcase-title">Video</div>
-                            <p>
-                                <iframe allow="fullscreen;" src="@Model.beatmapDetail.VideoURL" style="min-width: 100%; min-height: 540px;border: 0;"></iframe>
-                            </p>
-                        </div>
-                    </div>
+                    <partial name="_BeatmapListItem" model="related" />
                 }
             </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    })
-    $('div.container.bg-dark').addClass('pb-3');
-    var slideIndex = 0;
-    function carousel() {
-        var i;
-        var x = document.getElementsByClassName("slides");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        slideIndex += 1;
-        if (slideIndex > x.length) { slideIndex = 1; }
-        x[slideIndex - 1].style.display = "block";
-        setTimeout(carousel, 10000);
+        </section>
     }
-    carousel();
-</script>
-
-
-
+</article>

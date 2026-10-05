@@ -1,0 +1,6 @@
+title: Variables and triggers
+summary: Name repeated values once with variables, and make sprites react to hitsounds and to the player passing or failing.
+icon: bolt
+badge:
+  name: Switchboard
+  description: Finished "Variables and triggers".

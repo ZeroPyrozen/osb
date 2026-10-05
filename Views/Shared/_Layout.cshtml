@@ -1,81 +1,66 @@
-﻿<!DOCTYPE html>
+@{
+    string title = ViewData["Title"] as string;
+    string fullTitle = string.IsNullOrEmpty(title) ? "osu! Storyboarder Banquet" : $"{title} | osb!";
+    string description = ViewData["Description"] as string
+        ?? "A delightful feast of visual arts made by passionate osu! players. Browse showcased storyboards and learn to storyboard, from your first sprite to scripted wizardry.";
+    string backdrop = ViewData["Backdrop"] as string;
+    // Learn pages sync progress for logged-in users; Razor leaves the attribute out when this is null.
+    string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="A delightful feast of visual arts made by passionate osu! players! Learn programming through making storyboards!">
-    <meta name="keywords" content="osb, osu, storyboard, programming, art, hifumi">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] | osb!</title>
-    <link rel="icon" type="image/x-icon" href="/static/base/img/favicon.ico">
-    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/base/main.css">
-    <link rel="stylesheet" href="/static/base/banner.css">
-    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
-    <script src="https://use.fontawesome.com/f344ebe01e.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@fullTitle</title>
+    <meta name="description" content="@description">
+    <meta name="theme-color" content="#191919">
+    <meta property="og:site_name" content="osu! Storyboarder Banquet">
+    <meta property="og:title" content="@fullTitle">
+    <meta property="og:description" content="@description">
+    @if (backdrop != null)
+    {
+        <meta property="og:image" content="@backdrop">
+    }
+    <link rel="icon" href="~/favicon.ico">
+    <link rel="preload" href="/fonts/open-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true">
+    @await RenderSectionAsync("Head", required: false)
 </head>
-<body>
-    <div class="container" style="background:unset;">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-inverse">
-            <a class="navbar-brand" href="#"><img src="/static/base/img/osboutline.png" alt="..." height="56"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body class="relative isolate flex min-h-dvh flex-col" data-user-id="@userId">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-mint-400 focus:px-4 focus:py-2 focus:font-bold focus:text-charcoal-950">Skip to content</a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/showcase">Showcase</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/learn">Learn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/community">Community</a>
-                    </li>
-                </ul>
-                @if (ViewData["Login"] != null)
-                {
-                    string ID = ViewData["UserID"].ToString();
-                    <a class="navbar-brand d-none d-lg-block" href="/community/profile?userID=@ID"><img src="https://a.ppy.sh/@ID" alt="..." height="56"></a>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @ViewData["Username"].ToString()
-                            </a>
-                            <div class="dropdown-menu bg-inverse" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/community/profile?userID=@ID">Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/auth/logout">Log Out</a>
-                            </div>
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <a class="nav-link d-lg-none d-md-inline-block" href="/auth">Login</a>
-                            <a class="btn btn-light d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/auth">Login</a>
-                        </li>
-                    </ul>
-                }
-            </div>
-        </nav>
-    </div>
-    <div class="container bg-dark text-white">
+    @if (backdrop != null)
+    {
+        @* The Future design's blurred header image *@
+        <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem] overflow-hidden">
+            <div class="absolute -inset-8 bg-cover bg-center opacity-70 blur-md" style="background-image: url('@backdrop')"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-charcoal-800/85 via-night/80 to-night"></div>
+        </div>
+    }
+
+    <partial name="_Nav" />
+
+    <main id="main" class="mx-auto w-full max-w-7xl flex-1 px-4 pt-24 pb-16 sm:px-8 lg:px-12">
         @RenderBody()
-    </div>
+    </main>
 
-    <footer class="footer">
-        <div class="osu-cookie d-block mx-auto"></div>
-        <p class="small">Powered with <span title="Hifumi's Love!">❤</span></p>
+    <footer class="mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12">
+        <div class="flex flex-col items-center gap-3 rounded-t-card bg-charcoal-800 px-6 py-5 text-sm text-sage">
+            <img src="~/images/osu.svg" alt="osu!" width="40" height="40" class="size-10">
+            <p class="flex items-center gap-1.5">Powered with @Icons.Get("heart", "size-3.5 text-[#e1b8b8]") <span class="sr-only">love</span> by the osb community</p>
+            <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-5 gap-y-1">
+                <a class="text-sage hover:text-mint-200" href="https://discord.gg/B8NX7YW">Discord</a>
+                <a class="text-sage hover:text-mint-200" href="https://github.com/ZeroPyrozen/osb">Source on GitHub</a>
+                <a class="text-sage hover:text-mint-200" href="https://osu.ppy.sh/wiki/en/Storyboard">osu! wiki: Storyboard</a>
+            </nav>
+        </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-    <script src="/static/bootstrap/bootstrap.min.js"></script>
+    <div id="toasts" class="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex flex-col items-center gap-2 px-4" aria-live="polite"></div>
+
+    <script type="module" src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

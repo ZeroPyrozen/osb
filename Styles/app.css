@@ -1,0 +1,366 @@
+/*
+  Site styles: Tailwind v4 plus the osb "Future" design (charcoal surfaces, mint accents).
+  Built into wwwroot/css/app.css by `npm run build` (dotnet build runs it for you).
+  Tailwind scans Views/, Scripts/ and the C# sources for class names automatically.
+*/
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@source not "../wwwroot";
+@source not "../Data/Migrations";
+@source not "../deploy";
+
+@theme {
+    --font-sans: "Open Sans Variable", "Open Sans", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+    --font-display: "Exo 2 Variable", "Open Sans Variable", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+    /* Future redesign palette */
+    --color-night: #191919;
+    --color-charcoal-950: #141716;
+    --color-charcoal-900: #1d201f;
+    --color-charcoal-800: #2d3130;
+    --color-charcoal-700: #353b39;
+    --color-charcoal-600: #3c4745;
+    --color-charcoal-500: #4f5b58;
+    --color-sage: #90a9a3;
+
+    --color-mint-50: #effaf7;
+    --color-mint-100: #d9f2eb;
+    --color-mint-200: #b8e1d7;
+    --color-mint-300: #8fcfbf;
+    --color-mint-400: #61bca6;
+    --color-mint-500: #46a28c;
+    --color-mint-600: #368371;
+    --color-mint-700: #2d695c;
+
+    /* Rewards: XP, levels and badges */
+    --color-gold-200: #fff0c2;
+    --color-gold-300: #ffe08a;
+    --color-gold-400: #f5c451;
+    --color-gold-500: #e0a92a;
+
+    --color-danger: #f2858f;
+    --color-success: #7fd8a8;
+
+    --radius-card: 10px;
+    --shadow-card: 4px 4px 4px rgb(0 0 0 / 0.07), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+
+    --animate-fade-in: fade-in 0.45s ease-out both;
+    --animate-pop: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: none; }
+    }
+
+    @keyframes pop {
+        from { opacity: 0; transform: scale(0.85); }
+        to { opacity: 1; transform: scale(1); }
+    }
+}
+
+@layer base {
+    html {
+        color-scheme: dark;
+        scroll-padding-top: 6rem;
+    }
+
+    body {
+        background-color: var(--color-night);
+        color: var(--color-mint-200);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+        color: var(--color-mint-400);
+        text-underline-offset: 3px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-mint-400);
+        outline-offset: 2px;
+    }
+
+    ::selection {
+        background-color: color-mix(in oklab, var(--color-mint-400) 45%, transparent);
+    }
+
+    h1, h2, h3, h4 {
+        text-wrap: balance;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+}
+
+@layer components {
+    .card {
+        background-color: var(--color-charcoal-800);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+    }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        line-height: 1.35;
+        color: var(--color-mint-200);
+    }
+
+    .eyebrow {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-sage);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 6px;
+        padding: 0.5rem 1.1rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        line-height: 1.35;
+        text-decoration: none !important;
+        transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+    .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .btn-primary {
+        background-color: var(--color-mint-400);
+        color: var(--color-charcoal-950);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-mint-300);
+    }
+
+    /* The Future design's outlined "Login" button */
+    .btn-outline {
+        border: 1px solid var(--color-sage);
+        color: var(--color-sage);
+        background: transparent;
+    }
+
+    .btn-outline:hover {
+        background-color: var(--color-charcoal-700);
+        color: var(--color-mint-200);
+    }
+
+    .btn-ghost {
+        color: var(--color-mint-200);
+        background: transparent;
+    }
+
+    .btn-ghost:hover {
+        background-color: var(--color-charcoal-700);
+    }
+
+    .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 6px;
+        color: var(--color-sage);
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .icon-btn:hover {
+        background-color: var(--color-charcoal-700);
+        color: var(--color-mint-200);
+        text-decoration: none;
+    }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 999px;
+        border: 1px solid var(--color-charcoal-500);
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--color-mint-200);
+        text-decoration: none !important;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .chip:hover {
+        background-color: var(--color-charcoal-700);
+    }
+
+    .chip[aria-current="true"],
+    .chip[aria-pressed="true"] {
+        background-color: var(--color-mint-400);
+        border-color: var(--color-mint-400);
+        color: var(--color-charcoal-950);
+    }
+
+    .input {
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid var(--color-charcoal-500);
+        background-color: var(--color-charcoal-900);
+        padding: 0.55rem 0.85rem;
+        color: var(--color-mint-100);
+    }
+
+    .input::placeholder {
+        color: var(--color-sage);
+    }
+
+    .input:focus {
+        outline: none;
+        border-color: var(--color-mint-400);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-mint-400) 30%, transparent);
+    }
+
+    /* Popover menus (account, mobile nav). Scripts/site.js places them under the button that opened them. */
+    [popover].menu {
+        position: fixed;
+        inset: auto;
+        margin: 0;
+        min-width: 14rem;
+        padding: 0.35rem;
+        border-radius: var(--radius-card);
+        border: 1px solid var(--color-charcoal-600);
+        background-color: var(--color-charcoal-800);
+        color: var(--color-mint-200);
+        box-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.7);
+    }
+
+    [popover].menu:popover-open {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        animation: var(--animate-fade-in);
+    }
+
+    .menu a,
+    .menu button {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 0.65rem;
+        border-radius: 6px;
+        padding: 0.55rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-align: left;
+        color: var(--color-mint-200);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .menu a:hover,
+    .menu button:hover,
+    .menu a[aria-current="page"] {
+        background-color: var(--color-charcoal-700);
+        text-decoration: none;
+    }
+
+    .menu a[aria-current="page"] {
+        color: var(--color-mint-400);
+    }
+
+    /* Syntax colours for .osb code (Scripts/storyboard/highlight.js and the playground editor) */
+    .tok-comment { color: #7d8f8a; font-style: italic; }
+    .tok-object { color: var(--color-mint-300); font-weight: 600; }
+    .tok-event { color: var(--color-gold-300); font-weight: 600; }
+    .tok-keyword { color: #c5a3ff; }
+    .tok-number { color: #f8b38a; }
+    .tok-string { color: #9fd98b; }
+    .tok-variable { color: #f2858f; }
+    .tok-section { color: #8ab4f8; font-weight: 600; }
+}
+
+@layer utilities {
+    /* Lesson body: the typography plugin, recoloured for the dark charcoal theme. The plugin's
+       .prose lives in the utilities layer, so these do too, with one more class to outrank it. */
+    .prose.prose-osb {
+        --tw-prose-body: var(--color-mint-100);
+        --tw-prose-headings: var(--color-mint-50);
+        --tw-prose-lead: var(--color-mint-200);
+        --tw-prose-links: var(--color-mint-400);
+        --tw-prose-bold: var(--color-mint-50);
+        --tw-prose-counters: var(--color-sage);
+        --tw-prose-bullets: var(--color-mint-500);
+        --tw-prose-hr: var(--color-charcoal-600);
+        --tw-prose-quotes: var(--color-mint-200);
+        --tw-prose-quote-borders: var(--color-mint-500);
+        --tw-prose-captions: var(--color-sage);
+        --tw-prose-kbd: var(--color-mint-50);
+        --tw-prose-kbd-shadows: 0 0 0;
+        --tw-prose-code: var(--color-gold-200);
+        --tw-prose-pre-code: var(--color-mint-100);
+        --tw-prose-pre-bg: var(--color-charcoal-950);
+        --tw-prose-th-borders: var(--color-charcoal-500);
+        --tw-prose-td-borders: var(--color-charcoal-600);
+    }
+
+    .prose.prose-osb :where(code):not(:where(pre code)) {
+        background-color: var(--color-charcoal-950);
+        border-radius: 4px;
+        padding: 0.12em 0.35em;
+        font-weight: 500;
+    }
+
+    .prose.prose-osb :where(code):not(:where(pre code))::before,
+    .prose.prose-osb :where(code):not(:where(pre code))::after {
+        content: none;
+    }
+
+    .prose.prose-osb :where(pre) {
+        border: 1px solid var(--color-charcoal-600);
+    }
+
+    /* ::: tip / ::: note / ::: warning blocks in lesson Markdown */
+    .prose.prose-osb :where(.tip, .note, .warning, .try) {
+        border-radius: 8px;
+        border-left: 4px solid var(--callout, var(--color-mint-400));
+        background-color: color-mix(in oklab, var(--callout, var(--color-mint-400)) 10%, var(--color-charcoal-800));
+        padding: 0.75rem 1rem;
+        margin-block: 1.25em;
+    }
+
+    .prose.prose-osb :where(.tip, .note, .warning, .try) > :first-child {
+        margin-top: 0;
+    }
+
+    .prose.prose-osb :where(.tip, .note, .warning, .try) > :last-child {
+        margin-bottom: 0;
+    }
+
+    .prose.prose-osb .note { --callout: var(--color-sage); }
+    .prose.prose-osb .warning { --callout: var(--color-gold-400); }
+    .prose.prose-osb .try { --callout: var(--color-mint-300); }
+}

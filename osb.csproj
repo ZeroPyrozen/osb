@@ -1,31 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
+    <UserSecretsId>c5e9c2ed-233c-4552-b7a2-8cdaec0e7d88</UserSecretsId>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
+    <!-- Initial showcase data, inserted by ShowcaseSeeder; embedded so it never ships as a loose file. -->
+    <Content Remove="Data\Seed\showcase.json" />
+    <EmbeddedResource Include="Data\Seed\showcase.json" LogicalName="osb.Data.Seed.showcase.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="compilerconfig.json" />
-    <_ContentIncludedByDefault Remove="wwwroot\static\base\learn\_learn_glossary.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\static\base\learn\__variables.min.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\static\base\showcase\__variables.css" />
+    <!-- The learn course (Markdown + YAML), read at startup by Learn/CourseLoader.cs. -->
+    <Content Include="Content\Learn\**\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="Never" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="compilerconfig.json" />
+    <PackageReference Include="Markdig" Version="1.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="10.0.12" />
+    <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
 
+  <!--
+    Frontend: `npm run build` produces wwwroot/css, wwwroot/js and wwwroot/fonts (needs Node.js 20+).
+    It runs before the SDK collects wwwroot assets, and only when an input changed.
+    Use -p:SkipFrontend=true to reuse existing output, e.g. on a machine without Node.
+  -->
   <ItemGroup>
-    <PackageReference Include="ISO3166" Version="1.0.4" />
-    <PackageReference Include="Markdig" Version="0.30.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.8.0" />
+    <FrontendInput Include="package.json;package-lock.json;Styles\**\*;Scripts\**\*;Views\**\*.cshtml;Content\**\*;Learn\**\*.cs" Exclude="Scripts\tests\**" />
   </ItemGroup>
+
+  <Target Name="NpmInstall" Condition="'$(SkipFrontend)' != 'true' and '$(DesignTimeBuild)' != 'true'" Inputs="package.json;package-lock.json" Outputs="node_modules\.package-lock.json">
+    <Exec Command="npm ci --no-audit --no-fund" />
+  </Target>
+
+  <Target Name="BuildFrontend" BeforeTargets="ResolveProjectStaticWebAssets" DependsOnTargets="NpmInstall" Condition="'$(SkipFrontend)' != 'true' and '$(DesignTimeBuild)' != 'true'" Inputs="@(FrontendInput)" Outputs="$(IntermediateOutputPath)frontend.stamp">
+    <Exec Command="npm run build" />
+    <Touch Files="$(IntermediateOutputPath)frontend.stamp" AlwaysCreate="true" />
+  </Target>
+
+  <!-- On a clean checkout these files don't exist yet when MSBuild lists wwwroot, so add them here. -->
+  <Target Name="IncludeFrontendOutput" AfterTargets="BuildFrontend">
+    <ItemGroup>
+      <_FrontendOutput Include="wwwroot\css\app.css;wwwroot\css\fonts.css;wwwroot\js\**;wwwroot\fonts\**" />
+      <Content Include="@(_FrontendOutput)" Exclude="@(Content)" />
+    </ItemGroup>
+  </Target>
 
 </Project>

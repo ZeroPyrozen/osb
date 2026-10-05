@@ -1,15 +1,112 @@
-﻿@model osb.ViewModels.LearnViewModel
+@model osb.Learn.Course
+@using osb.Learn
 @{
-    ViewData["Title"] = "Learn!";
+    ViewData["Title"] = "Learn storyboarding";
+    ViewData["Description"] = "Learn osu! storyboarding from your first sprite to scripted particle effects, with lessons, knowledge checks and exercises you solve in the browser.";
+    var first = Model.Units.First();
 }
-<link rel="stylesheet" href="/static/base/learn.css">
-<header class="opening-banner-learn"><h1 class="display opening-header">Learning &amp; Resources</h1><div class="bae-learn"></div></header>
-<div style="padding-bottom:5px;" class="osb-content">
-    @Html.Raw(Model.indexTest)
-</div>
-<!--Testing class assignment on load-->
-<script>
-    $(document).ready(function () {
-        $('.osb-content>h1').addClass('col-xs-12 special-banner-3 top-header');
-    });
-</script>
+@section Head { <partial name="_LearnHead" /> }
+
+<section class="relative animate-fade-in overflow-hidden card px-6 py-8 sm:px-10 lg:pr-[24rem]">
+    <p class="eyebrow">osb! learn</p>
+    <h1 class="mt-1 font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Learn to storyboard</h1>
+    <p class="mt-4 max-w-[60ch] leading-relaxed text-mint-200">
+        From your first sprite to scripted particle effects. Every module mixes short lessons, a knowledge check
+        and hands-on exercises you solve right here in the browser, earning XP, levels and badges along the way.
+        Everything uses the real <code class="rounded bg-charcoal-950 px-1 text-gold-200">.osb</code> format, so what you learn works in osu! straight away.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+        <a href="@first.Url" data-continue="" class="btn btn-primary">@Icons.Get("play", "size-4") <span data-continue-label>Start with the first lesson</span></a>
+        <a href="/learn/playground" class="btn btn-outline">@Icons.Get("code", "size-4") Open the playground</a>
+    </div>
+    <p class="mt-4 text-sm text-sage">@Model.Paths.Count paths · @Model.Modules.Count modules · @Model.Units.Count units · about @Math.Max(1, (int)Math.Round(Model.TotalMinutes / 60.0)) hours</p>
+    <img src="~/images/mascot/hifumi-stylish.webp" alt="" width="640" height="524" class="pointer-events-none absolute -right-10 -bottom-12 hidden w-[24rem] select-none lg:block">
+</section>
+
+<section aria-label="Your progress" class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <a href="/learn/progress" class="card flex items-center gap-4 p-5 hover:no-underline sm:col-span-2">
+        <span class="flex size-16 shrink-0 items-center justify-center rounded-full border-2 border-gold-400 bg-charcoal-950 font-display text-2xl font-bold text-gold-300" data-stat="level">1</span>
+        <span class="min-w-0 flex-1">
+            <span class="eyebrow block">Level</span>
+            <span class="block truncate font-display text-xl font-bold text-mint-50" data-stat="level-title">Spectator</span>
+            <span class="mt-2 block h-2 overflow-hidden rounded-full bg-charcoal-950"><span class="block h-full rounded-full bg-gold-400 transition-all duration-700" data-stat-bar="level" style="width: 0%"></span></span>
+            <span class="mt-1 block text-xs text-sage" data-stat="next-level">Earn XP by finishing units</span>
+        </span>
+    </a>
+    <div class="card flex items-center gap-4 p-5">
+        <span class="flex size-11 items-center justify-center rounded-full bg-charcoal-700 text-gold-300">@Icons.Get("sparkles", "size-6")</span>
+        <span><span class="eyebrow block">Total XP</span><span class="font-display text-2xl font-bold text-mint-50 tabular-nums" data-stat="xp">0</span></span>
+    </div>
+    <div class="card flex items-center gap-4 p-5" data-streak>
+        <span class="flex size-11 items-center justify-center rounded-full bg-charcoal-700 text-sage in-data-active:text-[#ff9b5e]">@Icons.Get("flame", "size-6")</span>
+        <span><span class="eyebrow block">Day streak</span><span class="font-display text-2xl font-bold text-mint-50 tabular-nums" data-stat="streak">0</span></span>
+    </div>
+    <p class="text-sm text-sage sm:col-span-2 xl:col-span-4" data-sync-status>Saved in this browser.</p>
+</section>
+
+@foreach (var path in Model.Paths)
+{
+    string accent = LearnStyles.Accent(path.Slug);
+    <section id="@path.Slug" aria-labelledby="path-@path.Slug" class="mt-12 scroll-mt-24" data-path="@path.Slug">
+        <header class="flex flex-wrap items-end justify-between gap-4">
+            <div class="max-w-[65ch]">
+                <p class="eyebrow"><span class="@accent">@path.Level</span> · @path.Modules.Count modules · about @Math.Max(1, (int)Math.Round(path.Minutes / 60.0)) h</p>
+                <h2 id="path-@path.Slug" class="mt-1 text-2xl font-bold text-mint-50">@path.Title</h2>
+                <p class="mt-1 text-sm leading-relaxed text-mint-200">@path.Summary</p>
+            </div>
+            <div class="flex min-w-56 flex-col gap-1.5 text-sm">
+                <p class="flex items-center justify-between gap-3 text-sage">
+                    <span class="flex items-center gap-1.5">@Icons.Get("trophy", $"size-4 {accent}") @path.Trophy.Name</span>
+                    <span class="tabular-nums" data-count>0 / @path.UnitCount</span>
+                </p>
+                <span class="h-1.5 overflow-hidden rounded-full bg-charcoal-700"><span class="block h-full rounded-full @LearnStyles.Bar(path.Slug) transition-all duration-700" data-bar style="width: 0%"></span></span>
+            </div>
+        </header>
+
+        <ol class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            @foreach (var module in path.Modules)
+            {
+                <li>
+                    <a href="@module.Url" data-module="@module.Slug" class="group card flex h-full flex-col gap-3 p-5 transition duration-300 hover:-translate-y-0.5 hover:bg-charcoal-700 hover:no-underline">
+                        <span class="flex items-start justify-between gap-3">
+                            <span class="flex size-11 items-center justify-center rounded-full bg-charcoal-950 @accent">@Icons.Get(module.Icon, "size-6")</span>
+                            <span class="hidden items-center gap-1 rounded-full bg-mint-400/15 px-2 py-0.5 text-xs font-bold text-mint-300 group-data-complete:flex">@Icons.Get("check", "size-3.5") Done</span>
+                        </span>
+                        <span>
+                            <span class="eyebrow block">Module @module.Number</span>
+                            <span class="mt-0.5 block text-lg font-bold text-mint-50">@module.Title</span>
+                        </span>
+                        <span class="text-sm leading-relaxed text-mint-200">@module.Summary</span>
+                        <span class="mt-auto flex flex-col gap-1.5 pt-2 text-xs text-sage">
+                            <span class="flex items-center justify-between">
+                                <span>@module.Units.Count units · @module.Minutes min</span>
+                                <span class="tabular-nums" data-count>0 / @module.Units.Count</span>
+                            </span>
+                            <span class="h-1.5 overflow-hidden rounded-full bg-charcoal-950"><span class="block h-full rounded-full @LearnStyles.Bar(path.Slug) transition-all duration-700" data-bar style="width: 0%"></span></span>
+                        </span>
+                    </a>
+                </li>
+            }
+        </ol>
+    </section>
+}
+
+<section aria-labelledby="playground-title" class="mt-12 grid items-center gap-6 card p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_auto]">
+    <div>
+        <h2 id="playground-title" class="text-xl font-bold text-mint-50">The playground</h2>
+        <p class="mt-2 max-w-[60ch] text-sm leading-relaxed text-mint-200">
+            Write any storyboard and watch it play as you type. Paste the [Events] of a real .osb file, add your own images,
+            try script mode to generate effects with code, then share a link or download the result.
+        </p>
+    </div>
+    <a href="/learn/playground" class="btn btn-primary">@Icons.Get("code", "size-4") Open the playground</a>
+</section>
+
+<p class="mt-10 max-w-[75ch] text-xs leading-relaxed text-sage">
+    Lessons are written for osb! learn and follow the osu! wiki's
+    <a href="https://osu.ppy.sh/wiki/en/Storyboard/Scripting">storyboard scripting reference</a> and
+    <a href="https://osu.ppy.sh/wiki/en/Ranking_criteria#storyboarding">ranking criteria</a>, which each lesson links to.
+    The browser preview follows osu!'s rules closely but isn't pixel-identical to the game, so always test your storyboard in osu! too.
+</p>
+
+@section Scripts { <partial name="_LearnScripts" /> }

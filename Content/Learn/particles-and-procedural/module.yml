@@ -1,0 +1,6 @@
+title: Particles and procedural effects
+summary: Build snow, sparks and starfields from hundreds of randomised sprites, and drive motion with maths instead of keyframes.
+icon: particles
+badge:
+  name: Starfall
+  description: Finished "Particles and procedural effects".

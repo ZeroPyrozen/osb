@@ -1,56 +1,66 @@
-﻿@model osb.ViewModels.CommunityViewModel
+@model CommunityViewModel
 @{
-    ViewData["Title"] = "Storyboarding Community!";
+    ViewData["Title"] = "Storyboarding Community";
+    ViewData["Description"] = "Meet the osb community: storyboarders, mentors and moderators who help each other make the best visual animations in osu!.";
 }
-<link rel="stylesheet" href="/static/base/sb.css">
-<link rel="stylesheet" href="static/base/carousel.css">
-<header class="opening-banner-community">
-    <h1 class="display opening-header">Storyboarders Unite!</h1>
-    <div class="bae-community"></div>
+
+<header class="flex animate-fade-in flex-col gap-2">
+    <p class="eyebrow">Community</p>
+    <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Storyboarders unite!</h1>
 </header>
 
-<h1 class="special-banner-community top-header">Discord</h1>
+<section aria-labelledby="discord-title" class="mt-6 grid items-center gap-8 card p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_16rem]">
+    <div class="flex flex-col gap-4 leading-relaxed text-mint-200">
+        <h2 id="discord-title" class="text-xl font-bold text-mint-50">Join us on Discord</h2>
+        <p>
+            There's often a high learning curve for a newbie getting into storyboarding. If you're stuck with a problem,
+            it can be pretty frustrating when there's no one to ask for help, or if there isn't any good documentation online.
+            That's where OSB comes in. We're primarily a Discord server whose main goal is to help and collaborate with others
+            to make the best visual animations osu! has ever seen. Well, that, and have a shrine for Hifumi.
+        </p>
+        <p>
+            Do you like storyboards on osu!? Do you want to learn how to make your own? Do you want to improve your storyboarding?
+            Do you want to just worship Hifumi? Feel free to come by our Discord server.
+        </p>
+        <div><a href="https://discord.gg/B8NX7YW" class="btn btn-primary">@Icons.Get("discord", "size-4") Join our Discord</a></div>
+    </div>
+    <img src="~/images/discord.webp" alt="A peek inside the osb Discord server" width="414" height="610" loading="lazy" class="mx-auto w-full max-w-64 rounded-card shadow-card">
+</section>
 
-<div class="media">
-    <div class="media-left"><img src="/static/base/img/discord.gif" alt="Discord Screenshot" height="400px" /></div>
-    <div class="media-body" style="margin:5em">
-        <p>There's often a high learning curve for a newbie getting into storyboarding. If you're stuck with a problem, it can be pretty frustrating when there's no one to ask for help, or if there isn't any good documentation online. That's where OSB comes in. We're primarily a Discord server whose main goal is to help and collaborate with others to make the best visual animations osu! has ever seen. Well, that, and have a shrine for Hifumi.</p>
-        <p>Do you like storyboards on osu!? Do you want to learn how to make your own? Do you want to improve your storyboarding? Do you want to just worship Hifumi? Feel free to come by our Discord server.</p>
-        <p class="h3">
-            <a class="btn btn-light btn-block btn-lg" href="https://discord.gg/B8NX7YW" target="_blank">Click here to join our Discord!</a>
+<section aria-labelledby="credits-title" class="mt-10 flex flex-col gap-4">
+    <div>
+        <h2 id="credits-title" class="section-title">Special credits</h2>
+        <p class="mt-1 max-w-[70ch] text-sm leading-relaxed text-sage">
+            Our community is brought to you by amazing osu! players, mappers, and, most importantly among our site, storyboarders.
+            Without these guys, we wouldn't have such wondrous visual works on osu!.
         </p>
     </div>
-</div>
-<h1 class="special-banner-community rounded">Special Credits</h1>
-<p>Our community is brought to you by amazing osu! players, mappers, and, most importantly among our site, storyboarders. Without these guys, we wouldn't have such wondrous visual works on osu!.</p>
-<div class="card-deck mx-auto" style="justify-content:center">
-    @{ 
-        int rowCount = Model.storyboarders.Count / 5;
-        if (Model.storyboarders.Count % 5 != 0)
-            rowCount += 1;
-        int iterator = 0;
-    }  
-    @for (int i = 0; i < rowCount; i++)
-    {
-        <div class="row">
-            @for (int j = 0; j < 5 && iterator < Model.storyboarders.Count; j++)
-            {
-                var primaryRole = Model.storyboarders[iterator].GetPrimaryRole();
-                <a href="/community/profile?userID=@Model.storyboarders[iterator].UserID" style="text-decoration:none" target="_blank">
-                    <div class="card" style="width: 10rem;margin: 20px;">
-                        <span class="card-img-top" style="background-size:contain;width: 158px;height: 158px;background-image: url('@Model.storyboarders[iterator].UserAvatarUrl');background-repeat: no-repeat;background-position: 50%;background-color: black;">
-                        </span>
-                        <div class="card-body" style="max-height: 50%; overflow: hidden; padding: 10px; background-color: #36393f">
-                            <p class="card-text" style="text-align: center;">@Model.storyboarders[iterator].Username</p>
-                            @if(primaryRole != null)
-                            {
-                                <p class="card-text" style="text-align: center;color: @primaryRole.RoleHexColour">@primaryRole.RoleName</p>
-                            }      
-                        </div>
-                    </div>
+
+    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Show members with role" data-role-filters>
+        <button type="button" class="chip" aria-pressed="true" data-role-filter="">Everyone <span class="text-sage tabular-nums">@Model.Members.Count</span></button>
+        @foreach (var role in Model.Roles)
+        {
+            int count = Model.Members.Count(m => m.Roles.Any(r => r.Id == role.Id));
+            <button type="button" class="chip" aria-pressed="false" data-role-filter="@role.Name">
+                <span class="size-2.5 rounded-full" style="background-color: @role.Colour"></span>@role.Name <span class="text-sage tabular-nums">@count</span>
+            </button>
+        }
+    </div>
+
+    <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6" data-members>
+        @foreach (var member in Model.Members)
+        {
+            var primary = member.PrimaryRole;
+            <li data-roles="@string.Join("|", member.Roles.Select(r => r.Name))">
+                <a href="/community/profile?userID=@member.Id" class="group flex h-full flex-col items-center gap-2 rounded-card bg-charcoal-800 p-4 text-center shadow-card transition hover:-translate-y-0.5 hover:bg-charcoal-700 hover:no-underline">
+                    <img src="@member.AvatarUrl" alt="" width="80" height="80" loading="lazy" class="size-20 rounded-full bg-charcoal-900 object-cover transition group-hover:scale-105">
+                    <span class="w-full truncate text-sm font-bold text-mint-50">@member.Username</span>
+                    @if (primary != null)
+                    {
+                        <span class="text-xs font-semibold" style="color: @primary.Colour">@primary.Name</span>
+                    }
                 </a>
-                iterator++;
-            }
-        </div>
-    }
-</div>
+            </li>
+        }
+    </ul>
+</section>

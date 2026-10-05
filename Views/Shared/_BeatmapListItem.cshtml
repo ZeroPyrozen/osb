@@ -1,0 +1,18 @@
+@model Beatmapset
+@* The Future design's compact storyboard card: cover thumbnail, title and credits, OSB level and host. *@
+<article class="group relative flex items-center gap-4 overflow-hidden rounded-card bg-charcoal-800 pr-4 shadow-card outline outline-1 outline-transparent transition duration-300 hover:scale-[0.99] hover:outline-sage">
+    <div aria-hidden="true" class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('@Model.CardUrl')"></div>
+    <img src="@Model.CardUrl" alt="" width="150" height="70" loading="lazy" class="relative h-[70px] w-[110px] shrink-0 rounded-card bg-charcoal-700 object-cover sm:w-[150px]">
+    <div class="relative flex min-w-0 flex-1 flex-col gap-1 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div class="min-w-0">
+            <h3 class="truncate text-sm font-bold">
+                <a href="/showcase/detail?beatmapsetID=@Model.Id" class="text-mint-200 after:absolute after:inset-0 hover:no-underline">@Model.Artist - @Model.Title</a>
+            </h3>
+            <p class="truncate text-sm text-sage">Storyboarded by <partial name="_Credits" model="Model.Credits" /></p>
+        </div>
+        <div class="flex shrink-0 gap-3 text-sm sm:flex-col sm:items-end sm:gap-0">
+            <p class="font-bold text-gold-300">OSB LVL @Model.OsbLevel</p>
+            <p class="text-sage">Hosted by <a href="@Model.Host.OsuProfileUrl" class="relative z-10 font-semibold">@Model.Host.Username</a></p>
+        </div>
+    </div>
+</article>

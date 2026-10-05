@@ -1,0 +1,38 @@
+# systemd unit for osb, installed to /etc/systemd/system/osb.service by pi-install.sh.
+# Settings and secrets belong in /etc/osb/osb.env, not here (this file is overwritten on
+# every deploy). For one-off overrides use: sudo systemctl edit osb
+[Unit]
+Description=osu! Storyboarder Banquet website
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+# The app tells systemd when Kestrel is listening (AddSystemd() in Program.cs).
+Type=notify
+User=osb
+Group=osb
+WorkingDirectory=/opt/osb/current
+ExecStart=/opt/osb/current/osb
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DataProtection__KeysPath=/var/lib/osb/keys
+# The SQLite database. pi-install.sh backs it up from this path before every deploy.
+Environment="ConnectionStrings__Osb=Data Source=/var/lib/osb/osb.db"
+# Values in this file override the Environment= lines above.
+EnvironmentFile=/etc/osb/osb.env
+# Creates /var/lib/osb, owned by the osb user, for the database and the data-protection keys.
+# 0750 keeps other users on the Pi out of both.
+StateDirectory=osb
+StateDirectoryMode=0750
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+SyslogIdentifier=osb
+
+# Hardening: the app can only write to /var/lib/osb and its private /tmp.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

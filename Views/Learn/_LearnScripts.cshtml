@@ -1,0 +1,4 @@
+@inject osb.Learn.CourseProvider Courses
+@* The course catalog for Scripts/learn.js (XP, levels and badges are worked out in the browser). *@
+<script type="application/json" id="learn-catalog">@Html.Raw(Courses.Current.ClientJson)</script>
+<script type="module" src="~/js/learn.js" asp-append-version="true"></script>

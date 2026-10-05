@@ -1,0 +1,62 @@
+@* The site's update log. Newest first; add new posts at the top. *@
+@{
+    var posts = new (string Date, string Author, Func<object, Microsoft.AspNetCore.Html.IHtmlContent> Body)[]
+    {
+        ("2022-03-04", "Mamat", @<text>
+            <p>Yay this web has implemented osu! account as single sign on :D . This feature will enable you to submit your own storyboard for showcase in the future update! I also have been working on designing the database so we can move on from dummy data to actual running database.</p>
+        </text>),
+        ("2022-01-21", "Mamat", @<text>
+            <p>I'm back with an update! So I'm currently developing learn page. The page content itself will be based on markdown files so you can contribute to this project easier :D . You can check the preview on <a href="/learn">this link</a>.</p>
+        </text>),
+        ("2022-01-11", "Mamat", @<text>
+            <p>Now we have custom domain, storyboarder.xyz :D. I also have added several new showcased storyboards, go on check it out! it's on your left side and I've implemented video preview so you can feel and enjoy how awesome their storyboards are!</p>
+        </text>),
+        ("2021-12-30", "Mamat", @<text>
+            <p>WOOOOOOOOOO!!! I finally finish inputting all community members one by one. You can check it by yourself on <a href="/community">Community Page</a>.</p>
+        </text>),
+        ("2021-12-26", "Mamat", @<text>
+            <p>Yes new updates! I've implemented storyboarder page and thanks to Coppertine again for the design suggestion. I also have changed all existing storyboarder URL to the page.</p>
+            <p>But, I underestimated the tedious task of inputting Storyboarder manually with SQL, huft. So I've come up with "solution" to reduce that. First I generate the storyboarder and the map in existing DummyHelper class so the you can see the map instantly with web page updated regularly. Then after I come up with user authentication and CRUD page for adding beatmap and storyboarder, I will create stored procedures to insert the beatmap and storyboarder to database.</p>
+        </text>),
+        ("2021-12-25", "Mamat", @<text>
+            <p>Merry Christmas everyone! On this holiday we get very special present from osu! <a href="https://osu.ppy.sh/beatmaps/artists/727">xi</a> has become Featured Artist and we also come up with list of existing storyboarded xi's map.</p>
+            <p>Check out these maps:</p>
+            <ul class="list-disc pl-5">
+                <li><a href="https://osu.ppy.sh/beatmapsets/292301">xi - Blue Zenith by RLC</a></li>
+                <li><a href="https://osu.ppy.sh/beatmapsets/324288">xi - ANiMA by Kuo Kyoka</a></li>
+                <li><a href="https://osu.ppy.sh/beatmapsets/968656">xi - Ascension to Heaven by -Tynamo</a></li>
+                <li><a href="https://osu.ppy.sh/beatmapsets/1301360">xi - Ascension to Heaven by Kryotz and TheDuckMask</a></li>
+                <li><a href="https://osu.ppy.sh/beatmapsets/409681">xi - Happy End of The World by Kryotz</a></li>
+            </ul>
+        </text>),
+        ("2021-12-23", "Mamat", @<text>
+            <p>I have implemented database access to get all community member, it was a huge success! It took me several try tho hahaha. I will finish entrying community member from discord at the next update.</p>
+        </text>),
+        ("2021-12-18", "Mamat", @<text>
+            <p>This is updated website from <a href="https://osb.moe/">osb.moe</a>. I pulled it from the original repo and rewrite it using ASP.NET Core framework. I think I will add more showcase maps and I have been working on paging in showcase list</p>
+            <p>I have added community and showcase page with dummy data. Thanks to Coppertine for the design feedback.</p>
+            <p>You can check specific updates by visiting <a href="https://github.com/ZeroPyrozen/osb">current GitHub repo.</a></p>
+        </text>),
+        ("2016-12-31", "Starrodkirby86", @<text>
+            <p>Bam! I think we have a site going now. BetaStar and I have been working pretty tirelessly getting storyboards, screenshots, and contents populated on this website. We definitely did our darnedest to bring you a really cool webfront to not only check out amazing storyboard visual arts in osu!, but also to perhaps learn how to storyboard and get better at programming.</p>
+            <p>You can check specific updates by visiting <a href="https://github.com/osb-group/osb.moe/">the GitHub repo</a>, if you'd like. Otherwise, just make yourself at home and enjoy yourself. Or Hifumi. Or whatever, really.</p>
+            <p>We now have a dedicated roadmap page! <a href="https://osb.moe/roadmap/">Here you go.</a></p>
+        </text>),
+    };
+}
+<section aria-labelledby="updates-title" class="flex flex-col gap-4">
+    <h2 id="updates-title" class="section-title">Updates</h2>
+    <div class="flex max-h-[34rem] flex-col gap-3 overflow-y-auto pr-1 [scrollbar-color:var(--color-mint-500)_transparent] [scrollbar-width:thin]">
+        @foreach (var post in posts)
+        {
+            var date = DateOnly.Parse(post.Date);
+            <article class="flex flex-col gap-3 rounded-card bg-charcoal-800 px-5 py-4 text-sm leading-relaxed text-mint-100">
+                <header class="flex items-center justify-between gap-3">
+                    <p class="font-bold text-mint-200">@post.Author</p>
+                    <time datetime="@post.Date" class="text-xs text-sage">@date.ToString("d MMM yyyy")</time>
+                </header>
+                @post.Body(null)
+            </article>
+        }
+    </div>
+</section>

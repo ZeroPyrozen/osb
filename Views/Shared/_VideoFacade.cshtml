@@ -1,0 +1,15 @@
+@model (string Url, string Title)
+@* A YouTube thumbnail that turns into the real player when clicked (see Scripts/site.js).
+   Until then nothing is loaded from YouTube except the thumbnail image. *@
+@{
+    string id = Format.YouTubeId(Model.Url);
+}
+@if (id != null)
+{
+    <div class="relative aspect-video overflow-hidden rounded-card bg-charcoal-950 shadow-card">
+        <button type="button" data-youtube="@id" data-title="@Model.Title" class="group absolute inset-0 flex items-center justify-center" aria-label="Play video: @Model.Title">
+            <img src="https://i.ytimg.com/vi/@id/hqdefault.jpg" alt="" loading="lazy" class="absolute inset-0 size-full object-cover opacity-75 transition duration-300 group-hover:opacity-100">
+            <span class="relative flex size-16 items-center justify-center rounded-full bg-mint-400 text-charcoal-950 shadow-lg transition duration-300 group-hover:scale-110">@Icons.Get("play", "size-7 translate-x-0.5")</span>
+        </button>
+    </div>
+}
