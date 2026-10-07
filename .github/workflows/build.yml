@@ -33,11 +33,27 @@ jobs:
       - name: Install frontend packages
         run: npm ci --no-audit --no-fund
 
-      - name: Test the storyboard engine
-        run: npm test
+      # Storyboard engine, learn progress and the page scripts, with a line coverage table in the log.
+      - name: Test the JavaScript
+        run: npm run test:coverage
 
       - name: Build
         run: dotnet build osb.csproj --configuration Release
+
+      # Unit tests plus the whole site in memory (pages, login, progress API), with line coverage.
+      - name: Test the server code
+        run: dotnet test --project Tests --configuration Release -p:Coverage=true
+
+      - name: Report the server code's coverage
+        run: |
+          dotnet tool restore
+          dotnet reportgenerator -reports:"Tests/TestResults/*.cobertura.*.xml" -targetdir:"$RUNNER_TEMP/coverage" -reporttypes:"TextSummary;MarkdownSummaryGithub"
+          cat "$RUNNER_TEMP/coverage/Summary.txt"
+          cat "$RUNNER_TEMP/coverage/SummaryGithub.md" >> "$GITHUB_STEP_SUMMARY"
+
+      # Installs, failed deploys with their rollback, and rollbacks, against stand-ins for systemd.
+      - name: Test the deploy script
+        run: bash deploy/tests/pi-install.test.sh
 
       # Starts the site and checks every lesson example and exercise (starter fails, solution passes).
       - name: Check the learn content
