@@ -4,6 +4,7 @@
 import { createEditor } from './editor.js';
 import { Player, assets } from './player.js';
 import { runInWorker } from './run-script.js';
+import { toBase64Url, fromBase64Url } from './share-link.js';
 import { Assets } from '../storyboard/assets.js';
 
 const DRAFT_KEY = 'osb.playground.v1';
@@ -71,9 +72,6 @@ for (let i = 0; i < 60; i++) {
 `,
     },
 };
-
-const toBase64Url = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-const fromBase64Url = (s) => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0)));
 
 function readShared() {
     const m = /^#(osb|js)=(.+)$/.exec(location.hash);
