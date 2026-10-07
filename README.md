@@ -8,7 +8,8 @@ This is [osu! Storyboarder Banquet](https://storyboarder.xyz/) website source co
 
 - **The storyboard showcase:** 249 handpicked storyboards, searchable by song, mapper and storyboarder and
   filterable by tag and tool, including the complete archive of the original showcase at
-  [osb.moe](https://osb.moe/showcase).
+  [osb.moe](https://osb.moe/showcase). Anyone with an osu! account can submit a storyboard, and the
+  osb team reviews each one.
 - **The community pages**, with every storyboarder's profile and credits.
 - **osb! learn:** an interactive storyboarding course from a first sprite to scripted particle effects,
   with an in-browser storyboard player, exercises, XP, levels and badges.
@@ -38,7 +39,7 @@ dotnet user-secrets set "API:ClientSecret" "<your osu! OAuth client secret>"
 | Task | Command |
 | --- | --- |
 | Rebuild CSS and JavaScript on every change | `npm run watch` and `npm run watch:css`, next to `dotnet run` |
-| Run the C# tests (course, showcase data and queries, osu! login, progress API, every page) | `dotnet test --project Tests` |
+| Run the C# tests (course, showcase data and queries, submissions and reviews, osu! login, progress API, every page) | `dotnet test --project Tests` |
 | Run the JavaScript tests (storyboard engine, learn progress, page scripts) | `npm test` |
 | Test the deploy script (its install and rollback runs need Linux) | `bash deploy/tests/pi-install.test.sh` |
 | Measure line coverage, like CI | `dotnet test --project Tests -p:Coverage=true`, and `npm run test:coverage` (Node.js 22 or newer) |
@@ -50,7 +51,7 @@ Where things are:
 
 - `Content/Learn/`: the learn course, written in Markdown and YAML. See
   [Content/Learn/README.md](Content/Learn/README.md) for how to write lessons, quizzes and exercises.
-- `Data/Seed/showcase.json`: the showcase data (see below).
+- `Data/Seed/showcase.json`: the showcase's starting data and the community list (see below).
 - `Styles/app.css`: Tailwind CSS v4 theme and components. `Scripts/`: the site's JavaScript, bundled
   with esbuild. `Scripts/storyboard/` is the storyboard engine: parser, timeline, renderer and checks.
 - `Data/`: the EF Core model and migrations. Migrations apply automatically when the app starts.
@@ -60,10 +61,18 @@ Where things are:
 
 ## Showcase data
 
-Everything in the showcase (storyboards, the people who made them, tags and community roles) comes
-from [Data/Seed/showcase.json](Data/Seed/showcase.json). Every time the app starts, it adds whatever
-in that file its database doesn't have yet. To showcase a new storyboard, add it to the file and
-restart, or deploy.
+Storyboards join the showcase through the site. Anyone logged in with osu! can submit one from the
+Showcase page, and reviewers approve or decline it from **Review queue** in their account menu.
+Reviewers also correct or remove showcased storyboards with **Edit** on each storyboard's page.
+Reviewers are the osu! user IDs in the `Showcase:Reviewers` setting: on the Pi that's
+`Showcase__Reviewers` in `/etc/osb/osb.env` (see [deploy/README.md](deploy/README.md#settings-and-secrets)),
+and locally `dotnet user-secrets set "Showcase:Reviewers" "<your osu! user ID>"`.
+
+[Data/Seed/showcase.json](Data/Seed/showcase.json) holds the starting data: storyboards, the people who
+made them, tags and community roles. Every time the app starts, it adds whatever in that file its
+database doesn't have yet, so new installs, development and CI get the whole showcase. New entries in
+the file still appear after the next restart or deploy, which suits bulk imports. The Community page's
+members and their roles are only managed in the file.
 
 The file holds 249 storyboards: the community's own list, plus the original osb.moe showcase
 (2010 to 2020), imported in October 2026. Six osb.moe entries were left out because their beatmapsets
@@ -101,11 +110,12 @@ If an entry refers to a user, tag or role that isn't in the file, the app won't 
 says which entry. A deploy with such a mistake fails its health check and rolls back by itself. The
 tests in `Tests/Data/` look for these mistakes, and a few more, so CI catches them first.
 
-The app never overwrites storyboards that are already in its database, so it doesn't lose changes
-made there. It only fills two gaps: a storyboard without a video gets the one from the file, unless
-it was changed on the site, and anyone the file lists as a community member gets that membership and
-their roles (nobody loses either). Storyboards removed on the site aren't added back. To correct
-anything else about an existing storyboard, change it in the database as well as in the file.
+The app never overwrites storyboards that are already in its database, so changes made on the site
+are kept. It only fills two gaps: a storyboard without a video gets the one from the file, unless it
+was changed on the site, and anyone the file lists as a community member gets that membership and
+their roles (nobody loses either). Storyboards removed on the site aren't added back. To correct an
+existing storyboard, use Edit on its page: a change to its entry in the file only reaches databases
+that don't have it yet.
 
 ## Deployment
 

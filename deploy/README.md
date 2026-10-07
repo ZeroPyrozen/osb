@@ -73,7 +73,8 @@ settings.
 
 Showcase submissions are reviewed by the osu! accounts in `Showcase__Reviewers`, a list of osu!
 user IDs separated by commas (your ID is the number in your osu! profile's address). After a
-restart, reviewers find "Review queue" in their account menu; they don't need to log in again.
+restart, reviewers find "Review queue" in their account menu and Edit on every storyboard page;
+they don't need to log in again.
 
 osu! login sends players back to `API__RedirectURL`, which must match one of the
 "Application Callback URLs" of your osu! OAuth application exactly. That field takes several
@@ -92,8 +93,8 @@ dotnet user-secrets set "API:ClientSecret" "<your osu! OAuth client secret>"
 ## The database
 
 The site keeps its data in one SQLite file, `/var/lib/osb/osb.db`: the showcase (storyboards,
-storyboarders, tags) and the progress of learners who log in with osu!. Nothing needs setting
-up. On its first start the app creates the database and fills in the showcase from the data
+storyboarders, tags), the storyboards members submit and their reviews, and the progress of
+learners who log in with osu!. Nothing needs setting up. On its first start the app creates the database and fills in the showcase from the data
 bundled with the build, and later releases update the schema (EF Core migrations) when they
 start.
 
@@ -102,8 +103,8 @@ Deploys never replace the database. Before each one, `pi-install.sh` copies it t
 that fails its health check puts that copy back along with the previous release, since the
 failed release may already have migrated the database.
 
-A **manual rollback keeps the current database**, so nothing learners did since the deploy is
-lost. Migrations normally only add tables and columns, which older releases simply ignore. If a
+A **manual rollback keeps the current database**, so nothing done on the site since the deploy,
+such as learners' progress or reviews, is lost. Migrations normally only add tables and columns, which older releases simply ignore. If a
 release changed the database in a way the previous one can't handle, also put back the
 database from before that release was deployed: add `-RestoreDb` (bash: `rollback
 --restore-db`). Everything changed since that deploy is then lost, so the database as it was
