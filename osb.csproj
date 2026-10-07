@@ -46,9 +46,15 @@
     <Touch Files="$(IntermediateOutputPath)frontend.stamp" AlwaysCreate="true" />
   </Target>
 
-  <!-- On a clean checkout these files don't exist yet when MSBuild lists wwwroot, so add them here. -->
+  <!--
+    On a clean checkout these files don't exist yet when MSBuild lists wwwroot, so add them here.
+    A rebuild can also rename chunks (their names carry a hash of their content), so drop the files
+    that are gone.
+  -->
   <Target Name="IncludeFrontendOutput" AfterTargets="BuildFrontend">
     <ItemGroup>
+      <_StaleFrontendOutput Include="@(Content)" Condition="!Exists('%(Content.FullPath)')" />
+      <Content Remove="@(_StaleFrontendOutput)" />
       <_FrontendOutput Include="wwwroot\css\app.css;wwwroot\css\fonts.css;wwwroot\js\**;wwwroot\fonts\**" />
       <Content Include="@(_FrontendOutput)" Exclude="@(Content)" />
     </ItemGroup>
