@@ -6,13 +6,16 @@
     var results = Model.Results;
 }
 
-<header class="flex animate-fade-in flex-col gap-2">
-    <p class="eyebrow">Showcase</p>
-    <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Storyboard Showcase</h1>
-    <p class="max-w-[65ch] text-mint-200">
-        Storyboards handpicked by the community. Search by song, artist, mapper or storyboarder,
-        or filter by what makes them special.
-    </p>
+<header class="flex animate-fade-in flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div class="flex flex-col gap-2">
+        <p class="eyebrow">Showcase</p>
+        <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Storyboard Showcase</h1>
+        <p class="max-w-[65ch] text-mint-200">
+            Storyboards handpicked by the community. Search by song, artist, mapper or storyboarder,
+            or filter by what makes them special.
+        </p>
+    </div>
+    <a href="/showcase/submit" class="btn btn-outline shrink-0 self-start sm:self-auto">@Icons.Get("upload", "size-4") Submit a storyboard</a>
 </header>
 
 <form action="/showcase" method="get" role="search" class="mt-6 flex gap-2">

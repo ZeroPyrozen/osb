@@ -62,6 +62,7 @@ builder.Services.AddDbContext<OsbDbContext>(options => options
     .UseSeeding((context, _) => ShowcaseSeeder.Seed(context))
     .UseAsyncSeeding((context, _, ct) => ShowcaseSeeder.SeedAsync(context, ct)));
 builder.Services.AddScoped<ShowcaseService>();
+builder.Services.AddScoped<SubmissionService>();
 
 // osb! learn: the course is read from Content/Learn at startup (see Learn/CourseLoader.cs).
 builder.Services.AddSingleton<CourseProvider>();

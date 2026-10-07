@@ -15,6 +15,14 @@ public static partial class Format
         return match.Success ? match.Groups["id"].Value : null;
     }
 
+    /// <summary>"A", "A and B" or "A, B and C".</summary>
+    public static string List(IReadOnlyList<string> items) => items.Count switch
+    {
+        0 => "",
+        1 => items[0],
+        _ => string.Join(", ", items.Take(items.Count - 1)) + " and " + items[^1],
+    };
+
     /// <summary>The embed link the site stores and plays for a YouTube link, or null if it isn't one.</summary>
     public static string? YouTubeEmbedUrl(string? url) =>
         YouTubeId(url) is { } id ? $"https://www.youtube.com/embed/{id}" : null;

@@ -1,4 +1,5 @@
 @using System.Security.Claims
+@inject SubmissionService Submissions
 @{
     string controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var links = new[]
@@ -12,6 +13,10 @@
     string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     string avatar = User.FindFirst(osb.Controllers.AuthController.AvatarClaim)?.Value;
     string returnUrl = Context.Request.Path + Context.Request.QueryString;
+    // A submission of theirs was reviewed since they last opened My submissions.
+    bool reviewNews = loggedIn && await Submissions.HasUnseenOutcomesAsync(int.Parse(userId));
+    // The showcase's own pages live in more than one controller (ShowcaseSubmissions, ...).
+    bool IsCurrent(string linkController) => controller.StartsWith(linkController, StringComparison.OrdinalIgnoreCase);
 }
 <header data-nav class="group fixed inset-x-0 top-0 z-40">
     <div class="mx-auto max-w-7xl px-4 transition-[padding,max-width] duration-300 sm:px-8 lg:px-12 group-data-scrolled:max-w-full group-data-scrolled:px-0">
@@ -23,7 +28,7 @@
                 <ul class="hidden items-center gap-1 md:flex">
                     @foreach (var link in links)
                     {
-                        bool current = string.Equals(controller, link.Controller, StringComparison.OrdinalIgnoreCase);
+                        bool current = IsCurrent(link.Controller);
                         <li>
                             <a href="@link.Href" aria-current="@(current ? "page" : null)"
                                class="rounded-md px-3 py-1.5 text-sm font-bold text-mint-200 transition-colors hover:bg-charcoal-700 hover:no-underline aria-[current=page]:text-mint-400">@link.Label</a>
@@ -42,8 +47,12 @@
 
                 @if (loggedIn)
                 {
-                    <button type="button" popovertarget="user-menu" class="flex items-center gap-2 rounded-md p-1 text-sm font-semibold text-mint-200 transition-colors hover:bg-charcoal-700" aria-label="Account menu for @User.Identity.Name">
+                    <button type="button" popovertarget="user-menu" class="relative flex items-center gap-2 rounded-md p-1 text-sm font-semibold text-mint-200 transition-colors hover:bg-charcoal-700" aria-label="Account menu for @User.Identity.Name@(reviewNews ? ", a submission was reviewed" : "")">
                         <img src="@avatar" alt="" width="32" height="32" class="size-8 rounded-full bg-charcoal-700 object-cover">
+                        @if (reviewNews)
+                        {
+                            <span data-review-news class="absolute top-0.5 left-7 size-2.5 rounded-full bg-gold-400 ring-2 ring-charcoal-800"></span>
+                        }
                         <span class="hidden max-w-32 truncate sm:inline">@User.Identity.Name</span>
                         @Icons.Get("chevron-down", "hidden size-4 text-sage sm:block")
                     </button>
@@ -69,6 +78,13 @@
                 </div>
             </div>
             <a href="/learn/progress">@Icons.Get("trophy", "size-4 text-gold-400") My learning</a>
+            <a href="/showcase/submissions">
+                @Icons.Get("upload", "size-4 text-mint-300") My submissions
+                @if (reviewNews)
+                {
+                    <span class="ml-auto size-2 rounded-full bg-gold-400" aria-hidden="true"></span><span class="sr-only">(a submission was reviewed)</span>
+                }
+            </a>
             <a href="https://osu.ppy.sh/users/@userId">@Icons.Get("user", "size-4 text-sage") osu! profile @Icons.Get("external", "ml-auto size-3.5 text-sage")</a>
             <form method="post" action="/auth/logout" class="mt-1 border-t border-charcoal-600 pt-1">
                 @Html.AntiForgeryToken()
@@ -85,7 +101,7 @@
         </form>
         @foreach (var link in links)
         {
-            <a href="@link.Href" aria-current="@(string.Equals(controller, link.Controller, StringComparison.OrdinalIgnoreCase) ? "page" : null)">@link.Label</a>
+            <a href="@link.Href" aria-current="@(IsCurrent(link.Controller) ? "page" : null)">@link.Label</a>
         }
     </div>
 </header>

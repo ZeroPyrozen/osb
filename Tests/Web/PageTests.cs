@@ -69,7 +69,7 @@ public class PageTests(OsbWebFactory site) : IClassFixture<OsbWebFactory>
         await browser.LoginAsync(site, 1001, "Page Tester");
         var course = site.Services.GetRequiredService<CourseProvider>().Current;
 
-        foreach (string path in new[] { "/", "/showcase", "/learn", "/learn/progress", course.Units[0].Url })
+        foreach (string path in new[] { "/", "/showcase", "/showcase/submit", "/showcase/submissions", "/learn", "/learn/progress", course.Units[0].Url })
         {
             var response = await browser.GetAsync(path);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);

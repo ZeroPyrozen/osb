@@ -1,0 +1,92 @@
+@model MySubmissionsViewModel
+@{
+    ViewData["Title"] = "My submissions";
+}
+
+<header class="flex animate-fade-in flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div class="flex flex-col gap-2">
+        <p class="eyebrow">Showcase</p>
+        <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">My submissions</h1>
+        <p class="max-w-[60ch] text-mint-200">The storyboards you've suggested for the showcase, and what the osb team made of them.</p>
+    </div>
+    <a href="/showcase/submit" class="btn btn-primary self-start sm:self-auto">@Icons.Get("upload", "size-4") Submit a storyboard</a>
+</header>
+
+@if (Model.Flash != null)
+{
+    <p role="status" class="mt-6 rounded-card border border-mint-400/50 bg-mint-400/10 px-4 py-3 text-sm font-semibold text-mint-50">@Model.Flash</p>
+}
+
+@if (Model.Submissions.Count == 0)
+{
+    <section class="mt-8 flex flex-col items-center gap-4 card px-6 py-12 text-center">
+        <img src="~/images/mascot/hifumi-shy.webp" alt="" width="400" height="711" class="w-24">
+        <p class="text-lg font-bold text-mint-50">Nothing submitted yet.</p>
+        <p class="max-w-[48ch] text-sm text-sage">Found a storyboard that deserves a spot in the showcase? Submit it, and its review will show up here.</p>
+        <a href="/showcase/submit" class="btn btn-outline">Submit a storyboard</a>
+    </section>
+}
+else
+{
+    <ul class="mt-8 flex flex-col gap-4">
+        @foreach (var submission in Model.Submissions)
+        {
+            bool reviewed = submission.Status is SubmissionStatus.Approved or SubmissionStatus.Declined;
+            bool isNew = reviewed && !submission.OutcomeSeen;
+            bool showcased = Model.Showcased.Contains(submission.BeatmapsetId);
+            <li class="card" data-submission="@submission.Id">
+                <div class="flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
+                    <img src="https://assets.ppy.sh/beatmaps/@submission.BeatmapsetId/covers/card.jpg" alt="" width="150" height="52" loading="lazy"
+                         class="h-[70px] w-[150px] shrink-0 rounded-card bg-charcoal-700 object-cover">
+                    <div class="flex min-w-0 flex-1 flex-col gap-1.5">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <partial name="_SubmissionStatus" model="submission.Status" />
+                            @if (isNew)
+                            {
+                                <span class="rounded-full bg-gold-400 px-2 py-0.5 text-xs font-bold text-charcoal-950">New</span>
+                            }
+                        </div>
+                        <h2 class="font-bold break-words text-mint-50">@submission.Artist - @submission.Title</h2>
+                        <p class="text-sm text-sage">
+                            Storyboarded by @Format.List(submission.Credits.Select(c => c.Username).ToList()) · @submission.Medium ·
+                            submitted <time datetime="@submission.SubmittedAt.ToString("yyyy-MM-dd")">@submission.SubmittedAt.ToString("d MMMM yyyy")</time>
+                        </p>
+                    </div>
+                    @if (submission.Status is SubmissionStatus.Approved or SubmissionStatus.Pending)
+                    {
+                        <div class="flex shrink-0 flex-wrap items-center gap-2">
+                            @if (submission.Status == SubmissionStatus.Approved && showcased)
+                            {
+                                <a href="/showcase/detail?beatmapsetID=@submission.BeatmapsetId" class="btn btn-outline">See it in the showcase</a>
+                            }
+                            else if (submission.Status == SubmissionStatus.Approved)
+                            {
+                                <p class="text-sm text-sage">Removed from the showcase since.</p>
+                            }
+                            @if (submission.Status == SubmissionStatus.Pending)
+                            {
+                                <details class="group relative">
+                                    <summary class="btn btn-ghost cursor-pointer list-none [&::-webkit-details-marker]:hidden">Withdraw</summary>
+                                    <div class="mt-2 flex flex-col gap-3 rounded-card border border-charcoal-600 bg-charcoal-900 p-4 text-sm sm:absolute sm:right-0 sm:z-10 sm:w-72">
+                                        <p class="text-mint-200">Withdraw this submission? You can submit it again any time.</p>
+                                        <form method="post" action="/showcase/submissions/@submission.Id/withdraw">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-primary">Yes, withdraw it</button>
+                                        </form>
+                                    </div>
+                                </details>
+                            }
+                        </div>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(submission.ReviewNote))
+                {
+                    <div class="rounded-b-card border-t border-charcoal-600 bg-charcoal-900/60 px-5 py-4">
+                        <p class="eyebrow">Message from @submission.ReviewerUsername</p>
+                        <p class="mt-1.5 text-sm leading-relaxed whitespace-pre-line text-mint-100">@submission.ReviewNote</p>
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+}

@@ -34,7 +34,4 @@ public class ShowcaseController(ShowcaseService showcase) : Controller
         var related = await showcase.GetRelatedAsync(set, 4, ct);
         return View(new ShowcaseDetailViewModel(set, related));
     }
-
-    [HttpGet("/showcase/submit")]
-    public IActionResult Submit() => View();
 }

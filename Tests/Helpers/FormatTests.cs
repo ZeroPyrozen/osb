@@ -17,6 +17,15 @@ public class FormatTests
     public void YouTubeId_FindsTheVideoInYouTubeLinks(string url, string expected) =>
         Assert.Equal(expected, Format.YouTubeId(url));
 
+    [Fact]
+    public void List_JoinsNamesLikeASentence()
+    {
+        Assert.Equal("", Format.List([]));
+        Assert.Equal("Alice", Format.List(["Alice"]));
+        Assert.Equal("Alice and Bob", Format.List(["Alice", "Bob"]));
+        Assert.Equal("Alice, Bob and Carol", Format.List(["Alice", "Bob", "Carol"]));
+    }
+
     [Theory]
     [InlineData("https://youtu.be/dQw4w9WgXcQ?si=abc123")]
     [InlineData("https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PL123")]
