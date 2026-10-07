@@ -102,7 +102,9 @@ says which entry. A deploy with such a mistake fails its health check and rolls 
 tests in `Tests/Data/` look for these mistakes, and a few more, so CI catches them first.
 
 The app never overwrites storyboards that are already in its database, so it doesn't lose changes
-made there. The one exception: a storyboard without a video gets the one from the file. To correct
+made there. It only fills two gaps: a storyboard without a video gets the one from the file, unless
+it was changed on the site, and anyone the file lists as a community member gets that membership and
+their roles (nobody loses either). Storyboards removed on the site aren't added back. To correct
 anything else about an existing storyboard, change it in the database as well as in the file.
 
 ## Deployment

@@ -7,10 +7,15 @@ namespace osb.Data;
 
 /// <summary>
 /// Loads the initial showcase data from <c>Data/Seed/showcase.json</c> (an embedded resource).
-/// Runs after migrations on every start, but only inserts rows that don't exist yet, matched by
-/// osu! ID, role name or tag slug. New entries added to the JSON therefore show up on the next
-/// start, and rows edited in the database are never overwritten. The one exception fills a gap:
-/// a storyboard without a video gets the one the JSON has.
+/// Runs after migrations on every start, but only adds what the database doesn't have yet, matched by
+/// osu! ID, role name or tag slug. New entries added to the JSON therefore show up on the next start,
+/// and rows edited in the database are never overwritten. It only fills these gaps:
+/// <list type="bullet">
+///   <item>A storyboard without a video gets the one the JSON has, unless it was changed on the site.</item>
+///   <item>People the JSON lists as community members get that membership and their roles, even when
+///   the site added them first (from a submission). Nobody loses a membership or role.</item>
+/// </list>
+/// Storyboards a reviewer removed (<see cref="ShowcaseRemoval"/>) are never added back.
 /// </summary>
 public static class ShowcaseSeeder
 {
@@ -36,24 +41,35 @@ public static class ShowcaseSeeder
         foreach (var tag in seed.Tags.Where(t => !tags.ContainsKey(t.Slug)))
             db.Tags.Add(tags[tag.Slug] = new StoryboardTag { Slug = tag.Slug, Name = tag.Name, Rating = tag.Rating });
 
-        var users = await db.Users.ToDictionaryAsync(u => u.Id, ct);
-        foreach (var user in seed.Users.Where(u => !users.ContainsKey(u.Id)))
+        var users = await db.Users.Include(u => u.Roles).ToDictionaryAsync(u => u.Id, ct);
+        foreach (var user in seed.Users)
         {
-            db.Users.Add(users[user.Id] = new OsuUser
+            var userRoles = user.Roles.Select(name => Find(roles, name, $"role '{name}' of user {user.Id}")).ToList();
+            if (!users.TryGetValue(user.Id, out var known))
             {
-                Id = user.Id,
-                Username = user.Username,
-                IsCommunityMember = user.CommunityMember,
-                Roles = user.Roles.Select(name => Find(roles, name, $"role '{name}' of user {user.Id}")).ToList(),
-            });
+                db.Users.Add(users[user.Id] = new OsuUser
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    IsCommunityMember = user.CommunityMember,
+                    Roles = userRoles,
+                });
+                continue;
+            }
+
+            if (user.CommunityMember)
+                known.IsCommunityMember = true;
+            foreach (var role in userRoles.Where(r => !known.Roles.Contains(r)))
+                known.Roles.Add(role);
         }
 
+        var removed = (await db.ShowcaseRemovals.Select(r => r.BeatmapsetId).ToListAsync(ct)).ToHashSet();
         var existingSets = await db.Beatmapsets.ToDictionaryAsync(s => s.Id, ct);
-        foreach (var set in seed.Beatmapsets)
+        foreach (var set in seed.Beatmapsets.Where(s => !removed.Contains(s.Id)))
         {
             if (existingSets.TryGetValue(set.Id, out var existing))
             {
-                if (existing.VideoUrl == null && set.Video != null)
+                if (existing.ChangedOnSiteAt == null && existing.VideoUrl == null && set.Video != null)
                     existing.VideoUrl = set.Video;
                 continue;
             }
