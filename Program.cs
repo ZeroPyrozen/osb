@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -49,6 +50,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 context.Response.Redirect(context.RedirectUri);
             return Task.CompletedTask;
         };
+        // Pages someone may not use, such as the review queue for non-reviewers, look like they don't exist.
+        options.Events.OnRedirectToAccessDenied = context =>
+        {
+            context.Response.StatusCode = context.Request.Path.StartsWithSegments("/api")
+                ? StatusCodes.Status403Forbidden
+                : StatusCodes.Status404NotFound;
+            return Task.CompletedTask;
+        };
     });
 builder.Services.AddAuthorization();
 
@@ -63,6 +72,11 @@ builder.Services.AddDbContext<OsbDbContext>(options => options
     .UseAsyncSeeding((context, _, ct) => ShowcaseSeeder.SeedAsync(context, ct)));
 builder.Services.AddScoped<ShowcaseService>();
 builder.Services.AddScoped<SubmissionService>();
+builder.Services.AddScoped<ReviewService>();
+
+// The osb team members who review showcase submissions get the Reviewer role (see ReviewerList).
+builder.Services.AddSingleton<ReviewerList>();
+builder.Services.AddTransient<IClaimsTransformation, ReviewerClaims>();
 
 // osb! learn: the course is read from Content/Learn at startup (see Learn/CourseLoader.cs).
 builder.Services.AddSingleton<CourseProvider>();

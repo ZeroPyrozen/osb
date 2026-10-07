@@ -140,3 +140,21 @@ test('a menu opens right under the button that opened it', async () => {
     assert.equal(menu.style.top, '58px');
     assert.equal(menu.style.right, `${window.innerWidth - 900}px`);
 });
+
+test("the review form's OSB level adds up the ticked tags", async () => {
+    open(`<form>
+        <output data-osb-level>15</output>
+        <label><input type="checkbox" name="Tags" value="particles" data-rating="15" checked></label>
+        <label><input type="checkbox" name="Tags" value="lyrics" data-rating="10"></label>
+        <label><input type="checkbox" name="Tags" value="3d" data-rating="30"></label>
+    </form>`);
+    await fresh('../site.js');
+    const [particles, lyrics, threeD] = document.querySelectorAll('input');
+    const level = () => document.querySelector('[data-osb-level]').textContent;
+
+    lyrics.click();
+    assert.equal(level(), '25');
+    threeD.click();
+    particles.click();
+    assert.equal(level(), '40');
+});

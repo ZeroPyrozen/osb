@@ -1,5 +1,6 @@
-// Site-wide behaviour: nav bar, popover menus, the home slideshow, video facades and the
-// community role filter. Everything here is progressive enhancement: pages work without it.
+// Site-wide behaviour: nav bar, popover menus, the home slideshow, video facades, the community
+// role filter and the review form's OSB level. Everything here is progressive enhancement: pages
+// work without it.
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -90,4 +91,13 @@ if (roleFilters && members) {
         for (const item of members.children)
             item.hidden = role !== '' && !item.dataset.roles.split('|').includes(role);
     });
+}
+
+// Review form: the OSB level adds up the ratings of the ticked tags.
+for (const total of document.querySelectorAll('[data-osb-level]')) {
+    const form = total.closest('form');
+    const update = () => {
+        total.textContent = [...form.querySelectorAll('input[data-rating]:checked')].reduce((sum, input) => sum + Number(input.dataset.rating), 0);
+    };
+    form.addEventListener('change', update);
 }

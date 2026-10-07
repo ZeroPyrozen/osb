@@ -1,6 +1,5 @@
 #nullable enable
 
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using osb.Services;
@@ -25,7 +24,7 @@ public class ShowcaseSubmissionsController(SubmissionService submissions, Showca
         int? showcasedId = null;
         if (ModelState.IsValid)
         {
-            var result = await submissions.SubmitAsync(form, CurrentMember, ct);
+            var result = await submissions.SubmitAsync(form, Member.From(User), ct);
             if (result.SubmissionId != null)
             {
                 TempData[FlashKey] = "Thanks! The osb team will review it soon.";
@@ -43,7 +42,7 @@ public class ShowcaseSubmissionsController(SubmissionService submissions, Showca
     [Authorize]
     public async Task<IActionResult> Index(CancellationToken ct)
     {
-        var member = CurrentMember;
+        var member = Member.From(User);
         var mine = await submissions.GetMineAsync(member.Id, ct);
         var showcased = await submissions.ShowcasedAsync(mine.Select(s => s.BeatmapsetId), ct);
         await submissions.MarkOutcomesSeenAsync(member.Id, ct);
@@ -55,7 +54,7 @@ public class ShowcaseSubmissionsController(SubmissionService submissions, Showca
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Withdraw(int id, CancellationToken ct)
     {
-        var outcome = await submissions.WithdrawAsync(id, CurrentMember.Id, ct);
+        var outcome = await submissions.WithdrawAsync(id, Member.From(User).Id, ct);
         if (outcome == WithdrawOutcome.NotFound)
             return NotFound();
         TempData[FlashKey] = outcome == WithdrawOutcome.Withdrawn
@@ -63,8 +62,6 @@ public class ShowcaseSubmissionsController(SubmissionService submissions, Showca
             : "It was reviewed in the meantime, so it can't be withdrawn.";
         return RedirectToAction(nameof(Index));
     }
-
-    private Member CurrentMember => new(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), User.Identity?.Name ?? "");
 
     private async Task<SubmitPageViewModel> PageAsync(SubmitForm form, CancellationToken ct) =>
         new(form, await showcase.GetTagsAsync(ct), await showcase.GetMediumsAsync(ct));

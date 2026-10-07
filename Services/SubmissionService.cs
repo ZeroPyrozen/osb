@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Data.Common;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using osb.Data;
 using osb.Helpers;
@@ -9,7 +10,11 @@ using osb.ViewModels;
 namespace osb.Services;
 
 /// <summary>Someone logged in with osu!, as their login cookie names them.</summary>
-public sealed record Member(int Id, string Username);
+public sealed record Member(int Id, string Username)
+{
+    public static Member From(ClaimsPrincipal user) =>
+        new(int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!), user.Identity?.Name ?? "");
+}
 
 /// <summary>How a submission went: saved, or stopped by the problems in <see cref="Errors"/>.</summary>
 public sealed class SubmitResult
@@ -107,7 +112,7 @@ public class SubmissionService(OsbDbContext db, IOsuWebHelper osu, ILogger<Submi
             HostUsername = set.Value.Creator,
             BeatmapSubmittedOn = DateOnly.FromDateTime((set.Value.SubmittedDate ?? DateTimeOffset.UtcNow).UtcDateTime),
             OsuListsStoryboard = set.Value.Storyboard,
-            Medium = await KnownMediumAsync(form.Medium, ct),
+            Medium = await KnownMediumAsync(db, form.Medium, ct),
             VideoUrl = video,
             Note = string.IsNullOrWhiteSpace(form.Note) ? null : form.Note.Trim(),
             Storyboarders = credits,
@@ -192,7 +197,7 @@ public class SubmissionService(OsbDbContext db, IOsuWebHelper osu, ILogger<Submi
         db.Submissions.AnyAsync(s => s.BeatmapsetId == beatmapsetId && s.Status == SubmissionStatus.Pending, ct);
 
     /// <summary>The tool as the showcase already spells it ("storybrew" becomes "Storybrew"), or as typed.</summary>
-    private async Task<string> KnownMediumAsync(string medium, CancellationToken ct)
+    internal static async Task<string> KnownMediumAsync(OsbDbContext db, string medium, CancellationToken ct)
     {
         string typed = medium.Trim();
         var known = await db.Beatmapsets.Select(s => s.Medium).Distinct().ToListAsync(ct);

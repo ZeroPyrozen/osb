@@ -1,0 +1,100 @@
+@model EntryFieldsViewModel
+@* The showcase entry fields of the review form: what the storyboard's showcase page will show. *@
+@{
+    var form = Model.Form;
+    int level = Model.Tags.Where(t => form.Tags.Contains(t.Slug)).Sum(t => t.Rating);
+
+    string ErrorOf(string field) => ViewData.ModelState[field]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string DescribedBy(string field) => ErrorOf(field) != null ? $"{field}-hint {field}-error" : $"{field}-hint";
+    string Invalid(string field) => ErrorOf(field) != null ? "true" : null;
+
+    void Error(string field)
+    {
+        if (ErrorOf(field) is { } message)
+        {
+            <p id="@(field)-error" class="text-sm font-semibold text-danger">@message</p>
+        }
+    }
+}
+
+<div class="grid gap-6 sm:grid-cols-2">
+    <div class="flex min-w-0 flex-col gap-1.5">
+        <label for="Title" class="text-sm font-bold text-mint-50">Title</label>
+        <input id="Title" name="Title" value="@form.Title" required maxlength="256" class="input" aria-describedby="@DescribedBy("Title")" aria-invalid="@Invalid("Title")">
+        <p id="Title-hint" class="text-xs text-sage">As osu! shows it.</p>
+        @{ Error("Title"); }
+    </div>
+    <div class="flex min-w-0 flex-col gap-1.5">
+        <label for="Artist" class="text-sm font-bold text-mint-50">Artist</label>
+        <input id="Artist" name="Artist" value="@form.Artist" required maxlength="256" class="input" aria-describedby="@DescribedBy("Artist")" aria-invalid="@Invalid("Artist")">
+        <p id="Artist-hint" class="text-xs text-sage">As osu! shows it.</p>
+        @{ Error("Artist"); }
+    </div>
+</div>
+
+<div class="grid gap-6 sm:grid-cols-2">
+    <div class="flex min-w-0 flex-col gap-1.5">
+        <label for="Mapper" class="text-sm font-bold text-mint-50">Mapper</label>
+        <input id="Mapper" name="Mapper" value="@form.Mapper" required maxlength="300" autocomplete="off" spellcheck="false" class="input" aria-describedby="@DescribedBy("Mapper")" aria-invalid="@Invalid("Mapper")">
+        <p id="Mapper-hint" class="text-xs text-sage">The beatmapset's host: an osu! username or profile link.</p>
+        @{ Error("Mapper"); }
+    </div>
+    <div class="flex min-w-0 flex-col gap-1.5">
+        <label for="Medium" class="text-sm font-bold text-mint-50">Made with</label>
+        <input id="Medium" name="Medium" value="@form.Medium" list="entry-mediums" required maxlength="32" autocomplete="off" class="input" aria-describedby="@DescribedBy("Medium")" aria-invalid="@Invalid("Medium")">
+        <datalist id="entry-mediums">
+            @foreach (string medium in Model.Mediums)
+            {
+                <option value="@medium"></option>
+            }
+        </datalist>
+        <p id="Medium-hint" class="text-xs text-sage">Matching is case-insensitive, so "storybrew" is filed as Storybrew.</p>
+        @{ Error("Medium"); }
+    </div>
+</div>
+
+<div class="flex flex-col gap-1.5">
+    <label for="Storyboarders" class="text-sm font-bold text-mint-50">Storyboarders</label>
+    <textarea id="Storyboarders" name="Storyboarders" rows="2" required maxlength="1000" spellcheck="false" class="input" aria-describedby="@DescribedBy("Storyboarders")" aria-invalid="@Invalid("Storyboarders")">@form.Storyboarders</textarea>
+    <p id="Storyboarders-hint" class="text-xs text-sage">In credit order, separated by commas. New names are looked up on osu!.</p>
+    @{ Error("Storyboarders"); }
+</div>
+
+<div class="flex flex-col gap-1.5">
+    <label for="Video" class="text-sm font-bold text-mint-50">Video <span class="font-normal text-sage">(optional)</span></label>
+    <input id="Video" name="Video" value="@form.Video" inputmode="url" maxlength="300" autocomplete="off" spellcheck="false" placeholder="https://youtu.be/…" class="input" aria-describedby="@DescribedBy("Video")" aria-invalid="@Invalid("Video")">
+    <p id="Video-hint" class="text-xs text-sage">A YouTube link. It plays on the storyboard's page and, sometimes, on the home page.</p>
+    @{ Error("Video"); }
+</div>
+
+<fieldset class="flex flex-col gap-2" aria-describedby="Tags-hint">
+    <legend class="text-sm font-bold text-mint-50">Tags</legend>
+    <p id="Tags-hint" class="text-xs text-sage">
+        The member's suggestions are ticked. OSB level: <output data-osb-level class="font-bold text-gold-300 tabular-nums">@level</output>
+    </p>
+    <div class="mt-1 flex flex-wrap gap-2">
+        @foreach (var tag in Model.Tags)
+        {
+            <label class="chip cursor-pointer select-none has-checked:border-mint-400 has-checked:bg-mint-400 has-checked:text-charcoal-950 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-mint-400">
+                <input type="checkbox" name="Tags" value="@tag.Slug" data-rating="@tag.Rating" checked="@form.Tags.Contains(tag.Slug)" class="sr-only">
+                <img src="/images/showcase/tags.svg#@tag.Slug" alt="" width="20" height="20" class="size-5">@tag.Name
+                <span class="text-xs opacity-75">+@tag.Rating</span>
+            </label>
+        }
+    </div>
+</fieldset>
+
+<div class="grid gap-6 sm:grid-cols-2">
+    <div class="flex min-w-0 flex-col gap-1.5">
+        <label for="SubmittedOn" class="text-sm font-bold text-mint-50">Submitted to osu!</label>
+        <input id="SubmittedOn" name="SubmittedOn" type="date" value="@form.SubmittedOn?.ToString("yyyy-MM-dd")" required class="input" aria-describedby="@DescribedBy("SubmittedOn")" aria-invalid="@Invalid("SubmittedOn")">
+        <p id="SubmittedOn-hint" class="text-xs text-sage">From osu!, in UTC.</p>
+        @{ Error("SubmittedOn"); }
+    </div>
+    <div class="flex min-w-0 flex-col gap-1.5">
+        <label for="ShowcasedOn" class="text-sm font-bold text-mint-50">Showcased on</label>
+        <input id="ShowcasedOn" name="ShowcasedOn" type="date" value="@form.ShowcasedOn?.ToString("yyyy-MM-dd")" required class="input" aria-describedby="@DescribedBy("ShowcasedOn")" aria-invalid="@Invalid("ShowcasedOn")">
+        <p id="ShowcasedOn-hint" class="text-xs text-sage">The newest showcase dates come first on the home page.</p>
+        @{ Error("ShowcasedOn"); }
+    </div>
+</div>

@@ -13,6 +13,9 @@ namespace osb.Tests.Infrastructure;
 /// </summary>
 public class OsbWebFactory : WebApplicationFactory<Program>
 {
+    /// <summary>The osu! user ID the site treats as a reviewer (its Showcase:Reviewers setting).</summary>
+    public const int ReviewerId = 9001;
+
     private readonly string folder = Directory.CreateTempSubdirectory("osb-web-").FullName;
 
     public FakeOsu Osu { get; } = new();
@@ -23,6 +26,7 @@ public class OsbWebFactory : WebApplicationFactory<Program>
     {
         builder.UseEnvironment("Production");
         builder.UseSetting("ConnectionStrings:Osb", $"Data Source={DatabasePath}");
+        builder.UseSetting("Showcase:Reviewers", ReviewerId.ToString());
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<IOsuWebHelper>();

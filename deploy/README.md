@@ -71,6 +71,10 @@ Use `__` where `appsettings.json` has nesting: `API:ClientSecret` becomes `API__
 Deploys never overwrite this file. [`osb.env.example`](osb.env.example) lists the useful
 settings.
 
+Showcase submissions are reviewed by the osu! accounts in `Showcase__Reviewers`, a list of osu!
+user IDs separated by commas (your ID is the number in your osu! profile's address). After a
+restart, reviewers find "Review queue" in their account menu; they don't need to log in again.
+
 osu! login sends players back to `API__RedirectURL`, which must match one of the
 "Application Callback URLs" of your osu! OAuth application exactly. That field takes several
 URLs separated by commas, so one application can serve production and testing. To test login on

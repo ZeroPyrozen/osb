@@ -1,0 +1,133 @@
+@model ReviewPageViewModel
+@{
+    var submission = Model.Submission;
+    string name = $"{submission.Artist} - {submission.Title}";
+    ViewData["Title"] = $"Review {name}";
+    ViewData["Backdrop"] = $"https://assets.ppy.sh/beatmaps/{submission.BeatmapsetId}/covers/cover.jpg";
+    bool waiting = submission.Status == SubmissionStatus.Pending;
+    var formErrors = ViewData.ModelState[string.Empty]?.Errors.Select(e => e.ErrorMessage).ToList() ?? [];
+    string messageError = ViewData.ModelState["Message"]?.Errors.FirstOrDefault()?.ErrorMessage;
+    bool hasWarnings = !submission.OsuListsStoryboard || Model.EarlierAttempts.Count > 0 || Model.NewPeople.Count > 0;
+}
+
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
+    <a href="/showcase/review" class="font-semibold">Review queue</a>
+    @Icons.Get("chevron-right", "size-4")
+    <span class="truncate" aria-current="page">@name</span>
+</nav>
+
+<header class="relative animate-fade-in overflow-hidden rounded-card bg-charcoal-800 shadow-card">
+    <img src="https://assets.ppy.sh/beatmaps/@submission.BeatmapsetId/covers/cover.jpg" alt="" width="900" height="250" class="h-44 w-full object-cover sm:h-56">
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal-800 via-charcoal-800/60 to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 p-6 sm:p-8">
+        <partial name="_SubmissionStatus" model="submission.Status" />
+        <h1 class="font-display text-2xl font-bold text-mint-50 sm:text-3xl">@submission.Title</h1>
+        <p class="font-semibold text-mint-200">@submission.Artist</p>
+    </div>
+</header>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <div class="min-w-0">
+        @if (!waiting)
+        {
+            <section class="card p-6 sm:p-8">
+                <h2 class="section-title">This submission isn't waiting any more</h2>
+                <p class="mt-2 text-sm text-mint-200">
+                    @(submission.Status == SubmissionStatus.Withdrawn
+                        ? $"{submission.SubmitterUsername} withdrew it."
+                        : $"{submission.ReviewerUsername} reviewed it on {submission.ReviewedAt:d MMMM yyyy}.")
+                </p>
+                <a href="/showcase/review" class="btn btn-outline mt-5">Back to the review queue</a>
+            </section>
+        }
+        else
+        {
+            <form method="post" action="/showcase/review/@submission.Id" class="flex flex-col gap-6 card p-6 sm:p-8">
+                @Html.AntiForgeryToken()
+                <div>
+                    <h2 class="section-title">Showcase entry</h2>
+                    <p class="mt-1 text-sm text-sage">Filled in from the submission. Change anything before you approve it.</p>
+                </div>
+
+                @if (formErrors.Count > 0)
+                {
+                    <div role="alert" class="rounded-card border border-danger/60 bg-danger/10 px-4 py-3 text-sm font-semibold text-mint-50">
+                        @foreach (string message in formErrors)
+                        {
+                            <p>@message</p>
+                        }
+                    </div>
+                }
+
+                <partial name="_EntryFields" model="Model.Fields" />
+
+                <div class="flex flex-col gap-1.5 border-t border-charcoal-600 pt-6">
+                    <label for="Message" class="text-sm font-bold text-mint-50">Message to @submission.SubmitterUsername</label>
+                    <textarea id="Message" name="Message" rows="3" maxlength="1000" class="input" aria-describedby="Message-hint@(messageError != null ? " Message-error" : "")" aria-invalid="@(messageError != null ? "true" : null)">@Model.Form.Message</textarea>
+                    <p id="Message-hint" class="text-xs text-sage">Shown on their My submissions page. Optional when you approve, needed when you decline.</p>
+                    @if (messageError != null)
+                    {
+                        <p id="Message-error" class="text-sm font-semibold text-danger">@messageError</p>
+                    }
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button type="submit" name="decision" value="approve" class="btn btn-primary">@Icons.Get("check", "size-4") Approve and publish</button>
+                    <button type="submit" name="decision" value="decline" formnovalidate class="btn btn-outline">Decline</button>
+                </div>
+            </form>
+        }
+    </div>
+
+    <aside class="flex flex-col gap-6">
+        <section aria-labelledby="submission-title" class="card p-6">
+            <h2 id="submission-title" class="section-title">The submission</h2>
+            <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+                <dt class="text-sage">From</dt>
+                <dd><a href="https://osu.ppy.sh/users/@submission.SubmitterId" class="font-semibold">@submission.SubmitterUsername</a></dd>
+                <dt class="text-sage">Submitted</dt>
+                <dd class="text-mint-200">@submission.SubmittedAt.ToString("d MMMM yyyy")</dd>
+            </dl>
+            @if (!string.IsNullOrEmpty(submission.Note))
+            {
+                <blockquote class="mt-4 border-l-2 border-mint-400 pl-3 text-sm leading-relaxed whitespace-pre-line text-mint-100">@submission.Note</blockquote>
+            }
+            <a href="https://osu.ppy.sh/beatmapsets/@submission.BeatmapsetId" class="btn btn-outline mt-5 w-full">Open on osu! @Icons.Get("external", "size-4")</a>
+        </section>
+
+        @if (!string.IsNullOrEmpty(submission.VideoUrl))
+        {
+            <section aria-label="Video">
+                <partial name="_VideoFacade" model="(submission.VideoUrl, name)" />
+            </section>
+        }
+
+        @if (hasWarnings)
+        {
+            <section aria-labelledby="warnings-title" class="card border border-gold-400/40 p-6">
+                <h2 id="warnings-title" class="section-title flex items-center gap-2">@Icons.Get("warning", "size-5 text-gold-300") Check before approving</h2>
+                <ul class="mt-3 flex flex-col gap-3 text-sm leading-relaxed text-mint-200">
+                    @if (!submission.OsuListsStoryboard)
+                    {
+                        <li>osu! doesn't list a storyboard for this beatmapset. Make sure the link is the right one.</li>
+                    }
+                    @if (Model.NewPeople.Count > 0)
+                    {
+                        <li>New to the site: @Format.List(Model.NewPeople). Approving adds them, but not as community members.</li>
+                    }
+                    @foreach (var earlier in Model.EarlierAttempts)
+                    {
+                        <li>
+                            Submitted before by @earlier.SubmitterUsername on @earlier.SubmittedAt.ToString("d MMMM yyyy"):
+                            <partial name="_SubmissionStatus" model="earlier.Status" />
+                            @if (!string.IsNullOrEmpty(earlier.ReviewNote))
+                            {
+                                <span class="mt-1 block text-sage">"@earlier.ReviewNote"</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+    </aside>
+</div>

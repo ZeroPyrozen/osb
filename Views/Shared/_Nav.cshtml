@@ -1,5 +1,6 @@
 @using System.Security.Claims
 @inject SubmissionService Submissions
+@inject ReviewService Reviews
 @{
     string controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var links = new[]
@@ -15,6 +16,8 @@
     string returnUrl = Context.Request.Path + Context.Request.QueryString;
     // A submission of theirs was reviewed since they last opened My submissions.
     bool reviewNews = loggedIn && await Submissions.HasUnseenOutcomesAsync(int.Parse(userId));
+    bool isReviewer = loggedIn && User.IsInRole(ReviewerList.Role);
+    int waitingForReview = isReviewer ? await Reviews.CountWaitingAsync() : 0;
     // The showcase's own pages live in more than one controller (ShowcaseSubmissions, ...).
     bool IsCurrent(string linkController) => controller.StartsWith(linkController, StringComparison.OrdinalIgnoreCase);
 }
@@ -85,6 +88,16 @@
                     <span class="ml-auto size-2 rounded-full bg-gold-400" aria-hidden="true"></span><span class="sr-only">(a submission was reviewed)</span>
                 }
             </a>
+            @if (isReviewer)
+            {
+                <a href="/showcase/review">
+                    @Icons.Get("check", "size-4 text-gold-300") Review queue
+                    @if (waitingForReview > 0)
+                    {
+                        <span data-review-count class="ml-auto rounded-full bg-gold-400 px-2 py-0.5 text-xs font-bold text-charcoal-950 tabular-nums">@waitingForReview<span class="sr-only"> waiting</span></span>
+                    }
+                </a>
+            }
             <a href="https://osu.ppy.sh/users/@userId">@Icons.Get("user", "size-4 text-sage") osu! profile @Icons.Get("external", "ml-auto size-3.5 text-sage")</a>
             <form method="post" action="/auth/logout" class="mt-1 border-t border-charcoal-600 pt-1">
                 @Html.AntiForgeryToken()
