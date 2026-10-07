@@ -135,4 +135,106 @@ public class OsuWebHelperTests
 
         Assert.Null(await osu.GetUserData(2));
     }
+
+    /// <summary>Answers the site token request, and everything else with <paramref name="answer"/>.</summary>
+    private static Func<HttpRequestMessage, HttpResponseMessage> WithSiteToken(Func<HttpResponseMessage> answer) =>
+        request => request.RequestUri!.ToString() == TokenUrl ? StubHttpHandler.Json(SiteToken) : answer();
+
+    [Fact]
+    public async Task ABeatmapset_IsReadWithTheSiteToken()
+    {
+        var (osu, http) = Create(WithSiteToken(() => StubHttpHandler.Json("""
+            {"id":1011020,"title":"DYE/Re:flection+","artist":"AVTechNO!xTreow","creator":"The Mapper","user_id":6607303,
+             "status":"ranked","storyboard":true,"video":false,"submitted_date":"2019-07-29T10:20:30Z","ranked_date":"2019-09-01T00:00:00+00:00"}
+            """)));
+
+        var lookup = await osu.GetBeatmapsetData(1011020);
+
+        var set = lookup.Value!;
+        Assert.False(lookup.Unavailable);
+        Assert.Equal((1011020, "DYE/Re:flection+", "AVTechNO!xTreow", "The Mapper", 6607303), (set.ID, set.Title, set.Artist, set.Creator, set.UserID));
+        Assert.True(set.Storyboard);
+        Assert.Equal(new DateTimeOffset(2019, 7, 29, 10, 20, 30, TimeSpan.Zero), set.SubmittedDate);
+        Assert.Equal("https://osu.ppy.sh/api/v2/beatmapsets/1011020", http.Requests[^1].Url);
+        Assert.Equal("Bearer site-token", http.Requests[^1].Authorization);
+    }
+
+    [Fact]
+    public async Task ADifficulty_KnowsItsBeatmapset()
+    {
+        var (osu, http) = Create(WithSiteToken(() => StubHttpHandler.Json("""{"id":2115170,"beatmapset_id":1011020,"version":"Extra"}""")));
+
+        var beatmap = (await osu.GetBeatmapData(2115170)).Value!;
+
+        Assert.Equal(1011020, beatmap.BeatmapsetID);
+        Assert.Equal("https://osu.ppy.sh/api/v2/beatmaps/2115170", http.Requests[^1].Url);
+    }
+
+    [Fact]
+    public async Task Lookups_TellWhenOsuHasNoSuchThing()
+    {
+        var (osu, _) = Create(WithSiteToken(() => StubHttpHandler.Json("""{"error":null}""", HttpStatusCode.NotFound)));
+
+        var lookup = await osu.GetBeatmapsetData(1);
+
+        Assert.Null(lookup.Value);
+        Assert.False(lookup.Unavailable);
+    }
+
+    [Theory]
+    [MemberData(nameof(Failures))]
+    public async Task Lookups_TellWhenOsuCouldNotAnswer(string how)
+    {
+        var (osu, _) = Create(WithSiteToken(() => Fail(how)));
+
+        Assert.True((await osu.GetBeatmapsetData(1)).Unavailable);
+        Assert.True((await osu.GetBeatmapData(1)).Unavailable);
+        Assert.True((await osu.FindUser("someone")).Unavailable);
+    }
+
+    [Fact]
+    public async Task WithoutASiteToken_LookupsAreUnavailable_AndOsuIsntAsked()
+    {
+        var (osu, http) = Create(_ => StubHttpHandler.Json("""{"error":"invalid_client"}""", HttpStatusCode.Unauthorized));
+
+        Assert.True((await osu.GetBeatmapsetData(1011020)).Unavailable);
+
+        Assert.Equal([TokenUrl], http.Requests.Select(r => r.Url));
+    }
+
+    [Theory]
+    [InlineData("2", "https://osu.ppy.sh/api/v2/users/2")]
+    [InlineData("peppy", "https://osu.ppy.sh/api/v2/users/@peppy")]
+    [InlineData(" Some Name ", "https://osu.ppy.sh/api/v2/users/@Some%20Name")]
+    [InlineData("[Taiga]", "https://osu.ppy.sh/api/v2/users/@%5BTaiga%5D")]
+    public async Task FindingSomeone_AsksByIdForNumbers_AndByNameOtherwise(string search, string url)
+    {
+        var (osu, http) = Create(WithSiteToken(() => StubHttpHandler.Json(User(2, "peppy"))));
+
+        Assert.Equal(2, (await osu.FindUser(search)).Value?.ID);
+        Assert.Equal(url, http.Requests[^1].Url);
+    }
+
+    [Fact]
+    public async Task PeopleFound_AreCached_WhateverTheCase()
+    {
+        var (osu, http) = Create(WithSiteToken(() => StubHttpHandler.Json(User(2, "peppy"))));
+
+        await osu.FindUser("peppy");
+        await osu.FindUser("PEPPY");
+
+        Assert.Equal([TokenUrl, "https://osu.ppy.sh/api/v2/users/@peppy"], http.Requests.Select(r => r.Url));
+    }
+
+    [Fact]
+    public async Task AnEmptyName_FindsNobody_WithoutAskingOsu()
+    {
+        var (osu, http) = Create(_ => throw new InvalidOperationException("No request expected."));
+
+        var lookup = await osu.FindUser("   ");
+
+        Assert.Null(lookup.Value);
+        Assert.False(lookup.Unavailable);
+        Assert.Empty(http.Requests);
+    }
 }

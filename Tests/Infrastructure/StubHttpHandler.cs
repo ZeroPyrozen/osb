@@ -13,7 +13,8 @@ public sealed class StubHttpHandler(Func<HttpRequestMessage, HttpResponseMessage
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
         string? body = request.Content != null ? await request.Content.ReadAsStringAsync(ct) : null;
-        Requests.Add(new Request(request.Method, request.RequestUri!.ToString(), body, request.Headers.Authorization?.ToString()));
+        // AbsoluteUri keeps escapes such as %20 as sent; ToString() would show them unescaped.
+        Requests.Add(new Request(request.Method, request.RequestUri!.AbsoluteUri, body, request.Headers.Authorization?.ToString()));
         return respond(request);
     }
 

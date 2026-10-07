@@ -1,5 +1,6 @@
 #nullable enable
 
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Memory;
@@ -19,6 +20,31 @@ namespace osb.Helpers
 
         /// <summary>Any user's public profile, using the site's cached client token. Cached for 10 minutes.</summary>
         Task<WebUserModel?> GetUserData(int userId);
+
+        /// <summary>A beatmapset, by its ID.</summary>
+        Task<OsuLookup<WebBeatmapsetModel>> GetBeatmapsetData(int beatmapsetId);
+
+        /// <summary>A beatmap (one difficulty), by its ID. Its beatmapset ID resolves difficulty links.</summary>
+        Task<OsuLookup<WebBeatmapModel>> GetBeatmapData(int beatmapId);
+
+        /// <summary>
+        /// An account, by user ID or username. osu! reads a number as an ID first, and also finds people
+        /// by a previous username. Accounts that are found are cached for 10 minutes.
+        /// </summary>
+        Task<OsuLookup<WebUserModel>> FindUser(string idOrUsername);
+    }
+
+    /// <summary>
+    /// The answer to an osu! API lookup: what was found, or a null <see cref="Value"/> when osu! has no
+    /// such thing. <see cref="Unavailable"/> means osu! couldn't be asked or didn't answer properly (no
+    /// client secret, network trouble, an error), so callers can say "try again later", not "not found".
+    /// </summary>
+    public sealed record OsuLookup<T>(T? Value, bool Unavailable = false) where T : class
+    {
+        // Named, because new(null) would call the record's copy constructor.
+        public static OsuLookup<T> NotFound { get; } = new(Value: null);
+
+        public static OsuLookup<T> Failed { get; } = new(null, Unavailable: true);
     }
 
     /// <summary>Calls the osu! API v2 (see https://osu.ppy.sh/docs).</summary>
@@ -65,7 +91,8 @@ namespace osb.Helpers
             return await RequestTokenAsync(grant);
         }
 
-        public Task<WebUserModel?> GetOwnData(string token) => GetUserAsync(Api["OwnDataURL"]!, token);
+        public async Task<WebUserModel?> GetOwnData(string token) =>
+            (await GetAsync<WebUserModel>(Api["OwnDataURL"]!, token)).Value;
 
         public async Task<WebUserModel?> GetUserData(int userId)
         {
@@ -77,10 +104,34 @@ namespace osb.Helpers
             if (token == null)
                 return null;
 
-            var user = await GetUserAsync(Api["UserDataURL"]!.Replace(":user", userId.ToString()), token);
+            var user = (await GetAsync<WebUserModel>(Api["UserDataURL"]!.Replace(":user", userId.ToString()), token)).Value;
             if (user != null)
                 cache.Set(cacheKey, user, ProfileCacheTime);
             return user;
+        }
+
+        public Task<OsuLookup<WebBeatmapsetModel>> GetBeatmapsetData(int beatmapsetId) =>
+            LookupAsync<WebBeatmapsetModel>(Api["BeatmapsetDataURL"]!.Replace(":beatmapset", beatmapsetId.ToString()));
+
+        public Task<OsuLookup<WebBeatmapModel>> GetBeatmapData(int beatmapId) =>
+            LookupAsync<WebBeatmapModel>(Api["BeatmapDataURL"]!.Replace(":beatmap", beatmapId.ToString()));
+
+        public async Task<OsuLookup<WebUserModel>> FindUser(string idOrUsername)
+        {
+            string name = idOrUsername.Trim();
+            if (name.Length == 0)
+                return OsuLookup<WebUserModel>.NotFound;
+
+            string cacheKey = $"osu:find:{name.ToLowerInvariant()}";
+            if (cache.TryGetValue(cacheKey, out WebUserModel? cached))
+                return new OsuLookup<WebUserModel>(cached);
+
+            // A plain number is looked up as an ID, then as a username; "@name" only as a username.
+            string user = name.All(char.IsAsciiDigit) ? name : "@" + Uri.EscapeDataString(name);
+            var found = await LookupAsync<WebUserModel>(Api["UserDataURL"]!.Replace(":user", user));
+            if (found.Value != null)
+                cache.Set(cacheKey, found.Value, ProfileCacheTime);
+            return found;
         }
 
         /// <summary>
@@ -127,19 +178,30 @@ namespace osb.Helpers
             }
         }
 
-        private async Task<WebUserModel?> GetUserAsync(string url, string token)
+        /// <summary>A lookup with the site's own client token.</summary>
+        private async Task<OsuLookup<T>> LookupAsync<T>(string url) where T : class =>
+            await GetClientTokenAsync() is { } token ? await GetAsync<T>(url, token) : OsuLookup<T>.Failed;
+
+        private async Task<OsuLookup<T>> GetAsync<T>(string url, string token) where T : class
         {
             try
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, url);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 using var response = await client.SendAsync(request);
-                return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<WebUserModel>() : null;
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return OsuLookup<T>.NotFound;
+                if (!response.IsSuccessStatusCode)
+                {
+                    logger.LogWarning("osu! answered {Status} for {Url}.", (int)response.StatusCode, url);
+                    return OsuLookup<T>.Failed;
+                }
+                return await response.Content.ReadFromJsonAsync<T>() is { } value ? new OsuLookup<T>(value) : OsuLookup<T>.Failed;
             }
             catch (Exception e) when (e is HttpRequestException or TaskCanceledException or System.Text.Json.JsonException)
             {
-                logger.LogWarning(e, "osu! user request failed for {Url}.", url);
-                return null;
+                logger.LogWarning(e, "osu! request failed for {Url}.", url);
+                return OsuLookup<T>.Failed;
             }
         }
 
@@ -218,6 +280,40 @@ namespace osb.Helpers
         public WebCover Cover { get; set; }
         [JsonPropertyName("is_restricted")]
         public bool? IsRestricted { get; set; }
+    }
+
+    public class WebBeatmapsetModel
+    {
+        [JsonPropertyName("id")]
+        public int ID { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+        [JsonPropertyName("artist")]
+        public string Artist { get; set; }
+        [JsonPropertyName("creator")]
+        public string Creator { get; set; }
+        [JsonPropertyName("user_id")]
+        public int UserID { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
+        [JsonPropertyName("storyboard")]
+        public bool Storyboard { get; set; }
+        [JsonPropertyName("video")]
+        public bool Video { get; set; }
+        [JsonPropertyName("submitted_date")]
+        public DateTimeOffset? SubmittedDate { get; set; }
+        [JsonPropertyName("ranked_date")]
+        public DateTimeOffset? RankedDate { get; set; }
+    }
+
+    public class WebBeatmapModel
+    {
+        [JsonPropertyName("id")]
+        public int ID { get; set; }
+        [JsonPropertyName("beatmapset_id")]
+        public int BeatmapsetID { get; set; }
+        [JsonPropertyName("version")]
+        public string Version { get; set; }
     }
 
     public class WebCover
