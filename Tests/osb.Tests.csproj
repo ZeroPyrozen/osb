@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Tests for the site's C# code. The README's Development table has the commands to run them.
+    Unit tests use an in-memory SQLite database built from the real migrations; the tests in Web/
+    start the whole site in memory, with a temporary database and a fake osu! (see Infrastructure/).
+    They run on Microsoft.Testing.Platform, which global.json switches dotnet test to.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- xUnit v3 test projects are executables, here running on Microsoft.Testing.Platform. -->
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>osb.Tests</RootNamespace>
+    <!-- Tests are short; passing the test's cancellation token to every call adds noise. -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    With -p:Coverage=true, the tests also measure line coverage of the site (without migrations
+    and Razor views) and write coverage.cobertura.*.xml files to TestResults/ in this folder.
+  -->
+  <PropertyGroup Condition="'$(Coverage)' == 'true'">
+    <TestingPlatformCommandLineArguments>$(TestingPlatformCommandLineArguments) --results-directory "$(MSBuildProjectDirectory)/TestResults" --coverlet --coverlet-output-format cobertura --coverlet-include "[osb]*" --coverlet-exclude "[osb]osb.Data.Migrations.*" --coverlet-exclude "[osb]AspNetCoreGeneratedDocument.*"</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.MTP" Version="10.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.12" />
+    <PackageReference Include="xunit.v3" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\osb.csproj" />
+  </ItemGroup>
+
+  <!-- The web SDK's implicit usings, plus xUnit. -->
+  <ItemGroup>
+    <Using Include="Microsoft.AspNetCore.Builder" />
+    <Using Include="Microsoft.AspNetCore.Hosting" />
+    <Using Include="Microsoft.AspNetCore.Http" />
+    <Using Include="Microsoft.Extensions.Configuration" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.Extensions.Hosting" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

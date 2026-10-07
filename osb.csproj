@@ -4,7 +4,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>c5e9c2ed-233c-4552-b7a2-8cdaec0e7d88</UserSecretsId>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- The C# tests are a separate project in Tests/, inside this folder. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);Tests\**</DefaultItemExcludes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Lets the tests reach internals such as the seeder's stream overload. -->
+    <InternalsVisibleTo Include="osb.Tests" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- Initial showcase data, inserted by ShowcaseSeeder; embedded so it never ships as a loose file. -->
