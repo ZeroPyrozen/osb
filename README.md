@@ -38,7 +38,10 @@ dotnet user-secrets set "API:ClientSecret" "<your osu! OAuth client secret>"
 | Task | Command |
 | --- | --- |
 | Rebuild CSS and JavaScript on every change | `npm run watch` and `npm run watch:css`, next to `dotnet run` |
-| Run the JavaScript tests (storyboard engine, checks, gamification) | `npm test` |
+| Run the C# tests (course, showcase data and queries, osu! login, progress API, every page) | `dotnet test --project Tests` |
+| Run the JavaScript tests (storyboard engine, learn progress, page scripts) | `npm test` |
+| Test the deploy script (its install and rollback runs need Linux) | `bash deploy/tests/pi-install.test.sh` |
+| Measure line coverage, like CI | `dotnet test --project Tests -p:Coverage=true`, and `npm run test:coverage` (Node.js 22 or newer) |
 | Check the learn content against a running site | `dotnet run --urls http://localhost:5000`, then `npm run verify:content` |
 | Add a database migration after changing `Data/` | `dotnet tool restore`, then `dotnet ef migrations add <Name> -o Data/Migrations` |
 | Build without Node.js, reusing existing output | `dotnet build -p:SkipFrontend=true` |
@@ -51,6 +54,9 @@ Where things are:
 - `Styles/app.css`: Tailwind CSS v4 theme and components. `Scripts/`: the site's JavaScript, bundled
   with esbuild. `Scripts/storyboard/` is the storyboard engine: parser, timeline, renderer and checks.
 - `Data/`: the EF Core model and migrations. Migrations apply automatically when the app starts.
+- `Tests/`: the C# tests (xUnit). The ones in `Tests/Web/` start the whole site in memory, with a
+  temporary database and a fake osu!. `Scripts/tests/` has the JavaScript tests, where page scripts
+  run in [jsdom](https://github.com/jsdom/jsdom), and `deploy/tests/` the deploy script's.
 
 ## Showcase data
 
@@ -92,7 +98,8 @@ A storyboard is one entry in `beatmapsets`:
 - `video` is optional: a YouTube embed URL.
 
 If an entry refers to a user, tag or role that isn't in the file, the app won't start, and the error
-says which entry. A deploy with such a mistake fails its health check and rolls back by itself.
+says which entry. A deploy with such a mistake fails its health check and rolls back by itself. The
+tests in `Tests/Data/` look for these mistakes, and a few more, so CI catches them first.
 
 The app never overwrites storyboards that are already in its database, so it doesn't lose changes
 made there. The one exception: a storyboard without a video gets the one from the file. To correct

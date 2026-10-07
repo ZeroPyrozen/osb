@@ -65,3 +65,56 @@ test('diffStats reports XP, level-ups and new badges', () => {
     assert.deepEqual(diff.newBadges.map((b) => b.id).sort(), ['achievement:sharp-mind', 'module:m1']);
     assert.equal(nextUnit(catalog, { 'm1/a': { at: 1 } }).id, 'm1/b');
 });
+
+/** One module of `count` lessons, with every achievement rule the site knows plus one it doesn't. */
+const bigCatalog = (count, type = 'lesson') => ({
+    ...catalog,
+    units: Array.from({ length: count }, (_, i) => ({ id: `big/${i}`, module: 'big', type, xp: 10 })),
+    modules: [{ slug: 'big', path: 'p', units: Array.from({ length: count }, (_, i) => `big/${i}`), bonus: 50, badge: { name: 'Big', description: '' } }],
+    paths: [{ slug: 'p', modules: ['big'], bonus: 150, trophy: { name: 'Path', description: '' } }],
+    achievements: ['on-a-roll', 'dedicated', 'quiz-master', 'no-such-rule'].map((id) => ({ id, name: id })),
+});
+const earnedIds = (stats) => stats.badges.filter((b) => b.earned).map((b) => b.id);
+
+test('streak achievements count the longest run of days, even one that has ended', () => {
+    const threeDays = { 'big/0': { at: day(1) }, 'big/1': { at: day(2) }, 'big/2': { at: day(3) }, 'big/3': { at: day(10) } };
+    const s = computeStats(bigCatalog(8), threeDays, day(20));
+    assert.equal(s.streak, 0);
+    assert.equal(s.longestStreak, 3);
+    assert.ok(earnedIds(s).includes('achievement:on-a-roll'));
+    assert.ok(!earnedIds(s).includes('achievement:dedicated'));
+
+    const week = Object.fromEntries(Array.from({ length: 7 }, (_, i) => [`big/${i}`, { at: day(i + 1) }]));
+    assert.ok(earnedIds(computeStats(bigCatalog(8), week, day(7))).includes('achievement:dedicated'));
+});
+
+test('quiz master takes five perfect knowledge checks', () => {
+    const perfect = (n) => Object.fromEntries(Array.from({ length: n }, (_, i) => [`big/${i}`, { at: day(1), score: 3, max: 3 }]));
+    const quizzes = bigCatalog(6, 'quiz');
+    assert.ok(!earnedIds(computeStats(quizzes, perfect(4), day(1))).includes('achievement:quiz-master'));
+    assert.ok(earnedIds(computeStats(quizzes, perfect(5), day(1))).includes('achievement:quiz-master'));
+});
+
+test('achievements without a rule are never earned', () => {
+    const everything = Object.fromEntries(Array.from({ length: 2 }, (_, i) => [`big/${i}`, { at: day(1) }]));
+    const s = computeStats(bigCatalog(2), everything, day(1));
+    assert.equal(s.badges.find((b) => b.id === 'achievement:no-such-rule').earned, false);
+});
+
+test('badges remember when their last unit was done', () => {
+    const s = computeStats(catalog, { 'm1/a': { at: day(1) }, 'm1/b': { at: day(3) }, 'm2/a': { at: day(2) } }, day(3));
+    assert.equal(s.badges.find((b) => b.id === 'module:m1').earnedAt, day(3));
+    assert.equal(s.badges.find((b) => b.id === 'module:m2').earnedAt, day(2));
+    assert.equal(s.badges.find((b) => b.id === 'path:p').earnedAt, day(3));
+});
+
+test('at the highest level, the progress bar is full', () => {
+    const s = computeStats(catalog, { 'm1/a': { at: day(1) }, 'm1/b': { at: day(1), score: 4, max: 4 }, 'm2/a': { at: day(1) } }, day(1));
+    assert.equal(s.nextLevel, null);
+    assert.equal(s.progressToNext, 1);
+});
+
+test('when every unit is done there is no next unit', () => {
+    assert.equal(nextUnit(catalog, { 'm1/a': { at: 1 }, 'm1/b': { at: 1 }, 'm2/a': { at: 1 } }), null);
+    assert.equal(nextUnit(catalog, {}).id, 'm1/a');
+});

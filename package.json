@@ -11,6 +11,7 @@
     "watch": "node Scripts/build.mjs --watch",
     "watch:css": "tailwindcss -i Styles/app.css -o wwwroot/css/app.css --watch",
     "test": "node --test \"Scripts/tests/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=\"Scripts/**\" --test-coverage-exclude=\"Scripts/tests/**\" \"Scripts/tests/*.test.js\"",
     "verify:content": "node Scripts/verify-content.mjs"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "@tailwindcss/cli": "4.3.3",
     "@tailwindcss/typography": "0.5.20",
     "esbuild": "0.28.2",
+    "jsdom": "29.1.1",
     "tailwindcss": "4.3.3"
   }
 }

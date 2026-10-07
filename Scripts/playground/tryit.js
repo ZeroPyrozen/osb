@@ -2,8 +2,7 @@
 // for script-mode examples.
 
 import { Player } from './player.js';
-
-const toBase64Url = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+import { toBase64Url } from './share-link.js';
 
 export function mountTryIt(pre) {
     const code = pre.querySelector('code').textContent;

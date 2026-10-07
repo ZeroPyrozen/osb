@@ -19,11 +19,15 @@ public static class ShowcaseSeeder
     public static void Seed(DbContext context) =>
         SeedAsync(context, CancellationToken.None).GetAwaiter().GetResult();
 
-    public static async Task SeedAsync(DbContext context, CancellationToken ct)
-    {
-        var db = (OsbDbContext)context;
-        var seed = await LoadAsync(ct);
+    public static async Task SeedAsync(DbContext context, CancellationToken ct) =>
+        await ApplyAsync((OsbDbContext)context, await LoadAsync(ct), ct);
 
+    /// <summary>Seeds from showcase.json content passed in, so tests can try files with mistakes.</summary>
+    internal static async Task SeedAsync(OsbDbContext db, Stream json, CancellationToken ct) =>
+        await ApplyAsync(db, await ReadAsync(json, ct), ct);
+
+    private static async Task ApplyAsync(OsbDbContext db, SeedFile seed, CancellationToken ct)
+    {
         var roles = await db.Roles.ToDictionaryAsync(r => r.Name, ct);
         foreach (var role in seed.Roles.Where(r => !roles.ContainsKey(r.Name)))
             db.Roles.Add(roles[role.Name] = new CommunityRole { Name = role.Name, Colour = role.Colour, Rank = role.Rank });
@@ -78,24 +82,28 @@ public static class ShowcaseSeeder
         await db.SaveChangesAsync(ct);
     }
 
-    private static async Task<SeedFile> LoadAsync(CancellationToken ct)
+    /// <summary>The embedded showcase.json, as the seeder reads it.</summary>
+    internal static async Task<SeedFile> LoadAsync(CancellationToken ct)
     {
         await using var stream = typeof(ShowcaseSeeder).Assembly.GetManifestResourceStream(ResourceName)
             ?? throw new InvalidOperationException($"Embedded resource {ResourceName} is missing.");
-        return await JsonSerializer.DeserializeAsync<SeedFile>(stream, new JsonSerializerOptions(JsonSerializerDefaults.Web), ct)
-            ?? throw new InvalidDataException("showcase.json is empty.");
+        return await ReadAsync(stream, ct);
     }
+
+    private static async Task<SeedFile> ReadAsync(Stream json, CancellationToken ct) =>
+        await JsonSerializer.DeserializeAsync<SeedFile>(json, new JsonSerializerOptions(JsonSerializerDefaults.Web), ct)
+            ?? throw new InvalidDataException("showcase.json is empty.");
 
     private static TValue Find<TKey, TValue>(Dictionary<TKey, TValue> items, TKey key, string what) where TKey : notnull =>
         items.TryGetValue(key, out var value)
             ? value
             : throw new InvalidDataException($"showcase.json: unknown {what}. Add it to the file first.");
 
-    private sealed record SeedFile(List<SeedRole> Roles, List<SeedTag> Tags, List<SeedUser> Users, List<SeedBeatmapset> Beatmapsets);
-    private sealed record SeedRole(string Name, string Colour, int Rank);
-    private sealed record SeedTag(string Slug, string Name, int Rating);
-    private sealed record SeedUser(int Id, string Username, bool CommunityMember, List<string> Roles);
-    private sealed record SeedBeatmapset(
+    internal sealed record SeedFile(List<SeedRole> Roles, List<SeedTag> Tags, List<SeedUser> Users, List<SeedBeatmapset> Beatmapsets);
+    internal sealed record SeedRole(string Name, string Colour, int Rank);
+    internal sealed record SeedTag(string Slug, string Name, int Rating);
+    internal sealed record SeedUser(int Id, string Username, bool CommunityMember, List<string> Roles);
+    internal sealed record SeedBeatmapset(
         int Id, string Title, string Artist, int Host, string Medium, DateOnly Submitted, DateOnly Showcased,
         List<int> Storyboarders, List<string> Tags, string? Video);
 }

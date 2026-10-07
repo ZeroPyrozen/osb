@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using osb.Data;
 using osb.Helpers;
@@ -55,7 +54,7 @@ builder.Services.AddAuthorization();
 
 // SQLite database for the showcase and learner progress. A relative Data Source is resolved
 // against the content root; on the Pi the systemd unit points it at /var/lib/osb.
-string dbConnection = ResolveSqlitePath(
+string dbConnection = SqlitePath.Resolve(
     builder.Configuration.GetConnectionString("Osb") ?? "Data Source=App_Data/osb.db",
     builder.Environment.ContentRootPath);
 builder.Services.AddDbContext<OsbDbContext>(options => options
@@ -118,13 +117,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-static string ResolveSqlitePath(string connectionString, string contentRoot)
-{
-    var csb = new SqliteConnectionStringBuilder(connectionString);
-    if (!string.IsNullOrEmpty(csb.DataSource) && csb.DataSource != ":memory:" && !Path.IsPathRooted(csb.DataSource))
-        csb.DataSource = Path.GetFullPath(Path.Combine(contentRoot, csb.DataSource));
-    if (Path.GetDirectoryName(csb.DataSource) is { Length: > 0 } folder)
-        Directory.CreateDirectory(folder);
-    return csb.ToString();
-}

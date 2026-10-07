@@ -9,6 +9,7 @@
 @source not "../wwwroot";
 @source not "../Data/Migrations";
 @source not "../deploy";
+@source not "../Tests";
 
 @theme {
     --font-sans: "Open Sans Variable", "Open Sans", ui-sans-serif, system-ui, "Segoe UI", sans-serif;

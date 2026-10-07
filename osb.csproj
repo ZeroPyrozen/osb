@@ -4,7 +4,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>c5e9c2ed-233c-4552-b7a2-8cdaec0e7d88</UserSecretsId>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- The C# tests are a separate project in Tests/, inside this folder. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);Tests\**</DefaultItemExcludes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Lets the tests reach internals such as the seeder's stream overload. -->
+    <InternalsVisibleTo Include="osb.Tests" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- Initial showcase data, inserted by ShowcaseSeeder; embedded so it never ships as a loose file. -->
@@ -46,9 +53,15 @@
     <Touch Files="$(IntermediateOutputPath)frontend.stamp" AlwaysCreate="true" />
   </Target>
 
-  <!-- On a clean checkout these files don't exist yet when MSBuild lists wwwroot, so add them here. -->
+  <!--
+    On a clean checkout these files don't exist yet when MSBuild lists wwwroot, so add them here.
+    A rebuild can also rename chunks (their names carry a hash of their content), so drop the files
+    that are gone.
+  -->
   <Target Name="IncludeFrontendOutput" AfterTargets="BuildFrontend">
     <ItemGroup>
+      <_StaleFrontendOutput Include="@(Content)" Condition="!Exists('%(Content.FullPath)')" />
+      <Content Remove="@(_StaleFrontendOutput)" />
       <_FrontendOutput Include="wwwroot\css\app.css;wwwroot\css\fonts.css;wwwroot\js\**;wwwroot\fonts\**" />
       <Content Include="@(_FrontendOutput)" Exclude="@(Content)" />
     </ItemGroup>
