@@ -18,6 +18,11 @@
     <a href="/showcase/submit" class="btn btn-outline shrink-0 self-start sm:self-auto">@Icons.Get("upload", "size-4") Submit a storyboard</a>
 </header>
 
+@if (Model.Flash != null)
+{
+    <p role="status" class="mt-6 rounded-card border border-mint-400/50 bg-mint-400/10 px-4 py-3 text-sm font-semibold text-mint-50">@Model.Flash</p>
+}
+
 <form action="/showcase" method="get" role="search" class="mt-6 flex gap-2">
     @if (!string.IsNullOrEmpty(Model.Tag)) { <input type="hidden" name="t" value="@Model.Tag"> }
     @if (!string.IsNullOrEmpty(Model.Medium)) { <input type="hidden" name="m" value="@Model.Medium"> }

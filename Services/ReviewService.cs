@@ -8,9 +8,12 @@ using osb.ViewModels;
 
 namespace osb.Services;
 
-public enum ReviewOutcome { Approved, Declined, Invalid, AlreadyHandled, AlreadyShowcased, NotFound }
+public enum ReviewOutcome { Approved, Declined, Saved, Removed, Invalid, AlreadyHandled, AlreadyShowcased, NotFound }
 
-/// <summary>How a review went. On <see cref="ReviewOutcome.Invalid"/>, <see cref="Errors"/> says why, by form field.</summary>
+/// <summary>
+/// How a review, edit or removal went. On <see cref="ReviewOutcome.Invalid"/>, <see cref="Errors"/> says
+/// why, by form field.
+/// </summary>
 public sealed class ReviewResult
 {
     public ReviewOutcome Outcome { get; init; }
@@ -22,7 +25,10 @@ public sealed class ReviewResult
     public string? Message { get; init; }
 }
 
-/// <summary>The review queue: reviewers approving submissions into the showcase, or declining them.</summary>
+/// <summary>
+/// Reviewers' work: approving submissions into the showcase or declining them, and correcting or
+/// removing storyboards that are in the showcase already.
+/// </summary>
 public class ReviewService(OsbDbContext db, IOsuWebHelper osu, ILogger<ReviewService> logger)
 {
     public const int RecentCount = 20;
@@ -78,6 +84,10 @@ public class ReviewService(OsbDbContext db, IOsuWebHelper osu, ILogger<ReviewSer
         return named.Where(n => !known.Contains(n.Item1)).Select(n => n.Item2).Distinct().ToList();
     }
 
+    /// <summary>Who removed the storyboard from the showcase, when and why; null if nobody did.</summary>
+    public Task<ShowcaseRemoval?> GetRemovalAsync(int beatmapsetId, CancellationToken ct = default) =>
+        db.ShowcaseRemovals.AsNoTracking().FirstOrDefaultAsync(r => r.BeatmapsetId == beatmapsetId, ct);
+
     /// <summary>The review form as the submission fills it in, to be showcased today (UTC).</summary>
     public static ReviewForm FormFor(ShowcaseSubmission submission) => new()
     {
@@ -90,6 +100,20 @@ public class ReviewService(OsbDbContext db, IOsuWebHelper osu, ILogger<ReviewSer
         Tags = submission.SuggestedTags.Select(t => t.Slug).ToList(),
         SubmittedOn = submission.BeatmapSubmittedOn,
         ShowcasedOn = DateOnly.FromDateTime(DateTime.UtcNow),
+    };
+
+    /// <summary>The edit form, filled in with the storyboard as it is now.</summary>
+    public static EntryForm FormFor(Beatmapset set) => new()
+    {
+        Title = set.Title,
+        Artist = set.Artist,
+        Mapper = set.Host.Username,
+        Storyboarders = string.Join(", ", set.Credits.Select(u => u.Username)),
+        Medium = set.Medium,
+        Video = set.VideoUrl,
+        Tags = set.Tags.Select(t => t.Slug).ToList(),
+        SubmittedOn = set.SubmittedOn,
+        ShowcasedOn = set.ShowcasedOn,
     };
 
     /// <summary>
@@ -107,28 +131,13 @@ public class ReviewService(OsbDbContext db, IOsuWebHelper osu, ILogger<ReviewSer
             return new ReviewResult { Outcome = ReviewOutcome.AlreadyShowcased };
 
         var result = new ReviewResult { Outcome = ReviewOutcome.Invalid };
-        string? video = null;
-        if (!string.IsNullOrWhiteSpace(form.Video) && (video = Format.YouTubeEmbedUrl(form.Video)) == null)
-            result.Errors[nameof(EntryForm.Video)] = "Use a YouTube link, like https://youtu.be/dQw4w9WgXcQ.";
-
         var people = new PeopleResolver(db, osu);
         var known = submission.Credits.Select(c => new Person(c.OsuUserId, c.Username)).Prepend(new Person(submission.HostId, submission.HostUsername)).ToList();
-        var (mappers, mapperError) = await people.ResolveAsync(form.Mapper, known, ct);
-        if (mapperError != null)
-            result.Errors[nameof(EntryForm.Mapper)] = mapperError;
-        else if (mappers.Count != 1)
-            result.Errors[nameof(EntryForm.Mapper)] = "Give one mapper.";
-        var (storyboarders, storyboarderError) = await people.ResolveAsync(form.Storyboarders, known, ct);
-        if (storyboarderError != null)
-            result.Errors[nameof(EntryForm.Storyboarders)] = storyboarderError;
-        else if (storyboarders.Count == 0)
-            result.Errors[nameof(EntryForm.Storyboarders)] = "List at least one storyboarder.";
-        else if (storyboarders.Count > SubmissionService.MaxStoryboarders)
-            result.Errors[nameof(EntryForm.Storyboarders)] = $"List up to {SubmissionService.MaxStoryboarders} storyboarders.";
-        if (result.Errors.Count > 0)
+        var entry = await CheckAsync(people, form, known, result.Errors, ct);
+        if (entry == null)
             return result;
 
-        var tags = form.Tags.Count > 0 ? await db.Tags.Where(t => form.Tags.Contains(t.Slug)).ToListAsync(ct) : [];
+        var tags = await TagsAsync(form, ct);
         string medium = await SubmissionService.KnownMediumAsync(db, form.Medium, ct);
         var now = DateTime.UtcNow;
 
@@ -137,20 +146,20 @@ public class ReviewService(OsbDbContext db, IOsuWebHelper osu, ILogger<ReviewSer
         if (!await ConcludeAsync(id, SubmissionStatus.Approved, reviewer, form.Message, now, ct))
             return Handled(await db.Submissions.AsNoTracking().FirstAsync(s => s.Id == id, ct));
 
-        var users = await people.SaveAsync(mappers.Concat(storyboarders), ct);
+        var users = await people.SaveAsync(entry.Storyboarders.Prepend(entry.Mapper), ct);
         db.Beatmapsets.Add(new Beatmapset
         {
             Id = submission.BeatmapsetId,
             Title = form.Title.Trim(),
             Artist = form.Artist.Trim(),
-            Host = users[mappers[0].Id],
+            Host = users[entry.Mapper.Id],
             Medium = medium,
             SubmittedOn = form.SubmittedOn!.Value,
             ShowcasedOn = form.ShowcasedOn!.Value,
-            VideoUrl = video,
+            VideoUrl = entry.VideoUrl,
             ChangedOnSiteAt = now,
             Tags = tags,
-            Storyboarders = storyboarders.Select((p, i) => new BeatmapsetStoryboarder { User = users[p.Id], Position = i }).ToList(),
+            Storyboarders = entry.Storyboarders.Select((p, i) => new BeatmapsetStoryboarder { User = users[p.Id], Position = i }).ToList(),
         });
         // A storyboard removed earlier can come back through a new submission.
         if (await db.ShowcaseRemovals.FindAsync([submission.BeatmapsetId], ct) is { } removal)
@@ -186,10 +195,141 @@ public class ReviewService(OsbDbContext db, IOsuWebHelper osu, ILogger<ReviewSer
         return submission == null ? new ReviewResult { Outcome = ReviewOutcome.NotFound } : Handled(submission);
     }
 
+    /// <summary>
+    /// Changes a showcased storyboard to what the form describes. It's then marked as changed on the site,
+    /// so showcase.json leaves it alone (see <see cref="ShowcaseSeeder"/>).
+    /// </summary>
+    public async Task<ReviewResult> EditAsync(int beatmapsetId, EntryForm form, CancellationToken ct = default)
+    {
+        var set = await db.Beatmapsets
+            .Include(s => s.Host)
+            .Include(s => s.Tags)
+            .Include(s => s.Storyboarders).ThenInclude(c => c.User)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(s => s.Id == beatmapsetId, ct);
+        if (set == null)
+            return new ReviewResult { Outcome = ReviewOutcome.NotFound };
+
+        var result = new ReviewResult { Outcome = ReviewOutcome.Invalid };
+        var people = new PeopleResolver(db, osu);
+        var known = set.Credits.Prepend(set.Host).Select(u => new Person(u.Id, u.Username)).ToList();
+        var entry = await CheckAsync(people, form, known, result.Errors, ct);
+        if (entry == null)
+            return result;
+
+        var users = await people.SaveAsync(entry.Storyboarders.Prepend(entry.Mapper), ct);
+        set.Title = form.Title.Trim();
+        set.Artist = form.Artist.Trim();
+        set.Host = users[entry.Mapper.Id];
+        set.Medium = await SubmissionService.KnownMediumAsync(db, form.Medium, ct);
+        set.SubmittedOn = form.SubmittedOn!.Value;
+        set.ShowcasedOn = form.ShowcasedOn!.Value;
+        set.VideoUrl = entry.VideoUrl;
+        set.ChangedOnSiteAt = DateTime.UtcNow;
+
+        // Tags and credits change in place: the rows of those that stay are kept, not deleted and added again.
+        var tags = await TagsAsync(form, ct);
+        var hadTags = set.Tags.Select(t => t.Id).ToHashSet();
+        set.Tags.RemoveAll(t => tags.All(keep => keep.Id != t.Id));
+        set.Tags.AddRange(tags.Where(t => !hadTags.Contains(t.Id)));
+
+        var order = entry.Storyboarders.Select(p => p.Id).ToList();
+        set.Storyboarders.RemoveAll(c => !order.Contains(c.OsuUserId));
+        for (int position = 0; position < order.Count; position++)
+        {
+            if (set.Storyboarders.Find(c => c.OsuUserId == order[position]) is { } credit)
+                credit.Position = position;
+            else
+                set.Storyboarders.Add(new BeatmapsetStoryboarder { User = users[order[position]], Position = position });
+        }
+
+        await db.SaveChangesAsync(ct);
+        return new ReviewResult { Outcome = ReviewOutcome.Saved };
+    }
+
+    /// <summary>
+    /// Takes a storyboard out of the showcase and remembers who did it and why, so showcase.json can't
+    /// bring it back; a new submission can. Its people and tags stay on the site.
+    /// </summary>
+    public async Task<ReviewResult> RemoveAsync(int beatmapsetId, string? reason, Member reviewer, CancellationToken ct = default)
+    {
+        string why = reason?.Trim() ?? "";
+        if (why.Length is 0 or > 1000)
+        {
+            var invalid = new ReviewResult { Outcome = ReviewOutcome.Invalid };
+            invalid.Errors["Reason"] = why.Length == 0 ? "Give a reason for removing it." : "Keep the reason to 1,000 characters.";
+            return invalid;
+        }
+
+        // Loaded with its credits and tag links, so they're deleted along with it.
+        var set = await db.Beatmapsets
+            .Include(s => s.Storyboarders)
+            .Include(s => s.Tags)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(s => s.Id == beatmapsetId, ct);
+        if (set == null)
+            return new ReviewResult { Outcome = ReviewOutcome.NotFound };
+
+        db.Beatmapsets.Remove(set);
+        var removal = await db.ShowcaseRemovals.FindAsync([beatmapsetId], ct);
+        if (removal == null)
+            db.ShowcaseRemovals.Add(removal = new ShowcaseRemoval { BeatmapsetId = beatmapsetId });
+        removal.RemovedAt = DateTime.UtcNow;
+        removal.RemovedById = reviewer.Id;
+        removal.RemovedByUsername = reviewer.Username;
+        removal.Reason = why;
+        try
+        {
+            await db.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException)
+        {
+            if (await db.Beatmapsets.AsNoTracking().AnyAsync(s => s.Id == beatmapsetId, ct))
+                throw;
+            // Removed a moment ago, from another tab.
+            return new ReviewResult { Outcome = ReviewOutcome.NotFound };
+        }
+        return new ReviewResult { Outcome = ReviewOutcome.Removed };
+    }
+
     private IQueryable<ShowcaseSubmission> WithDetails => db.Submissions.AsNoTracking()
         .Include(s => s.Storyboarders)
         .Include(s => s.SuggestedTags)
         .AsSplitQuery();
+
+    /// <summary>A showcase entry's video and people, checked: one mapper, and the storyboarders in credit order.</summary>
+    private sealed record CheckedEntry(string? VideoUrl, Person Mapper, IReadOnlyList<Person> Storyboarders);
+
+    /// <summary>
+    /// Checks what the form's own rules can't: the video link, and the mapper and storyboarders, who are
+    /// looked up (see <see cref="PeopleResolver"/>). On a problem, adds it to <paramref name="errors"/> and
+    /// returns null.
+    /// </summary>
+    private static async Task<CheckedEntry?> CheckAsync(PeopleResolver people, EntryForm form, IReadOnlyList<Person> known, Dictionary<string, string> errors, CancellationToken ct)
+    {
+        string? video = null;
+        if (!string.IsNullOrWhiteSpace(form.Video) && (video = Format.YouTubeEmbedUrl(form.Video)) == null)
+            errors[nameof(EntryForm.Video)] = "Use a YouTube link, like https://youtu.be/dQw4w9WgXcQ.";
+
+        var (mappers, mapperError) = await people.ResolveAsync(form.Mapper, known, ct);
+        if (mapperError != null)
+            errors[nameof(EntryForm.Mapper)] = mapperError;
+        else if (mappers.Count != 1)
+            errors[nameof(EntryForm.Mapper)] = "Give one mapper.";
+        var (storyboarders, storyboarderError) = await people.ResolveAsync(form.Storyboarders, known, ct);
+        if (storyboarderError != null)
+            errors[nameof(EntryForm.Storyboarders)] = storyboarderError;
+        else if (storyboarders.Count == 0)
+            errors[nameof(EntryForm.Storyboarders)] = "List at least one storyboarder.";
+        else if (storyboarders.Count > SubmissionService.MaxStoryboarders)
+            errors[nameof(EntryForm.Storyboarders)] = $"List up to {SubmissionService.MaxStoryboarders} storyboarders.";
+
+        return errors.Count > 0 ? null : new CheckedEntry(video, mappers[0], storyboarders);
+    }
+
+    /// <summary>The tags the form ticks.</summary>
+    private async Task<List<StoryboardTag>> TagsAsync(EntryForm form, CancellationToken ct) =>
+        form.Tags.Count > 0 ? await db.Tags.Where(t => form.Tags.Contains(t.Slug)).ToListAsync(ct) : [];
 
     /// <summary>Moves a waiting submission to its outcome; false when it was no longer waiting.</summary>
     private async Task<bool> ConcludeAsync(int id, SubmissionStatus outcome, Member reviewer, string? message, DateTime now, CancellationToken ct)

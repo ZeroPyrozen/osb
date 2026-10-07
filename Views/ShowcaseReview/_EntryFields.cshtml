@@ -1,5 +1,5 @@
 @model EntryFieldsViewModel
-@* The showcase entry fields of the review form: what the storyboard's showcase page will show. *@
+@* The showcase entry fields of the review and edit forms: what the storyboard's showcase page shows. *@
 @{
     var form = Model.Form;
     int level = Model.Tags.Where(t => form.Tags.Contains(t.Slug)).Sum(t => t.Rating);
@@ -70,7 +70,7 @@
 <fieldset class="flex flex-col gap-2" aria-describedby="Tags-hint">
     <legend class="text-sm font-bold text-mint-50">Tags</legend>
     <p id="Tags-hint" class="text-xs text-sage">
-        The member's suggestions are ticked. OSB level: <output data-osb-level class="font-bold text-gold-300 tabular-nums">@level</output>
+        @Model.TagsHint OSB level: <output data-osb-level class="font-bold text-gold-300 tabular-nums">@level</output>
     </p>
     <div class="mt-1 flex flex-wrap gap-2">
         @foreach (var tag in Model.Tags)

@@ -5,7 +5,10 @@ using osb.Data;
 
 namespace osb.ViewModels;
 
-/// <summary>A storyboard's showcase entry as a reviewer fills it in, when approving a submission.</summary>
+/// <summary>
+/// A storyboard's showcase entry as a reviewer fills it in, when approving a submission or editing a
+/// showcased storyboard.
+/// </summary>
 public class EntryForm
 {
     [Required(ErrorMessage = "Give the song's title.")]
@@ -50,19 +53,29 @@ public class ReviewForm : EntryForm
 }
 
 /// <summary>The entry fields' form plus the choices they offer.</summary>
-public record EntryFieldsViewModel(EntryForm Form, IReadOnlyList<StoryboardTag> Tags, IReadOnlyList<string> Mediums);
+/// <param name="TagsHint">Says which tags start ticked.</param>
+public record EntryFieldsViewModel(EntryForm Form, IReadOnlyList<StoryboardTag> Tags, IReadOnlyList<string> Mediums, string TagsHint);
 
 public record ReviewQueueViewModel(IReadOnlyList<ShowcaseSubmission> Waiting, IReadOnlyList<ShowcaseSubmission> Recent, string? Flash);
 
 /// <param name="EarlierAttempts">Other submissions of the same beatmapset, newest first.</param>
 /// <param name="NewPeople">People the submission names who aren't on the site yet.</param>
+/// <param name="Removal">Set when a reviewer took the storyboard out of the showcase before.</param>
 public record ReviewPageViewModel(
     ShowcaseSubmission Submission,
     ReviewForm Form,
     IReadOnlyList<StoryboardTag> Tags,
     IReadOnlyList<string> Mediums,
     IReadOnlyList<ShowcaseSubmission> EarlierAttempts,
-    IReadOnlyList<string> NewPeople)
+    IReadOnlyList<string> NewPeople,
+    ShowcaseRemoval? Removal)
 {
-    public EntryFieldsViewModel Fields => new(Form, Tags, Mediums);
+    public EntryFieldsViewModel Fields => new(Form, Tags, Mediums, "The member's suggestions are ticked.");
+}
+
+/// <summary>The edit page of a showcased storyboard, which can also remove it.</summary>
+/// <param name="Reason">The reason typed into the removal form, when removing needs another try.</param>
+public record EditPageViewModel(Beatmapset Set, EntryForm Form, IReadOnlyList<StoryboardTag> Tags, IReadOnlyList<string> Mediums, string? Reason = null)
+{
+    public EntryFieldsViewModel Fields => new(Form, Tags, Mediums, "Its current tags are ticked.");
 }

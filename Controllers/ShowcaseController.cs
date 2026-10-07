@@ -10,6 +10,9 @@ public class ShowcaseController(ShowcaseService showcase) : Controller
 {
     private const int PageSize = 12;
 
+    /// <summary>Messages from reviewers' edits and removals, which come back to these pages.</summary>
+    private const string FlashKey = "Flash";
+
     /// <summary>
     /// The showcase list. <c>s</c> searches titles, artists, hosts and storyboarders; <c>t</c> is a tag slug,
     /// <c>m</c> a tool. <c>/showcase/search</c> is kept as an alias because old tag links point there.
@@ -21,7 +24,7 @@ public class ShowcaseController(ShowcaseService showcase) : Controller
         var results = await showcase.SearchAsync(s, t, m, page, PageSize, ct);
         var tags = await showcase.GetTagsAsync(ct);
         var mediums = await showcase.GetMediumsAsync(ct);
-        return View(new ShowcaseIndexViewModel(results, s, t, m, tags, mediums));
+        return View(new ShowcaseIndexViewModel(results, s, t, m, tags, mediums) { Flash = TempData[FlashKey] as string });
     }
 
     [HttpGet("/showcase/detail")]
@@ -32,6 +35,6 @@ public class ShowcaseController(ShowcaseService showcase) : Controller
             return NotFound();
 
         var related = await showcase.GetRelatedAsync(set, 4, ct);
-        return View(new ShowcaseDetailViewModel(set, related));
+        return View(new ShowcaseDetailViewModel(set, related) { Flash = TempData[FlashKey] as string });
     }
 }

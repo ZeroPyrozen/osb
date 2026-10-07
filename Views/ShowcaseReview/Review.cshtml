@@ -7,7 +7,7 @@
     bool waiting = submission.Status == SubmissionStatus.Pending;
     var formErrors = ViewData.ModelState[string.Empty]?.Errors.Select(e => e.ErrorMessage).ToList() ?? [];
     string messageError = ViewData.ModelState["Message"]?.Errors.FirstOrDefault()?.ErrorMessage;
-    bool hasWarnings = !submission.OsuListsStoryboard || Model.EarlierAttempts.Count > 0 || Model.NewPeople.Count > 0;
+    bool hasWarnings = !submission.OsuListsStoryboard || Model.Removal != null || Model.EarlierAttempts.Count > 0 || Model.NewPeople.Count > 0;
 }
 
 <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
@@ -110,6 +110,13 @@
                     @if (!submission.OsuListsStoryboard)
                     {
                         <li>osu! doesn't list a storyboard for this beatmapset. Make sure the link is the right one.</li>
+                    }
+                    @if (Model.Removal is { } removal)
+                    {
+                        <li>
+                            @removal.RemovedByUsername removed it from the showcase on @removal.RemovedAt.ToString("d MMMM yyyy"):
+                            <span class="mt-1 block text-sage">"@removal.Reason"</span>
+                        </li>
                     }
                     @if (Model.NewPeople.Count > 0)
                     {

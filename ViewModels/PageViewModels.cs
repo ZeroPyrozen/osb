@@ -16,6 +16,9 @@ public record ShowcaseIndexViewModel(
     IReadOnlyList<StoryboardTag> Tags,
     IReadOnlyList<string> Mediums)
 {
+    /// <summary>A one-off message, such as a reviewer's "Removed …" after taking a storyboard out.</summary>
+    public string? Flash { get; init; }
+
     public bool IsFiltered => !string.IsNullOrWhiteSpace(Query) || !string.IsNullOrWhiteSpace(Tag) || !string.IsNullOrWhiteSpace(Medium);
 
     /// <summary>The showcase URL with the current filters, changing only what's passed in.</summary>
@@ -37,7 +40,11 @@ public record ShowcaseIndexViewModel(
     }
 }
 
-public record ShowcaseDetailViewModel(Beatmapset Set, IReadOnlyList<Beatmapset> Related);
+public record ShowcaseDetailViewModel(Beatmapset Set, IReadOnlyList<Beatmapset> Related)
+{
+    /// <summary>A one-off message, such as a reviewer's "Saved your changes."</summary>
+    public string? Flash { get; init; }
+}
 
 public record CommunityViewModel(IReadOnlyList<OsuUser> Members)
 {

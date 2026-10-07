@@ -1,0 +1,66 @@
+@model EditPageViewModel
+@{
+    var set = Model.Set;
+    string detailUrl = $"/showcase/detail?beatmapsetID={set.Id}";
+    ViewData["Title"] = $"Edit {set.Artist} - {set.Title}";
+    ViewData["Backdrop"] = set.CoverUrl;
+    string reasonError = ViewData.ModelState["Reason"]?.Errors.FirstOrDefault()?.ErrorMessage;
+}
+
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
+    <a href="/showcase" class="font-semibold">Showcase</a>
+    @Icons.Get("chevron-right", "size-4")
+    <a href="@detailUrl" class="truncate font-semibold">@set.Title</a>
+    @Icons.Get("chevron-right", "size-4")
+    <span aria-current="page">Edit</span>
+</nav>
+
+<header class="relative animate-fade-in overflow-hidden rounded-card bg-charcoal-800 shadow-card">
+    <img src="@set.CoverUrl" alt="" width="900" height="250" class="h-44 w-full object-cover sm:h-56">
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal-800 via-charcoal-800/60 to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 p-6 sm:p-8">
+        <p class="eyebrow">Showcased @set.ShowcasedOn.ToString("d MMMM yyyy")</p>
+        <h1 class="font-display text-2xl font-bold text-mint-50 sm:text-3xl">@set.Title</h1>
+        <p class="font-semibold text-mint-200">@set.Artist</p>
+    </div>
+</header>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <form method="post" action="/showcase/edit?beatmapsetID=@set.Id" class="flex min-w-0 flex-col gap-6 card p-6 sm:p-8">
+        @Html.AntiForgeryToken()
+        <div>
+            <h2 class="section-title">Showcase entry</h2>
+            <p class="mt-1 text-sm text-sage">What the storyboard's page shows. Saving changes it straight away.</p>
+        </div>
+
+        <partial name="_EntryFields" model="Model.Fields" />
+
+        <div class="flex flex-wrap gap-3 border-t border-charcoal-600 pt-6">
+            <button type="submit" class="btn btn-primary">@Icons.Get("check", "size-4") Save changes</button>
+            <a href="@detailUrl" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+
+    <aside>
+        <section aria-labelledby="remove-title" class="card p-6">
+            <h2 id="remove-title" class="section-title">Remove from the showcase</h2>
+            <p class="mt-2 text-sm leading-relaxed text-mint-200">
+                It disappears from every page, and showcase.json won't add it back. A new submission can.
+            </p>
+            <details class="mt-4" open="@(reasonError != null)">
+                <summary class="btn btn-outline cursor-pointer list-none border-danger/60 text-danger [&::-webkit-details-marker]:hidden">Remove…</summary>
+                <form method="post" action="/showcase/edit/remove?beatmapsetID=@set.Id" class="mt-4 flex flex-col gap-1.5">
+                    @Html.AntiForgeryToken()
+                    <label for="Reason" class="text-sm font-bold text-mint-50">Why?</label>
+                    <textarea id="Reason" name="Reason" rows="3" required maxlength="1000" class="input" aria-describedby="Reason-hint@(reasonError != null ? " Reason-error" : "")" aria-invalid="@(reasonError != null ? "true" : null)">@Model.Reason</textarea>
+                    <p id="Reason-hint" class="text-xs text-sage">Reviewers see it if the storyboard is submitted again.</p>
+                    @if (reasonError != null)
+                    {
+                        <p id="Reason-error" class="text-sm font-semibold text-danger">@reasonError</p>
+                    }
+                    <button type="submit" class="btn mt-2 self-start bg-danger text-charcoal-950 hover:bg-danger/85">Yes, remove it</button>
+                </form>
+            </details>
+        </section>
+    </aside>
+</div>
