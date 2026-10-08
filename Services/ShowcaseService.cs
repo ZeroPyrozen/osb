@@ -16,7 +16,35 @@ public record HomeSummary(
 
 public record ShowcasePage(IReadOnlyList<Beatmapset> Items, int Total, int Page, int PageSize)
 {
+    /// <summary>How many page numbers the pager shows around the current page.</summary>
+    private const int PagerWindow = 5;
+
     public int PageCount => Math.Max(1, (int)Math.Ceiling(Total / (double)PageSize));
+
+    /// <summary>
+    /// The page numbers the pager shows: <see cref="PagerWindow"/> around the current page, plus the first
+    /// and the last. Null is a gap ("…"), which never hides just one page: that page is shown instead.
+    /// </summary>
+    public IReadOnlyList<int?> PagerLinks
+    {
+        get
+        {
+            int from = Math.Clamp(Page - PagerWindow / 2, 1, Math.Max(1, PageCount - PagerWindow + 1));
+            int to = Math.Min(PageCount, from + PagerWindow - 1);
+            var links = new List<int?>();
+            if (from > 1)
+                links.Add(1);
+            if (from > 2)
+                links.Add(from == 3 ? 2 : null);
+            for (int page = from; page <= to; page++)
+                links.Add(page);
+            if (to < PageCount - 1)
+                links.Add(to == PageCount - 2 ? PageCount - 1 : null);
+            if (to < PageCount)
+                links.Add(PageCount);
+            return links;
+        }
+    }
 }
 
 public record StoryboarderProfile(OsuUser User, IReadOnlyList<Beatmapset> Storyboards);

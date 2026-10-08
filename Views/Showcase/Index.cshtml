@@ -89,11 +89,22 @@ else
             {
                 <a href="@Model.Url(page: results.Page - 1)" class="btn btn-ghost" rel="prev">@Icons.Get("arrow-left", "size-5") Previous</a>
             }
-            @for (int p = 1; p <= results.PageCount; p++)
-            {
-                <a href="@Model.Url(page: p)" aria-current="@(p == results.Page ? "page" : null)"
-                   class="flex size-10 items-center justify-center rounded-md font-semibold text-mint-200 transition hover:bg-charcoal-700 hover:no-underline aria-[current=page]:bg-mint-400 aria-[current=page]:text-charcoal-950">@p</a>
-            }
+            @* Phones have no room for the page numbers. *@
+            <p class="px-2 text-sm text-sage md:hidden">Page @results.Page of @results.PageCount</p>
+            <div class="hidden items-center gap-1.5 md:flex">
+                @foreach (int? p in results.PagerLinks)
+                {
+                    if (p is int number)
+                    {
+                        <a href="@Model.Url(page: number)" aria-current="@(number == results.Page ? "page" : null)"
+                           class="flex size-10 items-center justify-center rounded-md font-semibold text-mint-200 transition hover:bg-charcoal-700 hover:no-underline aria-[current=page]:bg-mint-400 aria-[current=page]:text-charcoal-950">@number</a>
+                    }
+                    else
+                    {
+                        <span class="w-6 text-center text-sage" aria-hidden="true">…</span>
+                    }
+                }
+            </div>
             @if (results.Page < results.PageCount)
             {
                 <a href="@Model.Url(page: results.Page + 1)" class="btn btn-ghost" rel="next">Next @Icons.Get("arrow-right", "size-5")</a>
