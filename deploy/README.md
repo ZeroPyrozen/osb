@@ -87,6 +87,7 @@ For local development, use [user secrets](https://learn.microsoft.com/aspnet/cor
 instead:
 
 ```powershell
+dotnet user-secrets set "API:ClientID" "<your osu! OAuth application's client ID>"
 dotnet user-secrets set "API:ClientSecret" "<your osu! OAuth client secret>"
 ```
 

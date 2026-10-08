@@ -28,10 +28,14 @@ The build runs `npm ci` and `npm run build` for you when the frontend sources ch
 the app creates its SQLite database in `App_Data/osb.db` and fills in the showcase data. If the browser
 warns about the HTTPS certificate, run `dotnet dev-certs https --trust` once.
 
-Secrets such as the osu! OAuth client secret are not stored in this repo. To log in with osu! locally, set them as [user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets):
+The osu! OAuth application's settings are not stored in this repo: `appsettings.json` only has a
+placeholder client ID, 12345. To log in with osu! locally, add `https://localhost:5001/auth/authorized`
+to your application's callback URLs, then set these as [user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets):
 
 ```
+dotnet user-secrets set "API:ClientID" "<your osu! OAuth application's client ID>"
 dotnet user-secrets set "API:ClientSecret" "<your osu! OAuth client secret>"
+dotnet user-secrets set "API:RedirectURL" "https://localhost:5001/auth/authorized"
 ```
 
 ## Development
