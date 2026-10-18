@@ -27,13 +27,13 @@ public class ReviewPageTests : IClassFixture<OsbWebFactory>
     }
 
     /// <summary>A member submits beatmapset <paramref name="beatmapsetId"/>; returns the submission's ID.</summary>
-    private async Task<(HttpClient Member, int Id)> SubmittedAsync(int beatmapsetId, int memberId)
+    private async Task<(HttpClient Member, int Id)> SubmittedAsync(int beatmapsetId, int memberId, string storyboarders = "Storyboarder")
     {
         var member = await LoggedInAsync(memberId, $"Member {memberId}");
         string token = await member.GetFormTokenAsync("/showcase/submit");
         await member.PostAsync("/showcase/submit", new FormUrlEncodedContent([
             new("__RequestVerificationToken", token), new("Beatmapset", beatmapsetId.ToString()),
-            new("Storyboarders", "Storyboarder"), new("Medium", "Storybrew"), new("Tags", "particles"),
+            new("Storyboarders", storyboarders), new("Medium", "Storybrew"), new("Tags", "particles"),
         ]));
         using var scope = site.Services.CreateScope();
         int id = await scope.ServiceProvider.GetRequiredService<OsbDbContext>().Submissions
@@ -89,14 +89,21 @@ public class ReviewPageTests : IClassFixture<OsbWebFactory>
     [Fact]
     public async Task TheReviewPage_IsFilledInFromTheSubmission()
     {
-        var (_, id) = await SubmittedAsync(4100002, 9103);
+        // People unique to this test. The whole class shares one database (IClassFixture), and approving
+        // a submission adds its mapper and storyboarders to it. If this test reused the shared "Mapper"
+        // and "Storyboarder", the "new to the site" line would appear only when this test happened to run
+        // before the approval tests, making it order-dependent.
+        site.Osu.Beatmapsets[4100002] = new WebBeatmapsetModel { ID = 4100002, Title = "Song 4100002", Artist = "Artist", Creator = "Lone Mapper", UserID = 5902, Storyboard = true, SubmittedDate = new DateTimeOffset(2025, 5, 1, 0, 0, 0, TimeSpan.Zero) };
+        site.Osu.Profiles[5903] = new WebUserModel { ID = 5903, Username = "Lone Storyboarder" };
+
+        var (_, id) = await SubmittedAsync(4100002, 9103, "Lone Storyboarder");
         var reviewer = await LoggedInAsync(OsbWebFactory.ReviewerId, "Reviewer");
 
         string html = await reviewer.GetStringAsync($"/showcase/review/{id}");
 
         Assert.Contains("value=\"Song 4100002\"", html);
         Assert.Contains("value=\"2025-05-01\"", html);
-        Assert.Contains("New to the site: Mapper and Storyboarder.", html);
+        Assert.Contains("New to the site: Lone Mapper and Lone Storyboarder.", html);
         Assert.Contains("Approve and publish", html);
     }
 

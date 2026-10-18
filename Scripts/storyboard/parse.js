@@ -26,6 +26,9 @@ export const COMMAND_NAMES = {
 const EVENT_TYPES = { 0: 'Background', 1: 'Video', 2: 'Break', 3: 'Colour', 4: 'Sprite', 5: 'Sample', 6: 'Animation' };
 const IGNORED_EVENTS = new Set(['Background', 'Video', 'Break', 'Colour']);
 
+/** A line this long after variable substitution is treated as a runaway expansion (see below). */
+const MAX_LINE_LENGTH = 100000;
+
 /**
  * @param {string} text
  * @returns {{objects: object[], samples: object[], variables: Map<string,string>, widescreen: boolean|null,
@@ -72,8 +75,19 @@ export function parse(text) {
         if (section !== 'Events') continue; // [Metadata], [HitObjects] and friends of a pasted .osu file
 
         // Variables are plain text replacements, applied once each in the order they were declared.
+        // osu!stable re-scans substituted values, so a variable whose value names a later variable keeps
+        // expanding; chained definitions grow a line exponentially. Stop if one runs away, so a crafted
+        // [Variables] section can't exhaust memory (MAX_LINE_LENGTH is far longer than any real line).
         if (line.includes('$')) {
-            for (const [name, value] of result.variables) line = line.split(name).join(value);
+            let runaway = false;
+            for (const [name, value] of result.variables) {
+                line = line.split(name).join(value);
+                if (line.length > MAX_LINE_LENGTH) { runaway = true; break; }
+            }
+            if (runaway) {
+                report(lineNumber, 'error', 'This line expands variables into more than ' + MAX_LINE_LENGTH + ' characters. Check for variables whose values name other variables.');
+                continue;
+            }
             const unknown = /\$[A-Za-z0-9_]+/.exec(line);
             if (unknown) report(lineNumber, 'error', `Unknown variable ${unknown[0]}. Declare it in a [Variables] section above.`);
         }

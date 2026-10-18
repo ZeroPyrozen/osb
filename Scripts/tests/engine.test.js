@@ -229,3 +229,32 @@ test('trigger-only sprites get a note, not a "never appears" warning', () => {
     assert.deepEqual(model.diagnostics.map((d) => d.severity), ['info']);
     assert.match(model.diagnostics[0].message, /only has triggers/);
 });
+
+test('an enormous loop count is capped, so compiling never freezes the tab', () => {
+    // The preview compiles loops on the main thread. Without a cap, a tiny .osb (reachable through a
+    // playground share link) would expand to millions of segments and hang the browser.
+    const started = Date.now();
+    const o = one('Sprite,Foreground,Centre,"d.png",0,0\n L,0,50000000\n  F,0,0,100,0,1');
+    assert.ok(o.tracks.opacity.length <= 200000, `loop expansion should be capped, got ${o.tracks.opacity.length}`);
+    assert.ok(Date.now() - started < 2000, 'compiling a capped loop should be fast');
+});
+
+test('a sprite still animates after its loop is capped', () => {
+    // The cap must not break ordinary loops: the sprite keeps the values of the iterations that fit.
+    const o = one('Sprite,Foreground,Centre,"d.png",0,0\n L,0,4\n  F,0,0,250,0,1\n  F,0,250,500,1,0');
+    close(stateAt(o, 125).opacity, 0.5);
+    close(stateAt(o, 625).opacity, 0.5); // second iteration
+});
+
+test('variables that expand into each other are stopped, not run to gigabytes', () => {
+    // osu!stable re-scans substituted values, so chained variables expand exponentially. A crafted
+    // [Variables] section must be reported and skipped instead of exhausting memory.
+    let text = '[Variables]\n';
+    for (let i = 0; i < 24; i++) text += `$v${i}=$v${i + 1}$v${i + 1}\n`;
+    text += '$v24=AB\n[Events]\nSprite,Foreground,Centre,"$v0.png",0,0\n F,0,0,100,0,1';
+    const started = Date.now();
+    const model = parse(text);
+    assert.ok(Date.now() - started < 2000, 'runaway variable expansion should be stopped quickly');
+    assert.ok(model.diagnostics.some((d) => d.severity === 'error' && /expand/i.test(d.message)),
+        'a runaway expansion should be reported as an error');
+});
