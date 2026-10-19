@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using osb.Data;
 using osb.Helpers;
+using osb.Services;
 using osb.Tests.Infrastructure;
 
 namespace osb.Tests.Web;
@@ -175,6 +176,24 @@ public partial class SubmissionPageTests : IClassFixture<OsbWebFactory>
         Assert.Contains("Please add a video.", mine);
         Assert.Contains(">New</span>", mine);
         Assert.DoesNotContain("data-review-news", await browser.GetStringAsync("/"));
+    }
+
+    [Fact]
+    public async Task ConcurrentSubmissions_DoNotExceedTheWaitingCap()
+    {
+        for (int id = 4300001; id <= 4300012; id++)
+            site.Osu.Beatmapsets[id] = new WebBeatmapsetModel { ID = id, Title = $"Song {id}", Artist = "Artist", Creator = "Mapper", UserID = 5000, Storyboard = true };
+        var browser = await MemberAsync(6009, "Eager");
+        string token = await browser.GetFormTokenAsync("/showcase/submit");
+
+        // Twelve different maps submitted at once, all slipping past the early "5 waiting" check.
+        await Task.WhenAll(Enumerable.Range(4300001, 12)
+            .Select(id => browser.PostAsync("/showcase/submit", Fields(token, id.ToString()))));
+
+        using var scope = site.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<OsbDbContext>();
+        Assert.Equal(SubmissionService.MaxWaitingPerMember,
+            await db.Submissions.CountAsync(s => s.SubmitterId == 6009 && s.Status == SubmissionStatus.Pending));
     }
 
     private static FormUrlEncodedContent Token(string token) => new([new("__RequestVerificationToken", token)]);

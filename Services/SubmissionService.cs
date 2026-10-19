@@ -123,6 +123,7 @@ public class SubmissionService(OsbDbContext db, IOsuWebHelper osu, ILogger<Submi
             Status = SubmissionStatus.Pending,
         };
         db.Submissions.Add(submission);
+        await using var transaction = await db.Database.BeginTransactionAsync(ct);
         try
         {
             await db.SaveChangesAsync(ct);
@@ -134,6 +135,17 @@ public class SubmissionService(OsbDbContext db, IOsuWebHelper osu, ILogger<Submi
                 return Fail(result, nameof(SubmitForm.Beatmapset), "This storyboard is already waiting for review.");
             throw;
         }
+
+        // Enforce the waiting cap atomically. The insert above took SQLite's single write lock, so this
+        // count now sees every submission committed before it; concurrent submits that slipped past the
+        // early check each roll back here instead of all landing in the queue.
+        if (await db.Submissions.CountAsync(s => s.SubmitterId == member.Id && s.Status == SubmissionStatus.Pending, ct) > MaxWaitingPerMember)
+        {
+            await transaction.RollbackAsync(ct);
+            return Fail(result, "", $"You have {MaxWaitingPerMember} submissions waiting for review. You can add more once they're reviewed.");
+        }
+
+        await transaction.CommitAsync(ct);
         return new SubmitResult { SubmissionId = submission.Id };
     }
 
