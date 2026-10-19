@@ -85,4 +85,24 @@ public class ProgressApiTests(OsbWebFactory site) : IClassFixture<OsbWebFactory>
         await browser.LoginAsync(site, 3005, "Token Holder");
         Assert.NotEmpty(await browser.GetCsrfTokenAsync());
     }
+
+    [Fact]
+    public async Task ConcurrentFirstSyncs_FromANewLearner_AllSucceed_AndSaveOnce()
+    {
+        var browser = site.CreateBrowser();
+        await browser.LoginAsync(site, 3006, "Racer");
+        string token = await browser.GetCsrfTokenAsync();
+
+        // Several first syncs at once (two tabs, a retry) all race to create the learner row.
+        var responses = await Task.WhenAll(Enumerable.Range(0, 8)
+            .Select(_ => browser.SendAsync(Post(OneCompletion(FirstUnit), token))));
+
+        Assert.All(responses, r => Assert.Equal(HttpStatusCode.OK, r.StatusCode));
+        var read = JsonNode.Parse(await browser.GetStringAsync("/api/learn/progress"))!;
+        Assert.Equal([FirstUnit], read["completions"]!.AsObject().Select(c => c.Key));
+
+        using var scope = site.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<OsbDbContext>();
+        Assert.Equal(1, await db.Learners.CountAsync(l => l.Id == 3006));
+    }
 }
