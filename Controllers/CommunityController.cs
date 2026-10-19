@@ -1,6 +1,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using osb.Helpers;
 using osb.Services;
 using osb.ViewModels;
@@ -14,6 +15,7 @@ public class CommunityController(ShowcaseService showcase, IOsuWebHelper osu, IW
         View(new CommunityViewModel(await showcase.GetCommunityAsync(ct)));
 
     [HttpGet("/community/profile")]
+    [EnableRateLimiting(RateLimiting.OsuLookup)]
     public async Task<IActionResult> Profile(int userID, CancellationToken ct)
     {
         var profile = await showcase.GetStoryboarderAsync(userID, ct);

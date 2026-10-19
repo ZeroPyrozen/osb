@@ -27,6 +27,12 @@ public class OsbWebFactory : WebApplicationFactory<Program>
         builder.UseEnvironment("Production");
         builder.UseSetting("ConnectionStrings:Osb", $"Data Source={DatabasePath}");
         builder.UseSetting("Showcase:Reviewers", ReviewerId.ToString());
+        // Rate limiting is exercised on purpose by RateLimitingTests (with its own low limit). Everywhere
+        // else it must stay out of the way, or unrelated tests that make many requests would see 429s.
+        builder.UseSetting("RateLimits:AuthPerMinute", "1000000");
+        builder.UseSetting("RateLimits:SubmitPerMinute", "1000000");
+        builder.UseSetting("RateLimits:ProgressPerMinute", "1000000");
+        builder.UseSetting("RateLimits:OsuLookupPerMinute", "1000000");
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<IOsuWebHelper>();

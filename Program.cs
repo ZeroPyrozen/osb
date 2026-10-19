@@ -61,6 +61,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 builder.Services.AddAuthorization();
 
+// Throttles the endpoints most worth abusing (osu! logins, submissions, the progress API and the
+// osu!-backed profile lookups), per osu! user or per client IP. See RateLimiting for the policies.
+builder.Services.AddOsbRateLimiter(builder.Configuration);
+
 // SQLite database for the showcase and learner progress. A relative Data Source is resolved
 // against the content root; on the Pi the systemd unit points it at /var/lib/osb.
 string dbConnection = SqlitePath.Resolve(
@@ -126,6 +130,8 @@ app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
+// After authentication, so per-user limits can see who is signed in.
+app.UseRateLimiter();
 
 // wwwroot files, precompressed (gzip/brotli) and cache-validated at build time.
 app.MapStaticAssets();

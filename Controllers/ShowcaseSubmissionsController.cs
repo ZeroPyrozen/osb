@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using osb.Services;
 using osb.ViewModels;
 
@@ -19,6 +20,7 @@ public class ShowcaseSubmissionsController(SubmissionService submissions, Showca
     [HttpPost("/showcase/submit")]
     [Authorize]
     [ValidateAntiForgeryToken]
+    [EnableRateLimiting(RateLimiting.Submit)]
     public async Task<IActionResult> Submit(SubmitForm form, CancellationToken ct)
     {
         int? showcasedId = null;
