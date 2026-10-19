@@ -68,6 +68,9 @@ string dbConnection = SqlitePath.Resolve(
     builder.Environment.ContentRootPath);
 builder.Services.AddDbContext<OsbDbContext>(options => options
     .UseSqlite(dbConnection)
+    // Opens every connection in WAL mode with a busy timeout, so reads don't block the single writer
+    // and a contended write waits for the lock instead of failing (see SqlitePragmaInterceptor).
+    .AddInterceptors(new SqlitePragmaInterceptor())
     .UseSeeding((context, _) => ShowcaseSeeder.Seed(context))
     .UseAsyncSeeding((context, _, ct) => ShowcaseSeeder.SeedAsync(context, ct)));
 builder.Services.AddScoped<ShowcaseService>();
