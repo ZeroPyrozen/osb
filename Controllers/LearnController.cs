@@ -1,11 +1,13 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using osb.Learn;
 
 namespace osb.Controllers;
 
 /// <summary>osb! learn: the course catalog, modules, units, the playground and the progress page.</summary>
+[OutputCache(PolicyName = "anon")]
 public class LearnController(CourseProvider courses) : Controller
 {
     [HttpGet("/learn")]

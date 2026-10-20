@@ -33,6 +33,12 @@ public class OsbWebFactory : WebApplicationFactory<Program>
         builder.UseSetting("RateLimits:SubmitPerMinute", "1000000");
         builder.UseSetting("RateLimits:ProgressPerMinute", "1000000");
         builder.UseSetting("RateLimits:OsuLookupPerMinute", "1000000");
+        // Output caching is exercised on purpose by OutputCacheTests; off elsewhere so a test that
+        // changes data and re-reads a page isn't served a stale cached copy.
+        builder.UseSetting("OutputCache:Enabled", "false");
+        // Metrics use a process-global registry; only MetricsTests turns them on (a single host), so the
+        // rest of the suite doesn't register the same collectors across several in-memory hosts.
+        builder.UseSetting("Metrics:Enabled", "false");
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<IOsuWebHelper>();

@@ -149,6 +149,27 @@ so generated links, HTTPS redirection and HSTS work behind any of them. If the p
 Remember to point the osu! OAuth application's callback URL (`API__RedirectURL`) at the public
 address.
 
+### Edge-caching anonymous pages (optional)
+
+Pages for logged-out visitors are identical for everyone and set no cookies, and the app marks them
+`Cache-Control: public, max-age=60`, so a CDN can serve most read traffic without touching the Pi.
+Logged-in requests carry the `osb.auth` cookie and are always rendered fresh. If you run the
+Cloudflare Tunnel, add a Cache Rule:
+
+- **When**: incoming request `Cookie` does not contain `osb.auth`
+- **Then**: Eligible for cache, Edge TTL = *Respect origin*
+
+The app's in-process output cache applies the same anonymous-only rule at the origin, so the Pi is
+shielded even on a cache miss. Turn all of it off with `OutputCache__Enabled=false` in
+`/etc/osb/osb.env` if you ever need to.
+
+### Metrics (optional)
+
+The app exposes Prometheus metrics at `/metrics` — request rates and durations plus .NET runtime and
+process stats — for a scrape from your network: point Prometheus at `http://<pi>:5000/metrics`. The
+endpoint answers only to local-network clients, so it isn't reachable through the public tunnel. Turn
+it off with `Metrics__Enabled=false` in `/etc/osb/osb.env`.
+
 ## What lives where on the Pi
 
 | Path | Contents |

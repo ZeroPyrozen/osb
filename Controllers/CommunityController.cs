@@ -1,6 +1,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.RateLimiting;
 using osb.Helpers;
 using osb.Services;
@@ -8,6 +9,7 @@ using osb.ViewModels;
 
 namespace osb.Controllers;
 
+[OutputCache(PolicyName = "anon")]
 public class CommunityController(ShowcaseService showcase, IOsuWebHelper osu, IWebHostEnvironment env) : Controller
 {
     [HttpGet("/community")]
