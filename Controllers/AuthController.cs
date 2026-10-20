@@ -6,7 +6,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using osb.Helpers;
+using osb.Services;
 
 namespace osb.Controllers;
 
@@ -14,6 +16,7 @@ namespace osb.Controllers;
 /// Logs people in with their osu! account (OAuth authorization code flow) and keeps them signed in
 /// with a 30-day cookie. Only the "identify" scope is requested and no osu! token is stored.
 /// </summary>
+[EnableRateLimiting(RateLimiting.Auth)]
 public class AuthController(IOsuWebHelper osu, ILogger<AuthController> logger) : Controller
 {
     /// <summary>Holds the OAuth state and the page to return to while the user is on osu!.</summary>

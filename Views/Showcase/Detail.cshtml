@@ -9,11 +9,22 @@
     string videoTitle = $"{set.Artist} - {set.Title}";
 }
 
-<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-1.5 text-sm text-sage">
-    <a href="/showcase" class="font-semibold">Showcase</a>
-    @Icons.Get("chevron-right", "size-4")
-    <span class="truncate" aria-current="page">@set.Title</span>
-</nav>
+<div class="mb-4 flex items-center justify-between gap-3">
+    <nav aria-label="Breadcrumb" class="flex min-w-0 items-center gap-1.5 text-sm text-sage">
+        <a href="/showcase" class="font-semibold">Showcase</a>
+        @Icons.Get("chevron-right", "size-4")
+        <span class="truncate" aria-current="page">@set.Title</span>
+    </nav>
+    @if (User.IsInRole(ReviewerList.Role))
+    {
+        <a href="/showcase/edit?beatmapsetID=@set.Id" class="btn btn-outline shrink-0">@Icons.Get("pencil", "size-4") Edit</a>
+    }
+</div>
+
+@if (Model.Flash != null)
+{
+    <p role="status" class="mb-4 rounded-card border border-mint-400/50 bg-mint-400/10 px-4 py-3 text-sm font-semibold text-mint-50">@Model.Flash</p>
+}
 
 <article class="animate-fade-in">
     <header class="relative overflow-hidden rounded-card bg-charcoal-800 shadow-card">

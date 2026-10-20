@@ -1,0 +1,12 @@
+@model SubmissionStatus
+@* A showcase submission's status, as members and reviewers see it. *@
+@{
+    var (label, colours) = Model switch
+    {
+        SubmissionStatus.Approved => ("Showcased", "border-mint-400 text-mint-300"),
+        SubmissionStatus.Declined => ("Declined", "border-danger text-danger"),
+        SubmissionStatus.Withdrawn => ("Withdrawn", "border-charcoal-500 text-sage"),
+        _ => ("Waiting for review", "border-gold-400 text-gold-300"),
+    };
+}
+<span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-bold @colours">@label</span>

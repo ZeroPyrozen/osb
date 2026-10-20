@@ -105,6 +105,86 @@ public class ShowcaseSeederTests
         Assert.Equal("https://www.youtube.com/embed/aaaaaaaaaaa", (await check.Beatmapsets.FindAsync(withVideos[1].Id))!.VideoUrl);
     }
 
+    [Fact]
+    public async Task RemovedStoryboards_AreNotAddedBack()
+    {
+        var seed = await ShowcaseSeeder.LoadAsync(CancellationToken.None);
+        int id = seed.Beatmapsets[0].Id;
+        using var database = new TestDatabase();
+        await using (var db = database.CreateContext())
+            await ShowcaseSeeder.SeedAsync(db, CancellationToken.None);
+
+        await using (var db = database.CreateContext())
+        {
+            db.Beatmapsets.Remove((await db.Beatmapsets.FindAsync(id))!);
+            db.ShowcaseRemovals.Add(new ShowcaseRemoval { BeatmapsetId = id, RemovedAt = DateTime.UtcNow, RemovedById = 2, RemovedByUsername = "reviewer", Reason = "A test." });
+            await db.SaveChangesAsync();
+        }
+
+        await using (var db = database.CreateContext())
+            await ShowcaseSeeder.SeedAsync(db, CancellationToken.None);
+
+        await using var check = database.CreateContext();
+        Assert.Null(await check.Beatmapsets.FindAsync(id));
+        Assert.Equal(seed.Beatmapsets.Count - 1, await check.Beatmapsets.CountAsync());
+    }
+
+    /// <summary>For example, a reviewer removed a video that was taken down; it mustn't come back.</summary>
+    [Fact]
+    public async Task StoryboardsChangedOnTheSite_KeepTheirChanges()
+    {
+        var seed = await ShowcaseSeeder.LoadAsync(CancellationToken.None);
+        var withVideo = seed.Beatmapsets.First(s => s.Video != null);
+        using var database = new TestDatabase();
+        await using (var db = database.CreateContext())
+            await ShowcaseSeeder.SeedAsync(db, CancellationToken.None);
+
+        await using (var db = database.CreateContext())
+        {
+            var set = (await db.Beatmapsets.FindAsync(withVideo.Id))!;
+            set.VideoUrl = null;
+            set.ChangedOnSiteAt = DateTime.UtcNow;
+            await db.SaveChangesAsync();
+        }
+
+        await using (var db = database.CreateContext())
+            await ShowcaseSeeder.SeedAsync(db, CancellationToken.None);
+
+        await using var check = database.CreateContext();
+        Assert.Null((await check.Beatmapsets.FindAsync(withVideo.Id))!.VideoUrl);
+    }
+
+    [Fact]
+    public async Task TheFileCanMakeSomeoneACommunityMember_ButNeverTakesItAway()
+    {
+        string notAMember = ValidFile.Replace("\"communityMember\": true, \"roles\": [\"Mentor\"]", "\"communityMember\": false, \"roles\": []");
+        Assert.NotEqual(ValidFile, notAMember);
+        using var database = new TestDatabase();
+
+        // The site knew bob first, as a storyboarder, then the file lists them as a Mentor...
+        await using (var db = database.CreateContext())
+            await SeedFromAsync(db, notAMember);
+        await using (var db = database.CreateContext())
+            await SeedFromAsync(db, ValidFile);
+        var member = await BobAsync(database);
+
+        // ...and later stops listing them.
+        await using (var db = database.CreateContext())
+            await SeedFromAsync(db, notAMember);
+        var later = await BobAsync(database);
+
+        Assert.True(member.IsCommunityMember);
+        Assert.Equal(["Mentor"], member.Roles.Select(r => r.Name));
+        Assert.True(later.IsCommunityMember);
+        Assert.Equal(["Mentor"], later.Roles.Select(r => r.Name));
+    }
+
+    private static async Task<OsuUser> BobAsync(TestDatabase database)
+    {
+        await using var db = database.CreateContext();
+        return await db.Users.Include(u => u.Roles).SingleAsync(u => u.Id == 2);
+    }
+
     [Theory]
     [InlineData("\"storyboarders\": [2]", "\"storyboarders\": [99]", "unknown storyboarder 99 of beatmapset 1")]
     [InlineData("\"host\": 2", "\"host\": 99", "unknown host 99 of beatmapset 1")]

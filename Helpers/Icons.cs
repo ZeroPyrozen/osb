@@ -59,6 +59,7 @@ public static class Icons
         ["bolt"] = ("0 0 24 24", """<path d="M13.5 3 5.5 13.5h6L10.5 21l8-10.5h-6L13.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>"""),
         ["particles"] = ("0 0 24 24", """<circle cx="6" cy="7" r="2" fill="currentColor"/><circle cx="15" cy="5" r="1.3" fill="currentColor"/><circle cx="18.5" cy="12" r="2.4" fill="currentColor"/><circle cx="9.5" cy="13.5" r="1.6" fill="currentColor"/><circle cx="13.5" cy="19" r="1.9" fill="currentColor"/><circle cx="5" cy="18.5" r="1.1" fill="currentColor"/>"""),
         ["gauge"] = ("0 0 24 24", """<path d="M4.2 17a8.5 8.5 0 1 1 15.6 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="m12 14 4-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="14" r="1.7" fill="currentColor"/>"""),
+        ["pencil"] = ("0 0 24 24", """<path d="M4 20l1-4.5L15.5 5a2.12 2.12 0 0 1 3 3L8 18.5 4 20ZM13.5 7l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>"""),
     };
 
     public static bool Exists(string name) => All.ContainsKey(name);

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace osb.Data;
 
 /// <summary>
-/// The site's SQLite database: showcase data plus learner progress.
+/// The site's SQLite database: showcase data, showcase submissions and learner progress.
 /// Change the model, then add a migration with <c>dotnet ef migrations add &lt;Name&gt;</c>.
 /// Migrations are applied on startup (see Program.cs).
 /// </summary>
@@ -18,6 +18,9 @@ public class OsbDbContext(DbContextOptions<OsbDbContext> options) : DbContext(op
     public DbSet<BeatmapsetStoryboarder> BeatmapsetStoryboarders => Set<BeatmapsetStoryboarder>();
     public DbSet<Learner> Learners => Set<Learner>();
     public DbSet<UnitCompletion> UnitCompletions => Set<UnitCompletion>();
+    public DbSet<ShowcaseSubmission> Submissions => Set<ShowcaseSubmission>();
+    public DbSet<SubmissionCredit> SubmissionCredits => Set<SubmissionCredit>();
+    public DbSet<ShowcaseRemoval> ShowcaseRemovals => Set<ShowcaseRemoval>();
 
     protected override void OnModelCreating(ModelBuilder model)
     {
@@ -81,6 +84,42 @@ public class OsbDbContext(DbContextOptions<OsbDbContext> options) : DbContext(op
             completion.HasIndex(c => new { c.LearnerId, c.UnitId }).IsUnique();
             completion.HasOne(c => c.Learner).WithMany(l => l.Completions)
                 .HasForeignKey(c => c.LearnerId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        model.Entity<ShowcaseSubmission>(submission =>
+        {
+            submission.Property(s => s.Title).HasMaxLength(256);
+            submission.Property(s => s.Artist).HasMaxLength(256);
+            submission.Property(s => s.HostUsername).HasMaxLength(32);
+            submission.Property(s => s.Medium).HasMaxLength(32);
+            submission.Property(s => s.VideoUrl).HasMaxLength(256);
+            submission.Property(s => s.Note).HasMaxLength(1000);
+            submission.Property(s => s.SubmitterUsername).HasMaxLength(32);
+            submission.Property(s => s.ReviewerUsername).HasMaxLength(32);
+            submission.Property(s => s.ReviewNote).HasMaxLength(1000);
+            submission.HasIndex(s => s.SubmitterId);
+            submission.HasIndex(s => s.Status);
+            // Only one submission per beatmapset can be waiting for review at a time.
+            submission.HasIndex(s => s.BeatmapsetId).IsUnique().HasFilter($"\"Status\" = {(int)SubmissionStatus.Pending}");
+            submission.HasMany(s => s.SuggestedTags).WithMany().UsingEntity("SubmissionTags");
+            // Computed from Storyboarders, like Beatmapset.Credits.
+            submission.Ignore(s => s.Credits);
+        });
+
+        model.Entity<SubmissionCredit>(credit =>
+        {
+            credit.HasKey(c => new { c.SubmissionId, c.OsuUserId });
+            credit.Property(c => c.Username).HasMaxLength(32);
+            credit.HasOne(c => c.Submission).WithMany(s => s.Storyboarders)
+                .HasForeignKey(c => c.SubmissionId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        model.Entity<ShowcaseRemoval>(removal =>
+        {
+            removal.HasKey(r => r.BeatmapsetId);
+            removal.Property(r => r.BeatmapsetId).ValueGeneratedNever();
+            removal.Property(r => r.RemovedByUsername).HasMaxLength(32);
+            removal.Property(r => r.Reason).HasMaxLength(1000);
         });
     }
 }

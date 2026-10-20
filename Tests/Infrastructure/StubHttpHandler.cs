@@ -10,10 +10,15 @@ public sealed class StubHttpHandler(Func<HttpRequestMessage, HttpResponseMessage
 
     public List<Request> Requests { get; } = new();
 
+    private readonly object gate = new();
+
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
         string? body = request.Content != null ? await request.Content.ReadAsStringAsync(ct) : null;
-        Requests.Add(new Request(request.Method, request.RequestUri!.ToString(), body, request.Headers.Authorization?.ToString()));
+        // AbsoluteUri keeps escapes such as %20 as sent; ToString() would show them unescaped.
+        var entry = new Request(request.Method, request.RequestUri!.AbsoluteUri, body, request.Headers.Authorization?.ToString());
+        lock (gate)
+            Requests.Add(entry);
         return respond(request);
     }
 

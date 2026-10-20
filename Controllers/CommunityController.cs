@@ -1,12 +1,15 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.AspNetCore.RateLimiting;
 using osb.Helpers;
 using osb.Services;
 using osb.ViewModels;
 
 namespace osb.Controllers;
 
+[OutputCache(PolicyName = "anon")]
 public class CommunityController(ShowcaseService showcase, IOsuWebHelper osu, IWebHostEnvironment env) : Controller
 {
     [HttpGet("/community")]
@@ -14,6 +17,7 @@ public class CommunityController(ShowcaseService showcase, IOsuWebHelper osu, IW
         View(new CommunityViewModel(await showcase.GetCommunityAsync(ct)));
 
     [HttpGet("/community/profile")]
+    [EnableRateLimiting(RateLimiting.OsuLookup)]
     public async Task<IActionResult> Profile(int userID, CancellationToken ct)
     {
         var profile = await showcase.GetStoryboarderAsync(userID, ct);

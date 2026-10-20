@@ -47,6 +47,21 @@ namespace osb.Data.Migrations
                     b.ToTable("OsuUserRoles");
                 });
 
+            modelBuilder.Entity("SubmissionTags", b =>
+                {
+                    b.Property<int>("ShowcaseSubmissionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SuggestedTagsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ShowcaseSubmissionId", "SuggestedTagsId");
+
+                    b.HasIndex("SuggestedTagsId");
+
+                    b.ToTable("SubmissionTags");
+                });
+
             modelBuilder.Entity("osb.Data.Beatmapset", b =>
                 {
                     b.Property<int>("Id")
@@ -55,6 +70,9 @@ namespace osb.Data.Migrations
                     b.Property<string>("Artist")
                         .IsRequired()
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ChangedOnSiteAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("HostId")
@@ -175,6 +193,122 @@ namespace osb.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("osb.Data.ShowcaseRemoval", b =>
+                {
+                    b.Property<int>("BeatmapsetId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RemovedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RemovedById")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RemovedByUsername")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("BeatmapsetId");
+
+                    b.ToTable("ShowcaseRemovals");
+                });
+
+            modelBuilder.Entity("osb.Data.ShowcaseSubmission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Artist")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("BeatmapSubmittedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BeatmapsetId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HostId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("HostUsername")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Medium")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("OsuListsStoryboard")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("OutcomeSeen")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReviewNote")
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReviewerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReviewerUsername")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubmitterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SubmitterUsername")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VideoUrl")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeatmapsetId")
+                        .IsUnique()
+                        .HasFilter("\"Status\" = 0");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("SubmitterId");
+
+                    b.ToTable("Submissions");
+                });
+
             modelBuilder.Entity("osb.Data.StoryboardTag", b =>
                 {
                     b.Property<int>("Id")
@@ -200,6 +334,27 @@ namespace osb.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("osb.Data.SubmissionCredit", b =>
+                {
+                    b.Property<int>("SubmissionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OsuUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SubmissionId", "OsuUserId");
+
+                    b.ToTable("SubmissionCredits");
                 });
 
             modelBuilder.Entity("osb.Data.UnitCompletion", b =>
@@ -263,6 +418,21 @@ namespace osb.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SubmissionTags", b =>
+                {
+                    b.HasOne("osb.Data.ShowcaseSubmission", null)
+                        .WithMany()
+                        .HasForeignKey("ShowcaseSubmissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("osb.Data.StoryboardTag", null)
+                        .WithMany()
+                        .HasForeignKey("SuggestedTagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("osb.Data.Beatmapset", b =>
                 {
                     b.HasOne("osb.Data.OsuUser", "Host")
@@ -293,6 +463,17 @@ namespace osb.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("osb.Data.SubmissionCredit", b =>
+                {
+                    b.HasOne("osb.Data.ShowcaseSubmission", "Submission")
+                        .WithMany("Storyboarders")
+                        .HasForeignKey("SubmissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Submission");
+                });
+
             modelBuilder.Entity("osb.Data.UnitCompletion", b =>
                 {
                     b.HasOne("osb.Data.Learner", "Learner")
@@ -319,6 +500,11 @@ namespace osb.Data.Migrations
                     b.Navigation("HostedBeatmapsets");
 
                     b.Navigation("Storyboards");
+                });
+
+            modelBuilder.Entity("osb.Data.ShowcaseSubmission", b =>
+                {
+                    b.Navigation("Storyboarders");
                 });
 #pragma warning restore 612, 618
         }

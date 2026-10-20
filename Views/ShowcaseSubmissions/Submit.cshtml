@@ -1,0 +1,141 @@
+@model SubmitPageViewModel
+@{
+    ViewData["Title"] = "Submit a storyboard";
+    ViewData["Description"] = "Suggest a storyboard for the osb showcase. Anyone with an osu! account can submit one, theirs or someone else's.";
+    bool loggedIn = User.Identity?.IsAuthenticated == true;
+    var form = Model.Form;
+    var formErrors = ViewData.ModelState[string.Empty]?.Errors.Select(e => e.ErrorMessage).ToList() ?? [];
+
+    string ErrorOf(string field) => ViewData.ModelState[field]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string DescribedBy(string field) => ErrorOf(field) != null ? $"{field}-hint {field}-error" : $"{field}-hint";
+    string Invalid(string field) => ErrorOf(field) != null ? "true" : null;
+
+    void Error(string field)
+    {
+        if (ErrorOf(field) is { } message)
+        {
+            <p id="@(field)-error" class="text-sm font-semibold text-danger">@message</p>
+        }
+    }
+}
+
+<header class="flex animate-fade-in flex-col gap-2">
+    <nav aria-label="Breadcrumb" class="mb-2 flex items-center gap-1.5 text-sm text-sage">
+        <a href="/showcase" class="font-semibold">Showcase</a>
+        @Icons.Get("chevron-right", "size-4")
+        <span aria-current="page">Submit a storyboard</span>
+    </nav>
+    <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Submit a storyboard</h1>
+    <p class="max-w-[65ch] text-mint-200">
+        Know a storyboard that belongs in the showcase, yours or someone else's? Tell us about it. The osb team reviews
+        every submission, and you can follow yours on <a href="/showcase/submissions">My submissions</a>.
+    </p>
+</header>
+
+<div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <div class="min-w-0">
+        @if (!loggedIn)
+        {
+            <section aria-labelledby="login-title" class="relative overflow-hidden card px-6 py-8 sm:px-8 xl:pr-60">
+                <h2 id="login-title" class="section-title">Log in to submit</h2>
+                <p class="mt-2 max-w-[48ch] text-sm leading-relaxed text-mint-200">
+                    Submissions are made with your osu! account, so the team knows who to ask about one.
+                    Anyone with an osu! account can submit.
+                </p>
+                <a href="/auth?returnUrl=%2Fshowcase%2Fsubmit" class="btn btn-primary mt-5">Log in with osu! to submit</a>
+                <p class="mt-5 text-sm text-sage">Rather talk it over first? Share it in the <a href="https://discord.gg/B8NX7YW">osb Discord server</a>.</p>
+                <img src="~/images/mascot/hifumi-stylish.webp" alt="" width="640" height="524" class="pointer-events-none absolute -right-10 -bottom-12 hidden w-60 select-none xl:block">
+            </section>
+        }
+        else
+        {
+            <form method="post" action="/showcase/submit" class="flex flex-col gap-6 card p-6 sm:p-8">
+                @Html.AntiForgeryToken()
+
+                @if (formErrors.Count > 0)
+                {
+                    <div role="alert" class="rounded-card border border-danger/60 bg-danger/10 px-4 py-3 text-sm font-semibold text-mint-50">
+                        @foreach (string message in formErrors)
+                        {
+                            <p>@message</p>
+                        }
+                    </div>
+                }
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="Beatmapset" class="text-sm font-bold text-mint-50">Beatmapset</label>
+                    <input id="Beatmapset" name="Beatmapset" value="@form.Beatmapset" required maxlength="300" autocomplete="off" spellcheck="false"
+                           placeholder="https://osu.ppy.sh/beatmapsets/1011020" class="input" aria-describedby="@DescribedBy("Beatmapset")" aria-invalid="@Invalid("Beatmapset")">
+                    <p id="Beatmapset-hint" class="text-xs text-sage">A link to the beatmapset or one of its difficulties, or the beatmapset's ID. The title, artist and mapper come from osu!.</p>
+                    @{ Error("Beatmapset"); }
+                    @if (Model.ShowcasedId is int showcasedId)
+                    {
+                        <a href="/showcase/detail?beatmapsetID=@showcasedId" class="self-start text-sm font-semibold">See it in the showcase</a>
+                    }
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="Storyboarders" class="text-sm font-bold text-mint-50">Storyboarders</label>
+                    <textarea id="Storyboarders" name="Storyboarders" rows="2" required maxlength="1000" spellcheck="false"
+                              placeholder="Their osu! usernames, separated by commas" class="input" aria-describedby="@DescribedBy("Storyboarders")" aria-invalid="@Invalid("Storyboarders")">@form.Storyboarders</textarea>
+                    <p id="Storyboarders-hint" class="text-xs text-sage">osu! usernames or profile links, in credit order, separated by commas. Up to @SubmissionService.MaxStoryboarders.</p>
+                    @{ Error("Storyboarders"); }
+                </div>
+
+                <div class="grid gap-6 sm:grid-cols-2">
+                    <div class="flex min-w-0 flex-col gap-1.5">
+                        <label for="Medium" class="text-sm font-bold text-mint-50">Made with</label>
+                        <input id="Medium" name="Medium" value="@form.Medium" list="mediums" required maxlength="32" autocomplete="off"
+                               placeholder="Storybrew, SGL, C#…" class="input" aria-describedby="@DescribedBy("Medium")" aria-invalid="@Invalid("Medium")">
+                        <datalist id="mediums">
+                            @foreach (string medium in Model.Mediums)
+                            {
+                                <option value="@medium"></option>
+                            }
+                        </datalist>
+                        <p id="Medium-hint" class="text-xs text-sage">The tool or language. Pick one, or type another.</p>
+                        @{ Error("Medium"); }
+                    </div>
+
+                    <div class="flex min-w-0 flex-col gap-1.5">
+                        <label for="Video" class="text-sm font-bold text-mint-50">Video <span class="font-normal text-sage">(optional)</span></label>
+                        <input id="Video" name="Video" value="@form.Video" inputmode="url" maxlength="300" autocomplete="off" spellcheck="false"
+                               placeholder="https://youtu.be/…" class="input" aria-describedby="@DescribedBy("Video")" aria-invalid="@Invalid("Video")">
+                        <p id="Video-hint" class="text-xs text-sage">A YouTube link to a recording of the storyboard.</p>
+                        @{ Error("Video"); }
+                    </div>
+                </div>
+
+                <fieldset class="flex flex-col gap-2" aria-describedby="Tags-hint">
+                    <legend class="text-sm font-bold text-mint-50">Tags <span class="font-normal text-sage">(optional)</span></legend>
+                    <p id="Tags-hint" class="text-xs text-sage">What makes it special? The osb team chooses the final tags, which set its OSB level.</p>
+                    <div class="mt-1 flex flex-wrap gap-2">
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <label class="chip cursor-pointer select-none has-checked:border-mint-400 has-checked:bg-mint-400 has-checked:text-charcoal-950 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-mint-400">
+                                <input type="checkbox" name="Tags" value="@tag.Slug" checked="@form.Tags.Contains(tag.Slug)" class="sr-only">
+                                <img src="/images/showcase/tags.svg#@tag.Slug" alt="" width="20" height="20" class="size-5">@tag.Name
+                            </label>
+                        }
+                    </div>
+                </fieldset>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="Note" class="text-sm font-bold text-mint-50">Note to the team <span class="font-normal text-sage">(optional)</span></label>
+                    <textarea id="Note" name="Note" rows="3" maxlength="1000" class="input" aria-describedby="@DescribedBy("Note")" aria-invalid="@Invalid("Note")">@form.Note</textarea>
+                    <p id="Note-hint" class="text-xs text-sage">Anything that helps the review, such as which difficulty shows the storyboard best.</p>
+                    @{ Error("Note"); }
+                </div>
+
+                <div class="flex flex-wrap items-center gap-4 border-t border-charcoal-600 pt-6">
+                    <button type="submit" class="btn btn-primary">@Icons.Get("upload", "size-4") Submit for review</button>
+                    <p class="text-xs text-sage">You can have up to @SubmissionService.MaxWaitingPerMember submissions waiting at a time.</p>
+                </div>
+            </form>
+        }
+    </div>
+
+    <aside class="flex flex-col gap-6">
+        <partial name="_WhatWeLookFor" />
+    </aside>
+</div>

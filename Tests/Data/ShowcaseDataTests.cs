@@ -82,6 +82,12 @@ public partial class ShowcaseDataTests
     }
 
     [Fact]
+    public void NoStoryboard_IsShowcasedBeforeItWasSubmittedToOsu() =>
+        Assert.Empty(Seed.Beatmapsets
+            .Where(s => s.Showcased < s.Submitted)
+            .Select(s => $"{s.Id}: showcased {s.Showcased:yyyy-MM-dd}, submitted {s.Submitted:yyyy-MM-dd}"));
+
+    [Fact]
     public void Roles_HaveCssColours() =>
         Assert.All(Seed.Roles, r => Assert.Matches(HexColour(), r.Colour));
 

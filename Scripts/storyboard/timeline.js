@@ -12,12 +12,20 @@ import { ease } from './easing.js';
 
 const DEFAULTS = { opacity: 1, scale: 1, rotation: 0 };
 
+// Loops are expanded into individual segments to preview them. A loop count is only bounded by what
+// fits in an int, so without a ceiling a tiny .osb (e.g. "L,0,50000000") would expand to millions of
+// segments and freeze the tab. The preview can't show that many anyway, so stop once this many loop
+// commands have been expanded across the whole storyboard. Script mode has the same kind of guard
+// (MAX_COMMANDS in script.js).
+const MAX_LOOP_COMMANDS = 200000;
+
 /** Compiles a parse() result. Returns objects in declaration order, ready for stateAt(). */
 export function compile(model) {
-    return model.objects.map((source, index) => compileObject(source, index));
+    const budget = { loopCommands: MAX_LOOP_COMMANDS };
+    return model.objects.map((source, index) => compileObject(source, index, budget));
 }
 
-function compileObject(source, index) {
+function compileObject(source, index, budget = { loopCommands: Infinity }) {
     const tracks = { x: [], y: [], scale: [], vscale: [], rotation: [], color: [], opacity: [] };
     const params = { H: [], V: [], A: [] };
 
@@ -46,8 +54,12 @@ function compileObject(source, index) {
         const bodyEnd = Math.max(...loop.commands.map((c) => c.end));
         const period = bodyEnd - bodyStart;
         const iterations = period > 0 ? loop.count : 1;
-        for (let i = 0; i < iterations; i++)
+        for (let i = 0; i < iterations; i++) {
             for (const cmd of loop.commands) add(cmd, loop.start + i * period);
+            budget.loopCommands -= loop.commands.length;
+            if (budget.loopCommands <= 0) break;
+        }
+        if (budget.loopCommands <= 0) break;
     }
 
     let start = Infinity;

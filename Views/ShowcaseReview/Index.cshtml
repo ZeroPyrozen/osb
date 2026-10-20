@@ -1,0 +1,81 @@
+@model ReviewQueueViewModel
+@{
+    ViewData["Title"] = "Review queue";
+}
+
+<header class="flex animate-fade-in flex-col gap-2">
+    <p class="eyebrow">Showcase</p>
+    <h1 class="font-display text-3xl font-bold tracking-tight text-mint-50 sm:text-4xl">Review queue</h1>
+    <p class="max-w-[60ch] text-mint-200">Storyboards members suggested for the showcase, oldest first.</p>
+</header>
+
+@if (Model.Flash != null)
+{
+    <p role="status" class="mt-6 rounded-card border border-mint-400/50 bg-mint-400/10 px-4 py-3 text-sm font-semibold text-mint-50">@Model.Flash</p>
+}
+
+<section aria-labelledby="waiting-title" class="mt-8 flex flex-col gap-4">
+    <h2 id="waiting-title" class="section-title">Waiting <span class="text-sage tabular-nums">(@Model.Waiting.Count)</span></h2>
+    @if (Model.Waiting.Count == 0)
+    {
+        <p class="card p-6 text-sm text-sage">Nothing is waiting for review.</p>
+    }
+    else
+    {
+        <ul class="flex flex-col gap-3">
+            @foreach (var submission in Model.Waiting)
+            {
+                <li class="group relative flex flex-col gap-4 card p-5 transition hover:outline hover:outline-1 hover:outline-sage sm:flex-row sm:items-center">
+                    <img src="https://assets.ppy.sh/beatmaps/@submission.BeatmapsetId/covers/card.jpg" alt="" width="150" height="52" loading="lazy"
+                         class="h-[70px] w-[150px] shrink-0 rounded-card bg-charcoal-700 object-cover">
+                    <div class="flex min-w-0 flex-1 flex-col gap-1">
+                        <h3 class="font-bold break-words">
+                            <a href="/showcase/review/@submission.Id" class="text-mint-50 after:absolute after:inset-0 hover:no-underline">@submission.Artist - @submission.Title</a>
+                        </h3>
+                        <p class="text-sm text-sage">
+                            Mapped by @submission.HostUsername · storyboarded by @Format.List(submission.Credits.Select(c => c.Username).ToList()) · @submission.Medium
+                        </p>
+                        <p class="text-sm text-sage">From @submission.SubmitterUsername, @submission.SubmittedAt.ToString("d MMMM yyyy")</p>
+                    </div>
+                    <div class="flex shrink-0 flex-wrap gap-2 text-xs font-bold">
+                        @if (!submission.OsuListsStoryboard)
+                        {
+                            <span class="rounded-full border border-gold-400 px-2.5 py-0.5 text-gold-300">No storyboard on osu!</span>
+                        }
+                        @if (submission.VideoUrl != null)
+                        {
+                            <span class="rounded-full border border-charcoal-500 px-2.5 py-0.5 text-mint-200">Video</span>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</section>
+
+@if (Model.Recent.Count > 0)
+{
+    <section aria-labelledby="recent-title" class="mt-10 flex flex-col gap-4">
+        <h2 id="recent-title" class="section-title">Recently reviewed</h2>
+        <ul class="divide-y divide-charcoal-600 card px-5">
+            @foreach (var submission in Model.Recent)
+            {
+                <li class="flex flex-wrap items-center gap-x-3 gap-y-1 py-3 text-sm">
+                    <partial name="_SubmissionStatus" model="submission.Status" />
+                    @if (submission.Status == SubmissionStatus.Approved)
+                    {
+                        <a href="/showcase/detail?beatmapsetID=@submission.BeatmapsetId" class="font-semibold">@submission.Artist - @submission.Title</a>
+                    }
+                    else
+                    {
+                        <span class="font-semibold text-mint-100">@submission.Artist - @submission.Title</span>
+                    }
+                    <span class="text-sage">
+                        @(submission.Status == SubmissionStatus.Withdrawn ? $"withdrawn by {submission.SubmitterUsername}" : $"by {submission.ReviewerUsername}"),
+                        @submission.ReviewedAt?.ToString("d MMMM yyyy")
+                    </span>
+                </li>
+            }
+        </ul>
+    </section>
+}

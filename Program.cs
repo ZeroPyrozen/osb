@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -6,6 +7,7 @@ using osb.Data;
 using osb.Helpers;
 using osb.Learn;
 using osb.Services;
+using Prometheus;
 
 const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -17,6 +19,9 @@ builder.Services.AddSystemd();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddMemoryCache();
+
+// Caches the read-heavy content pages for anonymous visitors only (see AnonymousOutputCachePolicy).
+builder.Services.AddOutputCache(options => options.AddPolicy("anon", new AnonymousOutputCachePolicy(builder.Configuration)));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -49,8 +54,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 context.Response.Redirect(context.RedirectUri);
             return Task.CompletedTask;
         };
+        // Pages someone may not use, such as the review queue for non-reviewers, look like they don't exist.
+        options.Events.OnRedirectToAccessDenied = context =>
+        {
+            context.Response.StatusCode = context.Request.Path.StartsWithSegments("/api")
+                ? StatusCodes.Status403Forbidden
+                : StatusCodes.Status404NotFound;
+            return Task.CompletedTask;
+        };
     });
 builder.Services.AddAuthorization();
+
+// Throttles the endpoints most worth abusing (osu! logins, submissions, the progress API and the
+// osu!-backed profile lookups), per osu! user or per client IP. See RateLimiting for the policies.
+builder.Services.AddOsbRateLimiter(builder.Configuration);
 
 // SQLite database for the showcase and learner progress. A relative Data Source is resolved
 // against the content root; on the Pi the systemd unit points it at /var/lib/osb.
@@ -59,9 +76,18 @@ string dbConnection = SqlitePath.Resolve(
     builder.Environment.ContentRootPath);
 builder.Services.AddDbContext<OsbDbContext>(options => options
     .UseSqlite(dbConnection)
+    // Opens every connection in WAL mode with a busy timeout, so reads don't block the single writer
+    // and a contended write waits for the lock instead of failing (see SqlitePragmaInterceptor).
+    .AddInterceptors(new SqlitePragmaInterceptor())
     .UseSeeding((context, _) => ShowcaseSeeder.Seed(context))
     .UseAsyncSeeding((context, _, ct) => ShowcaseSeeder.SeedAsync(context, ct)));
 builder.Services.AddScoped<ShowcaseService>();
+builder.Services.AddScoped<SubmissionService>();
+builder.Services.AddScoped<ReviewService>();
+
+// The osb team members who review showcase submissions get the Reviewer role (see ReviewerList).
+builder.Services.AddSingleton<ReviewerList>();
+builder.Services.AddTransient<IClaimsTransformation, ReviewerClaims>();
 
 // osb! learn: the course is read from Content/Learn at startup (see Learn/CourseLoader.cs).
 builder.Services.AddSingleton<CourseProvider>();
@@ -75,6 +101,9 @@ if (!string.IsNullOrEmpty(keysPath))
         .PersistKeysToFileSystem(new DirectoryInfo(keysPath))
         .SetApplicationName("osb");
 }
+
+// Expose Prometheus metrics at /metrics for a local-network scrape (on by default).
+bool metricsEnabled = builder.Configuration.GetValue("Metrics:Enabled", true);
 
 var app = builder.Build();
 
@@ -92,6 +121,9 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
+// Security headers (CSP, nosniff, framing, referrer) on every response, set before anything is written.
+app.UseSecurityHeaders();
+
 // Friendly error pages for people; API calls keep their plain status codes.
 app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api"),
     branch => branch.UseStatusCodePagesWithReExecute("/Error/{0}"));
@@ -105,15 +137,51 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+// Counts and times every request, labelled by endpoint, for the /metrics scrape.
+if (metricsEnabled)
+    app.UseHttpMetrics();
 app.UseCors(MyAllowSpecificOrigins);
+app.UseOutputCache();
 app.UseAuthentication();
 app.UseAuthorization();
+// After authentication, so per-user limits can see who is signed in.
+app.UseRateLimiter();
+
+// Keep /metrics on the local network: a public request (through the tunnel) carries a public client
+// IP and gets a 404, so the metrics aren't exposed to the internet.
+if (metricsEnabled)
+    app.UseWhen(
+        context => context.Request.Path.StartsWithSegments("/metrics") && !IsLocalNetwork(context.Connection.RemoteIpAddress),
+        branch => branch.Run(context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            return Task.CompletedTask;
+        }));
 
 // wwwroot files, precompressed (gzip/brotli) and cache-validated at build time.
 app.MapStaticAssets();
 app.MapHealthChecks("/healthz");
+if (metricsEnabled)
+    app.MapMetrics(); // GET /metrics, Prometheus text format
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+// Loopback and the private ranges (RFC 1918, IPv6 unique-local and link-local).
+static bool IsLocalNetwork(System.Net.IPAddress address)
+{
+    if (address is null)
+        return false;
+    if (System.Net.IPAddress.IsLoopback(address))
+        return true;
+    if (address.IsIPv4MappedToIPv6)
+        address = address.MapToIPv4();
+    byte[] b = address.GetAddressBytes();
+    if (b.Length == 4)
+        return b[0] == 10
+            || (b[0] == 172 && b[1] is >= 16 and <= 31)
+            || (b[0] == 192 && b[1] == 168);
+    return b.Length == 16 && ((b[0] & 0xFE) == 0xFC || (b[0] == 0xFE && (b[1] & 0xC0) == 0x80));
+}

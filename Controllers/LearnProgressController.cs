@@ -3,9 +3,11 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using osb.Data;
 using osb.Learn;
+using osb.Services;
 
 namespace osb.Controllers;
 
@@ -17,9 +19,13 @@ namespace osb.Controllers;
 [ApiController]
 [Route("api/learn/progress")]
 [Authorize]
+[EnableRateLimiting(RateLimiting.Progress)]
 public class LearnProgressController(OsbDbContext db, CourseProvider courses) : ControllerBase
 {
     private const int MaxCompletionsPerRequest = 1000;
+
+    /// <summary>How many times a sync re-reads and re-applies when it races another of this learner's.</summary>
+    private const int MaxSaveAttempts = 4;
 
     public record CompletionDto(DateTime CompletedAt, int? Score, int? MaxScore);
 
@@ -38,6 +44,27 @@ public class LearnProgressController(OsbDbContext db, CourseProvider courses) : 
 
         int userId = CurrentUserId;
         var course = courses.Current;
+
+        // Merging is idempotent, so retry when a sync from another tab or device creates this learner's
+        // row (or the same completion) at the same moment: both are unique-constraint races, and
+        // re-reading then re-applying converges. Without this the loser of the race surfaced as a 500.
+        for (int attempt = 1; ; attempt++)
+        {
+            try
+            {
+                return await MergeAsync(userId, course, body, ct);
+            }
+            catch (DbUpdateException) when (attempt < MaxSaveAttempts)
+            {
+                // Drop the failed inserts so the retry reads the rows the winner just committed.
+                db.ChangeTracker.Clear();
+            }
+        }
+    }
+
+    /// <summary>Reads the learner's current completions, merges in the incoming ones, and saves.</summary>
+    private async Task<ProgressDto> MergeAsync(int userId, Course course, ProgressDto body, CancellationToken ct)
+    {
         var now = DateTime.UtcNow;
 
         var learner = await db.Learners.FindAsync([userId], ct);

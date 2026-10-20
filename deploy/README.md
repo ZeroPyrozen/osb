@@ -71,6 +71,11 @@ Use `__` where `appsettings.json` has nesting: `API:ClientSecret` becomes `API__
 Deploys never overwrite this file. [`osb.env.example`](osb.env.example) lists the useful
 settings.
 
+Showcase submissions are reviewed by the osu! accounts in `Showcase__Reviewers`, a list of osu!
+user IDs separated by commas (your ID is the number in your osu! profile's address). After a
+restart, reviewers find "Review queue" in their account menu and Edit on every storyboard page;
+they don't need to log in again.
+
 osu! login sends players back to `API__RedirectURL`, which must match one of the
 "Application Callback URLs" of your osu! OAuth application exactly. That field takes several
 URLs separated by commas, so one application can serve production and testing. To test login on
@@ -82,14 +87,15 @@ For local development, use [user secrets](https://learn.microsoft.com/aspnet/cor
 instead:
 
 ```powershell
+dotnet user-secrets set "API:ClientID" "<your osu! OAuth application's client ID>"
 dotnet user-secrets set "API:ClientSecret" "<your osu! OAuth client secret>"
 ```
 
 ## The database
 
 The site keeps its data in one SQLite file, `/var/lib/osb/osb.db`: the showcase (storyboards,
-storyboarders, tags) and the progress of learners who log in with osu!. Nothing needs setting
-up. On its first start the app creates the database and fills in the showcase from the data
+storyboarders, tags), the storyboards members submit and their reviews, and the progress of
+learners who log in with osu!. Nothing needs setting up. On its first start the app creates the database and fills in the showcase from the data
 bundled with the build, and later releases update the schema (EF Core migrations) when they
 start.
 
@@ -98,8 +104,8 @@ Deploys never replace the database. Before each one, `pi-install.sh` copies it t
 that fails its health check puts that copy back along with the previous release, since the
 failed release may already have migrated the database.
 
-A **manual rollback keeps the current database**, so nothing learners did since the deploy is
-lost. Migrations normally only add tables and columns, which older releases simply ignore. If a
+A **manual rollback keeps the current database**, so nothing done on the site since the deploy,
+such as learners' progress or reviews, is lost. Migrations normally only add tables and columns, which older releases simply ignore. If a
 release changed the database in a way the previous one can't handle, also put back the
 database from before that release was deployed: add `-RestoreDb` (bash: `rollback
 --restore-db`). Everything changed since that deploy is then lost, so the database as it was
@@ -142,6 +148,27 @@ so generated links, HTTPS redirection and HSTS work behind any of them. If the p
 
 Remember to point the osu! OAuth application's callback URL (`API__RedirectURL`) at the public
 address.
+
+### Edge-caching anonymous pages (optional)
+
+Pages for logged-out visitors are identical for everyone and set no cookies, and the app marks them
+`Cache-Control: public, max-age=60`, so a CDN can serve most read traffic without touching the Pi.
+Logged-in requests carry the `osb.auth` cookie and are always rendered fresh. If you run the
+Cloudflare Tunnel, add a Cache Rule:
+
+- **When**: incoming request `Cookie` does not contain `osb.auth`
+- **Then**: Eligible for cache, Edge TTL = *Respect origin*
+
+The app's in-process output cache applies the same anonymous-only rule at the origin, so the Pi is
+shielded even on a cache miss. Turn all of it off with `OutputCache__Enabled=false` in
+`/etc/osb/osb.env` if you ever need to.
+
+### Metrics (optional)
+
+The app exposes Prometheus metrics at `/metrics` — request rates and durations plus .NET runtime and
+process stats — for a scrape from your network: point Prometheus at `http://<pi>:5000/metrics`. The
+endpoint answers only to local-network clients, so it isn't reachable through the public tunnel. Turn
+it off with `Metrics__Enabled=false` in `/etc/osb/osb.env`.
 
 ## What lives where on the Pi
 

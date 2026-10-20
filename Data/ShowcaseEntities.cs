@@ -73,6 +73,12 @@ public class Beatmapset
     /// <summary>A YouTube embed URL of the storyboard, if there is one.</summary>
     public string? VideoUrl { get; set; }
 
+    /// <summary>
+    /// When a reviewer last added or changed this storyboard on the site (UTC); null for storyboards that
+    /// only ever came from showcase.json. The start-up import leaves storyboards with a date alone.
+    /// </summary>
+    public DateTime? ChangedOnSiteAt { get; set; }
+
     public List<BeatmapsetStoryboarder> Storyboarders { get; set; } = new();
     public List<StoryboardTag> Tags { get; set; } = new();
 

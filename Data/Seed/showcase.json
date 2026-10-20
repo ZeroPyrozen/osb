@@ -2223,26 +2223,6 @@
       "tags": []
     },
     {
-      "id": 550344,
-      "title": "Sakebe",
-      "artist": "Manami Numakura",
-      "host": 4323406,
-      "medium": "C#",
-      "submitted": "2016-12-25",
-      "showcased": "2013-12-25",
-      "storyboarders": [
-        1667473
-      ],
-      "tags": [
-        "gameplay_enhancement",
-        "full_control",
-        "particles",
-        "lyrics",
-        "pixels",
-        "wizardry"
-      ]
-    },
-    {
       "id": 151720,
       "title": "EOS",
       "artist": "ginkiha",
@@ -3499,28 +3479,6 @@
       ]
     },
     {
-      "id": 525470,
-      "title": "Dualive",
-      "artist": "Quarks",
-      "host": 2747929,
-      "medium": "C++",
-      "submitted": "2016-10-26",
-      "showcased": "2016-06-28",
-      "storyboarders": [
-        1472763
-      ],
-      "tags": [
-        "full_control",
-        "particles",
-        "audio_visualization",
-        "3d",
-        "lyrics",
-        "pixels",
-        "wizardry"
-      ],
-      "video": "https://www.youtube.com/embed/GDIxvM5PHqE"
-    },
-    {
       "id": 477394,
       "title": "Sotsugyou Memories~Sayonara, Anata.~",
       "artist": "Miku Sawai",
@@ -3609,7 +3567,7 @@
       "host": 4632359,
       "medium": "Python",
       "submitted": "2016-08-12",
-      "showcased": "2016-08-11",
+      "showcased": "2016-08-12",
       "storyboarders": [
         145871
       ],
@@ -3778,6 +3736,28 @@
       "tags": [
         "rave"
       ]
+    },
+    {
+      "id": 525470,
+      "title": "Dualive",
+      "artist": "Quarks",
+      "host": 2747929,
+      "medium": "C++",
+      "submitted": "2016-10-26",
+      "showcased": "2016-10-26",
+      "storyboarders": [
+        1472763
+      ],
+      "tags": [
+        "full_control",
+        "particles",
+        "audio_visualization",
+        "3d",
+        "lyrics",
+        "pixels",
+        "wizardry"
+      ],
+      "video": "https://www.youtube.com/embed/GDIxvM5PHqE"
     },
     {
       "id": 525475,
@@ -3975,6 +3955,26 @@
         1243669
       ],
       "tags": []
+    },
+    {
+      "id": 550344,
+      "title": "Sakebe",
+      "artist": "Manami Numakura",
+      "host": 4323406,
+      "medium": "C#",
+      "submitted": "2016-12-25",
+      "showcased": "2016-12-25",
+      "storyboarders": [
+        1667473
+      ],
+      "tags": [
+        "gameplay_enhancement",
+        "full_control",
+        "particles",
+        "lyrics",
+        "pixels",
+        "wizardry"
+      ]
     },
     {
       "id": 550998,
@@ -4627,7 +4627,7 @@
       "host": 2339768,
       "medium": "Scripting",
       "submitted": "2018-06-08",
-      "showcased": "2018-06-07",
+      "showcased": "2018-06-08",
       "storyboarders": [
         1541323
       ],
@@ -4708,7 +4708,7 @@
       "host": 8422432,
       "medium": "Other",
       "submitted": "2018-10-13",
-      "showcased": "2018-10-12",
+      "showcased": "2018-10-13",
       "storyboarders": [
         8422432
       ],
@@ -4819,25 +4819,6 @@
       "tags": [
         "full_control",
         "particles"
-      ]
-    },
-    {
-      "id": 1040625,
-      "title": "Recite the World",
-      "artist": "Harmonic Reflection",
-      "host": 9345552,
-      "medium": "Storybrew",
-      "submitted": "2019-09-21",
-      "showcased": "2019-02-09",
-      "storyboarders": [
-        6383137
-      ],
-      "tags": [
-        "gameplay_enhancement",
-        "full_control",
-        "particles",
-        "audio_visualization",
-        "lyrics"
       ]
     },
     {
@@ -5138,6 +5119,25 @@
       ]
     },
     {
+      "id": 1040625,
+      "title": "Recite the World",
+      "artist": "Harmonic Reflection",
+      "host": 9345552,
+      "medium": "Storybrew",
+      "submitted": "2019-09-21",
+      "showcased": "2019-09-21",
+      "storyboarders": [
+        6383137
+      ],
+      "tags": [
+        "gameplay_enhancement",
+        "full_control",
+        "particles",
+        "audio_visualization",
+        "lyrics"
+      ]
+    },
+    {
       "id": 1080600,
       "title": "Tenshi no Hane to Crystal",
       "artist": "Riryka",
@@ -5179,7 +5179,7 @@
       "host": 12538308,
       "medium": "Storybrew",
       "submitted": "2020-02-07",
-      "showcased": "2020-02-06",
+      "showcased": "2020-02-07",
       "storyboarders": [
         10198015
       ],
