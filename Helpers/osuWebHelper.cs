@@ -52,6 +52,10 @@ namespace osb.Helpers
     {
         private static readonly TimeSpan ProfileCacheTime = TimeSpan.FromMinutes(10);
 
+        // Shared across every request (the client is transient): when the shared token expires, one
+        // caller fetches a new one while the rest wait and reuse it, instead of all calling osu! at once.
+        private static readonly SemaphoreSlim TokenGate = new(1, 1);
+
         private readonly HttpClient client;
         private readonly IConfiguration Configuration;
         private readonly IMemoryCache cache;
@@ -144,24 +148,36 @@ namespace osb.Helpers
             if (cache.TryGetValue(cacheKey, out CachedToken? cached))
                 return cached!.AccessToken;
 
-            var grant = new ClientGrantModel
+            await TokenGate.WaitAsync();
+            try
             {
-                ClientID = int.Parse(Api["ClientID"]!),
-                ClientSecret = Api["ClientSecret"],
-                GrantType = "client_credentials",
-                Scope = "public",
-            };
-            var token = await RequestTokenAsync(grant);
+                // Another caller may have fetched the token while we waited for the gate.
+                if (cache.TryGetValue(cacheKey, out cached))
+                    return cached!.AccessToken;
 
-            if (token?.AccessToken == null)
-            {
-                logger.LogWarning("Couldn't get an osu! API client token. Check API__ClientID and API__ClientSecret.");
-                cache.Set(cacheKey, new CachedToken(null), TimeSpan.FromMinutes(1));
-                return null;
+                var grant = new ClientGrantModel
+                {
+                    ClientID = int.Parse(Api["ClientID"]!),
+                    ClientSecret = Api["ClientSecret"],
+                    GrantType = "client_credentials",
+                    Scope = "public",
+                };
+                var token = await RequestTokenAsync(grant);
+
+                if (token?.AccessToken == null)
+                {
+                    logger.LogWarning("Couldn't get an osu! API client token. Check API__ClientID and API__ClientSecret.");
+                    cache.Set(cacheKey, new CachedToken(null), TimeSpan.FromMinutes(1));
+                    return null;
+                }
+
+                cache.Set(cacheKey, new CachedToken(token.AccessToken), TimeSpan.FromSeconds(Math.Max(60, token.ExpiresIn - 300)));
+                return token.AccessToken;
             }
-
-            cache.Set(cacheKey, new CachedToken(token.AccessToken), TimeSpan.FromSeconds(Math.Max(60, token.ExpiresIn - 300)));
-            return token.AccessToken;
+            finally
+            {
+                TokenGate.Release();
+            }
         }
 
         private async Task<TokenModel?> RequestTokenAsync(object grant)

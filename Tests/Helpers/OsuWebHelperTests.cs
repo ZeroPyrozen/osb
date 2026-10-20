@@ -63,6 +63,26 @@ public class OsuWebHelperTests
         Assert.Equal("https://osb.example/auth/authorized", grant["redirect_uri"]!.GetValue<string>());
     }
 
+    [Fact]
+    public async Task ConcurrentLookups_FetchTheClientTokenOnce()
+    {
+        int tokenRequests = 0;
+        var (osu, _) = Create(request =>
+        {
+            if (request.RequestUri!.AbsoluteUri == TokenUrl)
+            {
+                Interlocked.Increment(ref tokenRequests);
+                return StubHttpHandler.Json(SiteToken);
+            }
+            return StubHttpHandler.Json(User(5, "Five"));
+        });
+
+        // Twelve lookups at once all need the shared client token; it should be fetched only once.
+        await Task.WhenAll(Enumerable.Range(0, 12).Select(i => osu.GetUserData(1000 + i)));
+
+        Assert.Equal(1, tokenRequests);
+    }
+
     public static TheoryData<string> Failures => ["rejected", "server error", "not json", "network down", "timeout"];
 
     private static HttpResponseMessage Fail(string how) => how switch
