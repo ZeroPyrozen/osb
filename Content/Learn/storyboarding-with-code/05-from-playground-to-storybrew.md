@@ -7,7 +7,8 @@ summary: Turn what you've written here into storybrew effects. The same ideas in
 
 When you're ready for real projects, **storybrew** is the natural next step. It's a free, open-source
 storyboard editor where you write effects in C#. It plays them with the beatmap's music and exports a
-finished `.osb`. Script mode was designed to feel like it, so most of what you know already transfers.
+finished `.osb`. Script mode was designed to feel like it, and it understands storybrew's names too, so
+most of what you know already transfers.
 
 ## The same effect, twice
 
@@ -57,7 +58,31 @@ The shape is the same: get a layer, create sprites in a loop, add commands. C# w
 `Generate` method, and the `[Configurable]` fields appear as settings in storybrew's interface, so you
 can change `Count` without touching the code.
 
+## Halfway there: storybrew's names in script mode
+
+Script mode accepts storybrew's names, so you can write the inside of `Generate` almost as it is and
+run it here first:
+
+```js
+var Count = 10;
+var StartTime = 0;
+
+var layer = GetLayer("Dots");
+for (var i = 0; i < Count; i++) {
+    var start = StartTime + i * 100;
+    var dot = layer.CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(140 + i * 40, 240));
+    dot.Fade(start, start + 300, 0, 1);
+    dot.Fade(start + 300, 2000, 1, 1);
+}
+```
+
+To move it into storybrew, paste it into `Generate`, turn the two settings into `[Configurable]`
+fields, and change anything that's JavaScript-only, like `Math.cos` (`Math.Cos` in C#) or `let`.
+
 ## Translation table
+
+Script mode's own names on the left. Everything on the right works in script mode too, except reading
+the beatmap.
 
 | Script mode | storybrew |
 | :-- | :-- |
@@ -70,11 +95,11 @@ can change `Count` without touching the code.
 | `s.color(0, [255, 128, 0])` | `s.Color(0, 1, 0.5, 0)`. storybrew colours go from 0 to 1. |
 | `s.additive(start, end)` | `s.Additive(start, end)` |
 | `s.startLoopGroup(t, n)` … `s.endGroup()` | `s.StartLoopGroup(t, n)` … `s.EndGroup()` |
-| `random(a, b)` | `Random(a, b)`, also seeded |
+| `random(a, b)` | `Random(a, b)`, also seeded. In storybrew, two whole numbers give a whole number; script mode always gives a fraction. |
 | `beatLength(bpm)` | `Beatmap.GetTimingPointAt(time).BeatDuration`, read straight from the beatmap |
 
 Easing names are the same in both, except that linear is `OsbEasing.None` in storybrew. Script mode
-accepts `'None'` too.
+accepts `'None'` and `OsbEasing.None` too.
 
 ## What storybrew adds
 

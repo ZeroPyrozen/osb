@@ -100,6 +100,42 @@ test('script mode explains misuse', () => {
     assert.throws(() => runScript(`for (;;) sb.layer().sprite('a.png')`), /More than 10000 sprites/);
 });
 
+test('storybrew\'s names write the same .osb as script mode\'s', () => {
+    const storybrew = runScript(`
+        var layer = GetLayer("Main");
+        var dot = layer.CreateSprite("sb/dot.png", OsbOrigin.TopLeft, new Vector2(100, 200));
+        dot.Fade(OsbEasing.OutQuad, 0, 500, 0, 1);
+        dot.Move(OsbEasing.None, 0, 1000, new Vector2(100, 240), new Vector2(540, 240));
+        dot.Color(0, 1, 0.5, 0);
+        dot.Additive(0, 1000);
+        dot.StartLoopGroup(1000, 2);
+        dot.Scale(0, 250, 1, 1.5);
+        dot.EndGroup();
+        GetLayer("Background").CreateAnimation("sb/spark.png", 6, 80, OsbLoopType.LoopOnce);
+    `).osb;
+    const scriptMode = runScript(`
+        const dot = sb.layer('Foreground').sprite('sb/dot.png', 'TopLeft', 100, 200);
+        dot.fade('OutQuad', 0, 500, 0, 1);
+        dot.move(0, 1000, [100, 240], [540, 240]);
+        dot.color(0, [255, 128, 0]);
+        dot.additive(0, 1000);
+        dot.startLoopGroup(1000, 2);
+        dot.scale(0, 250, 1, 1.5);
+        dot.endGroup();
+        sb.layer('Background').animation('sb/spark.png', 6, 80, 'LoopOnce');
+    `).osb;
+    assert.equal(storybrew, scriptMode);
+    assert.match(storybrew, /Sprite,Foreground,TopLeft,"sb\/dot.png",100,200\n F,4,0,500,0,1\n M,0,0,1000,100,240,540,240\n C,0,0,,255,128,0/);
+    assert.match(storybrew, /Animation,Background,Centre,"sb\/spark.png",320,240,6,80,LoopOnce/);
+});
+
+test('storybrew\'s names explain misuse', () => {
+    assert.throws(() => runScript(`GetLayer("Main").CreateSprite("a.png", OsbOrigin.Center)`), /OsbOrigin has no "Center"\. Try one of: TopLeft, Centre/);
+    assert.throws(() => runScript(`OsbEasing.OutQaud`), /OsbEasing has no "OutQaud"/);
+    assert.throws(() => runScript(`GetLayer("Main").CreateSprite("a.png").Color(0, 1, 0.5)`), /C takes/);
+    assert.equal(runScript(`Log(Random(2, 3) >= 2, OsbLoopType)`).logs[0], 'true {"LoopForever":"LoopForever","LoopOnce":"LoopOnce"}');
+});
+
 test('seeded randomness repeats, and errors point at the learner\'s line', () => {
     const a = seededRandom(7);
     const b = seededRandom(7);

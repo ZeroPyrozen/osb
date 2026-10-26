@@ -27,6 +27,10 @@ test('"Run in playground" is only for scripts that build a storyboard', () => {
     mountScriptLink(builds);
     assert.match(linkTo(builds), /^\/learn\/playground#js=[A-Za-z0-9_-]+$/);
     assert.equal(codeIn(linkTo(builds), 'js'), script);
+
+    const storybrewStyle = codeBlock('js', 'var dot = GetLayer("Main").CreateSprite("sb/dot.png");');
+    mountScriptLink(storybrewStyle);
+    assert.match(linkTo(storybrewStyle), /^\/learn\/playground#js=/);
 });
 
 test('playground links keep the code intact, Japanese titles included', () => {

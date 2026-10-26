@@ -70,6 +70,16 @@ for (let i = 0; i < 60; i++) {
     flake.scale(start, random(0.6, 1.6));
 }
 `,
+        'storybrew style': `// storybrew's names work too, so this is a few edits away from a storybrew effect.
+var layer = GetLayer("Main");
+for (var i = 0; i < 10; i++) {
+    var start = i * 100;
+    var dot = layer.CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(140 + i * 40, 240));
+    dot.Fade(OsbEasing.OutQuad, start, start + 300, 0, 1);
+    dot.Color(start, 1, 0.8 - i * 0.05, 0.3);
+    dot.Fade(2500, 3000, 1, 0);
+}
+`,
     },
 };
 

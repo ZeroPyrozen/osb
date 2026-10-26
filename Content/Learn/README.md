@@ -96,7 +96,7 @@ Standard Markdown plus tables, and these extras:
 | :-- | :-- |
 | ```` ```osb ```` | A storyboard example with **Preview** and **Open in playground** buttons, if it contains a Sprite or Animation line. |
 | ```` ```osb-static ```` | Highlighted storyboard code with no preview, for examples the preview can't play (triggers). |
-| ```` ```js ```` | Highlighted JavaScript. If it calls `sb.layer(`, it gets a **Run in playground** button (script mode). |
+| ```` ```js ```` | Highlighted JavaScript. If it calls `sb.layer(` or `GetLayer(`, it gets a **Run in playground** button (script mode). |
 | ```` ```cs ```` | Highlighted C#, for storybrew examples. |
 | ```` ``` ```` | Plain code, for syntax templates and fragments. |
 | `::: tip` … `:::` | A callout. Also `::: note`, `::: warning` and `::: try`. |

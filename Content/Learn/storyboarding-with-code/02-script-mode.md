@@ -103,6 +103,36 @@ heart.endGroup();
 The random numbers are **seeded**: a script draws the same "random" storyboard every time it runs, so
 your effect doesn't change each time you edit something else.
 
+## storybrew's names
+
+Most storyboarders write their scripts in **storybrew**, so script mode understands storybrew's names
+as well. Use whichever you like, or mix them:
+
+```js
+var layer = GetLayer("Main");
+var dot = layer.CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(320, 240));
+dot.Fade(OsbEasing.OutQuad, 0, 500, 0, 1);
+dot.Move(0, 1000, new Vector2(100, 240), new Vector2(540, 240));
+dot.Color(0, 1, 0.5, 0);
+```
+
+| storybrew name | Same as |
+| :-- | :-- |
+| `GetLayer(name)` | `sb.layer(…)`. An osu! layer name exports to that layer; any other name, like `"Main"`, to Foreground. |
+| `layer.CreateSprite(path, origin, position)` | `layer.sprite(…)`, with the position as `new Vector2(x, y)` |
+| `layer.CreateAnimation(path, frameCount, frameDelay, loopType, origin, position)` | `layer.animation(…)` |
+| `Fade`, `Move`, `MoveX`, `MoveY`, `Scale`, `ScaleVec`, `Rotate` | the lowercase commands. They take `new Vector2(x, y)` where those take `[x, y]`. |
+| `Color(…)` | `color(…)`, but with values **from 0 to 1**, as in storybrew |
+| `FlipH`, `FlipV`, `Additive`, `StartLoopGroup`, `StartTriggerGroup`, `EndGroup` | the lowercase versions |
+| `OsbEasing.OutQuad`, `OsbOrigin.Centre`, `OsbLoopType.LoopOnce` | `'OutQuad'`, `'Centre'`, `'LoopOnce'`. `OsbEasing.None` is linear. |
+| `Random(min, max)`, `Log(…)` | `random(…)` and `log(…)` |
+
+It's still JavaScript, so `Math.cos` stays lowercase and there's no class around the code.
+`Random(0, 10)` always gives a fractional number here; in storybrew, two whole numbers give a whole
+number. The next lessons use script mode's own names, and
+[From playground to storybrew](/learn/storyboarding-with-code/from-playground-to-storybrew) shows the
+full C# version.
+
 ::: note
 Times are rounded to whole milliseconds and values to four decimal places. To stop runaway loops,
 scripts can create at most 10,000 sprites and 300,000 commands, and are stopped after 3 seconds.

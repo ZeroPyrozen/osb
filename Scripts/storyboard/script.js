@@ -10,10 +10,17 @@
 //   dot.fade(0, 250, 1, 0.2); dot.fade(250, 500, 0.2, 1);
 //   dot.endGroup();
 //
+// storybrew's own names work too, so code can move to a storybrew effect with few edits:
+//
+//   var layer = GetLayer("Main");                  // any name; osu! layer names export to that layer
+//   var dot = layer.CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(320, 240));
+//   dot.Fade(OsbEasing.OutQuad, 0, 1000, 0, 1);
+//   dot.Color(0, 1, 0.5, 0);                       // storybrew colours go from 0 to 1
+//
 // runScript() turns the code into .osb text. In the browser it runs inside a Web Worker
 // (see script-worker.js) so a runaway loop can be stopped.
 
-import { easingByName } from './easing.js';
+import { easings, easingByName } from './easing.js';
 import { LAYERS, ORIGINS, VALUE_SIZES } from './parse.js';
 
 const MAX_OBJECTS = 10000;
@@ -42,6 +49,30 @@ const fmtTime = (n) => {
 
 export class ScriptError extends Error {}
 
+/** storybrew's position type (OpenTK's Vector2). Commands and positions accept it wherever they take [x, y]. */
+class Vector2 {
+    constructor(x = 0, y = 0) {
+        this.X = x;
+        this.Y = y;
+    }
+}
+
+/** A storybrew enum whose values are names. A misspelt member throws, as it wouldn't compile in C#. */
+const enumOf = (enumName, names) => new Proxy(Object.freeze(Object.fromEntries(names.map((name) => [name, name]))), {
+    get(target, key) {
+        if (typeof key !== 'string' || key in target || key === 'toJSON') return target[key];
+        const options = names.length > 12 ? `names like ${names.slice(3, 6).join(', ')}` : `one of: ${names.join(', ')}`;
+        throw new ScriptError(`${enumName} has no "${key}". Try ${options}.`);
+    },
+});
+
+/** storybrew's enums. Their values are the names script mode already takes, e.g. OsbEasing.OutQuad is 'OutQuad'. */
+const OsbEasing = enumOf('OsbEasing', ['None', ...easings.map(([name]) => name).filter((name) => name !== 'Linear')]);
+const OsbOrigin = enumOf('OsbOrigin', ORIGINS);
+const OsbLoopType = enumOf('OsbLoopType', ['LoopForever', 'LoopOnce']);
+
+const plainValue = (arg) => (arg instanceof Vector2 ? [arg.X, arg.Y] : arg);
+
 class Counter {
     objects = 0;
     commands = 0;
@@ -58,15 +89,18 @@ class Sprite {
         this.#counter = counter;
     }
 
-    /** Builds one command line from storybrew-style arguments: ([easing,] start, end, from, to) or (time, value). */
-    #command(type, args) {
+    /**
+     * Builds one command line from storybrew-style arguments: ([easing,] start, end, from, to) or (time, value).
+     * `valueScale` turns storybrew's 0-1 colours into the 0-255 that .osb files use.
+     */
+    #command(type, args, valueScale = 0) {
         let easing = 0;
         if (typeof args[0] === 'string') {
             easing = easingByName(args[0]);
             if (easing < 0) throw new ScriptError(`Unknown easing "${args[0]}". Try names like "OutQuad" or "InOutSine".`);
             args = args.slice(1);
         }
-        const flat = args.flat();
+        const flat = args.map(plainValue).flat();
         const size = VALUE_SIZES[type];
         let start, end, from, to;
         if (flat.length === size + 1) {
@@ -80,6 +114,7 @@ class Sprite {
             const value = size === 1 ? 'value' : size === 2 ? '[x, y]' : '[r, g, b]';
             throw new ScriptError(`${type} takes (start, end, from, to) or (time, ${value}), with an optional easing name first.`);
         }
+        if (valueScale) [from, to] = [from, to].map((values) => values.map((v) => Math.round(v * valueScale)));
         if (end < start) throw new ScriptError(`A ${type} command ends (${end}) before it starts (${start}).`);
         const same = from.every((v, i) => v === to[i]);
         const values = (same ? from : [...from, ...to]).map(fmt).join(',');
@@ -108,6 +143,22 @@ class Sprite {
     flipH(start, end) { return this.#param('H', start, end); }
     flipV(start, end) { return this.#param('V', start, end); }
     additive(start, end) { return this.#param('A', start, end); }
+
+    // storybrew's names. Color takes 0-1 values, as in storybrew.
+    Fade(...args) { return this.fade(...args); }
+    Move(...args) { return this.move(...args); }
+    MoveX(...args) { return this.moveX(...args); }
+    MoveY(...args) { return this.moveY(...args); }
+    Scale(...args) { return this.scale(...args); }
+    ScaleVec(...args) { return this.scaleVec(...args); }
+    Rotate(...args) { return this.rotate(...args); }
+    Color(...args) { return this.#command('C', args, 255); }
+    FlipH(start, end) { return this.flipH(start, end); }
+    FlipV(start, end) { return this.flipV(start, end); }
+    Additive(start, end) { return this.additive(start, end); }
+    StartLoopGroup(startTime, loopCount) { return this.startLoopGroup(startTime, loopCount); }
+    StartTriggerGroup(triggerName, startTime, endTime, group) { return this.startTriggerGroup(triggerName, startTime, endTime, group); }
+    EndGroup() { return this.endGroup(); }
 
     /** Commands until endGroup() repeat `loopCount` times; their times count from the start of each loop. */
     startLoopGroup(startTime, loopCount) {
@@ -155,6 +206,7 @@ class Layer {
 
     sprite(path, origin = 'Centre', x = 320, y = 240) {
         checkOrigin(origin);
+        x = plainValue(x);
         if (Array.isArray(x)) [x, y] = x;
         return this.#add(`Sprite,${this.#name},${origin},"${path}",${fmt(x)},${fmt(y)}`);
     }
@@ -162,8 +214,18 @@ class Layer {
     animation(path, frameCount, frameDelay, loopType = 'LoopForever', origin = 'Centre', x = 320, y = 240) {
         checkOrigin(origin);
         if (loopType !== 'LoopForever' && loopType !== 'LoopOnce') throw new ScriptError('loopType is "LoopForever" or "LoopOnce".');
+        x = plainValue(x);
         if (Array.isArray(x)) [x, y] = x;
         return this.#add(`Animation,${this.#name},${origin},"${path}",${fmt(x)},${fmt(y)},${Math.floor(frameCount)},${fmt(frameDelay)},${loopType}`);
+    }
+
+    // storybrew's names, which take the position as one Vector2 (or [x, y]).
+    CreateSprite(path, origin = 'Centre', initialPosition = new Vector2(320, 240)) {
+        return this.sprite(path, origin, initialPosition);
+    }
+
+    CreateAnimation(path, frameCount, frameDelay, loopType = 'LoopForever', origin = 'Centre', initialPosition = new Vector2(320, 240)) {
+        return this.animation(path, frameCount, frameDelay, loopType, origin, initialPosition);
     }
 }
 
@@ -189,15 +251,27 @@ export function runScript(code, { seed = 1 } = {}) {
             return layer;
         },
     };
+    const randomRange = (a, b) => (a == null ? random() : b == null ? random() * a : a + random() * (b - a));
+    const log = (...values) => logs.push(values.map((v) => (typeof v === 'string' ? v : JSON.stringify(v))).join(' '));
     const api = {
         sb,
         /** random() is 0-1; random(max) or random(min, max) for a range. Seeded, so results repeat. */
-        random: (a, b) => (a == null ? random() : b == null ? random() * a : a + random() * (b - a)),
+        random: randomRange,
         randomInt: (a, b) => (b == null ? Math.floor(random() * a) : a + Math.floor(random() * (b - a + 1))),
         lerp: (a, b, t) => a + (b - a) * t,
         /** Milliseconds per beat at a BPM. */
         beatLength: (bpm) => 60000 / bpm,
-        log: (...values) => logs.push(values.map((v) => (typeof v === 'string' ? v : JSON.stringify(v))).join(' ')),
+        log,
+        // storybrew's names. storybrew layers have their own names and pick an osu! layer in its interface;
+        // here an osu! layer name exports to that layer and any other name to Foreground.
+        GetLayer: (name) => layers.get(name) ?? layers.get('Foreground'),
+        Vector2,
+        OsbEasing,
+        OsbOrigin,
+        OsbLoopType,
+        /** Always a fractional number: unlike C#, JavaScript can't tell Random(0, 10) from Random(0.0, 10.0). */
+        Random: randomRange,
+        Log: log,
     };
 
     const run = new Function(...Object.keys(api), `"use strict";\n${code}`);
