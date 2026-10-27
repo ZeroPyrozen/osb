@@ -38,10 +38,10 @@ export function mountTryIt(pre) {
     });
 }
 
-/** "Run in playground" for JavaScript examples that build a storyboard (they call sb.layer). */
+/** "Run in playground" for JavaScript examples that build a storyboard (they call sb.layer or GetLayer). */
 export function mountScriptLink(pre) {
     const code = pre.querySelector('code').textContent;
-    if (!/\bsb\.layer\(/.test(code)) return;
+    if (!/\b(?:sb\.layer|GetLayer)\(/.test(code)) return;
 
     const bar = document.createElement('div');
     bar.className = 'not-prose -mb-2 flex justify-end gap-2';
