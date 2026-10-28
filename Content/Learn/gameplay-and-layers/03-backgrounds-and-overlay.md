@@ -50,7 +50,7 @@ storyboard:
 | :-- | :-- | :-- |
 | Widescreen support | `WidescreenStoryboard: 1` | Shows the full 854-pixel width instead of 4:3. |
 | Letterbox during breaks | `LetterboxInBreaks: 1` | Adds black bars at the top and bottom during breaks. |
-| Epilepsy warning | `EpilepsyWarning: 1` | Shows a warning before the beatmap starts. |
+| Epilepsy warning | `EpilepsyWarning: 1` | Shows a warning before the beatmap starts. If it would overlap gameplay, lengthen the audio lead-in. |
 | Use skin sprites | `UseSkinSprites: 1` | Lets the storyboard use images from the player's skin by their file names. |
 
 The ranking criteria require Widescreen support to be the same in every storyboarded difficulty, and

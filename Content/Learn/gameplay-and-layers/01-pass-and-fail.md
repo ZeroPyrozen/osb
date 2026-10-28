@@ -21,6 +21,8 @@ yet, so the Fail layer never shows during an intro, and it's best not to use eit
   a single 100, switches to Fail until a perfect combo brings them back.
 - **osu!taiko:** Fail right after a missed note, Pass otherwise.
 - **osu!catch:** the state from the previous break, starting with Pass.
+- **osu!mania:** the wiki's game state rules don't cover it, so if your beatmap has mania
+  difficulties, test the Pass and Fail layers in mania yourself before relying on them.
 
 **During a break**, it's Pass if the HP bar finished the last section **above half** (the break shows
 an O), and Fail otherwise (an X).

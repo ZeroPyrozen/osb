@@ -46,8 +46,10 @@ Sprite,Foreground,Centre,"sb/heart.png",320,240
 ```
 
 ::: warning
-Be careful with overshooting easings on **Fade**. Opacity can't go above 1, so a fade that overshoots
-can flicker or misbehave. Use them on movement, scale and rotation instead.
+Be careful with overshooting easings on **Fade**. In osu!stable, opacity above 1 doesn't stop at 1: it
+wraps around, so 1.1 shows as about 0.1. A fade that overshoots blinks almost invisible for a moment
+just before it settles (the previews on this site copy that). Use overshooting easings on movement,
+scale and rotation instead.
 :::
 
 Try the families yourself:
