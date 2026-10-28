@@ -137,3 +137,12 @@ full C# version.
 Times are rounded to whole milliseconds and values to four decimal places. To stop runaway loops,
 scripts can create at most 10,000 sprites and 300,000 commands, and are stopped after 3 seconds.
 :::
+
+## Further reading
+
+- [Commands](https://osu.ppy.sh/wiki/en/Storyboard/Scripting/Commands) on the osu! wiki, for what each
+  generated line means
+- [JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide) on MDN, if the
+  language itself is new to you
+- [storybrew's wiki](https://github.com/Damnae/storybrew/wiki), for the tool whose names script mode
+  also understands

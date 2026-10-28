@@ -60,3 +60,9 @@ concern. When in doubt, add the warning.
 Beats aren't the only thing worth matching. Lyrics, drum hits, vocal chops and sound effects all make
 great sync points. Find their exact times in the editor, and remember that the most memorable effects
 are often a single, perfectly timed moment rather than constant motion.
+
+## Further reading
+
+- [Kiai time](https://osu.ppy.sh/wiki/en/Gameplay/Kiai_time) on the osu! wiki
+- [Ranking criteria: general rules](https://osu.ppy.sh/wiki/en/Ranking_criteria#general), for the epilepsy warning
+- [Song structure](https://en.wikipedia.org/wiki/Song_structure) on Wikipedia

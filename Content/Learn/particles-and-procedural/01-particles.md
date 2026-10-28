@@ -73,3 +73,12 @@ Every particle is a sprite, and every sprite costs something to draw:
   down a lot.
 - **Don't let invisible particles linger.** A particle that has faded out should also be at the end of
   its life, not drifting around invisibly until the song ends.
+
+## Further reading
+
+- [Particle system](https://en.wikipedia.org/wiki/Particle_system) on Wikipedia, for where the idea
+  comes from
+- [Commands](https://osu.ppy.sh/wiki/en/Storyboard/Scripting/Commands) on the osu! wiki, including the
+  additive blending parameter
+- [Ranking criteria: storyboarding](https://osu.ppy.sh/wiki/en/Ranking_criteria#storyboarding), for the
+  image size limit and performance guidelines

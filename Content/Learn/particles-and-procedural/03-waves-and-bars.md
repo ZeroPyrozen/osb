@@ -69,3 +69,11 @@ fake one convincingly, or animate bars to the beat instead.
 
 Mix them. A grid of dots whose delay depends on the distance from the centre makes a ripple. A circle
 whose angle grows over time makes an orbit.
+
+## Further reading
+
+- [Math.sin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sin)
+  on MDN, which takes its angle in radians
+- [Sine wave](https://en.wikipedia.org/wiki/Sine_wave) on Wikipedia, for amplitude, frequency and phase
+- [Commands](https://osu.ppy.sh/wiki/en/Storyboard/Scripting/Commands) on the osu! wiki, for Vector
+  scale
