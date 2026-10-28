@@ -15,37 +15,37 @@ questions:
 
   - prompt: You put your storyboard in the beatmapset's `.osb` file. Which difficulties show it?
     choices:
+      - Every difficulty of the beatmapset
       - Only the hardest one
       - Only the one that was open in the editor when you saved
-      - Every difficulty of the beatmapset
-    answer: 2
+    answer: 0
     explanation: The `.osb` file belongs to the whole beatmapset, so every difficulty shows it.
 
   - prompt: Which position is the centre of the 640 × 480 storyboard canvas?
     choices:
       - "(0, 0)"
-      - "(320, 240)"
       - "(427, 240)"
+      - "(320, 240)"
       - "(640, 480)"
-    answer: 1
+    answer: 2
     explanation: "(0, 0) is the top-left corner, so the centre is half of 640 and half of 480: (320, 240)."
 
   - prompt: With Widescreen support turned on, which x positions are visible on a 16:9 screen?
     choices:
       - 0 to 640
-      - −107 to 747
       - 0 to 854
       - −320 to 960
-    answer: 1
+      - −107 to 747
+    answer: 3
     explanation: The widescreen area is 854 osu! pixels wide and centred on the 640 canvas, adding 107 pixels on each side.
 
   - prompt: A command starts at time `2500`. When does it start?
     choices:
       - 2.5 seconds after the beatmap starts loading
-      - 2.5 seconds after the start of the song's audio file
       - On the 2500th frame
+      - 2.5 seconds after the start of the song's audio file
       - On beat 2500
-    answer: 1
+    answer: 2
     explanation: Storyboard times are milliseconds from the start of the audio file. Negative times play before the music starts.
 
   - prompt: Which of these can a storyboard do that a background video can't?
