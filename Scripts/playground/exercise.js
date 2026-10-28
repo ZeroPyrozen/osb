@@ -23,6 +23,18 @@ function saveDraft(unitId, text) {
     try { localStorage.setItem(storageKey(unitId), text); } catch { /* private mode: drafts just aren't kept */ }
 }
 
+// "Show solution" unlocks after this many failed checks of the learner's own code, after one once
+// every hint has been shown, or straight away on an exercise they've already completed.
+const SOLUTION_AFTER = 3;
+
+function loadAttempts(unitId) {
+    try { return Number(localStorage.getItem(`${storageKey(unitId)}.attempts`)) || 0; } catch { return 0; }
+}
+
+function saveAttempts(unitId, attempts) {
+    try { localStorage.setItem(`${storageKey(unitId)}.attempts`, String(attempts)); } catch { /* private mode: counted for this page only */ }
+}
+
 export function mountExercise(root) {
     const config = JSON.parse(root.querySelector('script[data-exercise-config]').textContent);
     const isScript = config.mode === 'script';
@@ -35,7 +47,7 @@ export function mountExercise(root) {
                     <p class="text-sm font-bold text-mint-50">${isScript ? 'Your script (JavaScript)' : 'Your storyboard (.osb)'}</p>
                     <div class="flex gap-1">
                         <button type="button" data-reset class="btn btn-ghost px-2.5 py-1 text-xs">Start over</button>
-                        <button type="button" data-solution class="btn btn-ghost px-2.5 py-1 text-xs" disabled title="Try checking your work first">Show solution</button>
+                        <button type="button" data-solution class="btn btn-ghost px-2.5 py-1 text-xs" disabled>Show solution</button>
                     </div>
                 </div>
                 <div data-editor class="h-[22rem] overflow-hidden rounded-card border border-charcoal-600"></div>
@@ -65,7 +77,8 @@ export function mountExercise(root) {
 
     let generated = '';      // .osb produced by script mode
     let solutionOsb = null;  // the solution as .osb (scripts run once to get it)
-    let attempts = 0;
+    let attempts = loadAttempts(config.unitId);  // failed checks of changed code, towards the solution
+    let lastChecked = config.starter ?? '';
 
     const status = q('[data-script-status]');
     const refresh = async (text) => {
@@ -113,6 +126,28 @@ export function mountExercise(root) {
     });
 
     let hintIndex = 0;
+    const hintCount = config.hints?.length ?? 0;
+    const unlockSolution = () => {
+        solutionButton.disabled = false;
+        solutionButton.title = '';
+    };
+    /** Unlocks the solution once it's earned; returns true if this call unlocked it. */
+    const updateSolution = () => {
+        if (!solutionButton.disabled) return false;
+        const allHints = hintCount > 0 && hintIndex >= hintCount;
+        if (attempts >= SOLUTION_AFTER || (allHints && attempts >= 1)) {
+            unlockSolution();
+            return true;
+        }
+        const left = SOLUTION_AFTER - attempts;
+        solutionButton.title = allHints
+            ? 'Unlocks after one try at your own solution'
+            : `Unlocks after ${left} more ${left === 1 ? 'try' : 'tries'} at your own solution${hintCount ? ', or one try after seeing every hint' : ''}`;
+        return false;
+    };
+    updateSolution();
+    learnReady.then((progress) => { if (progress.isDone(config.unitId)) unlockSolution(); });
+
     q('[data-hint]')?.addEventListener('click', (event) => {
         const hint = config.hints[hintIndex++];
         if (hint) {
@@ -120,7 +155,8 @@ export function mountExercise(root) {
             li.textContent = hint;
             q('[data-hints]').append(li);
         }
-        if (hintIndex >= config.hints.length) event.currentTarget.disabled = true;
+        if (hintIndex >= hintCount) event.currentTarget.disabled = true;
+        updateSolution();
     });
 
     q('[data-check]').addEventListener('click', async () => {
@@ -136,7 +172,13 @@ export function mountExercise(root) {
             }
         }
         const { passed, results } = runChecks(config.checks, text, { solutionText: isScript ? solutionOsb : config.solution });
-        attempts++;
+        // Checking the starter, or the same code again, isn't a new try.
+        if (!passed && editor.text !== lastChecked) {
+            attempts++;
+            saveAttempts(config.unitId, attempts);
+        }
+        lastChecked = editor.text;
+        const unlocked = updateSolution();
         const list = q('[data-results]');
         list.innerHTML = results.map((r) => `
             <li class="flex items-start gap-2 ${r.pass ? 'text-mint-200' : 'text-danger'}">
@@ -144,11 +186,9 @@ export function mountExercise(root) {
                 <span><span class="${r.pass ? '' : 'font-semibold'}">${escape(r.label)}</span>${!r.pass && r.message ? `<span class="block text-mint-100/80">${escape(r.message)}</span>` : ''}</span>
             </li>`).join('');
         const passedCount = results.filter((r) => r.pass).length;
-        q('[data-summary]').textContent = passed ? 'Everything checks out!' : `${passedCount} of ${results.length} checks pass. Keep going!`;
-        if (!passed && attempts >= 1) {
-            solutionButton.disabled = false;
-            solutionButton.title = '';
-        }
+        q('[data-summary]').textContent = passed
+            ? 'Everything checks out!'
+            : `${passedCount} of ${results.length} checks pass. Keep going!${unlocked ? ' If you\'re stuck, "Show solution" is unlocked now.' : ''}`;
         if (passed) {
             player.seek(0);
             player.play();
