@@ -52,6 +52,22 @@ public class ProgressApiTests(OsbWebFactory site) : IClassFixture<OsbWebFactory>
     }
 
     [Fact]
+    public async Task QuizScores_TravelAsTheBrowserNamesThem()
+    {
+        var quiz = site.Services.GetRequiredService<CourseProvider>().Current.Units.First(u => u.Type == UnitType.Quiz);
+        var browser = site.CreateBrowser();
+        await browser.LoginAsync(site, 3007, "Quizzer");
+        var body = new { completions = new Dictionary<string, object> { [quiz.Id] = new { completedAt = "2026-10-01T10:00:00Z", score = 3, maxScore = 3, firstScore = 2 } } };
+
+        await browser.SendAsync(Post(body, await browser.GetCsrfTokenAsync()));
+        var read = JsonNode.Parse(await browser.GetStringAsync("/api/learn/progress"))!["completions"]![quiz.Id]!;
+
+        Assert.Equal(3, read["score"]!.GetValue<int>());
+        Assert.Equal(quiz.Quiz!.Questions.Count, read["maxScore"]!.GetValue<int>());
+        Assert.Equal(2, read["firstScore"]!.GetValue<int>());
+    }
+
+    [Fact]
     public async Task Saving_WithoutTheCsrfToken_IsRefused()
     {
         var browser = site.CreateBrowser();

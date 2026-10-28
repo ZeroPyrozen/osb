@@ -84,7 +84,7 @@ test('logging in moves progress made before into the account', async () => {
     assert.equal(server.requests.length, 1);
     assert.equal(server.requests[0].method, 'POST');
     assert.equal(server.requests[0].token, 'token');
-    assert.deepEqual(server.requests[0].completions, { 'm1/a': { completedAt: '2026-10-01T10:00:00.000Z', score: null, maxScore: null } });
+    assert.deepEqual(server.requests[0].completions, { 'm1/a': { completedAt: '2026-10-01T10:00:00.000Z', score: null, maxScore: null, firstScore: null } });
     assert.deepEqual(Object.keys(progress.completions).sort(), ['m1/a', 'm2/a']);
     assert.equal(progress.synced, true);
     assert.equal(saved().owner, '42');
@@ -143,7 +143,7 @@ test('a retry keeps the best quiz score, and repeating a unit earns nothing', as
     const progress = new Progress(catalog, { userId: null });
     await progress.init();
 
-    assert.equal((await progress.complete('m1/b', { score: 2, max: 4 })).xpGained, 20);
+    assert.equal((await progress.complete('m1/b', { score: 2, max: 4, first: 2 })).xpGained, 20);
 
     const worse = await progress.complete('m1/b', { score: 1, max: 4 });
     assert.equal(worse.alreadyDone, true);
@@ -151,11 +151,53 @@ test('a retry keeps the best quiz score, and repeating a unit earns nothing', as
     assert.equal(progress.get('m1/b').score, 2);
 
     const perfect = await progress.complete('m1/b', { score: 4, max: 4 });
-    assert.equal(perfect.xpGained, 5, 'only the perfect-score bonus is new');
+    assert.equal(perfect.xpGained, 0, 'the answers were shown after the first attempt, so no bonus');
     assert.equal(progress.get('m1/b').score, 4);
+    assert.equal(progress.get('m1/b').first, 2);
 
     await progress.complete('m1/a');
     assert.equal((await progress.complete('m1/a')).xpGained, 0);
+});
+
+test('only a perfect first attempt earns the bonus', async () => {
+    const firstTry = new Progress(catalog, { userId: null });
+    await firstTry.init();
+    assert.equal((await firstTry.complete('m1/b', { score: 4, max: 4, first: 4 })).xpGained, 20 + 5);
+
+    setGlobal('localStorage', new MemoryStorage());
+    const afterFailing = new Progress(catalog, { userId: null });
+    await afterFailing.init();
+    assert.equal((await afterFailing.complete('m1/b', { score: 4, max: 4, first: 1 })).xpGained, 20);
+    assert.equal(afterFailing.get('m1/b').first, 1);
+});
+
+test('a completion saved before first attempts were recorded keeps its bonus, and a retry adds none', async () => {
+    save({ owner: null, completions: { 'm1/b': { at: 1, score: 3, max: 4 } }, pending: [] });
+    const progress = new Progress(catalog, { userId: null });
+    await progress.init();
+    const xp = progress.stats().xp;
+
+    const retry = await progress.complete('m1/b', { score: 4, max: 4 });
+
+    assert.equal(retry.xpGained, 0);
+    assert.equal(progress.stats().xp, xp);
+    assert.deepEqual(saved().completions['m1/b'], { at: 1, score: 4, max: 4, first: 3 });
+});
+
+test('the first-attempt score goes to the server and comes back', async () => {
+    const server = fakeServer({ 'm2/a': { completedAt: '2026-09-30T08:00:00Z', score: null, maxScore: null, firstScore: null } });
+    const progress = new Progress(catalog, { userId: '42', csrfToken: 'token' });
+    await progress.init();
+
+    await progress.complete('m1/b', { score: 4, max: 4, first: 2 });
+    await settle();
+
+    assert.equal(server.completions['m1/b'].firstScore, 2);
+    const elsewhere = new Progress(catalog, { userId: '42', csrfToken: 'token' });
+    localStorage.removeItem(KEY);
+    await elsewhere.init();
+    assert.equal(elsewhere.get('m1/b').first, 2);
+    assert.equal(elsewhere.get('m2/a').first, undefined);
 });
 
 test('listeners hear about every change, and only changes', async () => {

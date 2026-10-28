@@ -27,6 +27,7 @@ From the general rules, which apply to storyboards too:
 
 - **Epilepsy warning:** repetitive strobes, pulsing images, or rapid changes in contrast, brightness or
   colour require one. Flashing at 3 Hz (three times a second) or slower is unlikely to cause concern.
+  If the warning would overlap the start of gameplay, the audio lead-in must be made longer.
 - **No unused files** in the beatmap folder. Delete images you tried but didn't use.
 - **Credit visual media:** the creators of artwork used in the storyboard must be credited in the
   beatmap's description.

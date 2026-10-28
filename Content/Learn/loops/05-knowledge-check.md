@@ -23,9 +23,9 @@ questions:
   - prompt: 'A loop contains ` F,0,0,300,0,1` and ` F,0,300,600,1,0`. How long is each pass?'
     choices:
       - 300 ms
-      - 600 ms
       - 900 ms
-    answer: 1
+      - 600 ms
+    answer: 2
     explanation: A pass runs from the earliest start (0) to the latest end (600) of the commands inside.
 
   - prompt: 'A loop contains only ` F,0,0,200,1,0`, but you wanted 300 ms of darkness after each flash. What''s wrong?'
@@ -38,18 +38,18 @@ questions:
 
   - prompt: Can a loop contain another loop?
     choices:
+      - No. Loops and triggers can't be nested
       - Yes, as deep as you like
       - Only one level deep
-      - No. Loops and triggers can't be nested
-    answer: 2
+    answer: 0
     explanation: osu! doesn't support nesting. Use separate loops one after another instead.
 
   - prompt: Why do the ranking criteria recommend loops for repeating motion?
     choices:
       - They make the storyboard play faster
-      - They keep the file much smaller, since the commands are written once
       - Loops are required for every storyboard
-    answer: 1
+      - They keep the file much smaller, since the commands are written once
+    answer: 2
     explanation: Writing repetitions out by hand bloats the file, and loops avoid that.
 ---
 

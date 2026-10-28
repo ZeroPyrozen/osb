@@ -88,6 +88,21 @@ test('streak achievements count the longest run of days, even one that has ended
     assert.ok(earnedIds(computeStats(bigCatalog(8), week, day(7))).includes('achievement:dedicated'));
 });
 
+test('the perfect bonus and Sharp mind need a perfect first attempt', () => {
+    const retried = computeStats(catalog, { 'm1/b': { at: day(1), score: 4, max: 4, first: 3 } }, day(1));
+    assert.equal(retried.xp, 20);
+    assert.equal(retried.perfectQuizzes, 0);
+    assert.ok(!earnedIds(retried).includes('achievement:sharp-mind'));
+
+    const firstTry = computeStats(catalog, { 'm1/b': { at: day(1), score: 4, max: 4, first: 4 } }, day(1));
+    assert.equal(firstTry.xp, 20 + 5);
+    assert.ok(earnedIds(firstTry).includes('achievement:sharp-mind'));
+
+    // Saved before first attempts were recorded: the best score decides, as it did then.
+    const older = computeStats(catalog, { 'm1/b': { at: day(1), score: 4, max: 4 } }, day(1));
+    assert.equal(older.xp, 20 + 5);
+});
+
 test('quiz master takes five perfect knowledge checks', () => {
     const perfect = (n) => Object.fromEntries(Array.from({ length: n }, (_, i) => [`big/${i}`, { at: day(1), score: 3, max: 3 }]));
     const quizzes = bigCatalog(6, 'quiz');

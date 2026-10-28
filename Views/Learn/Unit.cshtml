@@ -84,7 +84,7 @@
         {
             <form data-quiz data-unit-id="@unit.Id" data-pass="@unit.Quiz.Pass" class="mt-6 flex flex-col gap-5">
                 <script type="application/json" data-quiz-key>[@string.Join(",", unit.Quiz.Questions.Select(q => q.Answer))]</script>
-                <p class="text-sm text-sage">@unit.Quiz.Questions.Count questions. Get @unit.Quiz.Pass right to pass; a perfect score earns bonus XP.</p>
+                <p class="text-sm text-sage">@unit.Quiz.Questions.Count questions. Get @unit.Quiz.Pass right to pass; a perfect first attempt earns bonus XP.</p>
                 @for (int i = 0; i < unit.Quiz.Questions.Count; i++)
                 {
                     var question = unit.Quiz.Questions[i];
@@ -102,7 +102,7 @@
                         </div>
                         <div data-explanation hidden class="prose prose-osb mt-4 border-t border-charcoal-600 pt-3 text-sm">
                             <p class="!mb-1 font-bold"><span class="hidden text-mint-300 group-data-[state=correct]:inline">Correct.</span><span class="hidden text-danger group-data-[state=wrong]:inline">Not quite.</span></p>
-                            @Html.Raw(question.Explanation)
+                            <div data-explanation-text class="[&>:last-child]:mb-0">@Html.Raw(question.Explanation)</div>
                         </div>
                     </fieldset>
                 }

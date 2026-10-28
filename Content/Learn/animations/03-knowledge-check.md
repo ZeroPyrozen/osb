@@ -14,10 +14,10 @@ questions:
 
   - prompt: An animation has a frame delay of 50. How many frames does it show per second?
     choices:
-      - "5"
       - "20"
+      - "5"
       - "50"
-    answer: 1
+    answer: 0
     explanation: 1000 ms divided by 50 ms per frame is 20 frames per second.
 
   - prompt: What does `LoopOnce` do?
@@ -39,9 +39,9 @@ questions:
   - prompt: Which is usually the better choice for a simple spinning star?
     choices:
       - An Animation with 60 drawn frames of the star rotating
-      - A Sprite with a Rotate command
       - A video
-    answer: 1
+      - A Sprite with a Rotate command
+    answer: 2
     explanation: Simple motion is lighter and smoother with commands. Save animations for changes that commands can't do.
 ---
 

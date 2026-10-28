@@ -8,21 +8,21 @@ summary: The anchor point that sits at (x, y), and why it also matters for scali
 When you put a sprite at (320, 240), which part of the image goes there? Its centre? Its corner? That's
 what the **origin** decides.
 
-| Origin | The point of the image placed at (x, y) |
-| :-- | :-- |
-| `TopLeft` | top-left corner |
-| `TopCentre` | middle of the top edge |
-| `TopRight` | top-right corner |
-| `CentreLeft` | middle of the left edge |
-| `Centre` | the very centre |
-| `CentreRight` | middle of the right edge |
-| `BottomLeft` | bottom-left corner |
-| `BottomCentre` | middle of the bottom edge |
-| `BottomRight` | bottom-right corner |
+| Origin | The point of the image placed at (x, y) | Number |
+| :-- | :-- | :-- |
+| `TopLeft` | top-left corner | 0 |
+| `TopCentre` | middle of the top edge | 5 |
+| `TopRight` | top-right corner | 3 |
+| `CentreLeft` | middle of the left edge | 2 |
+| `Centre` | the very centre | 1 |
+| `CentreRight` | middle of the right edge | 7 |
+| `BottomLeft` | bottom-left corner | 8 |
+| `BottomCentre` | middle of the bottom edge | 4 |
+| `BottomRight` | bottom-right corner | 9 |
 
-Origins can also be written as numbers (0 is TopLeft, 1 is Centre, and so on), but the names are much
-easier to read. There's a tenth origin, `Custom`, which behaves like TopLeft; the wiki recommends not
-using it.
+Origins can also be written as the numbers in the last column. You may meet them in other people's
+files, but they don't follow the grid (Centre is 1, BottomRight is 9), so stick to the names. There's
+a tenth origin, `Custom` (6), which behaves like TopLeft; the wiki recommends not using it.
 
 ::: note
 Origin names are case-sensitive and use the British spelling: `Centre`, not `center`.

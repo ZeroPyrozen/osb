@@ -7,7 +7,7 @@ xp:
   lesson: 10
   quiz: 20
   exercise: 30
-  perfectQuiz: 5   # extra for getting every answer in a knowledge check right
+  perfectQuiz: 5   # extra for getting every answer in a knowledge check right on the first attempt
   module: 50       # bonus for finishing every unit in a module
   path: 150        # bonus for finishing a whole path
 
@@ -28,8 +28,8 @@ levels:
 achievements:
   - { id: first-steps, name: First steps, description: Complete your first unit. }
   - { id: hands-on, name: Hands on, description: Pass your first exercise. }
-  - { id: sharp-mind, name: Sharp mind, description: Get every answer right in a knowledge check. }
-  - { id: quiz-master, name: Quiz master, description: Get a perfect score in five knowledge checks. }
+  - { id: sharp-mind, name: Sharp mind, description: Get every answer right on your first attempt at a knowledge check. }
+  - { id: quiz-master, name: Quiz master, description: Get a perfect first attempt in five knowledge checks. }
   - { id: on-a-roll, name: On a roll, description: Learn on three days in a row. }
   - { id: dedicated, name: Dedicated, description: Learn on seven days in a row. }
   - { id: wizardry, name: Wizardry, description: Complete every unit in osb! learn. }

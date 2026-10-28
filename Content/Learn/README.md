@@ -145,12 +145,20 @@ questions:
       - The commands play 4 times in total
       - The commands play once, then repeat 4 more times
     answer: 0           # counts from 0
-    explanation: Shown after answering. Markdown is fine.
+    explanation: Shown once the learner passes. Markdown is fine.
 ---
 ```
 
 Prompts and choices are Markdown too. Quote any that start with a backtick, or that contain `: ` or
 ` #`, with single quotes. Quote choices that are just a number (`- "20"`) so they stay text.
+
+Learners see the choices in a new random order on every attempt, so never write a choice that depends
+on its position, such as "All of the above" or "Both A and B". Still spread the `answer` positions
+evenly in the file, so the source doesn't train anyone to expect the second option.
+
+A failed attempt marks which questions were wrong but doesn't reveal the answers or their
+explanations; a pass reveals everything. Only a perfect **first** attempt earns the perfect-quiz
+bonus, because every later one comes after the learner has seen some feedback.
 
 ### Exercises
 
@@ -185,8 +193,10 @@ exercise:
 The instructions, in Markdown.
 ```
 
-The solution is revealed after the first failed check. For script exercises, the checks run against
-the `.osb` the script generates.
+"Show solution" unlocks after three failed checks of the learner's own code (checking the starter, or
+the same code twice, doesn't count), after one such check once every hint has been shown, or straight
+away if the learner has already completed the exercise. So give every exercise hints that lead up to
+the solution. For script exercises, the checks run against the `.osb` the script generates.
 
 ### Checks
 

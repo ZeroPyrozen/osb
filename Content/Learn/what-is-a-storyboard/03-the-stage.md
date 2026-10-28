@@ -63,7 +63,8 @@ audio file**. So `2500` means two and a half seconds into the song.
 - Time doesn't depend on the beatmap's BPM or timing. If you retime the map later, the storyboard won't
   follow, so time the map well before you storyboard it.
 - After the last hit object, osu! waits until the last storyboard command has finished before showing
-  the results screen, so long outros keep players waiting.
+  the results screen. Players can skip ahead to the results, but many will sit through a long outro,
+  so make it worth watching.
 
 ::: tip
 The preview players on this site have a **Guides** switch that draws the play area and the 4:3 frame,

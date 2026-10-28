@@ -6,26 +6,26 @@ summary: Six questions on timing a storyboard to music.
 questions:
   - prompt: How long is one beat at 150 BPM?
     choices:
-      - 150 ms
       - 400 ms
+      - 150 ms
       - 600 ms
-    answer: 1
+    answer: 0
     explanation: 60000 ÷ 150 = 400 ms.
 
   - prompt: A song is 120 BPM with its first beat at 1200 ms. When is beat number 4, counting the first beat as 0?
     choices:
-      - 3200 ms
       - 2000 ms
+      - 3200 ms
       - 4800 ms
-    answer: 0
+    answer: 1
     explanation: 1200 + 4 × 500 = 3200 ms.
 
   - prompt: How long is a quarter of a beat at 120 BPM?
     choices:
-      - 125 ms
       - 250 ms
       - 30 ms
-    answer: 0
+      - 125 ms
+    answer: 2
     explanation: A beat is 500 ms, so a quarter is 125 ms.
 
   - prompt: 'An uninherited timing point reads `2500,333.333333333333,4,2,0,70,1,0`. What does it tell you?'
@@ -47,9 +47,9 @@ questions:
   - prompt: When do the ranking criteria require an epilepsy warning?
     choices:
       - Whenever a storyboard uses colour
-      - When the storyboard or video has repetitive strobes, pulsing images or rapid changes in brightness or colour
       - Only for storyboards longer than five minutes
-    answer: 1
+      - When the storyboard or video has repetitive strobes, pulsing images or rapid changes in brightness or colour
+    answer: 2
     explanation: Strobing at 3 flashes per second or slower is unlikely to cause concern. Beyond that, or when in doubt, add the warning.
 ---
 
