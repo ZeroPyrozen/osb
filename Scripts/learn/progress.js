@@ -1,4 +1,4 @@
-// The learner's progress: which units they completed, when, and their best quiz scores.
+// The learner's progress: which units they completed, when, and their best and first quiz scores.
 // Always kept in localStorage; when logged in with osu! it's also saved on the server
 // (/api/learn/progress), so it follows the learner to other devices.
 //
@@ -26,10 +26,14 @@ function writeLocal(data) {
 const pick = (completions, ids) => Object.fromEntries(ids.filter((id) => completions[id]).map((id) => [id, completions[id]]));
 
 const toServer = (completions) => Object.fromEntries(Object.entries(completions).map(([id, c]) =>
-    [id, { completedAt: new Date(c.at).toISOString(), score: c.score ?? null, maxScore: c.max ?? null }]));
+    [id, { completedAt: new Date(c.at).toISOString(), score: c.score ?? null, maxScore: c.max ?? null, firstScore: c.first ?? null }]));
 
 const fromServer = (completions) => Object.fromEntries(Object.entries(completions).map(([id, c]) =>
-    [id, { at: Date.parse(c.completedAt), ...(c.score != null ? { score: c.score, max: c.maxScore } : {}) }]));
+    [id, {
+        at: Date.parse(c.completedAt),
+        ...(c.score != null ? { score: c.score, max: c.maxScore } : {}),
+        ...(c.firstScore != null ? { first: c.firstScore } : {}),
+    }]));
 
 export class Progress {
     #catalog;
@@ -78,13 +82,17 @@ export class Progress {
     }
 
     /**
-     * Records a completed unit (quizzes pass their score). Returns what changed:
+     * Records a completed unit. Quizzes pass their score and the score of the learner's first attempt,
+     * which is kept from the first time the unit is recorded. Returns what changed:
      * { xpGained, levelUp, newBadges, alreadyDone }.
      */
-    async complete(unitId, { score, max } = {}) {
+    async complete(unitId, { score, max, first } = {}) {
         const before = this.stats();
         const existing = this.#data.completions[unitId];
         const entry = existing ? { ...existing } : { at: Date.now() };
+        // A completion saved before first attempts were recorded keeps its best score so far as the
+        // first, so a retry after seeing the answers can't add a perfect first attempt.
+        if (score != null) entry.first ??= existing ? existing.score : (first ?? score);
         if (score != null && (existing?.score == null || score > existing.score)) {
             entry.score = score;
             entry.max = max;

@@ -48,7 +48,9 @@ function longestStreak(completions) {
     return best;
 }
 
-const isPerfect = (c) => c.max > 0 && c.score === c.max;
+// The perfect-score bonus is for the first attempt, made before any answers were shown. Completions
+// saved before first attempts were recorded have no `first`, and keep the bonus their best score earned.
+const isPerfect = (c) => c.max > 0 && (c.first ?? c.score) === c.max;
 
 /** Rules for each achievement id, given the computed stats so far. */
 const ACHIEVEMENT_RULES = {
@@ -64,7 +66,7 @@ const ACHIEVEMENT_RULES = {
 /**
  * Everything the learn pages show about a learner's progress.
  * @param {object} catalog
- * @param {Record<string, {at: number, score?: number, max?: number}>} completions  by unit id
+ * @param {Record<string, {at: number, score?: number, max?: number, first?: number}>} completions  by unit id
  */
 export function computeStats(catalog, completions, now = Date.now()) {
     const done = (id) => completions[id] != null;

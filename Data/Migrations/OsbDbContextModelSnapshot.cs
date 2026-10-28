@@ -366,6 +366,9 @@ namespace osb.Data.Migrations
                     b.Property<DateTime>("CompletedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("FirstScore")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("LearnerId")
                         .HasColumnType("INTEGER");
 

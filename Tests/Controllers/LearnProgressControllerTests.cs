@@ -96,6 +96,51 @@ public sealed class LearnProgressControllerTests : IDisposable
         Assert.Equal(questions, best.MaxScore);
     }
 
+    [Fact]
+    public async Task TheFirstAttempt_IsKeptFromTheFirstSave()
+    {
+        int questions = Quiz.Quiz!.Questions.Count;
+
+        var first = (await Save(LoggedIn(), (Quiz.Id, new Completion(March, 2, questions, 1))))[Quiz.Id];
+        var retry = (await Save(LoggedIn(), (Quiz.Id, new Completion(March, questions, questions, questions))))[Quiz.Id];
+
+        Assert.Equal(1, first.FirstScore);
+        Assert.Equal(questions, retry.Score);
+        Assert.Equal(1, retry.FirstScore);
+    }
+
+    [Fact]
+    public async Task ACompletionSavedWithoutAFirstAttempt_TakesTheNextOneSent()
+    {
+        int questions = Quiz.Quiz!.Questions.Count;
+        await Save(LoggedIn(), (Quiz.Id, new Completion(March, 2, questions)));
+
+        var saved = (await Save(LoggedIn(), (Quiz.Id, new Completion(March, 3, questions, 2))))[Quiz.Id];
+
+        Assert.Equal(3, saved.Score);
+        Assert.Equal(2, saved.FirstScore);
+    }
+
+    [Theory]
+    [InlineData(100, null)]
+    [InlineData(-3, 0)]
+    public async Task FirstAttempts_StayBetweenZeroAndTheQuestionCount(int sent, int? expected)
+    {
+        int questions = Quiz.Quiz!.Questions.Count;
+
+        var saved = (await Save(LoggedIn(), (Quiz.Id, new Completion(March, 3, 999, sent))))[Quiz.Id];
+
+        Assert.Equal(expected ?? questions, saved.FirstScore);
+    }
+
+    [Fact]
+    public async Task FirstAttempts_AreOnlyKeptForKnowledgeChecks()
+    {
+        var saved = (await Save(LoggedIn(), (Lessons[0].Id, new Completion(March, 5, 5, 5))))[Lessons[0].Id];
+
+        Assert.Null(saved.FirstScore);
+    }
+
     [Theory]
     [InlineData(100, null)]
     [InlineData(-3, 0)]

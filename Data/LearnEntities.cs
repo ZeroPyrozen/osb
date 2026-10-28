@@ -34,4 +34,10 @@ public class UnitCompletion
     public int? Score { get; set; }
 
     public int? MaxScore { get; set; }
+
+    /// <summary>
+    /// For knowledge checks: the score of the learner's first attempt, made before any answers were
+    /// shown. Only a perfect first attempt earns the bonus. Null for completions saved before it was kept.
+    /// </summary>
+    public int? FirstScore { get; set; }
 }

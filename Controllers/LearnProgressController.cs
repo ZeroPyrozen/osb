@@ -27,7 +27,7 @@ public class LearnProgressController(OsbDbContext db, CourseProvider courses) : 
     /// <summary>How many times a sync re-reads and re-applies when it races another of this learner's.</summary>
     private const int MaxSaveAttempts = 4;
 
-    public record CompletionDto(DateTime CompletedAt, int? Score, int? MaxScore);
+    public record CompletionDto(DateTime CompletedAt, int? Score, int? MaxScore, int? FirstScore = null);
 
     public record ProgressDto(Dictionary<string, CompletionDto> Completions);
 
@@ -91,11 +91,15 @@ public class LearnProgressController(OsbDbContext db, CourseProvider courses) : 
             // Scores only mean something for knowledge checks, and can't exceed the question count.
             int? max = unit.Quiz?.Questions.Count;
             int? score = max != null && incoming.Score is int s ? Math.Clamp(s, 0, max.Value) : null;
+            int? firstScore = score != null && incoming.FirstScore is int f ? Math.Clamp(f, 0, max!.Value) : null;
 
             if (existing.TryGetValue(unit.Id, out var row))
             {
                 if (completedAt < row.CompletedAt)
                     row.CompletedAt = completedAt;
+                // The first attempt happens once: the first one saved stays.
+                if (firstScore != null && row.FirstScore == null)
+                    row.FirstScore = firstScore;
                 if (score != null && (row.Score == null || score > row.Score))
                 {
                     row.Score = score;
@@ -111,6 +115,7 @@ public class LearnProgressController(OsbDbContext db, CourseProvider courses) : 
                     CompletedAt = completedAt,
                     Score = score,
                     MaxScore = score != null ? max : null,
+                    FirstScore = firstScore,
                 };
                 db.UnitCompletions.Add(completion);
                 existing[unit.Id] = completion;
@@ -129,5 +134,5 @@ public class LearnProgressController(OsbDbContext db, CourseProvider courses) : 
     private static ProgressDto ToDto(IEnumerable<UnitCompletion> rows) =>
         new(rows.ToDictionary(
             c => c.UnitId,
-            c => new CompletionDto(DateTime.SpecifyKind(c.CompletedAt, DateTimeKind.Utc), c.Score, c.MaxScore)));
+            c => new CompletionDto(DateTime.SpecifyKind(c.CompletedAt, DateTimeKind.Utc), c.Score, c.MaxScore, c.FirstScore)));
 }
