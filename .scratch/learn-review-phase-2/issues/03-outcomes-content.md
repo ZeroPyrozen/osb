@@ -7,7 +7,8 @@ Blocked by: 02
 
 Write the content from the review's "Outcomes and topics for every course" section:
 
-- the 64 module outcomes, each with an id and its Bloom level
+- the 64 module outcomes, each with an id and its Bloom level, written without a full stop (the page heading
+  finishes the sentence)
 - each module's topics, without the ones the review marked as additions
 - prerequisites: only the modules a module really builds on
 - the three entry requirements, without the "or its placement check" wording. The Advanced one keeps its

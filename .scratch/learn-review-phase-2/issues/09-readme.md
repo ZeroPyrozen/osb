@@ -11,7 +11,7 @@ Update `Content/Learn/README.md`:
 - module.yml: `outcomes` (id, bloom, text), `topics` and `prerequisites`
 - quizzes and exercises: `outcome:` on every question, `outcomes:` on every exercise
 - units: `reviewed:`, which units need it, and the quarterly review
-- how to write an outcome: start with a verb, one Bloom level, 3 to 6 per module and path
+- how to write an outcome: start with a verb, no full stop, one Bloom level, 3 to 6 per module and path
 - mistakes stop the site, gaps fail CI, and where to see each
 - a pointer to GLOSSARY.md for the words
 
