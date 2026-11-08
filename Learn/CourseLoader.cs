@@ -19,8 +19,8 @@ namespace osb.Learn;
 /// <summary>
 /// Reads the course from <c>Content/Learn</c>:
 /// <list type="bullet">
-///   <item><c>course.yml</c>: XP rules, levels, achievements and the paths with their module order.</item>
-///   <item><c>&lt;module&gt;/module.yml</c>: a module's title, summary, icon and badge.</item>
+///   <item><c>course.yml</c>: XP rules, levels, achievements and the paths: their module order, entry requirement and outcomes.</item>
+///   <item><c>&lt;module&gt;/module.yml</c>: a module's title, summary, icon, badge, outcomes, topics and prerequisites.</item>
 ///   <item><c>&lt;module&gt;/NN-&lt;unit&gt;.md</c>: units in file-name order, Markdown with YAML front matter.</item>
 /// </list>
 /// Everything is validated up front; problems are reported together, with file names.
@@ -38,10 +38,15 @@ public static partial class CourseLoader
     private static readonly HashSet<string> CheckKinds =
         ["parses", "count", "object", "command", "value", "visible", "lifetime", "matches-solution"];
 
-    public static Course Load(string root)
+    /// <param name="root">The course folder, with course.yml.</param>
+    /// <param name="today">Today's date, for checking review dates; defaults to today in UTC.</param>
+    public static Course Load(string root, DateOnly? today = null)
     {
         var errors = new List<string>();
         string Rel(string path) => Path.GetRelativePath(root, path).Replace('\\', '/');
+
+        // A review date may be a day ahead of UTC: it's the author's own date, and osb is east of Greenwich.
+        var latestReview = (today ?? DateOnly.FromDateTime(DateTime.UtcNow)).AddDays(1);
 
         var config = ReadYaml(Path.Combine(root, "course.yml")).Deserialize<CourseFile>(Json)
             ?? throw new InvalidDataException("course.yml is empty.");
@@ -50,6 +55,7 @@ public static partial class CourseLoader
         var modules = new List<LearnModule>();
         var units = new List<LearnUnit>();
         var seenModules = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var courseOrder = config.Paths.SelectMany(p => p.Modules).ToList();
 
         foreach (var pathFile in config.Paths)
         {
@@ -63,6 +69,7 @@ public static partial class CourseLoader
                 Difficulty = pathFile.Difficulty,
                 Summary = pathFile.Summary,
                 Trophy = pathFile.Trophy,
+                Entry = string.IsNullOrWhiteSpace(pathFile.Entry) ? null : InlineHtml(pathFile.Entry.Trim()),
             };
             paths.Add(path);
 
@@ -81,9 +88,28 @@ public static partial class CourseLoader
                     continue;
                 }
 
-                var moduleFile = ReadYaml(moduleYml).Deserialize<ModuleFile>(Json)!;
+                ModuleFile moduleFile;
+                try
+                {
+                    moduleFile = ReadYaml(moduleYml).Deserialize<ModuleFile>(Json)!;
+                }
+                catch (Exception e) when (e is YamlException or JsonException or InvalidDataException)
+                {
+                    errors.Add($"{slug}/module.yml: {e.Message}");
+                    continue;
+                }
+
+                string where = $"{slug}/module.yml";
                 if (!Icons.Exists(moduleFile.Icon))
-                    errors.Add($"{slug}/module.yml: unknown icon '{moduleFile.Icon}' (see Helpers/Icons.cs).");
+                    errors.Add($"{where}: unknown icon '{moduleFile.Icon}' (see Helpers/Icons.cs).");
+
+                var outcomes = new List<Outcome>();
+                foreach (var (outcomeFile, outcome) in ReadOutcomes(moduleFile.Outcomes, where, errors))
+                {
+                    if (outcomeFile.Modules != null)
+                        errors.Add($"{where}: outcome '{outcome.Id}' lists modules, but only a path's outcomes name the modules that build them.");
+                    outcomes.Add(outcome);
+                }
 
                 var module = new LearnModule
                 {
@@ -94,7 +120,11 @@ public static partial class CourseLoader
                     Badge = moduleFile.Badge,
                     Path = path,
                     Number = modules.Count + 1,
+                    Outcomes = outcomes,
+                    Topics = (moduleFile.Topics ?? []).Where(t => !string.IsNullOrWhiteSpace(t)).Select(t => InlineHtml(t.Trim())).ToList(),
                 };
+                // Before the module joins the list, so it holds exactly the modules that come earlier.
+                LinkPrerequisites(module, moduleFile.Prerequisites, modules, courseOrder, errors);
                 path.Modules.Add(module);
                 modules.Add(module);
 
@@ -102,7 +132,7 @@ public static partial class CourseLoader
                 {
                     try
                     {
-                        var unit = ReadUnit(file, module, config.Xp, errors, Rel(file));
+                        var unit = ReadUnit(file, module, config.Xp, latestReview, errors, Rel(file));
                         if (unit == null)
                             continue;
                         unit.Number = module.Units.Count + 1;
@@ -116,6 +146,22 @@ public static partial class CourseLoader
                 }
                 if (module.Units.Count == 0)
                     errors.Add($"{slug}: the module has no units (NN-name.md files).");
+            }
+
+            // After the path's modules are read, so each outcome can name the ones that build it.
+            string pathWhere = $"course.yml, path '{pathFile.Slug}'";
+            foreach (var (outcomeFile, outcome) in ReadOutcomes(pathFile.Outcomes, pathWhere, errors))
+            {
+                var builtBy = new List<LearnModule>();
+                foreach (string name in outcomeFile.Modules ?? [])
+                {
+                    var match = path.Modules.FirstOrDefault(m => string.Equals(m.Slug, name, StringComparison.OrdinalIgnoreCase));
+                    if (match == null)
+                        errors.Add($"{pathWhere}: outcome '{outcome.Id}' names module '{name}', which isn't in this path.");
+                    else if (!builtBy.Contains(match))
+                        builtBy.Add(match);
+                }
+                path.Outcomes.Add(new PathOutcome(outcome.Id, outcome.Bloom, outcome.Text, outcome.Html, builtBy));
             }
         }
 
@@ -147,7 +193,7 @@ public static partial class CourseLoader
         };
     }
 
-    private static LearnUnit? ReadUnit(string file, LearnModule module, XpRules xp, List<string> errors, string name)
+    private static LearnUnit? ReadUnit(string file, LearnModule module, XpRules xp, DateOnly latestReview, List<string> errors, string name)
     {
         string text = File.ReadAllText(file);
         var document = Markdown.Parse(text, Pipeline);
@@ -171,7 +217,7 @@ public static partial class CourseLoader
             errors.Add($"{name}: missing a title.");
 
         string slug = UnitSlugPattern().Replace(Path.GetFileNameWithoutExtension(file), "");
-        Quiz? quiz = type == UnitType.Quiz ? ReadQuiz(meta, errors, name) : null;
+        Quiz? quiz = type == UnitType.Quiz ? ReadQuiz(meta, module.Outcomes, errors, name) : null;
         JsonObject? exercise = type == UnitType.Exercise ? ReadExercise(meta.Exercise, errors, name) : null;
 
         return new LearnUnit
@@ -191,10 +237,12 @@ public static partial class CourseLoader
                 .ToList(),
             Quiz = quiz,
             Exercise = exercise,
+            Assesses = ReadAssesses(type, meta, quiz, module.Outcomes, errors, name),
+            Reviewed = ReadReviewDate(meta.Reviewed, latestReview, errors, name),
         };
     }
 
-    private static Quiz? ReadQuiz(UnitFile meta, List<string> errors, string name)
+    private static Quiz? ReadQuiz(UnitFile meta, IReadOnlyList<Outcome> outcomes, List<string> errors, string name)
     {
         if (meta.Questions is not { Count: > 0 })
         {
@@ -209,11 +257,19 @@ public static partial class CourseLoader
                 errors.Add($"{name}: question {i + 1} needs at least two choices.");
             else if (q.Answer < 0 || q.Answer >= q.Choices.Count)
                 errors.Add($"{name}: question {i + 1} has answer {q.Answer}, but choices are numbered 0 to {q.Choices.Count - 1}.");
+            Outcome? outcome = null;
+            if (q.Outcome != null)
+            {
+                outcome = outcomes.FirstOrDefault(o => o.Id == q.Outcome);
+                if (outcome == null)
+                    errors.Add($"{name}: question {i + 1} names outcome '{q.Outcome}', which isn't one of this module's outcomes.");
+            }
             questions.Add(new QuizQuestion(
                 InlineHtml(q.Prompt),
                 (q.Choices ?? new()).Select(InlineHtml).ToList(),
                 q.Answer,
-                q.Explanation != null ? Markdown.ToHtml(q.Explanation, Pipeline) : ""));
+                q.Explanation != null ? Markdown.ToHtml(q.Explanation, Pipeline) : "",
+                outcome));
         }
         int pass = meta.Pass ?? (int)Math.Ceiling(questions.Count * 0.6);
         if (pass < 1 || pass > questions.Count)
@@ -249,6 +305,105 @@ public static partial class CourseLoader
         exercise["mode"] = mode;
         exercise["starter"] ??= "";
         return exercise;
+    }
+
+    /// <summary>A module's or path's outcomes, checked, each with its entry in the file (a path outcome's names its modules).</summary>
+    private static List<(OutcomeFile File, Outcome Outcome)> ReadOutcomes(List<OutcomeFile?>? files, string where, List<string> errors)
+    {
+        var outcomes = new List<(OutcomeFile, Outcome)>();
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        for (int i = 0; i < (files?.Count ?? 0); i++)
+        {
+            var file = files![i];
+            if (file == null || string.IsNullOrWhiteSpace(file.Id) || string.IsNullOrWhiteSpace(file.Bloom) || string.IsNullOrWhiteSpace(file.Text))
+            {
+                errors.Add($"{where}: outcome {i + 1} needs an id, a bloom level and a text.");
+                continue;
+            }
+            if (!OutcomeIdPattern().IsMatch(file.Id))
+                errors.Add($"{where}: outcome id '{file.Id}' must be a lowercase slug, like write-loop.");
+            else if (!ids.Add(file.Id))
+                errors.Add($"{where}: outcome id '{file.Id}' is used twice.");
+            if (!TryParseBloom(file.Bloom, out var bloom))
+            {
+                errors.Add($"{where}: outcome '{file.Id}' has bloom '{file.Bloom}'; use remember, understand, apply, analyse, evaluate or create.");
+                continue;
+            }
+            string text = file.Text.Trim();
+            outcomes.Add((file, new Outcome(file.Id, bloom, text, InlineHtml(text))));
+        }
+        return outcomes;
+    }
+
+    /// <summary>One of the six level names, in any case. Enum.TryParse alone would also take numbers and comma lists.</summary>
+    private static bool TryParseBloom(string value, out BloomLevel bloom) =>
+        Enum.TryParse(value.Trim(), ignoreCase: true, out bloom) && value.Trim().All(char.IsLetter);
+
+    /// <summary>Links a module to the earlier modules it builds on; <paramref name="earlier"/> holds every module before it.</summary>
+    private static void LinkPrerequisites(LearnModule module, List<string>? names, List<LearnModule> earlier, List<string> courseOrder, List<string> errors)
+    {
+        string where = $"{module.Slug}/module.yml";
+        foreach (string name in names ?? [])
+        {
+            var match = earlier.FirstOrDefault(m => string.Equals(m.Slug, name, StringComparison.OrdinalIgnoreCase));
+            if (match != null)
+            {
+                if (!module.Prerequisites.Contains(match))
+                    module.Prerequisites.Add(match);
+            }
+            else if (string.Equals(name, module.Slug, StringComparison.OrdinalIgnoreCase))
+                errors.Add($"{where}: a module can't be its own prerequisite.");
+            else if (courseOrder.Contains(name, StringComparer.OrdinalIgnoreCase))
+                errors.Add($"{where}: prerequisite '{name}' comes later in the course; list only modules that come before this one.");
+            else
+                errors.Add($"{where}: prerequisite '{name}' isn't a module in course.yml.");
+        }
+    }
+
+    /// <summary>
+    /// The module outcomes a unit checks: its questions' outcomes for a knowledge check, its own list for an exercise.
+    /// Lessons name none, because the module's outcomes already say what its units teach.
+    /// </summary>
+    private static IReadOnlyList<Outcome> ReadAssesses(UnitType type, UnitFile meta, Quiz? quiz, IReadOnlyList<Outcome> outcomes, List<string> errors, string name)
+    {
+        if (meta.Outcomes is { Count: > 0 } && type != UnitType.Exercise)
+        {
+            errors.Add(type == UnitType.Quiz
+                ? $"{name}: a knowledge check names an outcome on each question (outcome:), not in its front matter."
+                : $"{name}: lessons don't name outcomes; the module's outcomes say what its units teach.");
+            return [];
+        }
+        if (type == UnitType.Quiz)
+            return quiz?.Questions.Select(q => q.Outcome).OfType<Outcome>().Distinct().ToList() ?? [];
+
+        var assesses = new List<Outcome>();
+        foreach (string id in meta.Outcomes ?? [])
+        {
+            var outcome = outcomes.FirstOrDefault(o => o.Id == id);
+            if (outcome == null)
+                errors.Add($"{name}: outcome '{id}' isn't one of this module's outcomes.");
+            else if (!assesses.Contains(outcome))
+                assesses.Add(outcome);
+        }
+        return assesses;
+    }
+
+    /// <summary>The unit's review date, if it has one: a real date no later than <paramref name="latest"/>.</summary>
+    private static DateOnly? ReadReviewDate(string? value, DateOnly latest, List<string> errors, string name)
+    {
+        if (value == null)
+            return null;
+        if (!DateOnly.TryParseExact(value.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+        {
+            errors.Add($"{name}: reviewed must be a date like 2026-11-10 (got '{value}').");
+            return null;
+        }
+        if (date > latest)
+        {
+            errors.Add($"{name}: reviewed is {date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}, which is in the future.");
+            return null;
+        }
+        return date;
     }
 
     private static string BuildClientJson(List<LearnPath> paths, List<LearnModule> modules, List<LearnUnit> units, CourseFile config)
@@ -349,9 +504,18 @@ public static partial class CourseLoader
     [GeneratedRegex(@"^<p>(.*)</p>$", RegexOptions.Singleline)]
     private static partial Regex SingleParagraphPattern();
 
+    /// <summary>Outcome ids are short lowercase slugs, such as write-loop.</summary>
+    [GeneratedRegex(@"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
+    private static partial Regex OutcomeIdPattern();
+
     private sealed record CourseFile(List<LevelRule> Levels, XpRules Xp, List<Achievement> Achievements, List<PathFile> Paths);
-    private sealed record PathFile(string Slug, string Title, string Difficulty, string Summary, Award Trophy, List<string> Modules);
-    private sealed record ModuleFile(string Title, string Summary, string Icon, Award Badge);
-    private sealed record UnitFile(string Title, string? Summary, string Type, int? Minutes, int? Xp, int? Pass, List<QuestionFile>? Questions, JsonObject? Exercise);
-    private sealed record QuestionFile(string Prompt, List<string>? Choices, int Answer, string? Explanation);
+    private sealed record PathFile(string Slug, string Title, string Difficulty, string Summary, Award Trophy, List<string> Modules,
+        string? Entry = null, List<OutcomeFile?>? Outcomes = null);
+    private sealed record ModuleFile(string Title, string Summary, string Icon, Award Badge,
+        List<OutcomeFile?>? Outcomes = null, List<string>? Topics = null, List<string>? Prerequisites = null);
+    /// <summary>A module or path outcome; only a path's outcomes list the <paramref name="Modules"/> that build them.</summary>
+    private sealed record OutcomeFile(string? Id, string? Bloom, string? Text, List<string>? Modules = null);
+    private sealed record UnitFile(string Title, string? Summary, string Type, int? Minutes, int? Xp, int? Pass, List<QuestionFile>? Questions, JsonObject? Exercise,
+        List<string>? Outcomes = null, string? Reviewed = null);
+    private sealed record QuestionFile(string Prompt, List<string>? Choices, int Answer, string? Explanation, string? Outcome = null);
 }

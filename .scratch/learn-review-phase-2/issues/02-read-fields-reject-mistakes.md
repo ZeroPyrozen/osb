@@ -1,6 +1,6 @@
 # 02 · Read the new fields and reject mistakes
 
-Status: open
+Status: done
 Blocked by: 01
 
 ## What

@@ -17,28 +17,36 @@ public sealed class CourseFolder : IDisposable
     public static CourseFolder WithModules(params string[] modules) => new CourseFolder().Course(modules);
 
     /// <summary>Writes course.yml with the usual XP rules and levels, and one path with these modules.</summary>
-    public CourseFolder Course(params string[] modules) => File("course.yml", $$"""
-        xp: { lesson: 10, quiz: 20, exercise: 30, perfectQuiz: 5, module: 50, path: 150 }
-        levels:
-          - { level: 2, title: Sprite Wrangler, xp: 60 }
-          - { level: 1, title: Spectator, xp: 0 }
-        achievements:
-          - { id: first-steps, name: First steps, description: Complete your first unit. }
-        paths:
-          - slug: beginner
-            title: Your first storyboard
-            difficulty: Beginner
-            summary: The basics.
-            trophy: { name: First Light, description: Finish the Beginner path. }
-            modules: [{{string.Join(", ", modules)}}]
-        """);
+    public CourseFolder Course(params string[] modules) => Course(modules, pathYaml: "");
 
-    public CourseFolder Module(string slug, string icon = "book") => File($"{slug}/module.yml", $$"""
+    /// <summary>Like <see cref="Course(string[])"/>, plus more of the path's keys (such as entry and outcomes) as YAML.</summary>
+    public CourseFolder Course(string[] modules, string pathYaml)
+    {
+        string extra = string.Join("\n", pathYaml.Split('\n').Where(line => line.Trim().Length > 0).Select(line => "    " + line));
+        return File("course.yml", $$"""
+            xp: { lesson: 10, quiz: 20, exercise: 30, perfectQuiz: 5, module: 50, path: 150 }
+            levels:
+              - { level: 2, title: Sprite Wrangler, xp: 60 }
+              - { level: 1, title: Spectator, xp: 0 }
+            achievements:
+              - { id: first-steps, name: First steps, description: Complete your first unit. }
+            paths:
+              - slug: beginner
+                title: Your first storyboard
+                difficulty: Beginner
+                summary: The basics.
+                trophy: { name: First Light, description: Finish the Beginner path. }
+                modules: [{{string.Join(", ", modules)}}]
+            """ + "\n" + extra + "\n");
+    }
+
+    /// <summary>A module.yml; <paramref name="extra"/> adds more keys (outcomes, topics, prerequisites) as YAML.</summary>
+    public CourseFolder Module(string slug, string icon = "book", string extra = "") => File($"{slug}/module.yml", $$"""
         title: Module {{slug}}
         summary: All about {{slug}}.
         icon: {{icon}}
         badge: { name: Badge {{slug}}, description: Finished {{slug}}. }
-        """);
+        """ + "\n" + extra + "\n");
 
     public CourseFolder Lesson(string module, string file, string title = "A lesson", string body = "Some text.") =>
         File($"{module}/{file}", $"""
@@ -62,10 +70,11 @@ public sealed class CourseFolder : IDisposable
         return this;
     }
 
-    public Course Load() => CourseLoader.Load(Root);
+    /// <param name="today">Today's date for the review-date checks; the real date when left out.</param>
+    public Course Load(DateOnly? today = null) => CourseLoader.Load(Root, today);
 
     /// <summary>Loads the course, expecting it to fail, and returns the reported problems.</summary>
-    public string Problems() => Assert.Throws<InvalidDataException>(() => Load()).Message;
+    public string Problems(DateOnly? today = null) => Assert.Throws<InvalidDataException>(() => Load(today)).Message;
 
     public void Dispose()
     {
