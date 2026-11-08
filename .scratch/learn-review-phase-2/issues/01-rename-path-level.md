@@ -1,6 +1,6 @@
 # 01 · Rename the path level to difficulty
 
-Status: open
+Status: done
 Blocked by: none
 
 ## What

@@ -49,7 +49,7 @@ public sealed class LearnPath
 {
     public required string Slug { get; init; }
     public required string Title { get; init; }
-    public required string Level { get; init; }
+    public required string Difficulty { get; init; }
     public required string Summary { get; init; }
     public required Award Trophy { get; init; }
     public List<LearnModule> Modules { get; } = new();

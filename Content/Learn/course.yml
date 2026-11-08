@@ -37,7 +37,7 @@ achievements:
 paths:
   - slug: beginner
     title: Your first storyboard
-    level: Beginner
+    difficulty: Beginner
     summary: What storyboards are, how osu! reads them, and the commands that make sprites appear, move, spin and change colour. No experience needed.
     trophy: { name: First Light, description: Finish the Beginner path. }
     modules:
@@ -49,7 +49,7 @@ paths:
 
   - slug: intermediate
     title: Motion and music
-    level: Intermediate
+    difficulty: Intermediate
     summary: Write compact scripts with shorthand and loops, animate frame by frame, time everything to the beat, and react to how the player is doing.
     trophy: { name: In Sync, description: Finish the Intermediate path. }
     modules:
@@ -61,7 +61,7 @@ paths:
 
   - slug: advanced
     title: Scripting and wizardry
-    level: Advanced
+    difficulty: Advanced
     summary: Variables and triggers, generating storyboards with code, particles and procedural effects, and getting a storyboard ready for ranking.
     trophy: { name: Grand Feast, description: Finish the Advanced path. }
     modules:

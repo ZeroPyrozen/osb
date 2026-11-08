@@ -251,6 +251,7 @@ public class CourseLoaderTests
         Assert.Equal("quiz", catalog["units"]![1]!["type"]!.GetValue<string>());
         Assert.Equal(50, catalog["modules"]![0]!["bonus"]!.GetValue<int>());
         Assert.Equal(150, catalog["paths"]![0]!["bonus"]!.GetValue<int>());
+        Assert.Equal("Beginner", catalog["paths"]![0]!["difficulty"]!.GetValue<string>());
         Assert.Equal([0, 60], catalog["levels"]!.AsArray().Select(l => l!["xp"]!.GetValue<int>()));
         Assert.Equal(5, catalog["quiz"]!["perfectBonus"]!.GetValue<int>());
     }
@@ -273,5 +274,15 @@ public class CourseLoaderTests
         using var folder = new CourseFolder().Module("basics");
 
         Assert.Contains("course.yml is missing.", folder.Problems());
+    }
+
+    [Fact]
+    public void APathWithoutADifficulty_IsReported_EvenUnderItsOldName()
+    {
+        using var folder = CourseFolder.WithModules("basics").Module("basics").Lesson("basics", "01-a.md");
+        string courseYml = Path.Combine(folder.Root, "course.yml");
+        folder.File("course.yml", System.IO.File.ReadAllText(courseYml).Replace("difficulty: Beginner", "level: Beginner"));
+
+        Assert.Contains("course.yml: path 'beginner' needs a difficulty, such as Beginner (it used to be called level).", folder.Problems());
     }
 }

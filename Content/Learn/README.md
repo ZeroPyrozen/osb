@@ -54,7 +54,7 @@ and rolls back on its own.
 - `xp`: XP for each unit type, the perfect-quiz bonus, and the bonuses for finishing a module or path.
 - `levels`: XP thresholds. Keep existing thresholds fixed so nobody drops a level when content is added.
 - `achievements`: names and descriptions. Their rules live in `Scripts/learn/gamification.js`.
-- `paths`: each path's slug, title, level, summary, trophy and its **modules in order**. A module folder
+- `paths`: each path's slug, title, difficulty (Beginner, Intermediate or Advanced), summary, trophy and its **modules in order**. A module folder
   that no path lists is an error.
 
 ## module.yml

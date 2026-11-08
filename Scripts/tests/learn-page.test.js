@@ -15,8 +15,8 @@ const catalog = {
         { slug: 'm2', title: 'Loops', path: 'intermediate', url: '/learn/m2', units: ['m2/a'], bonus: 50, badge: { name: 'Loop Tamer', description: 'Finished Loops.' } },
     ],
     paths: [
-        { slug: 'beginner', title: 'Your first storyboard', level: 'Beginner', modules: ['m1'], bonus: 150, trophy: { name: 'First Light', description: '' } },
-        { slug: 'intermediate', title: 'Motion and music', level: 'Intermediate', modules: ['m2'], bonus: 150, trophy: { name: 'In Sync', description: '' } },
+        { slug: 'beginner', title: 'Your first storyboard', difficulty: 'Beginner', modules: ['m1'], bonus: 150, trophy: { name: 'First Light', description: '' } },
+        { slug: 'intermediate', title: 'Motion and music', difficulty: 'Intermediate', modules: ['m2'], bonus: 150, trophy: { name: 'In Sync', description: '' } },
     ],
     levels: [{ level: 1, title: 'Spectator', xp: 0 }, { level: 2, title: 'Sprite Wrangler', xp: 60 }, { level: 3, title: 'Fade Apprentice', xp: 160 }],
     achievements: [{ id: 'first-steps', name: 'First steps', description: 'Complete your first unit.' }],

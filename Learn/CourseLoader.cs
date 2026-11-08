@@ -53,11 +53,14 @@ public static partial class CourseLoader
 
         foreach (var pathFile in config.Paths)
         {
+            if (string.IsNullOrWhiteSpace(pathFile.Difficulty))
+                errors.Add($"course.yml: path '{pathFile.Slug}' needs a difficulty, such as Beginner (it used to be called level).");
+
             var path = new LearnPath
             {
                 Slug = pathFile.Slug,
                 Title = pathFile.Title,
-                Level = pathFile.Level,
+                Difficulty = pathFile.Difficulty,
                 Summary = pathFile.Summary,
                 Trophy = pathFile.Trophy,
             };
@@ -261,7 +264,7 @@ public static partial class CourseLoader
             }),
             paths = paths.Select(p => new
             {
-                slug = p.Slug, title = p.Title, level = p.Level, modules = p.Modules.Select(m => m.Slug), bonus = config.Xp.Path,
+                slug = p.Slug, title = p.Title, difficulty = p.Difficulty, modules = p.Modules.Select(m => m.Slug), bonus = config.Xp.Path,
                 trophy = new { name = p.Trophy.Name, description = p.Trophy.Description },
             }),
             levels = config.Levels.OrderBy(l => l.Xp).Select(l => new { level = l.Level, title = l.Title, xp = l.Xp }),
@@ -347,7 +350,7 @@ public static partial class CourseLoader
     private static partial Regex SingleParagraphPattern();
 
     private sealed record CourseFile(List<LevelRule> Levels, XpRules Xp, List<Achievement> Achievements, List<PathFile> Paths);
-    private sealed record PathFile(string Slug, string Title, string Level, string Summary, Award Trophy, List<string> Modules);
+    private sealed record PathFile(string Slug, string Title, string Difficulty, string Summary, Award Trophy, List<string> Modules);
     private sealed record ModuleFile(string Title, string Summary, string Icon, Award Badge);
     private sealed record UnitFile(string Title, string? Summary, string Type, int? Minutes, int? Xp, int? Pass, List<QuestionFile>? Questions, JsonObject? Exercise);
     private sealed record QuestionFile(string Prompt, List<string>? Choices, int Answer, string? Explanation);

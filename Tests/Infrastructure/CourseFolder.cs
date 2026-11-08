@@ -27,7 +27,7 @@ public sealed class CourseFolder : IDisposable
         paths:
           - slug: beginner
             title: Your first storyboard
-            level: Beginner
+            difficulty: Beginner
             summary: The basics.
             trophy: { name: First Light, description: Finish the Beginner path. }
             modules: [{{string.Join(", ", modules)}}]
