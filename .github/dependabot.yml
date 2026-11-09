@@ -1,0 +1,38 @@
+# Weekly pull requests for outdated dependencies: the NuGet packages and dotnet tools (found through
+# osb.sln and .config/dotnet-tools.json), the npm packages behind the frontend build and the JavaScript
+# tests, and the GitHub Actions in .github/workflows. Minor and patch updates arrive grouped, one pull
+# request per ecosystem; a major version comes on its own, since it can break things. Every pull request
+# runs the Build workflow, tests and content checks included.
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      nuget-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        update-types: [minor, patch]
