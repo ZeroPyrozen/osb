@@ -1,6 +1,6 @@
 # 07 · Add the Just enough JavaScript module
 
-Status: open
+Status: done
 Blocked by: 05
 
 ## What
@@ -19,6 +19,15 @@ Then:
 - "Storyboarding with code" lists the new module as a prerequisite.
 - The Advanced path outcome on generator scripts names the new module among those that build it.
 - The Advanced entry requirement stops asking for JavaScript.
+
+Found while building:
+
+- Script mode is only introduced in the next module, so this one uses just `sb.layer`, `sprite` and
+  `fade`, plus `log`, whose last three values the playground shows under the editor.
+- Examples that only print with `log` had no "Run in playground" button, so the button's rule now
+  includes them (`isRunnableScript` in `Scripts/storyboard/script.js`). `verify-content` now runs every
+  such example and checks the storyboard it writes, so "every example runnable" holds for the whole course.
+- The module got its own icon, `braces`, and the Advanced path's summary mentions it.
 
 ## Done when
 

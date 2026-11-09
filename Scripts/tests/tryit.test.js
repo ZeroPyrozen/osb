@@ -17,10 +17,16 @@ function codeBlock(language, code) {
 const linkTo = (pre) => pre.previousElementSibling?.querySelector('a')?.getAttribute('href') ?? null;
 const codeIn = (href, kind) => fromBase64Url(href.slice(`/learn/playground#${kind}=`.length));
 
-test('"Run in playground" is only for scripts that build a storyboard', () => {
-    const plain = codeBlock('js', 'const answer = 42;');
-    mountScriptLink(plain);
-    assert.equal(linkTo(plain), null);
+test('"Run in playground" is only for scripts that build a storyboard or print with log', () => {
+    for (const fragment of ['const answer = 42;', 'const e = Math.log(10);', "console.log('hi');"]) {
+        const plain = codeBlock('js', fragment);
+        mountScriptLink(plain);
+        assert.equal(linkTo(plain), null, fragment);
+    }
+
+    const prints = codeBlock('js', 'const beat = 60000 / 120;\nlog(beat);');
+    mountScriptLink(prints);
+    assert.match(linkTo(prints), /^\/learn\/playground#js=/);
 
     const script = 'const layer = sb.layer("Foreground");\nlayer.sprite("sb/dot.png").fade(0, 1000, 0, 1);';
     const builds = codeBlock('js', script);

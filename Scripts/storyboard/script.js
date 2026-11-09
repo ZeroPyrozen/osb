@@ -285,6 +285,13 @@ export function runScript(code, { seed = 1 } = {}) {
     return { osb: sections.join('\n') + '\n', logs, objects: counter.objects, commands: counter.commands };
 }
 
+/**
+ * Whether code is a whole script-mode example that does something when it runs: it builds a storyboard
+ * (sb.layer, GetLayer) or prints with log. Lessons give these a "Run in playground" button, and
+ * verify-content runs every one. Math.log and console.log don't count.
+ */
+export const isRunnableScript = (code) => /\b(?:sb\.layer|GetLayer)\(|(?<![\w.])[lL]og\(/.test(code);
+
 /** The line in the learner's script where an error happened, if the browser tells us. */
 export function errorLine(error) {
     // new Function puts three lines ("function anonymous(...", ") {" and "use strict") before the code.

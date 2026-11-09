@@ -3,6 +3,7 @@
 
 import { Player } from './player.js';
 import { toBase64Url } from './share-link.js';
+import { isRunnableScript } from '../storyboard/script.js';
 
 export function mountTryIt(pre) {
     const code = pre.querySelector('code').textContent;
@@ -38,10 +39,10 @@ export function mountTryIt(pre) {
     });
 }
 
-/** "Run in playground" for JavaScript examples that build a storyboard (they call sb.layer or GetLayer). */
+/** "Run in playground" for JavaScript examples that build a storyboard or print with log. */
 export function mountScriptLink(pre) {
     const code = pre.querySelector('code').textContent;
-    if (!/\b(?:sb\.layer|GetLayer)\(/.test(code)) return;
+    if (!isRunnableScript(code)) return;
 
     const bar = document.createElement('div');
     bar.className = 'not-prose -mb-2 flex justify-end gap-2';

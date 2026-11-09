@@ -29,8 +29,9 @@ Content/Learn/
    npm run verify:content -- http://127.0.0.1:5094
    ```
 
-   It checks that every exercise's **starter fails** its checks and its **solution passes** them, and
-   that every `.osb` example parses cleanly and only uses images from the playground library.
+   It checks that every exercise's **starter fails** its checks and its **solution passes** them, that
+   every `.osb` example parses cleanly and only uses images from the playground library, and that every
+   script example with a **Run in playground** button runs and does the same.
 
 The site refuses to start with broken content, so a deploy with broken content fails its health check
 and rolls back on its own.
@@ -69,9 +70,9 @@ badge:
 ```
 
 Icons: search, arrow-left, arrow-right, heart, logout, user, upload, discord, dots, menu, close, check,
-chevron-right, chevron-down, external, download, play, pause, restart, clock, book, quiz, code, lock,
-star, trophy, flame, sparkles, map, layers, info, warning, grid, eye, image, curve, scissors, repeat,
-film, music, gamepad, bolt, particles, gauge.
+chevron-right, chevron-down, external, download, play, pause, restart, clock, book, quiz, code, braces,
+lock, star, trophy, flame, sparkles, map, layers, info, warning, grid, eye, image, curve, scissors,
+repeat, film, music, gamepad, bolt, particles, gauge.
 
 ## Units
 
@@ -96,7 +97,7 @@ Standard Markdown plus tables, and these extras:
 | :-- | :-- |
 | ```` ```osb ```` | A storyboard example with **Preview** and **Open in playground** buttons, if it contains a Sprite or Animation line. |
 | ```` ```osb-static ```` | Highlighted storyboard code with no preview, for examples the preview can't play (triggers). |
-| ```` ```js ```` | Highlighted JavaScript. If it calls `sb.layer(` or `GetLayer(`, it gets a **Run in playground** button (script mode). |
+| ```` ```js ```` | Highlighted JavaScript. If it builds a storyboard (`sb.layer(`, `GetLayer(`) or prints with `log(`, it gets a **Run in playground** button (script mode), and `verify:content` runs it. |
 | ```` ```cs ```` | Highlighted C#, for storybrew examples. |
 | ```` ``` ```` | Plain code, for syntax templates and fragments. |
 | `::: tip` … `:::` | A callout. Also `::: note`, `::: warning` and `::: try`. |

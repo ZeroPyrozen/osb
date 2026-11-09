@@ -98,9 +98,9 @@ paths:
   - slug: advanced
     title: Scripting and wizardry
     difficulty: Advanced
-    summary: Variables and triggers, generating storyboards with code, particles and procedural effects, and getting a storyboard ready for ranking.
+    summary: Variables and triggers, just enough JavaScript to generate storyboards with code, particles and procedural effects, and getting a storyboard ready for ranking.
     trophy: { name: Grand Feast, description: Finish the Advanced path. }
-    entry: the Intermediate path, some JavaScript (variables, `for` loops, functions and arrays), and angles in radians from Scale, rotate and colour.
+    entry: the Intermediate path. You don't need to have programmed before, because Just enough JavaScript teaches what this path uses.
     outcomes:
       - id: variables-and-triggers
         bloom: apply
@@ -108,7 +108,7 @@ paths:
         text: Use variables and triggers in hand-written storyboards, avoiding their known traps
       - id: generator-scripts
         bloom: create
-        modules: [storyboarding-with-code]
+        modules: [just-enough-javascript, storyboarding-with-code]
         text: Write generator scripts with loops, maths and seeded randomness, and carry them over to storybrew
       - id: procedural-effects
         bloom: create
@@ -120,6 +120,7 @@ paths:
         text: Audit and optimise a storyboard against performance advice and the current ranking criteria
     modules:
       - variables-and-triggers
+      - just-enough-javascript
       - storyboarding-with-code
       - particles-and-procedural
       - optimization-and-ranking

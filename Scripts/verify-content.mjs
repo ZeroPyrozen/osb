@@ -1,13 +1,14 @@
 // Checks the learn content as the site serves it: every exercise's starter must fail its checks and its
-// solution must pass them, and every .osb example in a unit must parse cleanly and only use images from
-// the playground library. Run it against a running site:
+// solution must pass them, every .osb example in a unit must parse cleanly and only use images from the
+// playground library, and every script example with a "Run in playground" button must run and do the
+// same. Run it against a running site:
 //
 //   npm run verify:content                    (http://localhost:5000, the dotnet run default)
 //   npm run verify:content -- http://127.0.0.1:5094
 
 import { parse } from './storyboard/parse.js';
 import { runChecks } from './storyboard/checks.js';
-import { runScript } from './storyboard/script.js';
+import { runScript, isRunnableScript } from './storyboard/script.js';
 import { Assets, framePath } from './storyboard/assets.js';
 
 const base = (process.argv[2] ?? 'http://localhost:5000').replace(/\/$/, '');
@@ -15,6 +16,7 @@ const library = new Assets();
 const problems = [];
 let exercises = 0;
 let examples = 0;
+let scripts = 0;
 
 const unescape = (html) => html
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
@@ -106,9 +108,21 @@ for (const unit of catalog.units) {
         examples++;
         for (const issue of lint(text)) problems.push(`${unit.url}: example "${text.split('\n')[0].slice(0, 50)}" ${issue}`);
     }
+
+    for (const match of html.matchAll(/<code class="language-js">([\s\S]*?)<\/code>/g)) {
+        const text = unescape(match[1]);
+        if (!isRunnableScript(text)) continue; // no "Run in playground" button: a fragment, not a whole script
+        scripts++;
+        const where = `${unit.url}: script "${text.split('\n')[0].slice(0, 50)}"`;
+        try {
+            for (const issue of lint(runScript(text).osb)) problems.push(`${where} ${issue}`);
+        } catch (error) {
+            problems.push(`${where} throws: ${error.message}`);
+        }
+    }
 }
 
-console.log(`Checked ${catalog.units.length} units: ${exercises} exercises and ${examples} .osb examples.`);
+console.log(`Checked ${catalog.units.length} units: ${exercises} exercises, ${examples} .osb examples and ${scripts} script examples.`);
 if (problems.length) {
     console.log(`\n${problems.length} problem${problems.length === 1 ? '' : 's'}:`);
     for (const problem of problems) console.log(`  - ${problem}`);
