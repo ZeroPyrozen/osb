@@ -3,6 +3,7 @@ title: Performance
 type: lesson
 minutes: 8
 summary: What makes storyboards slow, and a checklist for keeping them smooth on modest computers.
+reviewed: 2026-11-09
 ---
 
 A storyboard that stutters ruins the beatmap it was made for. Players feel every dropped frame,

@@ -1,6 +1,29 @@
 title: Animations
 summary: Flip through a series of images like a flip book with the Animation object.
 icon: film
+prerequisites: [sprites-and-layers, first-commands]
+outcomes:
+  - id: declare-animation
+    bloom: apply
+    text: Declare an Animation with the base file name, frame count, frame delay and loop type
+  - id: frame-timing
+    bloom: apply
+    text: Calculate frames per second, cycle length and the frame shown at a given time
+  - id: prepare-frames
+    bloom: understand
+    text: 'Prepare frame images that animate cleanly: numbered from 0, the same size, the subject aligned'
+  - id: choose-animation
+    bloom: evaluate
+    text: Choose between an Animation, a Sprite with commands and a video
+topics:
+  - The Animation line
+  - Frame file naming
+  - Frame delay and frames per second
+  - LoopForever and LoopOnce
+  - When frame 0 starts
+  - Commands on animations
+  - Memory cost
+  - Preparing frames
 badge:
   name: Frame by Frame
   description: Finished "Animations".

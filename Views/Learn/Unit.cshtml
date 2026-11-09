@@ -24,7 +24,7 @@
 <div class="grid gap-8 @gridClass">
     <aside class="hidden lg:block" aria-label="Units in this module">
         <div class="sticky top-24 flex flex-col gap-3" data-module="@module.Slug">
-            <a href="@module.Url" class="eyebrow hover:no-underline">Module @module.Number · @module.Path.Level</a>
+            <a href="@module.Url" class="eyebrow hover:no-underline">Module @module.Number · @module.Path.Difficulty</a>
             <p class="-mt-1 font-bold text-mint-50">@module.Title</p>
             <span class="flex items-center gap-2 text-xs text-sage">
                 <span class="h-1.5 flex-1 overflow-hidden rounded-full bg-charcoal-700"><span class="block h-full rounded-full @LearnStyles.Bar(module.Path.Slug) transition-all duration-700" data-bar style="width: 0%"></span></span>
@@ -57,6 +57,12 @@
                 <span data-unit="@unit.Id" class="group"><span class="hidden items-center gap-1 rounded-full bg-mint-400/15 px-2 py-0.5 text-xs font-bold text-mint-300 group-data-done:flex">@Icons.Get("check", "size-3.5") Completed</span></span>
             </p>
             <h1 class="mt-2 font-display text-3xl font-bold text-mint-50">@unit.Title</h1>
+            @if (unit.Reviewed is DateOnly reviewed)
+            {
+                @* The day the unit's facts were checked against the ranking criteria and lazer. verify-content warns once it's old. *@
+                string iso = reviewed.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                <p class="mt-2 text-sm text-sage" data-reviewed="@iso">Facts last checked on <time datetime="@iso">@reviewed.ToString("d MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</time></p>
+            }
         </header>
 
         @if (!string.IsNullOrWhiteSpace(unit.Html))

@@ -3,6 +3,7 @@ title: The ranking criteria
 type: lesson
 minutes: 8
 summary: The rules and guidelines a storyboard must meet before its beatmap can be ranked, and the tools that check them.
+reviewed: 2026-11-09
 ---
 
 Before a beatmap can be **ranked**, it goes through a review process, and everything in it has to meet
@@ -33,7 +34,8 @@ From the general rules, which apply to storyboards too:
   beatmap's description.
 - **No obscene imagery,** and imagery must follow the visual content considerations.
 - **No AI-generated imagery.** Images and videos that are substantially AI-generated can't be used.
-- **Letterbox during breaks** must be consistent between difficulties of the same mode with breaks.
+- **Letterbox during breaks** must be consistent between difficulties of the same mode with breaks,
+  unless their storyboards differ.
 
 ## Guidelines
 

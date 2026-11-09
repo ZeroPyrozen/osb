@@ -1,6 +1,31 @@
 title: Loops
 summary: Repeat a group of commands as many times as you like with one L line, and dodge the classic loop mistakes.
 icon: repeat
+prerequisites: [first-commands, shorthand]
+outcomes:
+  - id: write-loop
+    bloom: apply
+    text: Write an L loop with relative inner times and the right pass count
+  - id: loop-length
+    bloom: apply
+    text: Calculate a loop's pass length and total duration
+  - id: loop-debug
+    bloom: analyse
+    text: Diagnose and fix missing pauses, late first commands and clashes with ordinary commands
+  - id: loop-limits
+    bloom: remember
+    text: State what loops can't contain and why the ranking criteria favour them
+topics:
+  - The L line and its indentation
+  - Relative times
+  - Pass length
+  - Loops beside ordinary commands
+  - Several loops on one sprite
+  - Pauses that need a command
+  - Starting at 0
+  - Counting passes
+  - No nesting, no objects, no loop easing
+  - Smaller files
 badge:
   name: Round and Round
   description: Finished "Loops".

@@ -3,6 +3,7 @@ title: "Exercise: pop and spin"
 type: exercise
 minutes: 6
 summary: Combine Scale, Fade and Rotate into one lively entrance.
+outcomes: [scale-objects, rotate-objects]
 exercise:
   duration: 2000
   starter: |

@@ -1,0 +1,36 @@
+title: Just enough JavaScript
+summary: The JavaScript the rest of the Advanced path uses, and nothing more. Variables, arithmetic, loops, functions and arrays, and the maths that puts points on a circle.
+icon: braces
+prerequisites: [scale-rotate-colour]
+outcomes:
+  - id: variables-and-arithmetic
+    bloom: apply
+    text: Keep numbers in variables and work out positions and times from them with arithmetic
+  - id: for-loops
+    bloom: apply
+    text: Repeat code with a `for` loop, using its counter to give each object its own place and timing
+  - id: functions
+    bloom: apply
+    text: Write a function that takes values and returns a result
+  - id: arrays
+    bloom: apply
+    text: Keep lists and `[x, y]` points in arrays, and read them by index
+  - id: points-on-a-circle
+    bloom: apply
+    text: Place points on a circle with `Math.cos`, `Math.sin` and angles in radians
+topics:
+  - Script mode as a calculator, with `log`
+  - '`const`, `let` and names'
+  - Arithmetic and brackets
+  - A sprite from code
+  - '`for` loops and the counter'
+  - Functions, parameters and `return`
+  - Arrays, indexes and `length`
+  - '`[x, y]` points'
+  - When a script goes wrong
+  - Radians and `Math.PI`
+  - '`Math.cos` and `Math.sin`'
+  - Points on a circle, going clockwise
+badge:
+  name: Brace Yourself
+  description: Finished "Just enough JavaScript".

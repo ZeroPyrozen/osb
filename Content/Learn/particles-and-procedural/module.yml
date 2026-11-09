@@ -1,6 +1,33 @@
 title: Particles and procedural effects
 summary: Build snow, sparks and starfields from hundreds of randomised sprites, and drive motion with maths instead of keyframes.
 icon: particles
+prerequisites: [storyboarding-with-code]
+outcomes:
+  - id: design-particles
+    bloom: create
+    text: Design a particle system by choosing each particle's birth, lifetime, path and look with controlled randomness
+  - id: natural-particles
+    bloom: apply
+    text: Make particles look natural with fades, spread start times, looping and additive blending
+  - id: procedural-effects
+    bloom: create
+    text: 'Build procedural effects from formulas: sine waves with phase offsets, bars, circles and grids'
+  - id: cheap-particles
+    bloom: evaluate
+    text: Keep particle effects cheap to draw
+topics:
+  - The particle recipe
+  - Drawing a random value once
+  - Fading in and out
+  - Spreading start times
+  - Looping particles
+  - Additive glow
+  - Keeping it cheap
+  - Procedural versus random
+  - Amplitude, frequency and phase
+  - Spectrum-style bars
+  - Faked spectrum and FFT
+  - 'Formula library: circle, wave, spiral, grid, delay'
 badge:
   name: Starfall
   description: Finished "Particles and procedural effects".

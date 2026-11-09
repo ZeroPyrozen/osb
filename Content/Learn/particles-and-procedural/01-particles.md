@@ -3,6 +3,7 @@ title: Particles
 type: lesson
 minutes: 8
 summary: What a particle system is, giving every particle its own randomness, and keeping hundreds of sprites cheap.
+reviewed: 2026-11-09
 ---
 
 Snow, rain, dust, sparks, bubbles and starfields are all **particle effects**: many small sprites,

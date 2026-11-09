@@ -6,6 +6,9 @@ namespace osb.Learn;
 
 public enum UnitType { Lesson, Quiz, Exercise }
 
+/// <summary>How deep an outcome goes, on Bloom's revised scale (spelled the British way, as the course is).</summary>
+public enum BloomLevel { Remember, Understand, Apply, Analyse, Evaluate, Create }
+
 /// <summary>The whole course: paths, their modules and units, plus the XP and level rules.</summary>
 public sealed class Course
 {
@@ -18,6 +21,12 @@ public sealed class Course
 
     /// <summary>The catalog as the browser sees it (see Scripts/learn/gamification.js), serialized once.</summary>
     public required string ClientJson { get; init; }
+
+    /// <summary>
+    /// What the content still lacks, each with its file name: an outcome nothing assesses, a question that names
+    /// no outcome and so on. Gaps never stop the site; Development logs them and a test fails CI on them.
+    /// </summary>
+    public IReadOnlyList<string> Gaps { get; init; } = [];
 
     public int TotalMinutes => Units.Sum(u => u.Minutes);
 
@@ -49,10 +58,17 @@ public sealed class LearnPath
 {
     public required string Slug { get; init; }
     public required string Title { get; init; }
-    public required string Level { get; init; }
+    public required string Difficulty { get; init; }
     public required string Summary { get; init; }
     public required Award Trophy { get; init; }
+
+    /// <summary>What the path expects a learner to know before starting it, as inline HTML. Advice only.</summary>
+    public string? Entry { get; init; }
+
     public List<LearnModule> Modules { get; } = new();
+
+    /// <summary>What learners can do after the path, each built by some of its modules.</summary>
+    public List<PathOutcome> Outcomes { get; } = new();
 
     public int Minutes => Modules.Sum(m => m.Minutes);
     public int UnitCount => Modules.Sum(m => m.Units.Count);
@@ -68,6 +84,15 @@ public sealed class LearnModule
     public required Award Badge { get; init; }
     public required LearnPath Path { get; init; }
     public List<LearnUnit> Units { get; } = new();
+
+    /// <summary>What learners can do after the module.</summary>
+    public IReadOnlyList<Outcome> Outcomes { get; init; } = [];
+
+    /// <summary>The subjects the module covers, as inline HTML, in the order the module lists them.</summary>
+    public IReadOnlyList<string> Topics { get; init; } = [];
+
+    /// <summary>Earlier modules this one builds on. Advice only: nothing is ever locked.</summary>
+    public List<LearnModule> Prerequisites { get; } = new();
 
     public string Url => $"/learn/{Slug}";
     public int Minutes => Units.Sum(u => u.Minutes);
@@ -98,6 +123,12 @@ public sealed class LearnUnit
     /// <summary>The exercise configuration from the front matter, passed to the browser as JSON.</summary>
     public JsonObject? Exercise { get; init; }
 
+    /// <summary>The module outcomes this unit's questions or exercise check; empty for lessons.</summary>
+    public IReadOnlyList<Outcome> Assesses { get; init; } = [];
+
+    /// <summary>The day the unit's time-sensitive facts were last checked against their sources.</summary>
+    public DateOnly? Reviewed { get; init; }
+
     public string Url => $"/learn/{Module.Slug}/{Slug}";
     public int Number { get; set; }
     public LearnUnit? Previous { get; set; }
@@ -120,5 +151,14 @@ public sealed class LearnUnit
 
 public sealed record Quiz(int Pass, IReadOnlyList<QuizQuestion> Questions);
 
-/// <summary>A single-choice question. Prompt, choices and explanation are HTML rendered from Markdown.</summary>
-public sealed record QuizQuestion(string Prompt, IReadOnlyList<string> Choices, int Answer, string Explanation);
+/// <summary>
+/// A single-choice question. Prompt, choices and explanation are HTML rendered from Markdown; <paramref name="Outcome"/>
+/// is the module outcome it assesses.
+/// </summary>
+public sealed record QuizQuestion(string Prompt, IReadOnlyList<string> Choices, int Answer, string Explanation, Outcome? Outcome = null);
+
+/// <summary>Something a learner can do after a module or a path. <paramref name="Html"/> is <paramref name="Text"/> rendered from Markdown.</summary>
+public sealed record Outcome(string Id, BloomLevel Bloom, string Text, string Html);
+
+/// <summary>A path outcome, with the modules in its path that build it.</summary>
+public sealed record PathOutcome(string Id, BloomLevel Bloom, string Text, string Html, IReadOnlyList<LearnModule> Modules);

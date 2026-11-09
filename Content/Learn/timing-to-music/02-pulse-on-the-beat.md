@@ -3,6 +3,7 @@ title: "Exercise: pulse on the beat"
 type: exercise
 minutes: 5
 summary: Make a ring pulse on the first eight beats of a 120 BPM song, with a metronome to check by ear.
+outcomes: [beat-times, sync-loops]
 exercise:
   duration: 4500
   bpm: 120

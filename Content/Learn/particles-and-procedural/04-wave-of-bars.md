@@ -3,6 +3,8 @@ title: "Exercise: wave of bars"
 type: exercise
 minutes: 8
 summary: Sixteen bars pulsing one after another, built from one loop each.
+reviewed: 2026-11-09
+outcomes: [procedural-effects]
 exercise:
   mode: script
   duration: 4000

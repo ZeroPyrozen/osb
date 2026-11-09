@@ -3,6 +3,7 @@ title: "Exercise: burst into a circle"
 type: exercise
 minutes: 8
 summary: Use sine and cosine to send 16 dots from the centre out to a ring.
+outcomes: [generate-objects]
 exercise:
   mode: script
   duration: 2000

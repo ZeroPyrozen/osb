@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 4
 summary: Six questions on loops.
+reviewed: 2026-11-09
 questions:
   - prompt: In ` L,2000,4`, what does `4` mean?
     choices:
@@ -10,6 +11,7 @@ questions:
       - The commands play once, then repeat 4 more times
       - Each pass lasts 4 seconds
     answer: 0
+    outcome: write-loop
     explanation: The loop count is the total number of passes.
 
   - prompt: Inside a loop, what are command times measured from?
@@ -18,6 +20,7 @@ questions:
       - The start of each pass
       - The end of the previous loop
     answer: 1
+    outcome: write-loop
     explanation: Times inside a loop are relative, so the same commands can play again in every pass.
 
   - prompt: 'A loop contains ` F,0,0,300,0,1` and ` F,0,300,600,1,0`. How long is each pass?'
@@ -26,6 +29,7 @@ questions:
       - 900 ms
       - 600 ms
     answer: 2
+    outcome: loop-length
     explanation: A pass runs from the earliest start (0) to the latest end (600) of the commands inside.
 
   - prompt: 'A loop contains only ` F,0,0,200,1,0`, but you wanted 300 ms of darkness after each flash. What''s wrong?'
@@ -34,6 +38,7 @@ questions:
       - Each pass is only 200 ms long, so there's no pause. A command must cover the rest of the pass
       - The loop count is too low
     answer: 1
+    outcome: loop-debug
     explanation: Pauses only exist if a command covers them, for example ` F,0,200,500,0`.
 
   - prompt: Can a loop contain another loop?
@@ -42,6 +47,7 @@ questions:
       - Yes, as deep as you like
       - Only one level deep
     answer: 0
+    outcome: loop-limits
     explanation: osu! doesn't support nesting. Use separate loops one after another instead.
 
   - prompt: Why do the ranking criteria recommend loops for repeating motion?
@@ -50,6 +56,7 @@ questions:
       - Loops are required for every storyboard
       - They keep the file much smaller, since the commands are written once
     answer: 2
+    outcome: loop-limits
     explanation: Writing repetitions out by hand bloats the file, and loops avoid that.
 ---
 

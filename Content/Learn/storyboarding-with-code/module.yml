@@ -1,6 +1,38 @@
 title: Storyboarding with code
 summary: Let a program write the storyboard for you. Generate hundreds of sprites with loops and maths, then take the same ideas to storybrew.
 icon: code
+prerequisites: [scale-rotate-colour, loops, just-enough-javascript]
+outcomes:
+  - id: what-generators-do
+    bloom: understand
+    text: Explain what a generator does and when it beats writing by hand
+  - id: script-mode-api
+    bloom: apply
+    text: 'Use the script-mode API: layers, sprites, timed and instant commands, easing names'
+  - id: generate-objects
+    bloom: apply
+    text: Generate many objects with `for` loops, arithmetic and trigonometry
+  - id: seeded-randomness
+    bloom: understand
+    text: Use seeded randomness for repeatable variation
+  - id: translate-to-storybrew
+    bloom: apply
+    text: Translate a script-mode effect into a storybrew C# effect with configurable settings
+topics:
+  - Limits of hand-written scripts
+  - What a generator is
+  - storybrew, own scripts, script mode
+  - Layers and objects in script mode
+  - Timed and instant command forms
+  - Easing names
+  - Code loops and loop groups
+  - 'Helpers: random, lerp, beatLength, log'
+  - Seeded randomness
+  - Script limits
+  - storybrew effect structure
+  - '`[Configurable]` fields'
+  - Translating to C#
+  - What storybrew adds
 badge:
   name: Code Conjurer
   description: Finished "Storyboarding with code".

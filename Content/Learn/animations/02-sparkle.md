@@ -3,6 +3,7 @@ title: "Exercise: sparkle"
 type: exercise
 minutes: 4
 summary: Turn a still sprite into a looping six-frame sparkle.
+outcomes: [declare-animation]
 exercise:
   duration: 2000
   starter: |

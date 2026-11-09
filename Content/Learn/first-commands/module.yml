@@ -1,6 +1,34 @@
 title: First commands
 summary: Give sprites a sense of time. Fade them in and out, move them around, and learn what happens before, between and after commands.
 icon: play
+prerequisites: [sprites-and-layers]
+outcomes:
+  - id: read-a-command
+    bloom: understand
+    text: Break a command line into type, easing, start time, end time and values
+  - id: rules-of-time
+    bloom: analyse
+    text: Apply the three rules of time to predict whether an object exists and how it looks at any moment
+  - id: write-fades
+    bloom: apply
+    text: Write Fade commands for fade-in, hold and fade-out patterns
+  - id: move-objects
+    bloom: apply
+    text: Move objects with M, MX and MY, including multi-step paths and off-screen entrances that allow for image size and widescreen
+  - id: avoid-overlaps
+    bloom: evaluate
+    text: Avoid overlapping same-type commands, and prefer one M over an MX and MY pair
+topics:
+  - Anatomy of a command
+  - The three rules of time
+  - Fade and opacity
+  - Writing a value once
+  - Commands running together
+  - Same-type overlaps
+  - Move, MX and MY
+  - Paths from chained moves
+  - Entering from off-screen
+  - M or MX and MY
 badge:
   name: First Motion
   description: Finished "First commands".

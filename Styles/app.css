@@ -24,6 +24,8 @@
     --color-charcoal-700: #353b39;
     --color-charcoal-600: #3c4745;
     --color-charcoal-500: #4f5b58;
+    /* Quiet markers on cards: list dots and the empty ring of a module not finished yet */
+    --color-charcoal-400: #6b7976;
     --color-sage: #90a9a3;
 
     --color-mint-50: #effaf7;

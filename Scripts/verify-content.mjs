@@ -1,13 +1,15 @@
 // Checks the learn content as the site serves it: every exercise's starter must fail its checks and its
-// solution must pass them, and every .osb example in a unit must parse cleanly and only use images from
-// the playground library. Run it against a running site:
+// solution must pass them, every .osb example in a unit must parse cleanly and only use images from the
+// playground library, and every script example with a "Run in playground" button must run and do the
+// same. It also warns, without failing, about units whose facts were last checked more than three months
+// ago. Run it against a running site:
 //
 //   npm run verify:content                    (http://localhost:5000, the dotnet run default)
 //   npm run verify:content -- http://127.0.0.1:5094
 
 import { parse } from './storyboard/parse.js';
 import { runChecks } from './storyboard/checks.js';
-import { runScript } from './storyboard/script.js';
+import { runScript, isRunnableScript } from './storyboard/script.js';
 import { Assets, framePath } from './storyboard/assets.js';
 
 const base = (process.argv[2] ?? 'http://localhost:5000').replace(/\/$/, '');
@@ -15,6 +17,16 @@ const library = new Assets();
 const problems = [];
 let exercises = 0;
 let examples = 0;
+let scripts = 0;
+let dated = 0;
+const warnings = [];
+
+// Units dated with reviewed: get their facts re-checked every quarter. An older date is a warning, not a failure.
+const reviewDue = (() => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 3);
+    return date.toISOString().slice(0, 10);
+})();
 
 const unescape = (html) => html
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
@@ -106,13 +118,37 @@ for (const unit of catalog.units) {
         examples++;
         for (const issue of lint(text)) problems.push(`${unit.url}: example "${text.split('\n')[0].slice(0, 50)}" ${issue}`);
     }
+
+    for (const match of html.matchAll(/<code class="language-js">([\s\S]*?)<\/code>/g)) {
+        const text = unescape(match[1]);
+        if (!isRunnableScript(text)) continue; // no "Run in playground" button: a fragment, not a whole script
+        scripts++;
+        const where = `${unit.url}: script "${text.split('\n')[0].slice(0, 50)}"`;
+        try {
+            for (const issue of lint(runScript(text).osb)) problems.push(`${where} ${issue}`);
+        } catch (error) {
+            problems.push(`${where} throws: ${error.message}`);
+        }
+    }
+
+    const reviewed = /data-reviewed="(\d{4}-\d{2}-\d{2})"/.exec(html)?.[1];
+    if (reviewed) {
+        dated++;
+        if (reviewed < reviewDue)
+            warnings.push(`${unit.url}: facts last checked on ${reviewed}, more than three months ago. Check them against the current ranking criteria and osu!(lazer), then update reviewed:.`);
+    }
 }
 
-console.log(`Checked ${catalog.units.length} units: ${exercises} exercises and ${examples} .osb examples.`);
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+console.log(`Checked ${catalog.units.length} units (${dated} with a review date): ${exercises} exercises, ${examples} .osb examples and ${scripts} script examples.`);
+if (warnings.length) {
+    console.log(`\n${plural(warnings.length, 'warning')}:`);
+    for (const warning of warnings) console.log(`  - ${warning}`);
+}
 if (problems.length) {
-    console.log(`\n${problems.length} problem${problems.length === 1 ? '' : 's'}:`);
+    console.log(`\n${plural(problems.length, 'problem')}:`);
     for (const problem of problems) console.log(`  - ${problem}`);
     process.exitCode = 1;
 } else {
-    console.log('Everything checks out.');
+    console.log(warnings.length ? '\nNo problems. The warnings above don\'t fail the check.' : 'Everything checks out.');
 }

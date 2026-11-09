@@ -1,6 +1,34 @@
 title: What is a storyboard?
 summary: Where storyboards come from, how osu! finds and shows them, and the stage you draw on.
 icon: layers
+outcomes:
+  - id: explain-storyboards
+    bloom: understand
+    text: Explain what a storyboard is and what it can do that a background video can't
+  - id: find-storyboard-files
+    bloom: remember
+    text: Identify where osu! reads storyboard instructions (`.osb` or a difficulty's `[Events]`) and which difficulties show each
+  - id: compare-ways
+    bloom: understand
+    text: Compare the three ways of making a storyboard (Design tab, hand scripting, generators) and pick one for a job
+  - id: locate-on-canvas
+    bloom: apply
+    text: Locate positions on the 640 × 480 canvas and the 854-wide widescreen area, keeping key content in the 4:3 safe area and clear of the play area
+  - id: read-times
+    bloom: understand
+    text: Interpret storyboard times as milliseconds from the start of the audio, including negative intro times
+topics:
+  - Storyboards in osu! and where the idea came from
+  - Storyboard or background video
+  - '`.osb` file or `[Events]` section'
+  - Design tab, hand scripting, generators
+  - Design tab helpers for scripting
+  - The 640 × 480 canvas and its axes
+  - Widescreen, x −107 to 747
+  - The 4:3 safe area
+  - The play area
+  - Storyboard time, intros and outros
+  - Players' dim and storyboard settings
 badge:
   name: Curtain Raiser
   description: Finished "What is a storyboard?".

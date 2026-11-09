@@ -3,6 +3,7 @@ title: "Exercise: fix the blink"
 type: exercise
 minutes: 5
 summary: A loop that should blink but doesn't. Find out why and fix it.
+outcomes: [loop-debug]
 exercise:
   duration: 4500
   starter: |

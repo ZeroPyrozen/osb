@@ -1,6 +1,37 @@
 title: Variables and triggers
 summary: Name repeated values once with variables, and make sprites react to hitsounds and to the player passing or failing.
 icon: bolt
+prerequisites: [loops, gameplay-and-layers]
+outcomes:
+  - id: use-variables
+    bloom: apply
+    text: Declare and use `[Variables]` in a `.osb` file
+  - id: variable-traps
+    bloom: analyse
+    text: Avoid the editor-save and name-prefix traps
+  - id: write-triggers
+    bloom: apply
+    text: Write triggers for hitsound and game-state events with a valid listening window and relative times
+  - id: trigger-restarts
+    bloom: understand
+    text: Explain trigger restarts, group numbers and why triggered sprites should be faded out
+  - id: test-triggers
+    bloom: apply
+    text: Plan how to test triggers in osu!
+topics:
+  - The `[Variables]` section
+  - Plain-text substitution
+  - '`.osb` only, constants only'
+  - The editor-save trap
+  - The prefix trap
+  - When code replaces variables
+  - The T line
+  - Hitsound and game-state triggers
+  - Combined HitSound names
+  - Restarts and group numbers
+  - Trigger-only sprites
+  - Testing triggers
+  - Ranking criteria on triggers
 badge:
   name: Switchboard
   description: Finished "Variables and triggers".

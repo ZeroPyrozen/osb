@@ -3,6 +3,7 @@ title: Following the song's energy
 type: lesson
 minutes: 6
 summary: Song structure, build-ups, drops and kiai, and how to make a storyboard rise and fall with the music.
+reviewed: 2026-11-09
 ---
 
 Being on the beat is the start. Great storyboards also follow the song's **shape**. They stay calm when

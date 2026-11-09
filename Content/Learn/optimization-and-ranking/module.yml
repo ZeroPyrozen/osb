@@ -1,6 +1,30 @@
 title: Optimisation and ranking
 summary: Make storyboards run smoothly on every computer, and get them ready for the ranking criteria.
 icon: gauge
+prerequisites: [shorthand, loops, storyboarding-with-code]
+outcomes:
+  - id: performance-costs
+    bloom: understand
+    text: Identify what costs performance in a storyboard
+  - id: optimise-safely
+    bloom: analyse
+    text: Optimise a storyboard without changing a visible frame
+  - id: rules-and-guidelines
+    bloom: evaluate
+    text: Tell ranking rules from guidelines and apply the storyboard-related ones
+  - id: check-beatmaps
+    bloom: apply
+    text: Check a beatmap with Mapset Verifier and by hand
+topics:
+  - Active sprites, pixels, loading, file size
+  - The optimisation checklist
+  - Simplifying generated keyframes
+  - Testing performance
+  - Rules and guidelines
+  - Storyboarding rules
+  - General rules that apply
+  - Storyboarding guidelines
+  - Mapset Verifier
 badge:
   name: Ranked Ready
   description: Finished "Optimisation and ranking".

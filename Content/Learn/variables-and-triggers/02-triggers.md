@@ -3,6 +3,7 @@ title: Triggers
 type: lesson
 minutes: 8
 summary: Commands that play when something happens in gameplay, like a clap or the player starting to fail.
+reviewed: 2026-11-09
 ---
 
 Every command so far has played at a fixed time. A **trigger** plays its commands when something

@@ -3,6 +3,7 @@ title: The stage
 type: lesson
 minutes: 6
 summary: Storyboard coordinates, widescreen, the play area and time.
+reviewed: 2026-11-09
 ---
 
 Before you place anything, it helps to know the stage: how big it is, where (0, 0) is, and how time
@@ -45,7 +46,8 @@ The extra 107 pixels on each side are only seen on widescreen displays.
 - Backgrounds should cover the full 854 width (for example placed at x = −107 with the TopLeft anchor),
   or widescreen players will see black bars.
 - If you design for 4:3 only, turn Widescreen support off. The ranking criteria ask for this setting to
-  match the storyboard, and to be the same in every storyboarded difficulty.
+  match the storyboard, and to be the same in every storyboarded difficulty unless their storyboards are
+  made for different aspect ratios.
 
 ## The play area
 

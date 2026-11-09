@@ -3,6 +3,7 @@ title: "Exercise: slide across"
 type: exercise
 minutes: 5
 summary: Send a music note across the screen from one edge to the other.
+outcomes: [move-objects]
 exercise:
   duration: 3000
   widescreen: false
