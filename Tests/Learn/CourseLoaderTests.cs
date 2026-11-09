@@ -30,6 +30,15 @@ public class CourseLoaderTests
         Assert.Equal(course.Units.Select(u => u.Id), catalog.RootElement.GetProperty("units").EnumerateArray().Select(u => u.GetProperty("id").GetString()));
     }
 
+    /// <summary>Gaps never stop the site, so this test is what stops them reaching main: CI runs it on every pull request.</summary>
+    [Fact]
+    public void TheRealCourse_HasNoGaps()
+    {
+        var course = CourseLoader.Load(RepoPaths.Learn);
+
+        Assert.True(course.Gaps.Count == 0, "The learn content has gaps:\n  " + string.Join("\n  ", course.Gaps));
+    }
+
     [Fact]
     public void Units_TakeTheirIdOrderAndNumberFromTheFileName()
     {
@@ -494,5 +503,74 @@ public class CourseLoaderTests
         folder.File("course.yml", System.IO.File.ReadAllText(courseYml).Replace("difficulty: Beginner", "level: Beginner"));
 
         Assert.Contains("course.yml: path 'beginner' needs a difficulty, such as Beginner (it used to be called level).", folder.Problems());
+    }
+
+    [Fact]
+    public void Gaps_AreListedWithFileNames_ButTheCourseStillLoads()
+    {
+        using var folder = new CourseFolder()
+            .Course(["first", "second"], """
+                outcomes:
+                  - { id: built, bloom: apply, text: Build, modules: [first] }
+                  - { id: unbuilt, bloom: apply, text: Float }
+                """)
+            .Module("first", extra: """
+                outcomes:
+                  - { id: fade, bloom: apply, text: Fade in }
+                  - { id: move, bloom: apply, text: Move }
+                """)
+            .Unit("first", "01-check.md", """
+                title: Check
+                type: quiz
+                questions:
+                  - { prompt: One?, choices: [Yes, No], answer: 0, outcome: fade }
+                  - { prompt: Two?, choices: [Yes, No], answer: 1 }
+                """)
+            .Unit("first", "02-exercise.md", "title: Exercise\ntype: exercise\nexercise: { solution: x, checks: [{ kind: parses }] }")
+            .Module("second", extra: """
+                topics: [Loops]
+                outcomes:
+                  - { id: loop, bloom: apply, text: Loop }
+                  - { id: nest, bloom: apply, text: Nest }
+                  - { id: stop, bloom: apply, text: Stop }
+                """)
+            .Unit("second", "01-exercise.md", "title: Exercise\ntype: exercise\noutcomes: [loop, nest, stop]\nexercise: { solution: x, checks: [{ kind: parses }] }");
+
+        var course = folder.Load(Today);
+
+        Assert.Equal([
+            "first/module.yml: a module needs 3 to 6 outcomes, and this one has 2.",
+            "first/module.yml: the module needs a list of topics.",
+            "first/module.yml: no question or exercise in this module assesses outcome 'move'.",
+            "first/01-check.md: question 2 doesn't name the outcome it assesses (outcome:).",
+            "first/02-exercise.md: the exercise doesn't name the outcomes it assesses (outcomes:).",
+            "course.yml, path 'beginner': the path needs an entry requirement (entry:).",
+            "course.yml, path 'beginner': a path needs 3 to 6 outcomes, and this one has 2.",
+            "course.yml, path 'beginner': outcome 'unbuilt' doesn't name the modules that build it (modules:).",
+            "course.yml, path 'beginner': no outcome names module 'second', so it builds none of the path's outcomes.",
+        ], course.Gaps);
+    }
+
+    [Theory]
+    [InlineData(2, true)]
+    [InlineData(3, false)]
+    [InlineData(6, false)]
+    [InlineData(7, true)]
+    public void ModulesAndPaths_NeedThreeToSixOutcomes(int count, bool gap)
+    {
+        var ids = Enumerable.Range(1, count).Select(i => $"o{i}").ToList();
+        string Outcomes(string more) => "outcomes:\n" + string.Concat(ids.Select(id => $"  - {{ id: {id}, bloom: apply, text: Do {id}{more} }}\n"));
+        using var folder = new CourseFolder()
+            .Course(["basics"], "entry: Nothing.\n" + Outcomes(", modules: [basics]"))
+            .Module("basics", extra: "topics: [Fades]\n" + Outcomes(""))
+            .Unit("basics", "01-exercise.md", $"title: Exercise\ntype: exercise\noutcomes: [{string.Join(", ", ids)}]\nexercise: {{ solution: x, checks: [{{ kind: parses }}] }}");
+
+        var gaps = folder.Load(Today).Gaps;
+
+        string[] expected = gap
+            ? [$"basics/module.yml: a module needs 3 to 6 outcomes, and this one has {count}.",
+               $"course.yml, path 'beginner': a path needs 3 to 6 outcomes, and this one has {count}."]
+            : [];
+        Assert.Equal(expected, gaps);
     }
 }

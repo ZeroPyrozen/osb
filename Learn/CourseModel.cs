@@ -22,6 +22,12 @@ public sealed class Course
     /// <summary>The catalog as the browser sees it (see Scripts/learn/gamification.js), serialized once.</summary>
     public required string ClientJson { get; init; }
 
+    /// <summary>
+    /// What the content still lacks, each with its file name: an outcome nothing assesses, a question that names
+    /// no outcome and so on. Gaps never stop the site; Development logs them and a test fails CI on them.
+    /// </summary>
+    public IReadOnlyList<string> Gaps { get; init; } = [];
+
     public int TotalMinutes => Units.Sum(u => u.Minutes);
 
     public LearnModule? FindModule(string slug) =>

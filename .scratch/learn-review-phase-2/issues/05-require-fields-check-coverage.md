@@ -1,6 +1,6 @@
 # 05 · Require the fields and check coverage in CI
 
-Status: open
+Status: done
 Blocked by: 04
 
 ## What
@@ -12,6 +12,8 @@ log, but never stop the site.
 - a module without topics, or a path without an entry requirement
 - a question or exercise without a tag
 - an outcome that no question or exercise in its module assesses
+- a path outcome that names no modules (added while building: nothing else checked the rule that each path
+  outcome names the modules that build it)
 - a module that builds no path outcome
 
 The loader works out the gaps alongside the course. In Development the site logs them as warnings on start

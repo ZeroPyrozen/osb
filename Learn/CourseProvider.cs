@@ -9,6 +9,8 @@ namespace osb.Learn;
 /// Holds the loaded course. Loading happens at startup, so broken content stops the app (and a deploy's
 /// health check rolls it back). In Development the course reloads when a file under Content/Learn
 /// changes; if the edited content has problems, the last good version stays and the problems are logged.
+/// Gaps (see <see cref="Course.Gaps"/>) never stop the app; Development logs them as warnings on start and
+/// after each reload, so they show up before CI fails on them.
 /// </summary>
 public sealed class CourseProvider : IDisposable
 {
@@ -32,6 +34,7 @@ public sealed class CourseProvider : IDisposable
 
         if (env.IsDevelopment())
         {
+            LogGaps();
             files = new PhysicalFileProvider(root);
             watch = ChangeToken.OnChange(() => files.Watch("**/*"), () => stale = true);
         }
@@ -58,6 +61,7 @@ public sealed class CourseProvider : IDisposable
                     {
                         course = CourseLoader.Load(root);
                         logger.LogInformation("Reloaded the learn course after a content change.");
+                        LogGaps();
                     }
                     catch (Exception e) when (e is InvalidDataException or IOException or YamlDotNet.Core.YamlException or System.Text.Json.JsonException)
                     {
@@ -67,5 +71,11 @@ public sealed class CourseProvider : IDisposable
                 return course;
             }
         }
+    }
+
+    private void LogGaps()
+    {
+        if (course.Gaps.Count > 0)
+            logger.LogWarning("The learn content has gaps, which fail CI:\n  {Gaps}", string.Join("\n  ", course.Gaps));
     }
 }

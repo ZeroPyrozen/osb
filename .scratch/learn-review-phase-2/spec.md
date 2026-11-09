@@ -79,7 +79,8 @@ outcome shouldn't take the site down, but a typo should never reach learners.
   module outside its path, and a review date that isn't a real date or lies in the future.
 - **Gaps** fail CI and show as warnings in the development log, but never stop the site: a module or path
   with fewer than 3 or more than 6 outcomes, a module without topics, a path without an entry requirement, a
-  question or exercise without a tag, an outcome nothing assesses, and a module that builds no path outcome.
+  question or exercise without a tag, an outcome nothing assesses, a path outcome that names no modules, and
+  a module that builds no path outcome.
 
 The coverage check is strict from day one: step 4 writes the five questions that close today's gaps. The 16
 outcomes the review judged only partly assessed need judgement, not a script, so they stay with phase 3.

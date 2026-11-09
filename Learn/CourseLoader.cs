@@ -23,7 +23,8 @@ namespace osb.Learn;
 ///   <item><c>&lt;module&gt;/module.yml</c>: a module's title, summary, icon, badge, outcomes, topics and prerequisites.</item>
 ///   <item><c>&lt;module&gt;/NN-&lt;unit&gt;.md</c>: units in file-name order, Markdown with YAML front matter.</item>
 /// </list>
-/// Everything is validated up front; problems are reported together, with file names.
+/// Everything is validated up front. Mistakes, which make the content inconsistent, are reported together
+/// with file names and stop the load. Gaps, which only leave it incomplete, come back in <see cref="Course.Gaps"/>.
 /// </summary>
 public static partial class CourseLoader
 {
@@ -38,11 +39,15 @@ public static partial class CourseLoader
     private static readonly HashSet<string> CheckKinds =
         ["parses", "count", "object", "command", "value", "visible", "lifetime", "matches-solution"];
 
+    /// <summary>A module or path is complete with this many outcomes.</summary>
+    private const int FewestOutcomes = 3, MostOutcomes = 6;
+
     /// <param name="root">The course folder, with course.yml.</param>
     /// <param name="today">Today's date, for checking review dates; defaults to today in UTC.</param>
     public static Course Load(string root, DateOnly? today = null)
     {
         var errors = new List<string>();
+        var gaps = new List<string>();
         string Rel(string path) => Path.GetRelativePath(root, path).Replace('\\', '/');
 
         // A review date may be a day ahead of UTC: it's the author's own date, and osb is east of Greenwich.
@@ -128,6 +133,7 @@ public static partial class CourseLoader
                 path.Modules.Add(module);
                 modules.Add(module);
 
+                var unitGaps = new List<string>();
                 foreach (string file in Directory.GetFiles(folder, "*.md").OrderBy(f => f, StringComparer.Ordinal))
                 {
                     try
@@ -138,6 +144,7 @@ public static partial class CourseLoader
                         unit.Number = module.Units.Count + 1;
                         module.Units.Add(unit);
                         units.Add(unit);
+                        unitGaps.AddRange(UnitGaps(unit, Rel(file)));
                     }
                     catch (Exception e) when (e is YamlException or JsonException or InvalidDataException)
                     {
@@ -146,6 +153,9 @@ public static partial class CourseLoader
                 }
                 if (module.Units.Count == 0)
                     errors.Add($"{slug}: the module has no units (NN-name.md files).");
+                // The module's own gaps first, then its units' in file order.
+                gaps.AddRange(ModuleGaps(module, where));
+                gaps.AddRange(unitGaps);
             }
 
             // After the path's modules are read, so each outcome can name the ones that build it.
@@ -163,6 +173,7 @@ public static partial class CourseLoader
                 }
                 path.Outcomes.Add(new PathOutcome(outcome.Id, outcome.Bloom, outcome.Text, outcome.Html, builtBy));
             }
+            gaps.AddRange(PathGaps(path, pathWhere));
         }
 
         foreach (string folder in Directory.GetDirectories(root))
@@ -190,7 +201,48 @@ public static partial class CourseLoader
             Achievements = config.Achievements,
             Xp = config.Xp,
             ClientJson = BuildClientJson(paths, modules, units, config),
+            Gaps = gaps,
         };
+    }
+
+    /// <summary>What a module still lacks: 3 to 6 outcomes, its topics, and a question or exercise for every outcome.</summary>
+    private static IEnumerable<string> ModuleGaps(LearnModule module, string where)
+    {
+        if (module.Outcomes.Count is < FewestOutcomes or > MostOutcomes)
+            yield return $"{where}: a module needs {FewestOutcomes} to {MostOutcomes} outcomes, and this one has {module.Outcomes.Count}.";
+        if (module.Topics.Count == 0)
+            yield return $"{where}: the module needs a list of topics.";
+        foreach (var outcome in module.Outcomes.Where(o => !module.Units.Any(u => u.Assesses.Contains(o))))
+            yield return $"{where}: no question or exercise in this module assesses outcome '{outcome.Id}'.";
+    }
+
+    /// <summary>What a unit still lacks: every question of a knowledge check, and every exercise, names what it assesses.</summary>
+    private static IEnumerable<string> UnitGaps(LearnUnit unit, string name)
+    {
+        var questions = unit.Quiz?.Questions ?? [];
+        for (int i = 0; i < questions.Count; i++)
+        {
+            if (questions[i].Outcome == null)
+                yield return $"{name}: question {i + 1} doesn't name the outcome it assesses (outcome:).";
+        }
+        if (unit.Type == UnitType.Exercise && unit.Assesses.Count == 0)
+            yield return $"{name}: the exercise doesn't name the outcomes it assesses (outcomes:).";
+    }
+
+    /// <summary>
+    /// What a path still lacks: an entry requirement, and 3 to 6 outcomes that each name the modules building them,
+    /// so that every module builds at least one.
+    /// </summary>
+    private static IEnumerable<string> PathGaps(LearnPath path, string where)
+    {
+        if (path.Entry == null)
+            yield return $"{where}: the path needs an entry requirement (entry:).";
+        if (path.Outcomes.Count is < FewestOutcomes or > MostOutcomes)
+            yield return $"{where}: a path needs {FewestOutcomes} to {MostOutcomes} outcomes, and this one has {path.Outcomes.Count}.";
+        foreach (var outcome in path.Outcomes.Where(o => o.Modules.Count == 0))
+            yield return $"{where}: outcome '{outcome.Id}' doesn't name the modules that build it (modules:).";
+        foreach (var module in path.Modules.Where(m => !path.Outcomes.Any(o => o.Modules.Contains(m))))
+            yield return $"{where}: no outcome names module '{module.Slug}', so it builds none of the path's outcomes.";
     }
 
     private static LearnUnit? ReadUnit(string file, LearnModule module, XpRules xp, DateOnly latestReview, List<string> errors, string name)

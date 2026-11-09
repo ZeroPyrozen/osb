@@ -61,6 +61,35 @@ public class CourseProviderTests
         Assert.True(await Eventually(() => provider.Current.Units[0].Title == "Fixed"), "The fixed course didn't load.");
     }
 
+    /// <summary>The one-lesson course has gaps (no outcomes, topics or entry requirement), which never stop the site.</summary>
+    [Fact]
+    public async Task Development_LogsGapsAsWarnings_OnStartAndAfterEachReload()
+    {
+        using var folder = OneLesson("Before");
+        var log = new ListLogger();
+        using var provider = new CourseProvider(new TestEnvironment(folder.ContentRoot, "Development"), log);
+
+        string warning = Assert.Single(log.Warnings);
+        Assert.Contains("basics/module.yml: a module needs 3 to 6 outcomes, and this one has 0.", warning);
+        Assert.Contains("course.yml, path 'beginner': the path needs an entry requirement (entry:).", warning);
+
+        folder.Lesson("basics", "01-intro.md", "After");
+        Assert.True(await Eventually(() => provider.Current.Units[0].Title == "After"), "The course didn't reload after the edit.");
+        Assert.True(log.Warnings.Count >= 2, "The gaps weren't logged again after the reload.");
+        Assert.Empty(log.Errors);
+    }
+
+    [Fact]
+    public void Production_StartsDespiteGaps_WithoutLoggingThem()
+    {
+        using var folder = OneLesson("Before");
+        var log = new ListLogger();
+        using var provider = new CourseProvider(new TestEnvironment(folder.ContentRoot, "Production"), log);
+
+        Assert.NotEmpty(provider.Current.Gaps);
+        Assert.Empty(log.Warnings);
+    }
+
     private static async Task<bool> Eventually(Func<bool> condition)
     {
         var until = DateTime.UtcNow + Patience;
@@ -76,10 +105,16 @@ public class CourseProviderTests
     private sealed class ListLogger : ILogger<CourseProvider>
     {
         private readonly List<string> errors = new();
+        private readonly List<string> warnings = new();
 
         public IReadOnlyList<string> Errors
         {
             get { lock (errors) return errors.ToList(); }
+        }
+
+        public IReadOnlyList<string> Warnings
+        {
+            get { lock (warnings) return warnings.ToList(); }
         }
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
@@ -90,6 +125,8 @@ public class CourseProviderTests
         {
             if (logLevel >= LogLevel.Error)
                 lock (errors) errors.Add(formatter(state, exception));
+            else if (logLevel == LogLevel.Warning)
+                lock (warnings) warnings.Add(formatter(state, exception));
         }
     }
 }
