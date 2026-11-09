@@ -1,7 +1,8 @@
 // Checks the learn content as the site serves it: every exercise's starter must fail its checks and its
 // solution must pass them, every .osb example in a unit must parse cleanly and only use images from the
 // playground library, and every script example with a "Run in playground" button must run and do the
-// same. Run it against a running site:
+// same. It also warns, without failing, about units whose facts were last checked more than three months
+// ago. Run it against a running site:
 //
 //   npm run verify:content                    (http://localhost:5000, the dotnet run default)
 //   npm run verify:content -- http://127.0.0.1:5094
@@ -17,6 +18,15 @@ const problems = [];
 let exercises = 0;
 let examples = 0;
 let scripts = 0;
+let dated = 0;
+const warnings = [];
+
+// Units dated with reviewed: get their facts re-checked every quarter. An older date is a warning, not a failure.
+const reviewDue = (() => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 3);
+    return date.toISOString().slice(0, 10);
+})();
 
 const unescape = (html) => html
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
@@ -120,13 +130,25 @@ for (const unit of catalog.units) {
             problems.push(`${where} throws: ${error.message}`);
         }
     }
+
+    const reviewed = /data-reviewed="(\d{4}-\d{2}-\d{2})"/.exec(html)?.[1];
+    if (reviewed) {
+        dated++;
+        if (reviewed < reviewDue)
+            warnings.push(`${unit.url}: facts last checked on ${reviewed}, more than three months ago. Check them against the current ranking criteria and osu!(lazer), then update reviewed:.`);
+    }
 }
 
-console.log(`Checked ${catalog.units.length} units: ${exercises} exercises, ${examples} .osb examples and ${scripts} script examples.`);
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+console.log(`Checked ${catalog.units.length} units (${dated} with a review date): ${exercises} exercises, ${examples} .osb examples and ${scripts} script examples.`);
+if (warnings.length) {
+    console.log(`\n${plural(warnings.length, 'warning')}:`);
+    for (const warning of warnings) console.log(`  - ${warning}`);
+}
 if (problems.length) {
-    console.log(`\n${problems.length} problem${problems.length === 1 ? '' : 's'}:`);
+    console.log(`\n${plural(problems.length, 'problem')}:`);
     for (const problem of problems) console.log(`  - ${problem}`);
     process.exitCode = 1;
 } else {
-    console.log('Everything checks out.');
+    console.log(warnings.length ? '\nNo problems. The warnings above don\'t fail the check.' : 'Everything checks out.');
 }

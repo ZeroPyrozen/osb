@@ -20,7 +20,7 @@ public sealed class LearnPageTests(OsbWebFactory site) : IClassFixture<OsbWebFac
               - { id: loop-well, bloom: apply, text: Loop with `L`, modules: [basics, loops] }
             """)
         .Module("basics")
-        .Lesson("basics", "01-intro.md")
+        .Unit("basics", "01-intro.md", "title: Intro\ntype: lesson\nreviewed: 2026-01-15")
         .Module("loops", extra: """
             prerequisites: [basics]
             topics: [The `L` line, Pass length]
@@ -85,6 +85,17 @@ public sealed class LearnPageTests(OsbWebFactory site) : IClassFixture<OsbWebFac
         Assert.StartsWith("<details class=\"group\" data-path-outcomes>", details);
         Assert.Contains("By the end of this path, you can", details);
         Assert.Contains("<span>Loop with <code>L</code></span>", details);
+    }
+
+    [Fact]
+    public async Task ADatedUnit_SaysWhenItsFactsWereLastChecked()
+    {
+        string dated = await Get("/learn/basics/intro");
+        string undated = await Get("/learn/loops/check");
+
+        // verify-content reads data-reviewed to warn about old dates.
+        Assert.Contains("data-reviewed=\"2026-01-15\">Facts last checked on <time datetime=\"2026-01-15\">15 January 2026</time></p>", dated);
+        Assert.DoesNotContain("Facts last checked", undated);
     }
 
     /// <summary>The site, serving the small course above instead of the real one.</summary>

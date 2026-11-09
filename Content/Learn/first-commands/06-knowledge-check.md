@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 4
 summary: Seven questions on commands, time, Fade and Move.
+reviewed: 2026-11-09
 questions:
   - prompt: In ` F,0,1000,2000,0,1`, what is `2000`?
     choices:

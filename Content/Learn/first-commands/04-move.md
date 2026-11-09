@@ -3,6 +3,7 @@ title: Move
 type: lesson
 minutes: 6
 summary: M, MX and MY. Paths made of several moves, entering from off-screen, and which command to pick.
+reviewed: 2026-11-09
 ---
 
 Move (`M`) changes an object's position. It takes two pairs of values: where the object is at the

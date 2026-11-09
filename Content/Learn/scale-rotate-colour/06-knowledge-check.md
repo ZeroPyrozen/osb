@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 4
 summary: Eight questions on Scale, Vector scale, Rotate, sharp images, Colour and parameters.
+reviewed: 2026-11-09
 questions:
   - prompt: A 100 × 100 image has ` S,0,0,1000,1,2`. How big is it at 1000 ms?
     choices:

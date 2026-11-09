@@ -3,6 +3,7 @@ title: Storyboard sounds
 type: lesson
 minutes: 4
 summary: The Sample line, layers for sounds, volume, and what storyboard sounds shouldn't be used for.
+reviewed: 2026-11-09
 ---
 
 Storyboards can play sounds too. A sound is declared with a **Sample** line, on its own like a Sprite,

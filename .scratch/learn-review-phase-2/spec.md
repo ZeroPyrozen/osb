@@ -120,7 +120,7 @@ the 4 px grid, new labels at weight 600, and the mint tick kept for "finished".
 
 ### Review dates
 
-- Units that cite the ranking criteria or osu!(lazer) carry a review date. 21 units do today (step 8 lists
+- Units that cite the ranking criteria or osu!(lazer) carry a review date. 23 units do today (step 8 lists
   them).
 - Before a unit is dated, every time-sensitive sentence in it is checked against the current osu! wiki and
   lazer's source and anything that changed is fixed. The date is the day of that check.

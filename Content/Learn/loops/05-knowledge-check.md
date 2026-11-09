@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 4
 summary: Six questions on loops.
+reviewed: 2026-11-09
 questions:
   - prompt: In ` L,2000,4`, what does `4` mean?
     choices:

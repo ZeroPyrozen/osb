@@ -3,6 +3,7 @@ title: Scale
 type: lesson
 minutes: 6
 summary: S and V, the pivot point, turning a single pixel into bars, and making images look sharp.
+reviewed: 2026-11-09
 ---
 
 Scale (`S`) changes an object's size, as a multiple of the image's own size. `1` is the original size,

@@ -3,6 +3,7 @@ title: Backgrounds, overlays and settings
 type: lesson
 minutes: 6
 summary: Taking over the beatmap's background, what players can change, the Overlay layer, and the beatmap settings that affect storyboards.
+reviewed: 2026-11-09
 ---
 
 ## The beatmap's background
@@ -53,8 +54,9 @@ storyboard:
 | Epilepsy warning | `EpilepsyWarning: 1` | Shows a warning before the beatmap starts. If it would overlap gameplay, lengthen the audio lead-in. |
 | Use skin sprites | `UseSkinSprites: 1` | Lets the storyboard use images from the player's skin by their file names. |
 
-The ranking criteria require Widescreen support to be the same in every storyboarded difficulty, and
-Letterbox during breaks to be consistent between difficulties of the same mode that have breaks.
+The ranking criteria require Widescreen support to be the same in every storyboarded difficulty, unless
+their storyboards are made for different aspect ratios. Letterbox during breaks has to be consistent too,
+between difficulties of the same mode that have breaks, unless their storyboards differ.
 
 ## Further reading
 

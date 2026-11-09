@@ -3,6 +3,7 @@ title: Rotate
 type: lesson
 minutes: 5
 summary: Angles in radians, spins in both directions, and swinging things around their origin.
+reviewed: 2026-11-09
 ---
 
 Rotate (`R`) turns an object. Its values are angles in **radians**, and positive angles turn

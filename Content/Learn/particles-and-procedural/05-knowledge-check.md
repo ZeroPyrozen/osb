@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 4
 summary: Five questions on particles and procedural effects.
+reviewed: 2026-11-09
 questions:
   - prompt: Why should particles fade in and out instead of simply appearing and disappearing?
     choices:

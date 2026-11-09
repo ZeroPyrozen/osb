@@ -3,6 +3,7 @@ title: Three shorthands
 type: lesson
 minutes: 7
 summary: Leave out repeated values, leave out the end time for instant changes, and chain steps into one line.
+reviewed: 2026-11-09
 ---
 
 Storyboards get long quickly. A busy one can have tens of thousands of lines, so osu! accepts three

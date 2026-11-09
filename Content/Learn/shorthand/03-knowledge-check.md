@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 3
 summary: Six questions on shorthand.
+reviewed: 2026-11-09
 questions:
   - prompt: Which line means the same as ` S,0,1000,2000,1.5,1.5`?
     choices:

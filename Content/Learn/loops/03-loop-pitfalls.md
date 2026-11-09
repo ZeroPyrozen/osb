@@ -3,6 +3,7 @@ title: Loop pitfalls
 type: lesson
 minutes: 6
 summary: Missing pauses, late first commands, counting passes, and what loops can't contain.
+reviewed: 2026-11-09
 ---
 
 Loops are simple, but a few details catch out nearly everyone at least once.

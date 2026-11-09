@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 4
 summary: Seven questions on timing a storyboard to music.
+reviewed: 2026-11-09
 questions:
   - prompt: How long is one beat at 150 BPM?
     choices:

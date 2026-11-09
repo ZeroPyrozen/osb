@@ -3,6 +3,7 @@ title: Commands and time
 type: lesson
 minutes: 7
 summary: How a command line is built, and the three rules for what an object looks like before, during and after its commands.
+reviewed: 2026-11-09
 ---
 
 A Sprite line says *what* to draw and *where*. Everything else (when it appears, how it moves, how

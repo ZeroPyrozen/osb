@@ -3,6 +3,7 @@ title: Knowledge check
 type: quiz
 minutes: 5
 summary: Seven questions on performance and the ranking criteria. The last knowledge check!
+reviewed: 2026-11-09
 questions:
   - prompt: A sprite has faded to opacity 0 but has another command much later. Does it still cost performance in between?
     choices:
