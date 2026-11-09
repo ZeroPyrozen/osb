@@ -95,8 +95,9 @@ the 4 px grid, new labels at weight 600, and the mint tick kept for "finished".
   mint tick once the learner has finished it or an empty ring if not. Below the progress bar, "By the end of
   this module, you can" with the outcomes as a plain list with small grey markers. The topics go in the
   sidebar as a plain list between hairlines.
-- **Path cards on /learn**: the entry requirement, and the path outcomes behind a "By the end of this path,
-  you can" toggle, closed by default, so the page doesn't grow by twelve lines.
+- **Path cards on /learn**: the entry requirement after "Before you start:" (so it starts in lowercase), and
+  the path outcomes behind a "By the end of this path, you can" toggle, closed by default, so the page
+  doesn't grow by twelve lines.
 - **Dated units**: "Facts last checked on <date>" in muted text under the title, without an icon.
 - Bloom levels are never shown to learners.
 - The "How units work" note about knowledge checks only shows on modules that have one.

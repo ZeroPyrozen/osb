@@ -40,7 +40,7 @@ paths:
     difficulty: Beginner
     summary: What storyboards are, how osu! reads them, and the commands that make sprites appear, move, spin and change colour. No experience needed.
     trophy: { name: First Light, description: Finish the Beginner path. }
-    entry: None. You need to be comfortable editing text, and any computer with a browser will do.
+    entry: none. You need to be comfortable editing text, and any computer with a browser will do.
     outcomes:
       - id: storyboard-basics
         bloom: understand
@@ -70,7 +70,7 @@ paths:
     difficulty: Intermediate
     summary: Write compact scripts with shorthand and loops, animate frame by frame, time everything to the beat, and react to how the player is doing.
     trophy: { name: In Sync, description: Finish the Intermediate path. }
-    entry: The Beginner path. You should be able to write and predict F, M, S, R and C commands.
+    entry: the Beginner path. You should be able to write and predict F, M, S, R and C commands.
     outcomes:
       - id: compact-scripts
         bloom: analyse
@@ -100,7 +100,7 @@ paths:
     difficulty: Advanced
     summary: Variables and triggers, generating storyboards with code, particles and procedural effects, and getting a storyboard ready for ranking.
     trophy: { name: Grand Feast, description: Finish the Advanced path. }
-    entry: The Intermediate path, some JavaScript (variables, `for` loops, functions and arrays), and angles in radians from Scale, rotate and colour.
+    entry: the Intermediate path, some JavaScript (variables, `for` loops, functions and arrays), and angles in radians from Scale, rotate and colour.
     outcomes:
       - id: variables-and-triggers
         bloom: apply

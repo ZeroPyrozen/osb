@@ -63,7 +63,36 @@
             </div>
         </header>
 
-        <ol class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @if (path.Entry != null || path.Outcomes.Count > 0)
+        {
+            <div class="mt-4 flex max-w-[65ch] flex-col gap-1">
+                @if (path.Entry != null)
+                {
+                    <p class="text-sm leading-relaxed text-mint-200"><strong class="font-semibold text-mint-50">Before you start:</strong> @Html.Raw(path.Entry)</p>
+                }
+                @if (path.Outcomes.Count > 0)
+                {
+                    @* Closed by default, so the page doesn't grow by a dozen lines. *@
+                    <details class="group" data-path-outcomes>
+                        <summary class="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 text-sm font-semibold text-mint-50 [&::-webkit-details-marker]:hidden">
+                            @Icons.Get("chevron-down", "size-4 transition-transform duration-150 group-open:rotate-180")
+                            By the end of this path, you can
+                        </summary>
+                        <ul class="mt-1 mb-2 flex flex-col gap-2 pl-6">
+                            @foreach (var outcome in path.Outcomes)
+                            {
+                                <li class="flex items-start gap-3 text-sm leading-5 text-mint-100">
+                                    <span aria-hidden="true" class="mt-[7px] block size-1.5 shrink-0 rounded-full bg-charcoal-400"></span>
+                                    <span>@Html.Raw(outcome.Html)</span>
+                                </li>
+                            }
+                        </ul>
+                    </details>
+                }
+            </div>
+        }
+
+        <ol class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             @foreach (var module in path.Modules)
             {
                 <li>

@@ -7,7 +7,8 @@ Blocked by: 01–08
 
 Update `Content/Learn/README.md`:
 
-- course.yml: `difficulty`, `entry`, and path `outcomes` with their `modules`
+- course.yml: `difficulty`, `entry` (it reads on from "Before you start:", so it starts with a lowercase
+  letter), and path `outcomes` with their `modules`
 - module.yml: `outcomes` (id, bloom, text), `topics` and `prerequisites`
 - quizzes and exercises: `outcome:` on every question, `outcomes:` on every exercise
 - units: `reviewed:`, which units need it, and the quarterly review

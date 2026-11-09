@@ -23,10 +23,15 @@ const catalog = {
     quiz: { perfectBonus: 5 },
 };
 
-/** The hooks Views/Learn/Progress.cshtml gives learn.js, with this learner's saved completions. */
-async function progressPage(completions) {
-    open(`
-        <script type="application/json" id="learn-catalog">${JSON.stringify(catalog)}</script>
+/** A learn page with these hooks, after learn.js has filled them from this learner's saved completions. */
+async function learnPage(hooks, completions) {
+    open(`<script type="application/json" id="learn-catalog">${JSON.stringify(catalog)}</script>${hooks}`);
+    localStorage.setItem('osb.learn.v1', JSON.stringify({ owner: null, completions, pending: [] }));
+    await fresh('../learn.js');
+}
+
+/** The hooks Views/Learn/Progress.cshtml gives learn.js. */
+const progressPage = (completions) => learnPage(`
         <span data-stat="level"></span> <span data-stat="level-title"></span> <span data-stat="xp"></span>
         <span data-stat="next-level"></span> <span data-stat="units-done"></span>
         <span data-stat="badges-earned"></span>/<span data-stat="badges-total"></span>
@@ -35,10 +40,14 @@ async function progressPage(completions) {
         <a data-unit="m1/a"></a>
         <p data-sync-status></p>
         <ul data-badges></ul>
-        <ul data-history></ul>`);
-    localStorage.setItem('osb.learn.v1', JSON.stringify({ owner: null, completions, pending: [] }));
-    await fresh('../learn.js');
-}
+        <ul data-history></ul>`, completions);
+
+/** The "Before you start" links Views/Learn/Module.cshtml gives a module page, here for a module after m1 and m2. */
+const prerequisites = (completions) => learnPage(`
+        <div data-prerequisites>
+            <a href="/learn/m1" data-module="m1">Sprites<span class="sr-only">, finished</span></a>
+            <a href="/learn/m2" data-module="m2">Loops<span class="sr-only">, finished</span></a>
+        </div>`, completions);
 
 const text = (selector) => document.querySelector(selector).textContent.trim();
 const badge = (name) => [...document.querySelectorAll('[data-badges] li')].find((li) => li.textContent.includes(name));
@@ -88,4 +97,14 @@ test('unit titles are shown as text, never as markup', async () => {
     await progressPage({ 'm2/a': { at } });
 
     assert.match(document.querySelector('[data-history]').innerHTML, /Loop it &lt;fast&gt;/);
+});
+
+const ticked = (slug) => document.querySelector(`[data-prerequisites] [data-module="${slug}"]`).hasAttribute('data-complete');
+
+test('a prerequisite is ticked once every unit of it is done, and not before', async () => {
+    await prerequisites({ 'm1/a': { at }, 'm1/b': { at, score: 2, max: 3 }, 'm2/a': { at } });
+    assert.deepEqual([ticked('m1'), ticked('m2')], [true, true]);
+
+    await prerequisites({ 'm1/a': { at } });
+    assert.deepEqual([ticked('m1'), ticked('m2')], [false, false]);
 });
