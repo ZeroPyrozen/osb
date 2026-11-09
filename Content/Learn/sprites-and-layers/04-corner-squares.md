@@ -3,6 +3,7 @@ title: "Exercise: into the corners"
 type: exercise
 minutes: 5
 summary: Use origins to tuck two squares neatly into opposite corners.
+outcomes: [choose-origin]
 exercise:
   duration: 3000
   guides: true

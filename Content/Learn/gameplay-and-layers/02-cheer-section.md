@@ -3,6 +3,7 @@ title: "Exercise: cheer section"
 type: exercise
 minutes: 5
 summary: Give passing and failing players their own version of the same scene.
+outcomes: [design-both-states]
 exercise:
   duration: 3000
   starter: |

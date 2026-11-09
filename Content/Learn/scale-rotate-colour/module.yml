@@ -1,6 +1,38 @@
 title: Scale, rotate and colour
 summary: Grow and stretch sprites, spin them, tint them any colour, flip them and make them glow.
 icon: sparkles
+prerequisites: [first-commands]
+outcomes:
+  - id: scale-objects
+    bloom: apply
+    text: Resize objects with S and V and predict their combined effect
+  - id: rotate-objects
+    bloom: apply
+    text: Convert degrees to radians and rotate objects either way around a chosen origin
+  - id: colour-tinting
+    bloom: understand
+    text: Predict the result of multiplicative Colour tinting and explain why storyboard art is drawn in white
+  - id: use-parameters
+    bloom: apply
+    text: Apply the H, V and A parameters, including their "only while running" rule and the whole-life instant form
+  - id: prepare-images
+    bloom: understand
+    text: Prepare images that stay sharp when scaled and smooth when rotated, within the 17,000,000-pixel limit
+topics:
+  - Scale
+  - Vector scale and the one-pixel trick
+  - Scale times vector scale
+  - Scaling around the origin
+  - Keeping images sharp
+  - Rotate in radians
+  - Direction and multiple turns
+  - Hinged rotation
+  - The transparent border for rotation
+  - Colour as a multiply
+  - Why art is white
+  - Colour fades through grey
+  - Flip H, flip V
+  - Additive blending for light
 badge:
   name: Transformer
   description: Finished "Scale, rotate and colour".

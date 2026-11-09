@@ -3,6 +3,7 @@ title: "Exercise: ready, set, go"
 type: exercise
 minutes: 5
 summary: One circle, three colours. Make a starting light with the Colour command.
+outcomes: [colour-tinting]
 exercise:
   duration: 3000
   starter: |

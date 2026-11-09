@@ -10,6 +10,7 @@ questions:
       - Always Fail
       - It depends on their last play
     answer: 0
+    outcome: predict-game-state
     explanation: Nobody has played anything yet, so osu! treats everyone as passing. That makes Pass and Fail layers pointless during an intro.
 
   - prompt: In osu! (the standard mode), when is a player in the Pass state during play?
@@ -18,6 +19,7 @@ questions:
       - Only during kiai time
       - In the first combo, and after finishing a combo with nothing but 300s
     answer: 2
+    outcome: predict-game-state
     explanation: The state updates at the end of each combo. A single 100 or worse in the combo switches to Fail.
 
   - prompt: During a break, what decides the state?
@@ -26,6 +28,7 @@ questions:
       - Whether the HP bar ended the last section above half
       - Nothing. Breaks always show the Pass layer
     answer: 1
+    outcome: predict-game-state
     explanation: Above half shows an O and the Pass layer. Below half shows an X and the Fail layer.
 
   - prompt: The Pass ending lasts until 95 seconds, but the Fail ending runs until 105 seconds. What do passing players see?
@@ -34,6 +37,7 @@ questions:
       - The results screen at 95 seconds
       - The Fail ending
     answer: 0
+    outcome: design-both-states
     explanation: The results screen waits for everything to finish, including the layer the player can't see. Make both endings the same length.
 
   - prompt: Your storyboard uses the beatmap's background file as a sprite. What happens?
@@ -42,6 +46,7 @@ questions:
       - osu! reports an error
       - The static background is hidden once the beatmap loads, so your sprite takes over
     answer: 2
+    outcome: background-takeover
     explanation: That's the standard way to animate a beatmap's background.
 
   - prompt: Which layer is drawn above the hit objects?
@@ -50,6 +55,7 @@ questions:
       - Overlay, which is still below the HP bar and cursor
       - Pass
     answer: 1
+    outcome: overlay-and-settings
     explanation: Overlay sits between the hit objects and the game's interface, so use it sparingly.
 
   - prompt: A Sample is on layer 1. When does it play?
@@ -58,6 +64,7 @@ questions:
       - Always
       - Only if the player is passing at that moment
     answer: 0
+    outcome: storyboard-sounds
     explanation: Layer 1 is the Fail layer. Layer 2 (Pass) plays only for passing players, and 0 and 3 always play.
 ---
 

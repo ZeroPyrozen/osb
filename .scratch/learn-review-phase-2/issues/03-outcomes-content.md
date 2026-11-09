@@ -1,6 +1,6 @@
 # 03 · Add outcomes, topics, prerequisites and entry requirements
 
-Status: open
+Status: done
 Blocked by: 02
 
 ## What

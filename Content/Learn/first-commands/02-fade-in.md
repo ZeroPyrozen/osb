@@ -3,6 +3,7 @@ title: "Exercise: fade in"
 type: exercise
 minutes: 4
 summary: Fade a star in between 1 and 2 seconds, then keep it on screen.
+outcomes: [write-fades]
 exercise:
   duration: 3000
   starter: |

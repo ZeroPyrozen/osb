@@ -3,6 +3,7 @@ title: "Exercise: arrive and leave"
 type: exercise
 minutes: 5
 summary: Pick the right direction of easing for an entrance and an exit.
+outcomes: [choose-in-or-out]
 exercise:
   duration: 3000
   starter: |

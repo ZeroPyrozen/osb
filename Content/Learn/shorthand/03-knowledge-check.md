@@ -10,6 +10,7 @@ questions:
       - '` S,0,1000,2000,1.5`'
       - '` S,0,1000,2000`'
     answer: 1
+    outcome: write-shorthand
     explanation: When the start and end values are the same, you write the value once. Leaving out the end time would make it an instant command instead.
 
   - prompt: What does ` C,0,1000,,255,0,0` do?
@@ -18,6 +19,7 @@ questions:
       - Fades to red over one second
       - Nothing, because the end time is missing
     answer: 0
+    outcome: write-shorthand
     explanation: An empty end time makes the command instant, and its value holds afterwards.
 
   - prompt: How does osu!stable read ` M,0,0,500,0,0,100,0,100,100`?
@@ -26,6 +28,7 @@ questions:
       - As an error
       - As two moves, 0 to 500 ms from (0, 0) to (100, 0), then 500 to 1000 ms from (100, 0) to (100, 100)
     answer: 2
+    outcome: expand-sequences
     explanation: Extra values make a sequence. Each step lasts as long as the first, so the second step runs from 500 to 1000 ms.
 
   - prompt: What does osu!(lazer) currently do with a sequence like ` F,0,0,500,0,1,0`?
@@ -34,6 +37,7 @@ questions:
       - Plays every step, like osu!stable
       - Refuses to load the storyboard
     answer: 0
+    outcome: expand-sequences
     explanation: Lazer reads only the first start and end values, so write steps on separate lines if they matter.
 
   - prompt: Does using shorthand change how a storyboard plays?
@@ -42,6 +46,7 @@ questions:
       - No. It only makes the file shorter
       - Yes, shorthand turns off easing
     answer: 1
+    outcome: refactor-scripts
     explanation: Shorthand is just a shorter way of writing the same commands.
 ---
 

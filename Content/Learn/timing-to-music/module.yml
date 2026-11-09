@@ -1,6 +1,35 @@
 title: Timing to music
 summary: Turn BPM into milliseconds, find the beats, and shape a storyboard around the song's energy.
 icon: music
+prerequisites: [scale-rotate-colour, loops]
+outcomes:
+  - id: beat-times
+    bloom: apply
+    text: Convert BPM to beat length and compute beat, sub-beat and bar times from an offset
+  - id: read-timing-points
+    bloom: understand
+    text: Read BPM, offset and meter from uninherited timing points, including tempo changes
+  - id: sync-loops
+    bloom: apply
+    text: Synchronise looped effects to the beat
+  - id: plan-to-the-song
+    bloom: create
+    text: 'Plan a storyboard around the song''s structure and energy: sections, kiai, build-ups and drops'
+  - id: epilepsy-warning
+    bloom: evaluate
+    text: Decide when flashing effects need an epilepsy warning
+topics:
+  - BPM and beat length
+  - The offset
+  - Reading `[TimingPoints]`
+  - Divisions and bars
+  - Rounding to whole milliseconds
+  - Pulsing with a loop
+  - Song sections and kiai
+  - Turning the energy up and down
+  - Build-ups and drops
+  - Flashing and epilepsy safety
+  - Accents and sync points
 badge:
   name: On Beat
   description: Finished "Timing to music".

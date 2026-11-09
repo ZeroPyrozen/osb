@@ -3,6 +3,7 @@ title: "Exercise: in, hold, out"
 type: exercise
 minutes: 4
 summary: The most common shape in storyboarding. Fade in, stay, fade out, and be gone on time.
+outcomes: [write-fades, rules-of-time]
 exercise:
   duration: 3000
   starter: |

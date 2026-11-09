@@ -3,6 +3,7 @@ title: "Exercise: drop and bounce"
 type: exercise
 minutes: 5
 summary: Let a ball fall onto the floor and bounce with Bounce Out.
+outcomes: [overshoot-safely]
 exercise:
   duration: 2000
   starter: |

@@ -3,6 +3,7 @@ title: "Exercise: clean-up crew"
 type: exercise
 minutes: 8
 summary: Optimise a wasteful storyboard without changing a single visible frame.
+outcomes: [optimise-safely]
 exercise:
   duration: 3000
   starter: |

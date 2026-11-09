@@ -3,6 +3,7 @@ title: "Exercise: starfall"
 type: exercise
 minutes: 8
 summary: A shower of glowing, spinning shooting stars, made with randomness.
+outcomes: [design-particles]
 exercise:
   mode: script
   duration: 5000

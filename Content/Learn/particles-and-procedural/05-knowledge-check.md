@@ -10,6 +10,7 @@ questions:
       - Particles without fades don't render
       - Popping in and out looks harsh. Short fades make the effect soft and natural
     answer: 2
+    outcome: natural-particles
     explanation: Even 200 or 300 ms of fade at each end makes a big difference.
 
   - prompt: Every particle in your effect starts at 0 ms. What will it look like?
@@ -18,6 +19,7 @@ questions:
       - Evenly busy throughout
       - Exactly the same as spreading the start times out
     answer: 0
+    outcome: natural-particles
     explanation: Spread start times across the effect, or loop each particle, to keep the screen evenly busy.
 
   - prompt: What does giving each sprite in a row a slightly later start (a phase offset) do to a bobbing motion?
@@ -26,6 +28,7 @@ questions:
       - It turns the row into a travelling wave
       - Nothing visible
     answer: 1
+    outcome: procedural-effects
     explanation: Each sprite reaches its peak a little after the previous one, so the peak appears to travel along the row.
 
   - prompt: Why do spectrum bars usually use the `BottomCentre` origin?
@@ -34,6 +37,7 @@ questions:
       - It's the only origin Vector scale works with
       - To make them additive
     answer: 0
+    outcome: procedural-effects
     explanation: Scaling happens around the origin, so a bottom origin keeps the base of each bar in place.
 
   - prompt: Which choice keeps a particle effect cheapest to draw?
@@ -42,6 +46,7 @@ questions:
       - As few small images as give the look you want, each ending its life when it fades out
       - Leaving faded-out particles alive until the end of the song
     answer: 1
+    outcome: cheap-particles
     explanation: Fewer, smaller sprites with short lives cost the least.
 ---
 

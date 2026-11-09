@@ -10,6 +10,7 @@ questions:
       - 150 ms
       - 600 ms
     answer: 0
+    outcome: beat-times
     explanation: 60000 ÷ 150 = 400 ms.
 
   - prompt: A song is 120 BPM with its first beat at 1200 ms. When is beat number 4, counting the first beat as 0?
@@ -18,6 +19,7 @@ questions:
       - 3200 ms
       - 4800 ms
     answer: 1
+    outcome: beat-times
     explanation: 1200 + 4 × 500 = 3200 ms.
 
   - prompt: How long is a quarter of a beat at 120 BPM?
@@ -26,6 +28,7 @@ questions:
       - 30 ms
       - 125 ms
     answer: 2
+    outcome: beat-times
     explanation: A beat is 500 ms, so a quarter is 125 ms.
 
   - prompt: 'An uninherited timing point reads `2500,333.333333333333,4,2,0,70,1,0`. What does it tell you?'
@@ -34,6 +37,7 @@ questions:
       - Beats start at 2500 ms, 333.33 ms apart, which is 180 BPM
       - There are 2500 beats
     answer: 1
+    outcome: read-timing-points
     explanation: The first number is the time and the second the beat length. 60000 ÷ 333.33 = 180 BPM.
 
   - prompt: Where do big changes in a song usually land?
@@ -42,6 +46,7 @@ questions:
       - Halfway between two beats
       - At random
     answer: 0
+    outcome: plan-to-the-song
     explanation: New sections and drops almost always start on a downbeat, which makes it the best spot for big storyboard changes.
 
   - prompt: When do the ranking criteria require an epilepsy warning?
@@ -50,6 +55,7 @@ questions:
       - Only for storyboards longer than five minutes
       - When the storyboard or video has repetitive strobes, pulsing images or rapid changes in brightness or colour
     answer: 2
+    outcome: epilepsy-warning
     explanation: Strobing at 3 flashes per second or slower is unlikely to cause concern. Beyond that, or when in doubt, add the warning.
 ---
 

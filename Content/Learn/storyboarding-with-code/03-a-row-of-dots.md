@@ -3,6 +3,7 @@ title: "Exercise: a row of dots"
 type: exercise
 minutes: 6
 summary: Your first generated storyboard. Ten dots in a row, appearing one after another.
+outcomes: [script-mode-api, generate-objects]
 exercise:
   mode: script
   duration: 2000

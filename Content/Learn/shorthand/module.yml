@@ -1,6 +1,27 @@
 title: Shorthand
 summary: Write the same storyboard with fewer characters. Three shortcuts osu! understands, and when not to use them.
 icon: scissors
+prerequisites: [first-commands, scale-rotate-colour]
+outcomes:
+  - id: write-shorthand
+    bloom: apply
+    text: Write commands with the unchanged-value and instant shorthands
+  - id: expand-sequences
+    bloom: understand
+    text: Expand a sequence shorthand into separate lines and explain why osu!(lazer) needs that
+  - id: refactor-scripts
+    bloom: analyse
+    text: Refactor a long-winded script into fewer lines with identical output
+  - id: judge-readability
+    bloom: evaluate
+    text: Judge when shorthand makes a script harder to read
+topics:
+  - Values that don't change
+  - Instant commands and hard cuts
+  - Instant commands and lifetime
+  - The sequence shorthand
+  - stable and lazer differences
+  - Readability against file size
 badge:
   name: Shorthand Scribe
   description: Finished "Shorthand".

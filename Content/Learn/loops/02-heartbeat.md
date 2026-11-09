@@ -3,6 +3,7 @@ title: "Exercise: heartbeat"
 type: exercise
 minutes: 5
 summary: Turn one heartbeat into eight with a loop.
+outcomes: [write-loop]
 exercise:
   duration: 4500
   starter: |

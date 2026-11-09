@@ -3,6 +3,7 @@ title: "Exercise: tidy up"
 type: exercise
 minutes: 7
 summary: Rewrite a long-winded script so it looks exactly the same in half the lines.
+outcomes: [write-shorthand, refactor-scripts]
 exercise:
   duration: 3000
   starter: |

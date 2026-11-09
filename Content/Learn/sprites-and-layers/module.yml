@@ -1,6 +1,36 @@
 title: Sprites, origins and layers
 summary: Declare your first sprite, choose the point it's anchored by, and control what's drawn in front of what.
 icon: image
+prerequisites: [what-is-a-storyboard]
+outcomes:
+  - id: write-sprite-line
+    bloom: apply
+    text: Write a valid Sprite line with layer, origin, relative file path and position
+  - id: needs-a-command
+    bloom: understand
+    text: Explain why an object with no commands never appears
+  - id: choose-origin
+    bloom: apply
+    text: Choose the origin that places, scales and rotates an image around the intended point
+  - id: predict-draw-order
+    bloom: analyse
+    text: Predict what is drawn in front from layer order and declaration order
+  - id: pass-and-fail-layers
+    bloom: understand
+    text: Describe when the Pass and Fail layers are shown
+topics:
+  - Objects and the Sprite line
+  - Relative file paths
+  - PNG or JPG
+  - The playground image library
+  - A sprite needs a command
+  - The nine origins, Custom and origin numbers
+  - The origin as pivot
+  - Choosing an origin
+  - The five layers
+  - Draw order within a layer
+  - '`.osb` over `.osu`'
+  - Pass and Fail at a glance
 badge:
   name: Picture Hanger
   description: Finished "Sprites, origins and layers".

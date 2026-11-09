@@ -1,6 +1,34 @@
 title: Storyboards and gameplay
 summary: React to how the player is doing with the Pass and Fail layers, work with the beatmap's background, and add storyboard sounds.
 icon: gamepad
+prerequisites: [sprites-and-layers]
+outcomes:
+  - id: predict-game-state
+    bloom: analyse
+    text: Predict whether the Pass or Fail layer shows in each phase of play and each game mode
+  - id: design-both-states
+    bloom: create
+    text: Design Pass and Fail variants that share scenery and end together
+  - id: background-takeover
+    bloom: apply
+    text: Take over the beatmap background as a sprite, and design for background dim and storyboards turned off
+  - id: overlay-and-settings
+    bloom: apply
+    text: Use the Overlay layer and the `.osu` storyboard settings appropriately
+  - id: storyboard-sounds
+    bloom: apply
+    text: Add Sample events on the right layer without competing with hitsounds
+topics:
+  - Game-state rules by phase
+  - Rules by mode, mania undocumented
+  - Designing for both states
+  - Ending both states together
+  - Background takeover
+  - Dim and storyboards off
+  - The Overlay layer
+  - WidescreenStoryboard, LetterboxInBreaks, EpilepsyWarning, UseSkinSprites
+  - The Sample line and its layers
+  - Samples and hitsounds
 badge:
   name: Stage Manager
   description: Finished "Storyboards and gameplay".

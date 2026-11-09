@@ -40,6 +40,24 @@ paths:
     difficulty: Beginner
     summary: What storyboards are, how osu! reads them, and the commands that make sprites appear, move, spin and change colour. No experience needed.
     trophy: { name: First Light, description: Finish the Beginner path. }
+    entry: None. You need to be comfortable editing text, and any computer with a browser will do.
+    outcomes:
+      - id: storyboard-basics
+        bloom: understand
+        modules: [what-is-a-storyboard]
+        text: Explain what a storyboard is, where osu! loads it from, and how it relates to the beatmap
+      - id: place-on-stage
+        bloom: apply
+        modules: [what-is-a-storyboard, sprites-and-layers]
+        text: Place sprites on the stage with coordinates, origins and layers, and predict what is drawn in front
+      - id: timed-commands
+        bloom: analyse
+        modules: [first-commands, scale-rotate-colour]
+        text: Write timed commands (F, M, MX, MY, S, V, R, C, P) that produce a described result, and predict an object's state at any moment
+      - id: easing-choices
+        bloom: evaluate
+        modules: [easing]
+        text: Choose easings that make motion read as arriving, leaving, overshooting or bouncing
     modules:
       - what-is-a-storyboard
       - sprites-and-layers
@@ -52,6 +70,24 @@ paths:
     difficulty: Intermediate
     summary: Write compact scripts with shorthand and loops, animate frame by frame, time everything to the beat, and react to how the player is doing.
     trophy: { name: In Sync, description: Finish the Intermediate path. }
+    entry: The Beginner path. You should be able to write and predict F, M, S, R and C commands.
+    outcomes:
+      - id: compact-scripts
+        bloom: analyse
+        modules: [shorthand, loops]
+        text: Write compact, readable scripts with shorthand and loops, and refactor long ones without changing a frame
+      - id: frame-by-frame
+        bloom: evaluate
+        modules: [animations]
+        text: Build frame-by-frame effects with Animation objects and choose between an animation, commands and a video
+      - id: music-timing
+        bloom: apply
+        modules: [timing-to-music]
+        text: Time effects to beats, bars and the song's structure
+      - id: player-aware
+        bloom: create
+        modules: [gameplay-and-layers]
+        text: Design storyboards that respond to the player and respect the background, the settings and the hitsounds
     modules:
       - shorthand
       - loops
@@ -64,6 +100,24 @@ paths:
     difficulty: Advanced
     summary: Variables and triggers, generating storyboards with code, particles and procedural effects, and getting a storyboard ready for ranking.
     trophy: { name: Grand Feast, description: Finish the Advanced path. }
+    entry: The Intermediate path, some JavaScript (variables, `for` loops, functions and arrays), and angles in radians from Scale, rotate and colour.
+    outcomes:
+      - id: variables-and-triggers
+        bloom: apply
+        modules: [variables-and-triggers]
+        text: Use variables and triggers in hand-written storyboards, avoiding their known traps
+      - id: generator-scripts
+        bloom: create
+        modules: [storyboarding-with-code]
+        text: Write generator scripts with loops, maths and seeded randomness, and carry them over to storybrew
+      - id: procedural-effects
+        bloom: create
+        modules: [particles-and-procedural]
+        text: Build particle and procedural effects from parameters and formulas
+      - id: audit-and-optimise
+        bloom: evaluate
+        modules: [optimization-and-ranking]
+        text: Audit and optimise a storyboard against performance advice and the current ranking criteria
     modules:
       - variables-and-triggers
       - storyboarding-with-code

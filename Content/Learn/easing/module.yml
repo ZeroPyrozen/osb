@@ -1,6 +1,30 @@
 title: Easing
 summary: Make motion feel natural. Speed up, slow down, overshoot and bounce with osu!'s 35 easings.
 icon: curve
+prerequisites: [first-commands]
+outcomes:
+  - id: what-easing-changes
+    bloom: understand
+    text: Explain what easing changes and what it leaves alone
+  - id: choose-in-or-out
+    bloom: apply
+    text: Choose In, Out or In/Out to fit arriving, leaving or travelling motion
+  - id: easing-families
+    bloom: remember
+    text: Look up easings by number and describe the character of the ten families
+  - id: overshoot-safely
+    bloom: evaluate
+    text: Use Back, Elastic and Bounce on suitable properties, and explain the risk of using them on Fade
+topics:
+  - Linear and eased motion
+  - In, Out and In/Out
+  - Writing the easing number
+  - Easing any command with values
+  - The 35 easings and ten families
+  - Stronger and softer curves
+  - Overshooting families
+  - Overshoot on Fade and opacity wrap
+  - Rules of thumb
 badge:
   name: Smooth Operator
   description: Finished "Easing".

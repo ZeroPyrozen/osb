@@ -3,6 +3,7 @@ title: "Exercise: centre stage"
 type: exercise
 minutes: 4
 summary: Put a circle in the middle of the screen and keep it there for three seconds.
+outcomes: [write-sprite-line, needs-a-command]
 exercise:
   duration: 3000
   guides: true
