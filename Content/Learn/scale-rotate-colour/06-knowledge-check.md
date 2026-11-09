@@ -2,7 +2,7 @@
 title: Knowledge check
 type: quiz
 minutes: 4
-summary: Seven questions on Scale, Vector scale, Rotate, Colour and parameters.
+summary: Eight questions on Scale, Vector scale, Rotate, sharp images, Colour and parameters.
 questions:
   - prompt: A 100 × 100 image has ` S,0,0,1000,1,2`. How big is it at 1000 ms?
     choices:
@@ -40,6 +40,16 @@ questions:
     outcome: rotate-objects
     explanation: Objects rotate and scale around their origin.
 
+  - prompt: A logo will spin slowly, shown 240 osu! pixels tall. Most players have 1080p screens. Which image should you prepare?
+    choices:
+      - 240 × 240 pixels with a one-pixel transparent border, shown at scale 1
+      - About 540 × 540 pixels cropped right to the logo's edges, shown at scale 0.444
+      - 9000 × 9000 pixels, so it stays sharp on any screen
+      - About 540 × 540 pixels with a one-pixel transparent border, shown at scale 0.444
+    answer: 3
+    outcome: prepare-images
+    explanation: A 1080p screen draws the canvas 2.25 times larger, so a logo shown 240 tall needs about 540 pixels to stay sharp, scaled down by 480 ÷ 1080 ≈ 0.444. The transparent border keeps its edges smooth as it turns. 9000 × 9000 is 81,000,000 pixels, which loads slowly and breaks the 17,000,000 limit.
+
   - prompt: Why are so many storyboard images drawn in plain white?
     choices:
       - White images load faster
@@ -68,4 +78,4 @@ questions:
     explanation: Additive sprites can only brighten what's behind them, which makes them ideal for glows and light effects.
 ---
 
-Seven questions on transforming sprites.
+Eight questions on transforming sprites.

@@ -2,7 +2,7 @@
 title: Knowledge check
 type: quiz
 minutes: 4
-summary: Six questions on timing a storyboard to music.
+summary: Seven questions on timing a storyboard to music.
 questions:
   - prompt: How long is one beat at 150 BPM?
     choices:
@@ -46,8 +46,18 @@ questions:
       - Halfway between two beats
       - At random
     answer: 0
-    outcome: plan-to-the-song
+    outcome: match-the-song
     explanation: New sections and drops almost always start on a downbeat, which makes it the best spot for big storyboard changes.
+
+  - prompt: A song has a quiet verse from 0 to 20000 ms, a build-up from 20000 ms and a drop into a kiai chorus at 28000 ms. Which plan follows its energy?
+    choices:
+      - Bright colours and fast particles from 0 ms, so the storyboard is exciting from start to finish
+      - One pulse on every beat from start to finish, since being on the beat is what matters most
+      - The biggest flash at 20000 ms, where the build-up starts, then a steady glow through the chorus
+      - Dim, slow drifting in the verse, faster pulses through the build-up, and the brightest effects from 28000 ms
+    answer: 3
+    outcome: match-the-song
+    explanation: Follow the song's shape. Stay calm while it's calm, build as it builds, and go biggest at the drop into the kiai chorus. Holding back in the verse is what makes the chorus feel huge.
 
   - prompt: When do the ranking criteria require an epilepsy warning?
     choices:
@@ -59,4 +69,4 @@ questions:
     explanation: Strobing at 3 flashes per second or slower is unlikely to cause concern. Beyond that, or when in doubt, add the warning.
 ---
 
-Six questions on beats, offsets and song structure.
+Seven questions on beats, offsets and song structure.

@@ -81,7 +81,9 @@ The playground marks lines that use a sequence.
 
 The shorthands don't change how a storyboard plays. They only save characters, and that adds up to a
 smaller file that loads a little faster. But a script you can't read is a script you can't fix. Use
-shorthands 1 and 2 freely: they're everywhere, and every storyboarder reads them at a glance.
+shorthands 1 and 2 freely: they're everywhere, and every storyboarder reads them at a glance. A long
+sequence is another matter. Its steps' times are hidden in one line, so finding the step that plays at
+a given moment means counting values, and changing one step's timing means splitting the line anyway.
 
 ## Further reading
 

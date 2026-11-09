@@ -44,8 +44,13 @@ it needs, and units that cite the ranking criteria or osu!(lazer) say when their
 - Each path outcome names the modules in its own path that build it, and every module builds at least one
   path outcome.
 - The text is the review's, as the starting point, minus what needs later phases: path outcomes B5, I5 and
-  A5 (built by the phase 4 projects), the "or its placement check" wording in the entry requirements, and
-  the topics the review marked as additions. They come back with the units that make them true.
+  A5 (built by the phase 4 projects), the two module outcomes that need new units (timing a LoopOnce
+  animation to a beat, and timing lyrics, which also leaves "lyrics" out of I3), the "or its placement
+  check" wording in the entry requirements, and the topics the review marked as additions. They come back
+  with the units that make them true.
+- Timing to music's planning outcome is reworded to the level its lessons teach today: "Match effects to
+  the song's sections, kiai, build-ups and drops" (analyse, decided 2026-11-09). Planning a whole
+  storyboard comes back with phase 3's planning lesson and phase 4's Intermediate project.
 
 ### Tags
 

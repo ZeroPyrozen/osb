@@ -2,7 +2,7 @@
 title: Knowledge check
 type: quiz
 minutes: 3
-summary: Five questions on shorthand.
+summary: Six questions on shorthand.
 questions:
   - prompt: Which line means the same as ` S,0,1000,2000,1.5,1.5`?
     choices:
@@ -48,6 +48,15 @@ questions:
     answer: 1
     outcome: refactor-scripts
     explanation: Shorthand is just a shorter way of writing the same commands.
+
+  - prompt: You're tidying a friend's script so it's easier to read and fix. Which change is worth making?
+    choices:
+      - Write instant commands out in full, so ` F,0,1000,,0.5` becomes ` F,0,1000,1000,0.5,0.5`
+      - Join the four Move lines that trace a square into one sequence
+      - Split ` F,0,0,250,0,1,0,1,0,1,0,1,0` into one line per step
+    answer: 2
+    outcome: judge-readability
+    explanation: Storyboarders read instant and unchanged-value shorthands at a glance, so writing them out only adds clutter. A long sequence hides each step's times in one line. Splitting it makes every step easy to find and change, and osu!(lazer) then plays them all.
 ---
 
-Five questions on writing commands the short way.
+Six questions on writing commands the short way.

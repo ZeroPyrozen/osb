@@ -12,9 +12,9 @@ outcomes:
   - id: sync-loops
     bloom: apply
     text: Synchronise looped effects to the beat
-  - id: plan-to-the-song
-    bloom: create
-    text: 'Plan a storyboard around the song''s structure and energy: sections, kiai, build-ups and drops'
+  - id: match-the-song
+    bloom: analyse
+    text: Match effects to the song's sections, kiai, build-ups and drops
   - id: epilepsy-warning
     bloom: evaluate
     text: Decide when flashing effects need an epilepsy warning

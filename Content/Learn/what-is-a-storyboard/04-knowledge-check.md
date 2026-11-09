@@ -2,7 +2,7 @@
 title: Knowledge check
 type: quiz
 minutes: 4
-summary: Six questions on storyboards, files, coordinates and time.
+summary: Seven questions on storyboards, how they're made, files, coordinates and time.
 questions:
   - prompt: Where can a beatmap's storyboard be stored?
     choices:
@@ -22,6 +22,15 @@ questions:
     answer: 0
     outcome: find-storyboard-files
     explanation: The `.osb` file belongs to the whole beatmapset, so every difficulty shows it.
+
+  - prompt: You want 500 stars that each twinkle at a different moment through a two-minute chorus. Which way of making a storyboard fits this job best?
+    choices:
+      - Scripting by hand, typing each star's commands into the `.osb` file
+      - A generator, a program that writes each star's commands for you
+      - The Design tab, placing and animating each star with the mouse
+    answer: 1
+    outcome: compare-ways
+    explanation: Hundreds of stars with their own timing need thousands of commands, which is the job generators are for. The Design tab suits quick, simple ideas, and hand scripting suits effects where you want exact control over every value.
 
   - prompt: Which position is the centre of the 640 × 480 storyboard canvas?
     choices:
