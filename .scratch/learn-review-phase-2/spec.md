@@ -1,6 +1,6 @@
 # Phase 2 of the learn review: the outcomes framework
 
-Status: agreed on 2026-11-08, being built on branch `learn-review-phase-2`
+Status: agreed on 2026-11-08, built on branch `learn-review-phase-2` on 2026-11-09 (all nine steps done)
 
 Phase 2 of the action plan in the osb! learn curriculum review of 27 October 2026 (a private review page,
 https://claude.ai/artifact/Uxy8DccQLXJoKzwqY9oszm). It covers three findings:

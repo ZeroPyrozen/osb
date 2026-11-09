@@ -1,6 +1,6 @@
 # 09 · Document the new fields and rules in the README
 
-Status: open
+Status: done
 Blocked by: 01–08
 
 ## What
@@ -20,6 +20,11 @@ Update `Content/Learn/README.md`:
 ## Done when
 
 Someone can add a module that passes every rule from the README alone.
+
+Checked on 2026-11-09: a throwaway module written only from the README (a lesson, an exercise and a
+knowledge check, with outcomes, topics, a prerequisite, tags and a path outcome naming it) loaded with no
+mistakes and no gaps, then was removed. The README also says that pages are cached for a minute for
+logged-out visitors, which delays edits in Development too.
 
 ## Commit
 
